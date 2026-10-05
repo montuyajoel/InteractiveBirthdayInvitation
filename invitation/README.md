@@ -46,4 +46,6 @@ Guests can add themselves but can't read the list. View registrations in Table E
 
 ### Photos
 
+After registering, guests see a "Share your photos" panel (the site remembers them on that device, so they can come back later). Photos are resized in the browser to a JPEG under 1 MB and uploaded to the `Mallows` folder, captioned "From <first name>". `supabase/gallery-setup.sql` grants guests insert-only access to that folder and caps the bucket at 1 MB per file.
+
 Upload photos (jpg, png, webp, gif or avif) to the `Mallows` folder of the `mallows_birthday` bucket in the gallery project's Storage. The newest appear first, and captions come from descriptive file names (`cake-cutting.jpg` → "cake cutting"); auto-generated names show no caption. Set `GALLERY.folder` in `src/config.ts` to show just one folder.

@@ -16,9 +16,20 @@ import {
   type Registration,
 } from "@/lib/registrations"
 import { BabysBreath, Butterfly, Heart, HeartRule, SectionTitle } from "./Decor"
+import { PhotoUpload } from "./PhotoUpload"
 import { eventDateLabel, eventTimeLabel } from "./Hero"
 
 const WISH_MAX = 500
+// Remembers the guest on this device so they can come back to share photos.
+const ME_KEY = "chelsea16.me"
+
+function rememberedGuest(): Registration | null {
+  try {
+    return JSON.parse(localStorage.getItem(ME_KEY) ?? "null")
+  } catch {
+    return null
+  }
+}
 
 const schema = z.object({
   firstName: z.string().trim().min(1, "Please enter your first name").max(60),
@@ -35,7 +46,7 @@ const fieldClass =
   "rounded-none border-0 border-b border-mauve/40 bg-transparent px-0 text-lg shadow-none focus-visible:border-mauve focus-visible:ring-0"
 
 export function Rsvp() {
-  const [done, setDone] = useState<Registration | null>(null)
+  const [done, setDone] = useState<Registration | null>(rememberedGuest)
   const form = useForm<Registration>({
     resolver: zodResolver(schema),
     defaultValues: { firstName: "", lastName: "", email: "", wishes: "" },
@@ -45,6 +56,11 @@ export function Rsvp() {
   async function onSubmit(values: Registration) {
     try {
       await submitRegistration(values)
+      try {
+        localStorage.setItem(ME_KEY, JSON.stringify(values))
+      } catch {
+        // storage unavailable; the guest just won't be remembered
+      }
       setDone(values)
     } catch (err) {
       if (err instanceof AlreadyRegisteredError) {
@@ -81,7 +97,18 @@ export function Rsvp() {
               aria-hidden
             />
             {done ? (
-              <ThankYou r={done} onAnother={() => { form.reset(); setDone(null) }} />
+              <ThankYou
+                r={done}
+                onAnother={() => {
+                  try {
+                    localStorage.removeItem(ME_KEY)
+                  } catch {
+                    // ignore
+                  }
+                  form.reset()
+                  setDone(null)
+                }}
+              />
             ) : (
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-7" noValidate>
@@ -191,7 +218,8 @@ function ThankYou({ r, onAnother }: { r: Registration; onAnother: () => void }) 
         “{r.wishes}”
       </blockquote>
       <p className="mt-8 text-xs uppercase tracking-[0.25em] text-mauve">Remember: not a word to {EVENT.celebrant.split(" ")[0]}!</p>
-      <Button variant="link" className="mt-4 text-mauve" onClick={onAnother}>
+      <PhotoUpload guestFirstName={r.firstName} />
+      <Button variant="link" className="mt-6 text-mauve" onClick={onAnother}>
         Register another guest
       </Button>
     </div>

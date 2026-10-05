@@ -12,6 +12,11 @@ export type Photo = {
 
 export type GalleryResult = { photos: Photo[]; source: "supabase" | "sample" }
 
+export const galleryConnected = isConfigured(GALLERY)
+
+/** Fired on window after a guest uploads, so the gallery reloads. */
+export const GALLERY_CHANGED = "gallery:changed"
+
 const IMAGE_EXT = /\.(jpe?g|png|webp|gif|avif)$/i
 
 type StorageObject = {
@@ -21,7 +26,7 @@ type StorageObject = {
 }
 
 export async function loadPhotos(): Promise<GalleryResult> {
-  if (!isConfigured(GALLERY)) return { photos: samplePhotos(), source: "sample" }
+  if (!galleryConnected) return { photos: samplePhotos(), source: "sample" }
 
   const folder = GALLERY.folder.replace(/^\/|\/$/g, "")
   const res = await fetch(supabaseUrl(GALLERY, `/storage/v1/object/list/${GALLERY.bucket}`), {
@@ -55,8 +60,44 @@ export async function loadPhotos(): Promise<GalleryResult> {
   return { photos, source: "supabase" }
 }
 
+/** Uploads an already-resized JPEG into the gallery folder. */
+export async function uploadPhoto(photo: Blob, guestFirstName: string): Promise<void> {
+  const slug =
+    guestFirstName
+      .normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 30) || "guest"
+  // "from-maria--<time>-<random>.jpg" → captioned "From Maria"
+  const name = `from-${slug}--${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`
+  const folder = GALLERY.folder.replace(/^\/|\/$/g, "")
+  const path = [folder, name].filter(Boolean).map(encodeURIComponent).join("/")
+
+  const res = await fetch(supabaseUrl(GALLERY, `/storage/v1/object/${GALLERY.bucket}/${path}`), {
+    method: "POST",
+    headers: {
+      ...supabaseHeaders(GALLERY),
+      "Content-Type": "image/jpeg",
+      "x-upsert": "false",
+      "cache-control": "3600",
+    },
+    body: photo,
+  })
+  if (!res.ok) {
+    console.error(`Supabase rejected the photo upload (${res.status}):`, await res.text().catch(() => ""))
+    throw new Error(`Upload failed (${res.status})`)
+  }
+}
+
 function prettify(filename: string) {
   const base = filename.replace(IMAGE_EXT, "")
+  const guest = /^from-([a-z0-9-]+?)--\d+/.exec(base)
+  if (guest) {
+    const who = guest[1].replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+    return who === "Guest" ? "From a guest" : `From ${who}`
+  }
   // Auto-generated names (e.g. "att.7a_FbfjnvLxJg4WnCON…", "IMG_2041") make
   // poor captions, so leave those blank.
   if (/^(att\.|img[_-]?\d|dsc|pxl_|photo[_-]?\d)/i.test(base) || (!/[\s_-]/.test(base) && base.length > 12)) {

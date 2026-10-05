@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, ImageOff, Pause, Play, X } from "lucide-reac
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
-import { loadPhotos, type GalleryResult, type Photo } from "@/lib/gallery"
+import { GALLERY_CHANGED, loadPhotos, type GalleryResult, type Photo } from "@/lib/gallery"
 import { cn } from "@/lib/utils"
 import { Butterfly, SectionTitle } from "./Decor"
 
@@ -14,9 +14,14 @@ export function Gallery() {
   const [index, setIndex] = useState<number | null>(null)
 
   useEffect(() => {
-    loadPhotos()
-      .then((r) => setState({ status: "ready", ...r }))
-      .catch((e: Error) => setState({ status: "error", message: e.message }))
+    const load = () =>
+      loadPhotos()
+        .then((r) => setState({ status: "ready", ...r }))
+        .catch((e: Error) => setState({ status: "error", message: e.message }))
+    load()
+    // reload when a guest shares new photos
+    window.addEventListener(GALLERY_CHANGED, load)
+    return () => window.removeEventListener(GALLERY_CHANGED, load)
   }, [])
 
   const photos = state.status === "ready" ? state.photos : []
