@@ -1,30 +1,87 @@
 import { useCallback, useEffect, useRef, useState } from "react"
-import { ChevronLeft, ChevronRight, ImageOff, Pause, Play, X } from "lucide-react"
+import { ArrowRight, ChevronLeft, ChevronRight, ImageOff, Pause, Play, X } from "lucide-react"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
 import { GALLERY_CHANGED, loadPhotos, type GalleryResult, type Photo } from "@/lib/gallery"
+import { PHOTOS_ROUTE } from "@/lib/route"
 import { cn } from "@/lib/utils"
 import { Butterfly, SectionTitle } from "./Decor"
+import { PhotoUpload } from "./PhotoUpload"
 
-type State = { status: "loading" } | { status: "error"; message: string } | ({ status: "ready" } & GalleryResult)
+/** How many of the newest photos the home page shows. */
+const PREVIEW_COUNT = 10
 
-export function Gallery() {
-  const [state, setState] = useState<State>({ status: "loading" })
-  const [index, setIndex] = useState<number | null>(null)
+export type PhotosState =
+  | { status: "loading" }
+  | { status: "error"; message: string }
+  | ({ status: "ready" } & GalleryResult)
 
+/** Loads the gallery and reloads whenever a guest shares new photos. */
+export function usePhotos(): PhotosState {
+  const [state, setState] = useState<PhotosState>({ status: "loading" })
   useEffect(() => {
     const load = () =>
       loadPhotos()
         .then((r) => setState({ status: "ready", ...r }))
         .catch((e: Error) => setState({ status: "error", message: e.message }))
     load()
-    // reload when a guest shares new photos
     window.addEventListener(GALLERY_CHANGED, load)
     return () => window.removeEventListener(GALLERY_CHANGED, load)
   }, [])
+  return state
+}
 
-  const photos = state.status === "ready" ? state.photos : []
+/** Photo grid with loading/empty/error states and a full-screen lightbox. */
+export function PhotoWall({
+  state,
+  limit,
+  className,
+}: {
+  state: PhotosState
+  limit?: number
+  className?: string
+}) {
+  const [index, setIndex] = useState<number | null>(null)
+  const all = state.status === "ready" ? state.photos : []
+  const photos = limit ? all.slice(0, limit) : all
+
+  return (
+    <div className={className}>
+      {state.status === "loading" && (
+        <div className="columns-2 gap-4 md:columns-3">
+          {[260, 340, 220, 300, 260, 320].map((h, i) => (
+            <Skeleton key={i} className="mb-4 w-full rounded-none bg-lilac/70" style={{ height: h }} />
+          ))}
+        </div>
+      )}
+
+      {state.status === "error" && (
+        <Empty icon={<ImageOff className="h-8 w-8" />} text="We couldn't load the photos right now. Please try again later." />
+      )}
+
+      {state.status === "ready" && photos.length === 0 && (
+        <Empty icon={<Butterfly className="h-10 w-12" />} text="No photos yet. Be the first to share one!" />
+      )}
+
+      {photos.length > 0 && (
+        <ul className={cn("columns-2 gap-4 md:columns-3", !limit && "lg:columns-4")}>
+          {photos.map((p, i) => (
+            <li key={p.id} className="mb-4 break-inside-avoid">
+              <Tile photo={p} index={i} onOpen={() => setIndex(i)} />
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <Lightbox photos={photos} index={index} onIndex={setIndex} />
+    </div>
+  )
+}
+
+export function Gallery() {
+  const state = usePhotos()
+  const total = state.status === "ready" ? state.photos.length : 0
 
   return (
     <section id="gallery" className="relative scroll-mt-16 border-t border-mauve/20 bg-white/40 py-20 sm:py-28">
@@ -34,40 +91,26 @@ export function Gallery() {
           <p className="max-w-sm text-lg italic text-plum/80">
             {state.status === "ready" && state.source === "sample"
               ? "A preview of the gallery. Party photos will appear here once they're uploaded."
-              : "Tap any photo to see it up close. Use your arrow keys or swipe to browse."}
+              : "The latest moments from our guests. Tap any photo to see it up close."}
           </p>
         </div>
 
-        <div className="mt-12">
-          {state.status === "loading" && (
-            <div className="columns-2 gap-4 md:columns-3">
-              {[260, 340, 220, 300, 260, 320].map((h, i) => (
-                <Skeleton key={i} className="mb-4 w-full rounded-none bg-lilac/70" style={{ height: h }} />
-              ))}
-            </div>
-          )}
+        <PhotoWall state={state} limit={PREVIEW_COUNT} className="mt-12" />
 
-          {state.status === "error" && (
-            <Empty icon={<ImageOff className="h-8 w-8" />} text="We couldn't load the photos right now. Please try again later." />
-          )}
+        {total > PREVIEW_COUNT && (
+          <div className="mt-8 flex justify-center">
+            <Button asChild size="lg" className="gap-3 rounded-none px-8 uppercase tracking-[0.2em]">
+              <a href={PHOTOS_ROUTE}>
+                See all {total} photos <ArrowRight />
+              </a>
+            </Button>
+          </div>
+        )}
 
-          {state.status === "ready" && photos.length === 0 && (
-            <Empty icon={<Butterfly className="h-10 w-12" />} text="No photos yet. Check back after the party!" />
-          )}
-
-          {photos.length > 0 && (
-            <ul className="columns-2 gap-4 md:columns-3">
-              {photos.map((p, i) => (
-                <li key={p.id} className="mb-4 break-inside-avoid">
-                  <Tile photo={p} index={i} onOpen={() => setIndex(i)} />
-                </li>
-              ))}
-            </ul>
-          )}
+        <div className="paper mx-auto mt-14 max-w-xl border border-mauve/25 p-6 shadow-[0_30px_60px_-40px_rgb(92_58_99/0.6)] sm:p-8">
+          <PhotoUpload />
         </div>
       </div>
-
-      <Lightbox photos={photos} index={index} onIndex={setIndex} />
     </section>
   )
 }

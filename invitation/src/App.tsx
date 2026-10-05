@@ -5,19 +5,27 @@ import { Footer } from "@/components/site/Footer"
 import { Gallery } from "@/components/site/Gallery"
 import { Header } from "@/components/site/Header"
 import { Hero } from "@/components/site/Hero"
+import { PhotosPage } from "@/components/site/PhotosPage"
 import { Rsvp } from "@/components/site/Rsvp"
+import { useRoute } from "@/lib/route"
 
 export default function App() {
+  const route = useRoute()
+
   return (
     <>
-      <Header />
-      <main>
-        <Hero />
-        <Countdown />
-        <Rsvp />
-        <Gallery />
-        <Directions />
-      </main>
+      <Header route={route} />
+      {route === "photos" ? (
+        <PhotosPage />
+      ) : (
+        <main>
+          <Hero />
+          <Countdown />
+          <Rsvp />
+          <Gallery />
+          <Directions />
+        </main>
+      )}
       <Footer />
       <Toaster position="top-center" />
     </>

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import { Check, ImagePlus, Loader2, X } from "lucide-react"
+import { Input } from "@/components/ui/input"
 import { GALLERY_CHANGED, galleryConnected, uploadPhoto } from "@/lib/gallery"
+import { rememberUploaderName, rememberedUploaderName } from "@/lib/guest"
 import { resizeImage } from "@/lib/resizeImage"
 import { cn } from "@/lib/utils"
 
@@ -18,7 +20,16 @@ type Item = {
 
 const formatSize = (bytes: number) => `${(bytes / 1_000_000).toFixed(bytes < 100_000 ? 2 : 1)} MB`
 
-export function PhotoUpload({ guestFirstName }: { guestFirstName: string }) {
+/**
+ * Lets anyone add photos to the gallery. Pass `guestName` when we already
+ * know who's uploading (e.g. right after registering); otherwise the panel
+ * asks for a name first.
+ */
+export function PhotoUpload({ guestName, className }: { guestName?: string; className?: string }) {
+  const askName = guestName === undefined
+  const [name, setName] = useState(() => (askName ? rememberedUploaderName() : ""))
+  const [nameError, setNameError] = useState(false)
+  const uploaderName = (askName ? name : guestName).trim()
   const [items, setItems] = useState<Item[]>([])
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -29,14 +40,24 @@ export function PhotoUpload({ guestFirstName }: { guestFirstName: string }) {
   const update = (id: string, patch: Partial<Item>) =>
     setItems((all) => all.map((it) => (it.id === id ? { ...it, ...patch } : it)))
 
+  function needName() {
+    if (uploaderName) return false
+    setNameError(true)
+    return true
+  }
+
   async function handleFiles(list: FileList | null) {
-    if (!list) return
-    const files = Array.from(list)
+    const files = list ? Array.from(list) : []
+    // Reset the picker so choosing the same photo again still fires a change.
+    if (inputRef.current) inputRef.current.value = ""
+    if (files.length === 0 || needName()) return
+    if (askName) rememberUploaderName(uploaderName)
+    const images = files
       .filter((f) => f.type.startsWith("image/") || /\.(heic|heif)$/i.test(f.name))
       .slice(0, MAX_FILES)
-    if (files.length === 0) return
+    if (images.length === 0) return
 
-    const batch = files.map((file) => {
+    const batch = images.map((file) => {
       const preview = URL.createObjectURL(file)
       previews.current.push(preview)
       return { file, item: { id: crypto.randomUUID(), preview, name: file.name, status: "resizing" } as Item }
@@ -50,7 +71,7 @@ export function PhotoUpload({ guestFirstName }: { guestFirstName: string }) {
         if (file.size > MAX_ORIGINAL_BYTES) throw new Error("File is too large")
         const small = await resizeImage(file)
         update(item.id, { status: "uploading", size: small.size })
-        await uploadPhoto(small, guestFirstName)
+        await uploadPhoto(small, uploaderName)
         update(item.id, { status: "done" })
         uploaded++
       } catch (err) {
@@ -66,12 +87,11 @@ export function PhotoUpload({ guestFirstName }: { guestFirstName: string }) {
       }
     }
     if (uploaded > 0) window.dispatchEvent(new Event(GALLERY_CHANGED))
-    if (inputRef.current) inputRef.current.value = ""
   }
 
   if (!galleryConnected) {
     return (
-      <p className="mt-8 border-t border-mauve/20 pt-6 text-sm italic text-muted-foreground">
+      <p className={cn("text-sm italic text-muted-foreground", className)}>
         Photo sharing opens once the gallery is connected.
       </p>
     )
@@ -81,11 +101,33 @@ export function PhotoUpload({ guestFirstName }: { guestFirstName: string }) {
   const doneCount = items.filter((i) => i.status === "done").length
 
   return (
-    <div className="mt-10 border-t border-mauve/20 pt-8 text-left">
+    <div className={cn("text-left", className)}>
       <p className="eyebrow text-center">Share your photos</p>
       <p className="mx-auto mt-2 max-w-sm text-center italic text-plum/80">
         Add your favourite snaps for the gallery. We'll shrink them for you before they upload.
       </p>
+
+      {askName && (
+        <div className="mx-auto mt-5 max-w-sm">
+          <label htmlFor="uploader-name" className="eyebrow text-[0.7rem]">
+            Your name
+          </label>
+          <Input
+            id="uploader-name"
+            value={name}
+            maxLength={40}
+            autoComplete="name"
+            placeholder="So we know who to thank"
+            aria-invalid={nameError}
+            onChange={(e) => {
+              setName(e.target.value)
+              if (e.target.value.trim()) setNameError(false)
+            }}
+            className="mt-1 rounded-none border-0 border-b border-mauve/40 bg-transparent px-0 text-lg shadow-none placeholder:italic placeholder:text-mauve/50 focus-visible:border-mauve focus-visible:ring-0"
+          />
+          {nameError && <p className="mt-1 text-sm text-destructive">Please tell us your name first.</p>}
+        </div>
+      )}
 
       <label
         onDragOver={(e) => {
@@ -93,6 +135,9 @@ export function PhotoUpload({ guestFirstName }: { guestFirstName: string }) {
           setDragging(true)
         }}
         onDragLeave={() => setDragging(false)}
+        onClick={(e) => {
+          if (needName()) e.preventDefault()
+        }}
         onDrop={(e) => {
           e.preventDefault()
           setDragging(false)

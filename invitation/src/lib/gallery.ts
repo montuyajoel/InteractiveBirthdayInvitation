@@ -34,7 +34,7 @@ export async function loadPhotos(): Promise<GalleryResult> {
     headers: supabaseHeaders(GALLERY),
     body: JSON.stringify({
       prefix: folder,
-      limit: 500,
+      limit: 1000,
       offset: 0,
       sortBy: { column: "created_at", order: "desc" },
     }),
@@ -61,16 +61,17 @@ export async function loadPhotos(): Promise<GalleryResult> {
 }
 
 /** Uploads an already-resized JPEG into the gallery folder. */
-export async function uploadPhoto(photo: Blob, guestFirstName: string): Promise<void> {
+export async function uploadPhoto(photo: Blob, guestName: string): Promise<void> {
   const slug =
-    guestFirstName
+    guestName
       .normalize("NFKD")
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "")
-      .slice(0, 30) || "guest"
-  // "from-maria--<time>-<random>.jpg" → captioned "From Maria"
+      .slice(0, 40)
+      .replace(/-+$/, "") || "guest"
+  // "from-maria-santos--<time>-<random>.jpg" → captioned "From Maria Santos"
   const name = `from-${slug}--${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`
   const folder = GALLERY.folder.replace(/^\/|\/$/g, "")
   const path = [folder, name].filter(Boolean).map(encodeURIComponent).join("/")

@@ -17,20 +17,10 @@ import {
 } from "@/lib/registrations"
 import { BabysBreath, Butterfly, Heart, HeartRule, SectionTitle } from "./Decor"
 import { PhotoUpload } from "./PhotoUpload"
+import { rememberGuest, rememberedGuest } from "@/lib/guest"
 import { eventDateLabel, eventTimeLabel } from "./Hero"
 
 const WISH_MAX = 500
-// Remembers the guest on this device so they can come back to share photos.
-const ME_KEY = "chelsea16.me"
-
-function rememberedGuest(): Registration | null {
-  try {
-    return JSON.parse(localStorage.getItem(ME_KEY) ?? "null")
-  } catch {
-    return null
-  }
-}
-
 const schema = z.object({
   firstName: z.string().trim().min(1, "Please enter your first name").max(60),
   lastName: z.string().trim().min(1, "Please enter your last name").max(60),
@@ -56,11 +46,7 @@ export function Rsvp() {
   async function onSubmit(values: Registration) {
     try {
       await submitRegistration(values)
-      try {
-        localStorage.setItem(ME_KEY, JSON.stringify(values))
-      } catch {
-        // storage unavailable; the guest just won't be remembered
-      }
+      rememberGuest(values)
       setDone(values)
     } catch (err) {
       if (err instanceof AlreadyRegisteredError) {
@@ -100,11 +86,7 @@ export function Rsvp() {
               <ThankYou
                 r={done}
                 onAnother={() => {
-                  try {
-                    localStorage.removeItem(ME_KEY)
-                  } catch {
-                    // ignore
-                  }
+                  rememberGuest(null)
                   form.reset()
                   setDone(null)
                 }}
@@ -218,7 +200,7 @@ function ThankYou({ r, onAnother }: { r: Registration; onAnother: () => void }) 
         “{r.wishes}”
       </blockquote>
       <p className="mt-8 text-xs uppercase tracking-[0.25em] text-mauve">Remember: not a word to {EVENT.celebrant.split(" ")[0]}!</p>
-      <PhotoUpload guestFirstName={r.firstName} />
+      <PhotoUpload guestName={`${r.firstName} ${r.lastName}`} className="mt-10 border-t border-mauve/20 pt-8" />
       <Button variant="link" className="mt-6 text-mauve" onClick={onAnother}>
         Register another guest
       </Button>

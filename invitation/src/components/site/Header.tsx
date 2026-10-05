@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import type { Route } from "@/lib/route"
 import { cn } from "@/lib/utils"
 
 const LINKS = [
@@ -8,11 +9,14 @@ const LINKS = [
   { href: "#directions", label: "Directions" },
 ]
 
-export function Header() {
+export function Header({ route }: { route: Route }) {
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState("#invitation")
 
   useEffect(() => {
+    // On the all-photos page, "Gallery" is where you are.
+    if (route === "photos") setActive("#gallery")
+
     const onScroll = () => setScrolled(window.scrollY > 24)
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
@@ -31,7 +35,7 @@ export function Header() {
       window.removeEventListener("scroll", onScroll)
       observer.disconnect()
     }
-  }, [])
+  }, [route])
 
   return (
     <header
