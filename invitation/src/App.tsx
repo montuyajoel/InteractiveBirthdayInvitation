@@ -5,7 +5,7 @@ import { Footer } from "@/components/site/Footer"
 import { Gallery } from "@/components/site/Gallery"
 import { GuestList } from "@/components/site/GuestList"
 import { Header } from "@/components/site/Header"
-import { Hero } from "@/components/site/Hero"
+import { Hero, InvitationCard } from "@/components/site/Hero"
 import { PhotosPage } from "@/components/site/PhotosPage"
 import { Rsvp } from "@/components/site/Rsvp"
 import { useRoute } from "@/lib/route"
@@ -21,6 +21,7 @@ export default function App() {
       ) : (
         <main>
           <Hero />
+          <InvitationCard />
           <Countdown />
           <Rsvp />
           <Gallery />
