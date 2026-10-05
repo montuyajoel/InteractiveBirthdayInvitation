@@ -31,6 +31,8 @@ The project URL is already set. Two steps remain:
 1. **Create the table and bucket.** Open Supabase → SQL Editor, paste `supabase/setup.sql` and click Run. It creates the `registrations` table and the public `gallery` bucket, along with the access rules: guests can register but can't read the list, and the site can list the photos.
 2. **Add the public key.** Copy the anon / publishable key from Project Settings → API Keys into `anonKey` in `src/config.ts`. Never put the `service_role` key or the database password in the site, because anyone can read the site's code.
 
+On Vercel you can set the key as an environment variable instead of editing the file: add `VITE_SUPABASE_ANON_KEY` (and optionally `VITE_SUPABASE_URL`) under Settings → Environment Variables, then redeploy. Set the project's Root Directory to `invitation`.
+
 Registrations then appear in Table Editor → `registrations`. A repeated email gets a friendly "already registered" message.
 
 ### Photos
