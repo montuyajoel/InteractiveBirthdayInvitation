@@ -48,6 +48,19 @@ Guests can add themselves but can't read the list. View registrations in Table E
 
 At the bottom of the page, "See who's coming" asks for a password and then lists everyone who registered (name, email, wish, date). The password is checked by a database function, never in the website, and only a bcrypt hash is stored. To set it up or change the password, open `supabase/guest-list.sql`, replace `YOUR_PASSWORD`, and run it in the registrations project. Don't commit the real password.
 
+### Invitation emails
+
+In the unlocked guest list, hosts can **Send invitation** to one guest or **Send to N not yet invited**. Each guest gets an email confirming their seat, with the date and time, venue and address, a directions button, an "Add to Google Calendar" link and an `invitation.ics` attachment for Apple Calendar or Outlook. The email is built in `api/_lib/invitationEmail.ts` and sent by the Vercel function `api/send-invitations.ts` through Gmail. The function checks the hosts' password with the database and only emails registered addresses.
+
+Setup:
+
+1. Run `supabase/send-invitations.sql` in the registrations project (after `guest-list.sql`). It adds the "sent" tracking.
+2. Turn on 2-Step Verification for the Gmail account, then create an app password at <https://myaccount.google.com/apppasswords>.
+3. In Vercel → Settings → Environment Variables, add `GMAIL_USER` (the Gmail address) and `GMAIL_APP_PASSWORD` (the 16-character app password). Optional: `EMAIL_FROM_NAME` (default "Chelsea's 16th Birthday") and `SITE_URL`. Then redeploy.
+4. Fill in `address` and `arriveBy` in `src/config.ts` to show them in the email.
+
+Sending only works on the deployed site, not in `pnpm dev` or the single-file bundle.
+
 ### Photos
 
 Anyone can share photos from the "Share your photos" panel in the gallery (they're asked for their name; registered guests also get the panel on their thank-you card). The home page shows the 10 newest photos with a "See all photos" button to the full gallery at `#/photos`. Photos are resized in the browser to a JPEG under 1 MB and uploaded to the `Mallows` folder, captioned "From <name>". `supabase/gallery-setup.sql` grants guests insert-only access to that folder and caps the bucket at 1 MB per file.

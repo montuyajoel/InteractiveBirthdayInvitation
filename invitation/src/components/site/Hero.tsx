@@ -5,15 +5,9 @@ import { BabysBreath, Heart, HeartRule, Sparkle } from "./Decor"
 import { Envelope } from "./Envelope"
 import { Portrait } from "./Portrait"
 
-export const eventDateLabel = EVENT.start.toLocaleDateString("en-US", {
-  weekday: "long",
-  month: "long",
-  day: "numeric",
-})
-export const eventTimeLabel = EVENT.start.toLocaleTimeString("en-US", {
-  hour: "numeric",
-  minute: "2-digit",
-})
+import { eventDateLabel, eventTimeLabel } from "@/lib/event"
+
+export { eventDateLabel, eventTimeLabel }
 
 export function Hero() {
   const [first, ...rest] = EVENT.celebrant.split(" ")

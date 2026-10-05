@@ -60,6 +60,8 @@ export type GuestListEntry = {
   email: string
   wishes: string
   created_at: string
+  // Missing until supabase/send-invitations.sql has been run.
+  invite_sent_at?: string | null
 }
 
 export class WrongPasswordError extends Error {}
@@ -78,4 +80,47 @@ export async function fetchGuestList(passcode: string): Promise<GuestListEntry[]
   if (res.status === 404 || detail.includes("PGRST202")) throw new GuestListNotSetUpError()
   console.error(`Supabase rejected the guest list request (${res.status}):`, detail)
   throw new Error(`Could not load the guest list (${res.status})`)
+}
+
+// ---------------------------------------------------------------------------
+// Invitation emails, sent by the server function api/send-invitations.ts.
+
+export class EmailNotConfiguredError extends Error {}
+export class SendingUnavailableError extends Error {}
+
+const SEND_BATCH = 10
+
+/** Emails the invitation to these registered guests, 10 per request. */
+export async function sendInvitations(
+  passcode: string,
+  emails: string[],
+  onProgress?: (done: number, total: number) => void,
+): Promise<{ sent: string[]; failed: string[] }> {
+  const sent: string[] = []
+  const failed: string[] = []
+  for (let i = 0; i < emails.length; i += SEND_BATCH) {
+    const batch = emails.slice(i, i + SEND_BATCH)
+    let res: Response
+    try {
+      res = await fetch("/api/send-invitations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ passcode, emails: batch }),
+      })
+    } catch {
+      throw new SendingUnavailableError()
+    }
+    // A static preview (no server functions) answers 404/405 or with HTML.
+    if (res.status === 404 || res.status === 405 || !res.headers.get("content-type")?.includes("json")) {
+      throw new SendingUnavailableError()
+    }
+    const body = await res.json().catch(() => ({}))
+    if (res.status === 401) throw new WrongPasswordError()
+    if (body.error === "email-not-configured") throw new EmailNotConfiguredError()
+    if (!res.ok) throw new Error(`Sending failed (${res.status})`)
+    sent.push(...body.sent)
+    failed.push(...body.failed)
+    onProgress?.(Math.min(i + SEND_BATCH, emails.length), emails.length)
+  }
+  return { sent, failed }
 }
