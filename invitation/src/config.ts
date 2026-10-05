@@ -8,8 +8,9 @@ export const EVENT = {
   durationHours: 4,
   venue: "Tea Plan Villa Angela",
   // Pinned location shared from Google Maps.
-  mapsShareUrl: "https://maps.app.goo.gl/fs82PvdeAvj4U2gF7",
-  // Used for the embedded map and the "Get directions" link.
+  mapsShareUrl: "https://maps.app.goo.gl/TWc4HcRm6JrqgXzw7",
+  // Used for the embedded map and the "Get directions" link. Coordinates
+  // ("14.5995,120.9842") pin the exact spot; a name is searched instead.
   mapsQuery: "Tea Plan Villa Angela",
 }
 
