@@ -1,4 +1,4 @@
--- One-time setup for the invitation site.
+-- Registrations project (rgicukixlxexgzcxgvqg): guest registrations table.
 -- Paste into Supabase → SQL Editor → New query, then Run. Safe to re-run.
 
 -- 1. Guest registrations ----------------------------------------------------
@@ -24,14 +24,3 @@ drop policy if exists "guests can register" on public.registrations;
 create policy "guests can register"
   on public.registrations for insert to anon
   with check (true);
-
--- 2. Photo gallery bucket ---------------------------------------------------
-insert into storage.buckets (id, name, public)
-values ('gallery', 'gallery', true)
-on conflict (id) do update set public = true;
-
--- Lets the site list the bucket's files (uploads stay dashboard-only).
-drop policy if exists "anyone can list gallery" on storage.objects;
-create policy "anyone can list gallery"
-  on storage.objects for select to anon
-  using (bucket_id = 'gallery');

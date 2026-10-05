@@ -24,17 +24,26 @@ Everything event-specific lives in `src/config.ts`: name, date and time, venue, 
 
 ## Connect Supabase
 
-Until `SUPABASE.url` and `SUPABASE.anonKey` are set in `src/config.ts`, the site runs in **preview mode**: registrations stay in the visitor's browser and the gallery shows sample tiles.
+The site uses two Supabase projects:
 
-The project URL is already set. Two steps remain:
+| Feature | Project | SQL to run once | Env vars (Vercel) |
+| --- | --- | --- | --- |
+| Registrations | `rgicukixlxexgzcxgvqg` | `supabase/setup.sql` | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` |
+| Photo gallery | `uuiftuibexylqbhhzmix` | `supabase/gallery-setup.sql` | `VITE_GALLERY_SUPABASE_URL`, `VITE_GALLERY_SUPABASE_KEY` |
 
-1. **Create the table and bucket.** Open Supabase → SQL Editor, paste `supabase/setup.sql` and click Run. It creates the `registrations` table and the public `gallery` bucket, along with the access rules: guests can register but can't read the list, and the site can list the photos.
-2. **Add the public key.** Copy the anon / publishable key from Project Settings → API Keys into `anonKey` in `src/config.ts`. Never put the `service_role` key or the database password in the site, because anyone can read the site's code.
+For each project:
 
-On Vercel you can set the key as an environment variable instead of editing the file: add `VITE_SUPABASE_ANON_KEY` (and optionally `VITE_SUPABASE_URL`) under Settings → Environment Variables, then redeploy. Set the project's Root Directory to `invitation`.
+1. **Run its SQL.** In that project, open SQL Editor → New query, paste the file and click Run.
+2. **Give the site its public key.** Copy the Publishable key (`sb_publishable_…`) or the anon key (`eyJ…`) from Project Settings → API Keys. Either set it as the env var above in Vercel (Settings → Environment Variables, then redeploy) or put it in `src/config.ts`. The URLs are already the defaults, so their env vars are optional.
 
-Registrations then appear in Table Editor → `registrations`. A repeated email gets a friendly "already registered" message.
+Never use a secret / `service_role` key or the database password: everything here ends up in the public site. A feature whose key is empty runs in preview mode. Registrations are then kept in the visitor's browser only, and the gallery shows sample tiles.
+
+On Vercel, set the project's Root Directory to `invitation`.
+
+### Registrations
+
+Guests can add themselves but can't read the list. View registrations in Table Editor → `registrations`. A repeated email gets a friendly "already registered" message.
 
 ### Photos
 
-Upload photos (jpg, png, webp, gif or avif) to the `gallery` bucket in Storage. The newest appear first, and captions come from file names (`cake-cutting.jpg` → "cake cutting"). Set `galleryFolder` in `src/config.ts` to show just one folder.
+Upload photos (jpg, png, webp, gif or avif) to the `gallery` bucket in the gallery project's Storage. The newest appear first, and captions come from file names (`cake-cutting.jpg` → "cake cutting"). Set `GALLERY.folder` in `src/config.ts` to show just one folder.

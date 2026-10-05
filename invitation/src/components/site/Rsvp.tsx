@@ -9,8 +9,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { EVENT } from "@/config"
-import { AlreadyRegisteredError, submitRegistration, type Registration } from "@/lib/registrations"
-import { supabaseConfigured } from "@/lib/supabase"
+import {
+  AlreadyRegisteredError,
+  registrationsConnected,
+  submitRegistration,
+  type Registration,
+} from "@/lib/registrations"
 import { BabysBreath, Butterfly, Heart, HeartRule, SectionTitle } from "./Decor"
 import { eventDateLabel, eventTimeLabel } from "./Hero"
 
@@ -157,7 +161,7 @@ export function Rsvp() {
                       {form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : <Heart className="text-white" filled />}
                       Count me in
                     </Button>
-                    {!supabaseConfigured && (
+                    {!registrationsConnected && (
                       <p className="text-xs italic text-muted-foreground">
                         Preview mode: registrations are saved in this browser only.
                       </p>

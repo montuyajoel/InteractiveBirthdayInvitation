@@ -1,5 +1,5 @@
-import { SUPABASE } from "@/config"
-import { supabaseConfigured, supabaseHeaders, supabaseUrl } from "@/lib/supabase"
+import { GALLERY } from "@/config"
+import { isConfigured, supabaseHeaders, supabaseUrl } from "@/lib/supabase"
 import invitationCard from "@/assets/invitationCard"
 
 export type Photo = {
@@ -21,12 +21,12 @@ type StorageObject = {
 }
 
 export async function loadPhotos(): Promise<GalleryResult> {
-  if (!supabaseConfigured) return { photos: samplePhotos(), source: "sample" }
+  if (!isConfigured(GALLERY)) return { photos: samplePhotos(), source: "sample" }
 
-  const folder = SUPABASE.galleryFolder.replace(/^\/|\/$/g, "")
-  const res = await fetch(supabaseUrl(`/storage/v1/object/list/${SUPABASE.galleryBucket}`), {
+  const folder = GALLERY.folder.replace(/^\/|\/$/g, "")
+  const res = await fetch(supabaseUrl(GALLERY, `/storage/v1/object/list/${GALLERY.bucket}`), {
     method: "POST",
-    headers: supabaseHeaders(),
+    headers: supabaseHeaders(GALLERY),
     body: JSON.stringify({
       prefix: folder,
       limit: 500,
@@ -34,7 +34,10 @@ export async function loadPhotos(): Promise<GalleryResult> {
       sortBy: { column: "created_at", order: "desc" },
     }),
   })
-  if (!res.ok) throw new Error(`Could not load photos (${res.status})`)
+  if (!res.ok) {
+    console.error(`Supabase rejected the gallery listing (${res.status}):`, await res.text().catch(() => ""))
+    throw new Error(`Could not load photos (${res.status})`)
+  }
 
   const objects: StorageObject[] = await res.json()
   const photos = objects
@@ -44,7 +47,7 @@ export async function loadPhotos(): Promise<GalleryResult> {
       const path = [folder, o.name].filter(Boolean).map(encodeURIComponent).join("/")
       return {
         id: o.id!,
-        src: supabaseUrl(`/storage/v1/object/public/${SUPABASE.galleryBucket}/${path}`),
+        src: supabaseUrl(GALLERY, `/storage/v1/object/public/${GALLERY.bucket}/${path}`),
         caption: prettify(o.name),
         ratio: 0, // unknown until loaded
       }

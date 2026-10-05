@@ -1,5 +1,7 @@
-import { SUPABASE } from "@/config"
-import { supabaseConfigured, supabaseHeaders, supabaseUrl } from "@/lib/supabase"
+import { REGISTRATIONS } from "@/config"
+import { isConfigured, supabaseHeaders, supabaseUrl } from "@/lib/supabase"
+
+export const registrationsConnected = isConfigured(REGISTRATIONS)
 
 export type Registration = {
   firstName: string
@@ -13,10 +15,10 @@ export class AlreadyRegisteredError extends Error {}
 const LOCAL_KEY = "chelsea16.registrations"
 
 export async function submitRegistration(r: Registration): Promise<void> {
-  if (supabaseConfigured) {
-    const res = await fetch(supabaseUrl(`/rest/v1/${SUPABASE.registrationsTable}`), {
+  if (registrationsConnected) {
+    const res = await fetch(supabaseUrl(REGISTRATIONS, `/rest/v1/${REGISTRATIONS.table}`), {
       method: "POST",
-      headers: supabaseHeaders({ Prefer: "return=minimal" }),
+      headers: supabaseHeaders(REGISTRATIONS, { Prefer: "return=minimal" }),
       body: JSON.stringify({
         first_name: r.firstName,
         last_name: r.lastName,

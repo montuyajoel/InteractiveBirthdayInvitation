@@ -13,19 +13,30 @@ export const EVENT = {
   mapsQuery: "Tea Plan Villa Angela",
 }
 
-// Build-time overrides (e.g. Vercel → Settings → Environment Variables):
-//   VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
-// When they're not set, the values written below are used.
+// Build-time overrides (e.g. Vercel → Settings → Environment Variables).
+// When a variable isn't set, the value written below is used.
 const env: Record<string, string | undefined> =
   typeof import.meta !== "undefined" && import.meta.env ? import.meta.env : {}
 
-// Fill these in once the Supabase project is ready. While `url` is empty the
-// site runs in preview mode: RSVPs are kept in this browser only and the
-// gallery shows sample tiles.
-export const SUPABASE = {
+// Only ever use a project's anon / publishable key here (Project Settings →
+// API Keys). Never a secret / service_role key or a database password: these
+// values end up in the public site.
+// While a project's key is empty its feature runs in preview mode: RSVPs stay
+// in the visitor's browser, and the gallery shows sample tiles.
+
+// Supabase project holding the guest registrations table.
+// Env: VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
+export const REGISTRATIONS = {
   url: env.VITE_SUPABASE_URL || "https://rgicukixlxexgzcxgvqg.supabase.co",
-  anonKey: env.VITE_SUPABASE_ANON_KEY || "", // Project Settings → API Keys: the anon / publishable key (never the service_role key or DB password)
-  registrationsTable: "registrations",
-  galleryBucket: "gallery", // must be a public bucket
-  galleryFolder: "", // optional sub-folder inside the bucket, e.g. "party"
+  key: env.VITE_SUPABASE_ANON_KEY || "",
+  table: "registrations",
+}
+
+// Supabase project holding the photo gallery bucket.
+// Env: VITE_GALLERY_SUPABASE_URL, VITE_GALLERY_SUPABASE_KEY
+export const GALLERY = {
+  url: env.VITE_GALLERY_SUPABASE_URL || "https://uuiftuibexylqbhhzmix.supabase.co",
+  key: env.VITE_GALLERY_SUPABASE_KEY || "",
+  bucket: "gallery", // must be a public bucket
+  folder: "", // optional sub-folder inside the bucket, e.g. "party"
 }
