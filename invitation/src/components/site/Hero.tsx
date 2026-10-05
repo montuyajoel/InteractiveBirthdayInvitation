@@ -1,9 +1,8 @@
 import { CalendarDays, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { EVENT } from "@/config"
-import { BabysBreath, Heart, HeartRule, Sparkle } from "./Decor"
+import { BabysBreath, Butterfly, Heart, HeartRule, Sparkle } from "./Decor"
 import { Envelope } from "./Envelope"
-import { Portrait } from "./Portrait"
 
 import { eventDateLabel, eventTimeLabel } from "@/lib/event"
 
@@ -15,10 +14,12 @@ export function Hero() {
   return (
     <section id="invitation" className="relative overflow-hidden pt-24 sm:pt-28">
       <BabysBreath className="pointer-events-none absolute -left-6 top-40 hidden w-32 opacity-90 md:block" />
+      <BabysBreath className="pointer-events-none absolute -right-4 bottom-0 w-24 -scale-x-100 opacity-90 sm:w-32" />
+      <Butterfly className="absolute right-[8%] top-24 h-10 w-12 animate-drift" />
       <Sparkle className="absolute left-[46%] top-28 h-5 w-5 opacity-70" />
       <Heart className="absolute left-[6%] top-[62%] h-4 w-4 opacity-60" filled />
 
-      <div className="mx-auto grid max-w-6xl items-center gap-6 px-4 pb-12 sm:px-6 md:grid-cols-[1.15fr_0.85fr] md:gap-10 md:pb-16">
+      <div className="mx-auto grid max-w-6xl items-end gap-10 px-4 pb-16 sm:px-6 md:grid-cols-[1.15fr_0.85fr] md:pb-24">
         <div className="relative">
           <p className="eyebrow">You're invited to a</p>
           <p className="mt-3 font-serif text-3xl uppercase tracking-[0.28em] text-mauve sm:text-4xl">Surprise</p>
@@ -70,27 +71,9 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative order-first md:order-none">
-          <Portrait />
+        <div className="relative">
+          <Envelope />
         </div>
-      </div>
-    </section>
-  )
-}
-
-/** The envelope with the printed card, just below the hero. */
-export function InvitationCard() {
-  return (
-    <section aria-label="Your invitation" className="relative pb-16 md:pb-24">
-      <div className="mx-auto grid max-w-6xl items-center gap-6 px-4 sm:px-6 md:grid-cols-[1fr_1fr] md:gap-12">
-        <div className="md:order-last md:pl-6">
-          <p className="eyebrow">A little something for you</p>
-          <p className="script mt-2 text-6xl">Your invitation</p>
-          <p className="mt-4 max-w-sm text-lg italic text-plum/80">
-            Open the envelope to see the card, then tap it to view it up close.
-          </p>
-        </div>
-        <Envelope />
       </div>
     </section>
   )
