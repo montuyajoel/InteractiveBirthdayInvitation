@@ -13,8 +13,8 @@
 //   VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY  same as the website
 import nodemailer from "nodemailer"
 import type { Transporter } from "nodemailer"
-import { REGISTRATIONS } from "../src/config"
-import { invitationEmail, type InvitationGuest } from "./_lib/invitationEmail"
+import { REGISTRATIONS } from "../src/config.js"
+import { invitationEmail, type InvitationGuest } from "./_lib/invitationEmail.js"
 
 export const config = { maxDuration: 60 }
 

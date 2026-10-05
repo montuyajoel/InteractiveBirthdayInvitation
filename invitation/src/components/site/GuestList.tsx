@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import {
   EmailNotConfiguredError,
   GuestListNotSetUpError,
+  SendFunctionError,
   SendingUnavailableError,
   WrongPasswordError,
   fetchGuestList,
@@ -63,7 +64,11 @@ export function GuestList() {
         tone: "error",
         text:
           err instanceof SendingUnavailableError
-            ? "Sending only works on the live site (Vercel), not in this preview."
+            ? "Sending only works on the live site (Vercel), not on this computer's preview."
+            : err instanceof SendFunctionError
+              ? err.status === 404
+                ? "The email function isn't deployed (404). Check that Vercel's Root Directory is \"invitation\" and redeploy."
+                : `The email function failed (${err.status || "no response"}). Check Vercel → Logs for /api/send-invitations.`
             : err instanceof EmailNotConfiguredError
               ? "Email isn't set up yet: add GMAIL_USER and GMAIL_APP_PASSWORD in Vercel, then redeploy."
               : err instanceof WrongPasswordError

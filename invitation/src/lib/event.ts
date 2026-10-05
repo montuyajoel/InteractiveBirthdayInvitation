@@ -1,6 +1,6 @@
 // Event wording and calendar data shared by the website and the invitation
 // email (api/send-invitations.ts), so both always say the same thing.
-import { EVENT } from "../config"
+import { EVENT } from "../config.js"
 
 const opts = { timeZone: EVENT.timeZone }
 

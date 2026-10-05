@@ -86,7 +86,19 @@ export async function fetchGuestList(passcode: string): Promise<GuestListEntry[]
 // Invitation emails, sent by the server function api/send-invitations.ts.
 
 export class EmailNotConfiguredError extends Error {}
+/** No email function here: local dev server or the single-file preview. */
 export class SendingUnavailableError extends Error {}
+/** The email function exists but didn't answer properly. */
+export class SendFunctionError extends Error {
+  status: number
+  constructor(status: number) {
+    super(`Email function error (${status})`)
+    this.status = status
+  }
+}
+
+const isLocalPreview = () =>
+  location.protocol === "file:" || ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname)
 
 const SEND_BATCH = 10
 
@@ -108,11 +120,15 @@ export async function sendInvitations(
         body: JSON.stringify({ passcode, emails: batch }),
       })
     } catch {
-      throw new SendingUnavailableError()
+      if (isLocalPreview()) throw new SendingUnavailableError()
+      throw new SendFunctionError(0)
     }
-    // A static preview (no server functions) answers 404/405 or with HTML.
-    if (res.status === 404 || res.status === 405 || !res.headers.get("content-type")?.includes("json")) {
-      throw new SendingUnavailableError()
+    if (!res.headers.get("content-type")?.includes("json")) {
+      // Local servers answer with the web page; on Vercel this means the
+      // function is missing (404) or crashed (500).
+      if (isLocalPreview()) throw new SendingUnavailableError()
+      console.error("send-invitations answered", res.status, await res.text().catch(() => ""))
+      throw new SendFunctionError(res.status)
     }
     const body = await res.json().catch(() => ({}))
     if (res.status === 401) throw new WrongPasswordError()

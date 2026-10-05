@@ -1,6 +1,6 @@
 // The invitation email sent to registered guests. Email clients ignore most
 // modern CSS, so this is table-based HTML with inline styles.
-import { EVENT } from "../../src/config"
+import { EVENT } from "../../src/config.js"
 import {
   directionsUrl,
   eventDateLongLabel,
@@ -9,7 +9,7 @@ import {
   eventTitle,
   googleCalendarUrl,
   icsContent,
-} from "../../src/lib/event"
+} from "../../src/lib/event.js"
 
 export type InvitationGuest = { first_name: string; last_name: string; email: string; wishes: string }
 
