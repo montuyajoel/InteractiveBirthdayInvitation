@@ -86,15 +86,16 @@ function Tile({ photo, index, onOpen }: { photo: Photo; index: number; onOpen: (
       type="button"
       onClick={onOpen}
       className={cn(
-        "group relative block w-full bg-white p-2 pb-9 text-left shadow-[0_14px_30px_-20px_rgb(92_58_99/0.6)] ring-1 ring-mauve/15 transition duration-300 hover:z-10 hover:-translate-y-1 hover:rotate-0 hover:shadow-[0_24px_40px_-20px_rgb(92_58_99/0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mauve",
+        "group relative block w-full bg-white p-2 text-left shadow-[0_14px_30px_-20px_rgb(92_58_99/0.6)] ring-1 ring-mauve/15 transition duration-300 hover:z-10 hover:-translate-y-1 hover:rotate-0 hover:shadow-[0_24px_40px_-20px_rgb(92_58_99/0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mauve",
+        photo.caption ? "pb-9" : "pb-2",
         tilt,
       )}
-      aria-label={`Open photo: ${photo.caption}`}
+      aria-label={photo.caption ? `Open photo: ${photo.caption}` : `Open photo ${index + 1}`}
     >
       <span className="relative block overflow-hidden bg-lilac/60" style={photo.ratio ? { aspectRatio: photo.ratio } : undefined}>
         <img
           src={photo.src}
-          alt={photo.caption}
+          alt={photo.caption || `Party photo ${index + 1}`}
           loading="lazy"
           onLoad={() => setLoaded(true)}
           className={cn(
@@ -103,7 +104,9 @@ function Tile({ photo, index, onOpen }: { photo: Photo; index: number; onOpen: (
           )}
         />
       </span>
-      <span className="absolute inset-x-3 bottom-2 truncate font-script text-2xl text-mauve">{photo.caption}</span>
+      {photo.caption && (
+        <span className="absolute inset-x-3 bottom-2 truncate font-script text-2xl text-mauve">{photo.caption}</span>
+      )}
     </button>
   )
 }
@@ -169,7 +172,9 @@ function Lightbox({
         }}
       >
         <div className="flex items-center justify-between px-4 py-3 sm:px-6">
-          <DialogTitle className="font-script text-3xl font-normal text-[#f1dff3]">{photo?.caption}</DialogTitle>
+          <DialogTitle className="font-script text-3xl font-normal text-[#f1dff3]">
+            {photo?.caption || "Moments & memories"}
+          </DialogTitle>
           <DialogDescription className="sr-only">
             Photo {index !== null ? index + 1 : 0} of {count}. Use arrow keys to browse.
           </DialogDescription>
@@ -199,7 +204,7 @@ function Lightbox({
             <img
               key={photo.id}
               src={photo.src}
-              alt={photo.caption}
+              alt={photo.caption || `Party photo ${(index ?? 0) + 1}`}
               className="max-h-full max-w-full object-contain animate-in fade-in zoom-in-95 duration-300"
             />
           )}
@@ -217,7 +222,7 @@ function Lightbox({
                   "block h-14 w-14 overflow-hidden ring-1 transition sm:h-16 sm:w-16",
                   i === index ? "opacity-100 ring-2 ring-[#e3c8ec]" : "opacity-50 ring-white/20 hover:opacity-90",
                 )}
-                aria-label={`Show ${p.caption}`}
+                aria-label={`Show photo ${i + 1}`}
                 aria-current={i === index}
               >
                 <img src={p.src} alt="" className="h-full w-full object-cover" />

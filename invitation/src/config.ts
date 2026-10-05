@@ -38,6 +38,6 @@ export const REGISTRATIONS = {
 export const GALLERY = {
   url: env.VITE_GALLERY_SUPABASE_URL || "https://uuiftuibexylqbhhzmix.supabase.co",
   key: env.VITE_GALLERY_SUPABASE_KEY || "",
-  bucket: "gallery", // must be a public bucket
-  folder: "", // optional sub-folder inside the bucket, e.g. "party"
+  bucket: "mallows_birthday", // must be a public bucket
+  folder: "Mallows", // sub-folder inside the bucket; "" for the bucket root
 }

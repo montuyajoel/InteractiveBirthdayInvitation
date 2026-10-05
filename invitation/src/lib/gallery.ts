@@ -56,11 +56,13 @@ export async function loadPhotos(): Promise<GalleryResult> {
 }
 
 function prettify(filename: string) {
-  return filename
-    .replace(IMAGE_EXT, "")
-    .replace(/[-_]+/g, " ")
-    .replace(/^\d+\s*/, "")
-    .trim()
+  const base = filename.replace(IMAGE_EXT, "")
+  // Auto-generated names (e.g. "att.7a_FbfjnvLxJg4WnCON…", "IMG_2041") make
+  // poor captions, so leave those blank.
+  if (/^(att\.|img[_-]?\d|dsc|pxl_|photo[_-]?\d)/i.test(base) || (!/[\s_-]/.test(base) && base.length > 12)) {
+    return ""
+  }
+  return base.replace(/[-_]+/g, " ").replace(/^\d+\s*/, "").trim()
 }
 
 // ---------------------------------------------------------------------------

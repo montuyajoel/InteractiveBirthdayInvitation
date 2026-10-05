@@ -46,4 +46,4 @@ Guests can add themselves but can't read the list. View registrations in Table E
 
 ### Photos
 
-Upload photos (jpg, png, webp, gif or avif) to the `gallery` bucket in the gallery project's Storage. The newest appear first, and captions come from file names (`cake-cutting.jpg` → "cake cutting"). Set `GALLERY.folder` in `src/config.ts` to show just one folder.
+Upload photos (jpg, png, webp, gif or avif) to the `Mallows` folder of the `mallows_birthday` bucket in the gallery project's Storage. The newest appear first, and captions come from descriptive file names (`cake-cutting.jpg` → "cake cutting"); auto-generated names show no caption. Set `GALLERY.folder` in `src/config.ts` to show just one folder.
