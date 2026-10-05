@@ -17,8 +17,8 @@ export const EVENT = {
 // site runs in preview mode: RSVPs are kept in this browser only and the
 // gallery shows sample tiles.
 export const SUPABASE = {
-  url: "", // e.g. "https://abcd1234.supabase.co"
-  anonKey: "", // the project's public anon key
+  url: "https://rgicukixlxexgzcxgvqg.supabase.co",
+  anonKey: "", // Project Settings → API Keys: the anon / publishable key (never the service_role key or DB password)
   registrationsTable: "registrations",
   galleryBucket: "gallery", // must be a public bucket
   galleryFolder: "", // optional sub-folder inside the bucket, e.g. "party"

@@ -26,39 +26,13 @@ Everything event-specific lives in `src/config.ts`: name, date and time, venue, 
 
 Until `SUPABASE.url` and `SUPABASE.anonKey` are set in `src/config.ts`, the site runs in **preview mode**: registrations stay in the visitor's browser and the gallery shows sample tiles.
 
-### Registrations table
+The project URL is already set. Two steps remain:
 
-Run in the Supabase SQL editor:
+1. **Create the table and bucket.** Open Supabase → SQL Editor, paste `supabase/setup.sql` and click Run. It creates the `registrations` table and the public `gallery` bucket, along with the access rules: guests can register but can't read the list, and the site can list the photos.
+2. **Add the public key.** Copy the anon / publishable key from Project Settings → API Keys into `anonKey` in `src/config.ts`. Never put the `service_role` key or the database password in the site, because anyone can read the site's code.
 
-```sql
-create table public.registrations (
-  id          bigint generated always as identity primary key,
-  first_name  text not null,
-  last_name   text not null,
-  email       text not null unique,
-  wishes      text not null check (char_length(wishes) <= 500),
-  created_at  timestamptz not null default now()
-);
+Registrations then appear in Table Editor → `registrations`. A repeated email gets a friendly "already registered" message.
 
-alter table public.registrations enable row level security;
+### Photos
 
--- Guests may add themselves; nobody can read the list with the public key.
-create policy "guests can register"
-  on public.registrations for insert to anon
-  with check (true);
-```
-
-A repeated email returns a friendly "already registered" message.
-
-### Gallery bucket
-
-1. Create a **public** storage bucket named `gallery` (or change `galleryBucket`).
-2. Allow the site to list it:
-
-```sql
-create policy "anyone can list gallery"
-  on storage.objects for select to anon
-  using (bucket_id = 'gallery');
-```
-
-3. Upload photos (jpg, png, webp, gif or avif). The newest appear first, and captions come from file names (`cake-cutting.jpg` → "cake cutting"). Set `galleryFolder` to show just one folder.
+Upload photos (jpg, png, webp, gif or avif) to the `gallery` bucket in Storage. The newest appear first, and captions come from file names (`cake-cutting.jpg` → "cake cutting"). Set `galleryFolder` in `src/config.ts` to show just one folder.
