@@ -25,7 +25,11 @@ export async function submitRegistration(r: Registration): Promise<void> {
       }),
     })
     if (res.status === 409) throw new AlreadyRegisteredError()
-    if (!res.ok) throw new Error(`Registration failed (${res.status})`)
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "")
+      console.error(`Supabase rejected the registration (${res.status}):`, detail)
+      throw new Error(`Registration failed (${res.status})`)
+    }
     return
   }
 

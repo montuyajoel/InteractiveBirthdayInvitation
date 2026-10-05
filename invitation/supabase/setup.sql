@@ -13,6 +13,11 @@ create table if not exists public.registrations (
 
 alter table public.registrations enable row level security;
 
+-- Make sure the public (anon) role can reach the table at all. RLS below
+-- still limits it to inserting.
+grant usage on schema public to anon;
+grant insert on public.registrations to anon;
+
 -- Guests may add themselves; the public key cannot read, change or delete
 -- anyone's registration. View them in Table Editor (or with the service key).
 drop policy if exists "guests can register" on public.registrations;
