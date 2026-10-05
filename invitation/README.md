@@ -44,6 +44,10 @@ On Vercel, set the project's Root Directory to `invitation`.
 
 Guests can add themselves but can't read the list. View registrations in Table Editor → `registrations`. A repeated email gets a friendly "already registered" message.
 
+### Guest list (hosts only)
+
+At the bottom of the page, "See who's coming" asks for a password and then lists everyone who registered (name, email, wish, date). The password is checked by a database function, never in the website, and only a bcrypt hash is stored. To set it up or change the password, open `supabase/guest-list.sql`, replace `YOUR_PASSWORD`, and run it in the registrations project. Don't commit the real password.
+
 ### Photos
 
 Anyone can share photos from the "Share your photos" panel in the gallery (they're asked for their name; registered guests also get the panel on their thank-you card). The home page shows the 10 newest photos with a "See all photos" button to the full gallery at `#/photos`. Photos are resized in the browser to a JPEG under 1 MB and uploaded to the `Mallows` folder, captioned "From <name>". `supabase/gallery-setup.sql` grants guests insert-only access to that folder and caps the bucket at 1 MB per file.

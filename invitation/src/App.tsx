@@ -3,6 +3,7 @@ import { Countdown } from "@/components/site/Countdown"
 import { Directions } from "@/components/site/Directions"
 import { Footer } from "@/components/site/Footer"
 import { Gallery } from "@/components/site/Gallery"
+import { GuestList } from "@/components/site/GuestList"
 import { Header } from "@/components/site/Header"
 import { Hero } from "@/components/site/Hero"
 import { PhotosPage } from "@/components/site/PhotosPage"
@@ -24,6 +25,7 @@ export default function App() {
           <Rsvp />
           <Gallery />
           <Directions />
+          <GuestList />
         </main>
       )}
       <Footer />

@@ -49,3 +49,33 @@ export async function submitRegistration(r: Registration): Promise<void> {
     // still "succeeds" visually in preview mode.
   }
 }
+
+// ---------------------------------------------------------------------------
+// Hosts-only guest list. The password is checked by the `guest_list`
+// database function (supabase/guest-list.sql), never in the browser.
+
+export type GuestListEntry = {
+  first_name: string
+  last_name: string
+  email: string
+  wishes: string
+  created_at: string
+}
+
+export class WrongPasswordError extends Error {}
+export class GuestListNotSetUpError extends Error {}
+
+export async function fetchGuestList(passcode: string): Promise<GuestListEntry[]> {
+  const res = await fetch(supabaseUrl(REGISTRATIONS, "/rest/v1/rpc/guest_list"), {
+    method: "POST",
+    headers: supabaseHeaders(REGISTRATIONS),
+    body: JSON.stringify({ passcode }),
+  })
+  if (res.ok) return res.json()
+
+  const detail = await res.text().catch(() => "")
+  if (detail.includes("invalid passcode") || detail.includes("28P01")) throw new WrongPasswordError()
+  if (res.status === 404 || detail.includes("PGRST202")) throw new GuestListNotSetUpError()
+  console.error(`Supabase rejected the guest list request (${res.status}):`, detail)
+  throw new Error(`Could not load the guest list (${res.status})`)
+}
