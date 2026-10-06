@@ -115,4 +115,11 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  /* no crossfade: just show the first photo */
+  .animate-photo-swap {
+    animation: none !important;
+  }
+  .animate-photo-swap ~ .animate-photo-swap {
+    opacity: 0;
+  }
 }
