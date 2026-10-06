@@ -55,6 +55,12 @@ export const COPY = {
   milestonesTitle: "{name}'s first months",
   milestonesIntro: "A little peek at how {name} has grown, one month at a time, on the way to her christening.",
 
+  // The "I'd love to be a Ninong/Ninang" checkbox (godparent at the christening)
+  sponsorLabel: "I'd love to be {name}'s Ninong / Ninang",
+  sponsorHint: "Tick this if you'd like to stand as a godparent at the christening. We'll get in touch with the details.",
+  sponsorThanks: "Thank you for offering to be {name}'s Ninong / Ninang. We'll be in touch with the details.",
+  emailSponsorNote: "Thank you for offering to be {name}'s Ninong / Ninang! We'll get in touch with the details before the christening.",
+
   rsvpEyebrow: "Kindly register",
   rsvpTitle: "Join us",
   rsvpIntro: "Let us know you're coming so we can save you a seat, and leave a blessing for {name} to read when she's older.",

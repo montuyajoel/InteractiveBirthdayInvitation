@@ -13,7 +13,7 @@ import {
   sendInvitations,
   type GuestListEntry,
 } from "@/lib/registrations"
-import { SectionTitle } from "./Decor"
+import { Cross, SectionTitle } from "./Decor"
 
 type State =
   | { status: "locked"; error?: string }
@@ -181,6 +181,10 @@ export function GuestList() {
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <p className="text-lg italic text-ink">
                   {state.guests.length} {state.guests.length === 1 ? "guest has" : "guests have"} confirmed
+                  {(() => {
+                    const sponsors = state.guests.filter((g) => g.ninong_ninang).length
+                    return sponsors > 0 ? ` · ${sponsors} ${sponsors === 1 ? "wants" : "want"} to be Ninong/Ninang` : null
+                  })()}
                 </p>
                 <Button variant="ghost" onClick={lock} className="gap-2 rounded-none text-brand hover:bg-highlight/50">
                   <Lock /> Lock
@@ -235,6 +239,11 @@ export function GuestList() {
                       <p className="text-lg text-ink">
                         {g.first_name} {g.last_name}
                       </p>
+                      {g.ninong_ninang && (
+                        <p className="mt-0.5 inline-flex items-center gap-1 border border-gold/60 bg-highlight/60 px-2 py-0.5 text-[0.65rem] uppercase tracking-[0.16em] text-brand">
+                          <Cross className="h-3 w-2.5" /> Ninong / Ninang
+                        </p>
+                      )}
                       <p className="truncate text-sm text-muted-foreground">{g.email}</p>
                     </div>
                     <p className="italic text-ink/80">“{g.wishes}”</p>

@@ -1,31 +1,13 @@
--- Registrations project: password-protected guest list.
--- Paste into Supabase → SQL Editor → New query, REPLACE  YOUR_PASSWORD  below
--- with the hosts' password, then Run. Re-run any time to change the password.
---
--- The password is checked here in the database, never in the website, and
--- only a bcrypt hash of it is stored. The registrations table itself stays
--- unreadable with the public key.
+-- Registrations project: adds the "I'd love to be a Ninong/Ninang" checkbox
+-- to a database that was set up before it existed. Run it once in
+-- Supabase → SQL Editor → New query → Run. Safe to re-run, and it doesn't
+-- touch the hosts' password or any registrations.
+-- (New setups don't need this: setup.sql and guest-list.sql include it.)
 
-create extension if not exists pgcrypto with schema extensions;
-
--- Not exposed through the API.
-create schema if not exists private;
-revoke all on schema private from public, anon, authenticated;
-
-create table if not exists private.guest_list_password (
-  id   int primary key default 1 check (id = 1),
-  hash text not null
-);
-
-insert into private.guest_list_password (id, hash)
-values (1, extensions.crypt('YOUR_PASSWORD', extensions.gen_salt('bf', 10)))
-on conflict (id) do update set hash = excluded.hash;
-
--- Columns added by later scripts, so re-running this file (e.g. to change
--- the password) keeps the full guest list.
 alter table public.registrations add column if not exists invite_sent_at timestamptz;
 alter table public.registrations add column if not exists ninong_ninang boolean not null default false;
 
+-- The hosts' guest list now also says who offered to be a Ninong/Ninang.
 drop function if exists public.guest_list(text);
 create function public.guest_list(passcode text)
 returns table (

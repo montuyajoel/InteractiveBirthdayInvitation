@@ -14,7 +14,14 @@ import {
   icsContent,
 } from "../../src/lib/event.js"
 
-export type InvitationGuest = { first_name: string; last_name: string; email: string; wishes: string }
+export type InvitationGuest = {
+  first_name: string
+  last_name: string
+  email: string
+  wishes: string
+  // ticked "I'd love to be a Ninong/Ninang" (missing on older databases)
+  ninong_ninang?: boolean
+}
 
 // Email clients ignore CSS variables, so the theme's hex values go in directly.
 const C = {
@@ -130,6 +137,18 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
         : ""
     }
 
+    ${
+      guest.ninong_ninang
+        ? `<tr><td style="padding:24px 32px 0;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.highlight};">
+        <tr><td align="center" style="padding:16px 20px;font-family:${SERIF};font-size:15px;font-style:italic;line-height:1.5;color:${C.ink};">
+          &#10013; ${escapeHtml(fill(COPY.emailSponsorNote))}
+        </td></tr>
+      </table>
+    </td></tr>`
+        : ""
+    }
+
     <tr><td align="center" style="padding:30px 32px 34px;font-family:${SERIF};">
       <p style="margin:0;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${C.brand};">${escapeHtml(fill(COPY.footerLine))} &#9829;</p>
       <p style="margin:12px 0 0;font-size:13px;color:${C.brand};">
@@ -154,6 +173,7 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
     `Add to Google Calendar: ${googleCalendarUrl()}`,
     "",
     COPY.surprise ? `${fill(COPY.surpriseHeadline)} ${fill(COPY.surpriseNote)}` : null,
+    guest.ninong_ninang ? fill(COPY.emailSponsorNote) : null,
     "",
     `We can't wait to celebrate with you. ${site}/`,
   ]
