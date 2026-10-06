@@ -5,6 +5,7 @@
 | `ig-story-digital-invitation.mp4` | 1080×1920, 30 s, 30 fps, with music | Instagram Story / Reel |
 | `ig-post-1.png` … `ig-post-3.png` | 1080×1350 | Instagram feed carousel |
 | `ig-post-4-pricing.png` | 1080×1350 | Price list (last carousel slide, or post on its own) |
+| `digital-invitation-order-form.docx` | US Letter | Client order form (built by `node src/order-form.js out.docx`) |
 | `digital-invitation-costing-PH.xlsx` | | Costing & pricing workbook (built by `src/costing.py`) |
 | `CAPTION.md` | | Caption, hashtags and story sticker tips |
 
