@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Invitation Story</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@400;500;600&family=Great+Vibes&family=Lora:ital@0;1&family=Pinyon+Script&family=EB+Garamond:ital@0;1&family=Parisienne&family=Playfair+Display:ital@0;1&family=Sacramento&family=Josefin+Sans:wght@400;600&family=Dancing+Script:wght@600&family=Nunito:wght@600;800&display=block">
+<style>
+  :root {
+    --ink: #5c3a63; --brand: #9a6aa0; --soft: #e9dcf0; --hi: #f6dde8; --paper: #fbf6fb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--paper); }
+  body { font-family: "Cormorant Garamond", serif; color: var(--ink); position: relative; }
+  .bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(700px 520px at 10% 6%, #f6dde8, transparent 70%),
+      radial-gradient(640px 560px at 96% 32%, #e9dcf0, transparent 70%),
+      radial-gradient(600px 520px at 14% 82%, #f0e2f5, transparent 70%),
+      radial-gradient(520px 420px at 90% 96%, #f6dde8, transparent 70%),
+      var(--paper);
+  }
+  .abs { position: absolute; }
+  .center { left: 0; right: 0; text-align: center; }
+  .eyebrow { font-family: "Jost", sans-serif; font-weight: 500; letter-spacing: .32em; text-transform: uppercase; color: var(--brand); font-size: 30px; }
+  .script { font-family: "Allura", cursive; color: var(--brand); line-height: .95; }
+  .serif { font-family: "Cormorant Garamond", serif; }
+  .sans { font-family: "Jost", sans-serif; }
+
+  /* ---------- Hook ---------- */
+  #hook1 { top: 640px; font-size: 92px; font-weight: 600; line-height: 1.05; }
+  #hook1 .strike { position: relative; display: inline-block; }
+  #hook1 .strike::after { content: ""; position: absolute; left: -6px; right: -6px; top: 54%; height: 8px; background: var(--brand); border-radius: 4px; transform-origin: left; transform: scaleX(var(--s, 0)); }
+  #hook2 { top: 900px; }
+  #hook2 .a { font-size: 76px; font-weight: 500; font-style: italic; }
+  #hook2 .b { font-size: 200px; margin-top: 10px; }
+
+  /* ---------- Phone ---------- */
+  #phone {
+    left: 50%; top: 470px; width: 620px; height: 1260px; margin-left: -310px;
+    border-radius: 78px; background: #2b1f2e; padding: 18px;
+    box-shadow: 0 60px 120px -30px rgba(92,58,99,.55), 0 0 0 3px #4a3a4e inset;
+  }
+  #screen { position: relative; width: 100%; height: 100%; border-radius: 62px; overflow: hidden; background: var(--paper); }
+  #notch { position: absolute; top: 18px; left: 50%; width: 170px; height: 46px; margin-left: -85px; background: #2b1f2e; border-radius: 30px; z-index: 50; }
+  .scr { position: absolute; inset: 0; opacity: 0; }
+  .scr .wash { position: absolute; inset: 0;
+    background: radial-gradient(420px 320px at 10% 8%, #f6dde8, transparent 70%), radial-gradient(420px 380px at 95% 40%, #e9dcf0, transparent 70%), radial-gradient(360px 320px at 15% 90%, #f0e2f5, transparent 70%), var(--paper); }
+
+  /* label above phone */
+  .label { top: 270px; }
+  .label .num { font-family: "Jost"; font-weight: 600; font-size: 28px; letter-spacing: .3em; color: var(--brand); }
+  .label .t { font-size: 72px; font-weight: 600; line-height: 1.05; margin-top: 8px; }
+  .label .t em { font-family: "Allura"; font-style: normal; font-weight: 400; color: var(--brand); font-size: 96px; }
+
+  /* envelope */
+  #env { position: absolute; left: 50%; top: 600px; width: 500px; height: 340px; margin-left: -250px; perspective: 1400px; }
+  #env .back { position: absolute; inset: 0; background: #d9c3e3; border-radius: 14px; }
+  #env .card { position: absolute; left: 30px; right: 30px; top: 20px; height: 310px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(92,58,99,.25); background: #fff; }
+  #env .card img { width: 100%; display: block; }
+  #env .front { position: absolute; inset: 0; border-radius: 14px; background: #e7d6ee; clip-path: polygon(0 28%, 50% 62%, 100% 28%, 100% 100%, 0 100%); }
+  #env .front2 { position: absolute; inset: 0; border-radius: 14px; background: #ddc8e6; clip-path: polygon(0 0, 50% 60%, 0 100%); }
+  #env .front3 { position: absolute; inset: 0; border-radius: 14px; background: #ddc8e6; clip-path: polygon(100% 0, 50% 60%, 100% 100%); }
+  #env .flap { position: absolute; left: 0; right: 0; top: 0; height: 210px; background: #cdb2da; clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top center; }
+  #env .seal { position: absolute; left: 50%; top: 166px; width: 74px; height: 74px; margin-left: -37px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #b88ac0, #8d5c96); box-shadow: 0 4px 10px rgba(0,0,0,.2); display: grid; place-items: center; color: #fbeefc; font-family: "Allura"; font-size: 46px; }
+  #tap { position: absolute; top: 1010px; left: 0; right: 0; text-align: center; font-family: "Jost"; letter-spacing: .25em; font-size: 22px; color: var(--brand); text-transform: uppercase; }
+  #finger { position: absolute; left: 330px; top: 790px; width: 90px; height: 90px; border-radius: 50%; background: rgba(154,106,160,.35); border: 4px solid rgba(255,255,255,.9); }
+  #fullcard { position: absolute; inset: 0; opacity: 0; }
+  #fullcard img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* countdown screen */
+  .scr-pad { position: absolute; inset: 0; padding: 120px 44px 40px; text-align: center; }
+  .shh { font-family: "Allura"; color: var(--brand); font-size: 64px; white-space: nowrap; }
+  .sub { font-style: italic; font-size: 30px; margin-top: 6px; }
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 50px; }
+  .tile { background: #fff; border: 2px solid #ead9ef; border-radius: 20px; padding: 26px 0 18px; box-shadow: 0 8px 20px -10px rgba(92,58,99,.3); }
+  .tile b { display: block; font-size: 72px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+  .tile span { font-family: "Jost"; font-size: 17px; letter-spacing: .2em; text-transform: uppercase; color: var(--brand); }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 14px; font-family: "Jost"; font-weight: 500; font-size: 26px; border-radius: 999px; height: 84px; margin-top: 22px; }
+  .btn.solid { background: var(--ink); color: #fff; }
+  .btn.ghost { border: 2px solid var(--brand); color: var(--ink); background: #fff; }
+  .info { margin-top: 60px; text-align: left; font-size: 30px; line-height: 1.55; }
+  .info div { display: flex; gap: 16px; align-items: center; }
+  .info svg { width: 34px; height: 34px; flex: none; color: var(--brand); }
+  .toast { position: absolute; left: 40px; right: 40px; bottom: 60px; background: #fff; border-radius: 22px; padding: 22px 26px; font-family: "Jost"; font-size: 24px; display: flex; gap: 14px; align-items: center; box-shadow: 0 20px 40px -12px rgba(92,58,99,.4); }
+  .check { width: 44px; height: 44px; border-radius: 50%; background: #7cb48f; color: #fff; display: grid; place-items: center; font-size: 26px; flex: none; }
+
+  /* RSVP */
+  .field { text-align: left; margin-top: 26px; }
+  .field label { font-family: "Jost"; font-size: 20px; letter-spacing: .18em; text-transform: uppercase; color: var(--brand); }
+  .field .in { margin-top: 8px; background: #fff; border: 2px solid #e2d0ea; border-radius: 16px; height: 76px; padding: 0 22px; display: flex; align-items: center; font-size: 34px; }
+  .field .in.tall { height: 140px; align-items: flex-start; padding-top: 18px; font-style: italic; }
+  .caret { display: inline-block; width: 3px; height: 36px; background: var(--ink); margin-left: 2px; }
+  #thanks { position: absolute; left: 40px; right: 40px; top: 300px; background: #fff; border-radius: 30px; padding: 60px 30px; text-align: center; box-shadow: 0 30px 60px -20px rgba(92,58,99,.45); }
+  #thanks .big { font-family: "Allura"; color: var(--brand); font-size: 76px; line-height: 1; }
+  #thanks p { font-size: 32px; margin-top: 14px; }
+
+  /* gallery */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 34px; }
+  .ph { height: 250px; border-radius: 18px; position: relative; overflow: hidden; }
+  .ph svg { position: absolute; inset: 0; margin: auto; width: 46%; height: 46%; color: rgba(255,255,255,.9); }
+  .ph i { position: absolute; left: 14px; bottom: 10px; font-family: "Jost"; font-style: normal; font-size: 17px; color: #fff; letter-spacing: .05em; text-shadow: 0 1px 4px rgba(0,0,0,.25); }
+
+  /* feature chips */
+  .chips { top: 520px; left: 90px; right: 90px; }
+  .chip { display: flex; align-items: center; gap: 28px; background: rgba(255,255,255,.85); border: 2px solid #ead9ef; border-radius: 30px; padding: 30px 36px; margin-bottom: 28px; box-shadow: 0 20px 40px -24px rgba(92,58,99,.45); }
+  .chip .ic { width: 96px; height: 96px; border-radius: 26px; background: var(--soft); display: grid; place-items: center; flex: none; }
+  .chip .ic svg { width: 54px; height: 54px; color: var(--ink); }
+  .chip h3 { font-size: 52px; font-weight: 600; line-height: 1.05; }
+  .chip p { font-family: "Jost"; font-size: 26px; color: #7a5d80; margin-top: 4px; }
+
+  /* themes */
+  #themeScr { --t-ink: #5c3a63; --t-brand: #9a6aa0; --t-soft: #e9dcf0; --t-hi: #f6dde8; --t-paper: #fbf6fb; }
+  #themeScr .tw { position: absolute; inset: 0; background: radial-gradient(420px 340px at 10% 8%, var(--t-hi), transparent 70%), radial-gradient(420px 380px at 95% 45%, var(--t-soft), transparent 70%), radial-gradient(380px 340px at 20% 92%, var(--t-hi), transparent 70%), var(--t-paper); transition: none; }
+  #themeScr .tc { position: absolute; inset: 0; padding: 190px 40px 0; text-align: center; color: var(--t-ink); }
+  #themeScr .te { font-size: 22px; letter-spacing: .32em; text-transform: uppercase; color: var(--t-brand); }
+  #themeScr .tn { white-space: nowrap; color: var(--t-brand); font-size: 128px; line-height: 1.05; margin-top: 40px; }
+  #themeScr .to { font-size: 50px; margin-top: 22px; }
+  #themeScr .rule { width: 220px; height: 2px; background: var(--t-brand); opacity: .5; margin: 44px auto; }
+  #themeScr .td { font-size: 30px; line-height: 1.6; }
+  #themeScr .tb { margin: 60px auto 0; width: 380px; height: 84px; border-radius: 999px; background: var(--t-ink); color: var(--t-paper); display: grid; place-items: center; font-size: 26px; letter-spacing: .1em; }
+  #themeScr .motif { position: absolute; color: var(--t-brand); }
+  #themeName { top: 1770px; }
+  #themeName .pill { display: inline-flex; gap: 16px; align-items: center; background: #fff; border-radius: 999px; padding: 18px 34px; font-family: "Jost"; font-size: 30px; font-weight: 500; box-shadow: 0 16px 34px -16px rgba(92,58,99,.5); }
+  #themeName .dots { display: inline-flex; gap: 8px; }
+  #themeName .dots b { width: 26px; height: 26px; border-radius: 50%; display: inline-block; border: 2px solid rgba(0,0,0,.08); }
+  #custTags { top: 1840px; display: none; }
+
+  /* CTA */
+  #cta { top: 0; bottom: 0; }
+  #cta .l1 { position: absolute; left: 0; right: 0; top: 520px; font-size: 96px; font-weight: 600; line-height: 1.08; }
+  #cta .l2 { position: absolute; left: 0; right: 0; top: 860px; font-size: 230px; }
+  #cta .types { position: absolute; left: 80px; right: 80px; top: 1170px; display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; }
+  #cta .types span { font-family: "Jost"; font-size: 30px; padding: 14px 30px; border-radius: 999px; background: #fff; border: 2px solid #ead9ef; }
+  #cta .dm { position: absolute; left: 140px; right: 140px; top: 1400px; height: 140px; border-radius: 999px; background: var(--ink); color: #fff; display: grid; place-items: center; font-family: "Jost"; font-weight: 500; font-size: 44px; letter-spacing: .04em; box-shadow: 0 30px 60px -20px rgba(92,58,99,.7); }
+
+  /* floating decor */
+  .deco { position: absolute; color: var(--brand); }
+  #progress { position: absolute; left: 60px; right: 60px; top: 70px; height: 6px; display: flex; gap: 8px; opacity: 0; }
+  #fontload { position: absolute; left: -9999px; }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<!-- floating decorations -->
+<svg class="deco" id="d1" style="left:80px;top:240px;width:110px" viewBox="0 0 64 48"><path d="M32 24C26 8 8 6 10 17c2 8 13 9 22 7zM32 24c6-16 24-18 22-7-2 8-13 9-22 7zM32 24c-6 4-15 13-9 16 4 2 8-6 9-16zM32 24c6 4 15 13 9 16-4 2-8-6-9-16z" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M32 17v16M32 17l-3-5M32 17l3-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/></svg>
+<svg class="deco" id="d2" style="right:100px;top:1580px;width:70px" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-7.5-10.2C4.5 7.4 6.6 5.5 9 5.5c1.4 0 2.5.7 3 1.7.5-1 1.6-1.7 3-1.7 2.4 0 4.5 1.9 4.5 4.8 0 5.6-7.5 10.2-7.5 10.2z" fill="currentColor" fill-opacity=".3" stroke="currentColor" stroke-width="1.2"/></svg>
+<svg class="deco" id="d3" style="right:130px;top:330px;width:60px" viewBox="0 0 24 24"><path d="M12 2c.6 4.8 2.4 7.4 8 10-5.6 2.6-7.4 5.2-8 10-.6-4.8-2.4-7.4-8-10 5.6-2.6 7.4-5.2 8-10z" fill="currentColor" fill-opacity=".35"/></svg>
+<svg class="deco" id="d4" style="left:120px;top:1650px;width:44px" viewBox="0 0 24 24"><path d="M12 2c.6 4.8 2.4 7.4 8 10-5.6 2.6-7.4 5.2-8 10-.6-4.8-2.4-7.4-8-10 5.6-2.6 7.4-5.2 8-10z" fill="currentColor" fill-opacity=".35"/></svg>
+
+<!-- Scene 1: hook -->
+<div id="s1" class="abs center" style="inset:0">
+  <div id="hook1" class="abs center">Still sending<br><span class="strike">paper invites?</span></div>
+  <div id="hook2" class="abs center">
+    <div class="a">Send one they'll actually</div>
+    <div class="b script">open.</div>
+  </div>
+</div>
+
+<!-- Labels -->
+<div id="lab1" class="abs center label"><div class="num">01 · THE REVEAL</div><div class="t">An envelope that <em>opens</em></div></div>
+<div id="lab2" class="abs center label"><div class="num">02 · SAVE THE DATE</div><div class="t">Live <em>countdown</em></div></div>
+<div id="lab3" class="abs center label"><div class="num">03 · RSVP</div><div class="t">Guests register in <em>seconds</em></div></div>
+<div id="lab4" class="abs center label"><div class="num">04 · MEMORIES</div><div class="t">A shared <em>photo wall</em></div></div>
+<div id="lab5" class="abs center label"><div class="num">05 · CUSTOMISE</div><div class="t">Made in <em>your style</em></div></div>
+
+<!-- Phone -->
+<div id="phone" class="abs">
+  <div id="screen">
+    <div id="notch"></div>
+
+    <!-- envelope screen -->
+    <div class="scr" id="scrEnv"><div class="wash"></div>
+      <div style="position:absolute;top:150px;left:0;right:0;text-align:center">
+        <div class="eyebrow" style="font-size:20px">You're invited</div>
+        <div class="script" style="font-size:96px;margin-top:14px">Chelsea Louise</div>
+        <div style="font-size:34px;font-style:italic;margin-top:4px">turns sixteen</div>
+      </div>
+      <div id="env">
+        <div class="back"></div>
+        <div class="card"><img src="assets/invitation-card.jpg" alt=""></div>
+        <div class="front2"></div><div class="front3"></div>
+        <div class="front"></div>
+        <div class="flap"></div>
+        <div class="seal">C</div>
+      </div>
+      <div id="tap">Tap to open</div>
+      <div id="finger"></div>
+      <div id="fullcard"><img src="assets/invitation-card.jpg" alt=""></div>
+    </div>
+
+    <!-- countdown screen -->
+    <div class="scr" id="scrCount"><div class="wash"></div>
+      <div class="scr-pad">
+        <div class="shh">Shhh… it's a surprise!</div>
+        <div class="sub">The party starts in</div>
+        <div class="tiles">
+          <div class="tile"><b id="cd-d">25</b><span>Days</span></div>
+          <div class="tile"><b id="cd-h">04</b><span>Hrs</span></div>
+          <div class="tile"><b id="cd-m">12</b><span>Min</span></div>
+          <div class="tile"><b id="cd-s">30</b><span>Sec</span></div>
+        </div>
+        <div class="info">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Saturday, October 31</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>5:00 PM</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Tea Plan Villa Angela</div>
+        </div>
+        <div style="margin-top:50px">
+          <div class="btn solid" id="gcal"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M12 13v5M9.5 15.5h5"/></svg>Add to Google Calendar</div>
+          <div class="btn ghost">Apple · Outlook (.ics)</div>
+          <div class="btn ghost">Get directions</div>
+        </div>
+      </div>
+      <div class="toast" id="calToast"><div class="check">✓</div>Saved to your calendar</div>
+    </div>
+
+    <!-- RSVP screen -->
+    <div class="scr" id="scrRsvp"><div class="wash"></div>
+      <div class="scr-pad">
+        <div class="eyebrow" style="font-size:20px">Register</div>
+        <div class="script" style="font-size:92px;margin-top:6px">Save your seat</div>
+        <div class="field"><label>First name</label><div class="in"><span id="f1"></span><span class="caret" id="c1"></span></div></div>
+        <div class="field"><label>Last name</label><div class="in"><span id="f2"></span><span class="caret" id="c2"></span></div></div>
+        <div class="field"><label>Email</label><div class="in" style="font-size:30px"><span id="f3"></span><span class="caret" id="c3"></span></div></div>
+        <div class="field"><label>Birthday wish</label><div class="in tall"><span id="f4"></span><span class="caret" id="c4"></span></div></div>
+        <div class="btn solid" id="regBtn" style="margin-top:34px">I'll be there ♡</div>
+      </div>
+      <div id="thanks">
+        <div class="check" style="margin:0 auto 20px;width:90px;height:90px;font-size:50px">✓</div>
+        <div class="big">See you there, Maria!</div>
+        <p>You're on the guest list.<br>A confirmation is on its way to your inbox.</p>
+      </div>
+    </div>
+
+    <!-- Gallery screen -->
+    <div class="scr" id="scrGal"><div class="wash"></div>
+      <div class="scr-pad" style="padding-top:110px">
+        <div class="eyebrow" style="font-size:20px">Gallery</div>
+        <div class="script" style="font-size:88px;margin-top:6px">Moments</div>
+        <div class="grid" id="galGrid"></div>
+        <div class="btn ghost" style="margin-top:24px">See all photos →</div>
+      </div>
+      <div class="toast" id="galToast"><div class="check">✓</div>Photo shared · From Maria</div>
+    </div>
+
+    <!-- Theme screen -->
+    <div class="scr" id="themeScr">
+      <div class="tw"></div>
+      <svg class="motif" id="m1" style="left:40px;top:110px;width:90px" viewBox="0 0 64 48"></svg>
+      <svg class="motif" id="m2" style="right:46px;top:520px;width:56px" viewBox="0 0 24 24"></svg>
+      <svg class="motif" id="m3" style="left:56px;bottom:150px;width:64px" viewBox="0 0 24 24"></svg>
+      <svg class="motif" id="m4" style="right:60px;bottom:220px;width:84px" viewBox="0 0 64 48"></svg>
+      <div class="tc">
+        <div class="te" id="tEy">You're invited to</div>
+        <div class="tn" id="tName">Chelsea Louise</div>
+        <div class="to" id="tOcc">16th Birthday</div>
+        <div class="rule"></div>
+        <div class="td" id="tDate">Saturday, October 31<br>5:00 PM · Villa Angela</div>
+        <div class="tb" id="tBtn">RSVP</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature chips -->
+<div id="chips" class="abs chips">
+  <div class="chip" id="ch1"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div><h3>Map &amp; directions</h3><p>One tap to the venue</p></div></div>
+  <div class="chip" id="ch2"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><div><h3>Private guest list</h3><p>Password-protected, hosts only</p></div></div>
+  <div class="chip" id="ch3"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><div><h3>Email confirmations</h3><p>With calendar invite attached</p></div></div>
+  <div class="chip" id="ch4"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/></svg></div><div><h3>Works on any phone</h3><p>Just share one link</p></div></div>
+</div>
+
+<!-- theme name pill -->
+<div id="themeName" class="abs center"><span class="pill"><span class="dots" id="tDots"></span><span id="tLabel">Lilac garden</span></span></div>
+
+<!-- CTA -->
+<div id="cta" class="abs center" style="left:0;right:0">
+  <div class="l1">Your event.<br>Your style.</div>
+  <div class="l2 script">One link.</div>
+  <div class="types"><span>Birthdays</span><span>Debuts</span><span>Weddings</span><span>Christenings</span><span>Reunions</span></div>
+  <div class="dm">DM “INVITE” to get yours ✦</div>
+</div>
+
+<div id="fontload">
+  <span style="font-family:Allura">a</span><span style="font-family:'Cormorant Garamond'">a<i>a</i><b>a</b></span><span style="font-family:Jost">a<b>a</b></span>
+  <span style="font-family:'Great Vibes'">a</span><span style="font-family:Lora">a</span><span style="font-family:'Pinyon Script'">a</span><span style="font-family:'EB Garamond'">a</span>
+  <span style="font-family:Parisienne">a</span><span style="font-family:'Playfair Display'">a</span><span style="font-family:Sacramento">a</span><span style="font-family:'Josefin Sans'">a</span>
+  <span style="font-family:'Dancing Script';font-weight:600">a</span><span style="font-family:Nunito;font-weight:800">a</span>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const ease = x => x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3) / 2;          // easeInOutCubic
+const out = x => 1 - Math.pow(1 - x, 3);                                         // easeOutCubic
+const back = x => { const c = 1.6; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const p = (t, a, b, f = ease) => f(clamp((t - a) / (b - a)));
+const lerp = (a, b, k) => a + (b - a) * k;
+// visibility window with fades: in over [a, a+fi], out over [b-fo, b]
+const win = (t, a, b, fi = .35, fo = .35) => Math.min(p(t, a, a + fi, out), 1 - p(t, b - fo, b));
+function set(el, o) { el = typeof el === "string" ? $(el) : el; for (const k in o) el.style[k] = o[k]; }
+
+const MOTIFS = {
+  butterfly: { vb: "0 0 64 48", d: '<path d="M32 24C26 8 8 6 10 17c2 8 13 9 22 7zM32 24c6-16 24-18 22-7-2 8-13 9-22 7zM32 24c-6 4-15 13-9 16 4 2 8-6 9-16zM32 24c6 4 15 13 9 16-4 2-8-6-9-16z" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M32 17v16M32 17l-3-5M32 17l3-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/>' },
+  heart: { vb: "0 0 24 24", d: '<path d="M12 20.5s-7.5-4.6-7.5-10.2C4.5 7.4 6.6 5.5 9 5.5c1.4 0 2.5.7 3 1.7.5-1 1.6-1.7 3-1.7 2.4 0 4.5 1.9 4.5 4.8 0 5.6-7.5 10.2-7.5 10.2z" fill="currentColor" fill-opacity=".25" stroke="currentColor" stroke-width="1.2"/>' },
+  sparkle: { vb: "0 0 24 24", d: '<path d="M12 2c.6 4.8 2.4 7.4 8 10-5.6 2.6-7.4 5.2-8 10-.6-4.8-2.4-7.4-8-10 5.6-2.6 7.4-5.2 8-10z" fill="currentColor" fill-opacity=".45"/>' },
+  leaf: { vb: "0 0 64 48", d: '<path d="M8 40C14 14 40 6 58 8 54 28 34 44 8 40z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.3"/><path d="M8 40C24 30 38 20 52 12" stroke="currentColor" stroke-width="1.3" fill="none"/>' },
+  rose: { vb: "0 0 24 24", d: '<circle cx="12" cy="12" r="8" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.1"/><path d="M12 8c2.5 0 4 1.6 4 3.6S14 15.5 12 15.5 8.5 14 8.5 12.2 10 9.6 12 9.6s2 1 2 2-1 1.6-2 1.6" fill="none" stroke="currentColor" stroke-width="1.1"/>' },
+  shell: { vb: "0 0 64 48", d: '<path d="M32 42L10 22C14 10 50 10 54 22z" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M32 42L20 14M32 42L32 11M32 42L44 14" stroke="currentColor" stroke-width="1.2" fill="none"/>' },
+  balloon: { vb: "0 0 24 24", d: '<ellipse cx="12" cy="9" rx="6" ry="7" fill="currentColor" fill-opacity=".35" stroke="currentColor" stroke-width="1.1"/><path d="M12 16l-1 2h2zM12 18c-1 2 1 3 0 5" stroke="currentColor" stroke-width="1" fill="none"/>' },
+  star: { vb: "0 0 24 24", d: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="currentColor" fill-opacity=".35" stroke="currentColor" stroke-width="1"/>' },
+};
+
+const THEMES = [
+  { label: "Lilac garden", c: ["#5c3a63", "#9a6aa0", "#e9dcf0", "#f6dde8", "#fbf6fb"], script: "Allura", serif: "Cormorant Garamond", name: "Chelsea Louise", occ: "16th Birthday", ey: "You're invited to", date: "Saturday, October 31<br>5:00 PM · Villa Angela", m: ["butterfly", "heart", "sparkle", "butterfly"], nameSize: 100 },
+  { label: "Sage & gold wedding", c: ["#2f3d33", "#a8843a", "#e3e8dc", "#f3ead7", "#fbfaf5"], script: "Great Vibes", serif: "Lora", name: "Ana & Marco", occ: "are getting married", ey: "Together with their families", date: "Saturday, June 12<br>3:00 PM · The Garden Chapel", m: ["leaf", "sparkle", "sparkle", "leaf"], nameSize: 92 },
+  { label: "Midnight debut", c: ["#f4ece0", "#d9b77a", "#2b2f55", "#3a2f55", "#121530"], script: "Pinyon Script", serif: "EB Garamond", name: "Isabella", occ: "Eighteenth Debut", ey: "A night to remember", date: "Friday, March 20<br>7:00 PM · Grand Ballroom", m: ["star", "sparkle", "star", "star"], nameSize: 130, btnInk: "#d9b77a", btnText: "#121530" },
+  { label: "Blush & rose gold", c: ["#4a2e35", "#b76e79", "#f3e1e3", "#fbeee8", "#fffaf9"], script: "Parisienne", serif: "Playfair Display", name: "Baby Sofia", occ: "Christening", ey: "Join us in celebrating", date: "Sunday, May 3<br>10:00 AM · St. Clare Parish", m: ["heart", "rose", "rose", "heart"], nameSize: 100 },
+  { label: "Ocean breeze", c: ["#1f3b4d", "#2f8f9d", "#dcecef", "#f6efe3", "#fbfdfd"], script: "Sacramento", serif: "Josefin Sans", name: "Reyes Family", occ: "Reunion 2027", ey: "Sun, sand & family", date: "Saturday, April 17<br>11:00 AM · Laiya Beach", m: ["shell", "sparkle", "sparkle", "shell"], nameSize: 104 },
+  { label: "Kids' party", c: ["#2d2a4a", "#ff6f59", "#e3f2fd", "#fff3c4", "#fffdf7"], script: "Dancing Script", serif: "Nunito", name: "Liam is 7!", occ: "Birthday Bash", ey: "Come party with", date: "Saturday, Nov 14<br>2:00 PM · Fun Ranch", m: ["balloon", "star", "balloon", "balloon"], nameSize: 100 },
+];
+let lastTheme = -1;
+function applyTheme(i) {
+  if (i === lastTheme) return; lastTheme = i;
+  const th = THEMES[i], s = $("themeScr").style;
+  ["ink", "brand", "soft", "hi", "paper"].forEach((k, j) => s.setProperty("--t-" + k, th.c[j]));
+  $("tName").style.fontFamily = `"${th.script}", cursive`;
+  $("tName").style.fontSize = th.nameSize + "px";
+  $("tName").textContent = th.name;
+  for (const id of ["tOcc", "tDate", "tEy", "tBtn"]) $(id).style.fontFamily = `"${th.serif}", serif`;
+  $("tOcc").textContent = th.occ; $("tEy").textContent = th.ey; $("tDate").innerHTML = th.date;
+  $("tBtn").style.background = th.btnInk || th.c[0]; $("tBtn").style.color = th.btnText || th.c[4];
+  th.m.forEach((m, j) => { const el = $("m" + (j + 1)); el.setAttribute("viewBox", MOTIFS[m].vb); el.innerHTML = MOTIFS[m].d; });
+  $("tLabel").textContent = th.label;
+  $("tDots").innerHTML = [th.c[0], th.c[1], th.c[3]].map(c => `<b style="background:${c}"></b>`).join("");
+}
+
+// gallery tiles
+const TILES = [["#c9a3d1", "#f2c6dc", "cake cutting", "heart"], ["#9fb6e0", "#d8c7ee", "the squad", "star"], ["#f3b6c8", "#f8dfc8", "balloons!", "balloon"], ["#b8d8c8", "#e3d5f0", "surprise!", "sparkle"], ["#d6b0e0", "#f6dde8", "first dance", "butterfly"], ["#f2c9a0", "#f6dde8", "group photo", "rose"]];
+$("galGrid").innerHTML = TILES.map(([a, b, cap, m], i) => `<div class="ph" id="ph${i}" style="background:linear-gradient(135deg,${a},${b})"><svg viewBox="${MOTIFS[m].vb}">${MOTIFS[m].d}</svg><i>${cap}</i></div>`).join("");
+
+function typed(t, a, str, cps = 18) { const n = Math.floor(clamp((t - a) * cps, 0, str.length)); return str.slice(0, n); }
+
+// ---------------- timeline ----------------
+// 0–2.8 hook · 2.8–6.6 envelope · 6.6–9.2 countdown · 9.2–12.4 rsvp · 12.4–14.8 gallery
+// 14.8–17.4 feature chips · 17.4–21.6 themes · 21.6–25 CTA
+const T = 25;
+window.DURATION = T;
+window.seek = function (t) {
+  // decor float
+  [["d1", 0], ["d2", 1.3], ["d3", 2.1], ["d4", 3.3]].forEach(([id, ph]) => set(id, { transform: `translateY(${Math.sin(t * 1.4 + ph) * 14}px) rotate(${Math.sin(t * .9 + ph) * 8}deg)` }));
+
+  // Scene 1: hook
+  const s1 = win(t, 0, 2.9, .01, .4);
+  set("s1", { opacity: s1 });
+  set("hook1", { opacity: p(t, .1, .5, out) * (1 - p(t, 1.5, 1.8) * .65), transform: `translateY(${lerp(40, 0, p(t, .1, .6, out)) - p(t, 1.4, 1.9) * 120}px)` });
+  $("hook1").querySelector(".strike").style.setProperty("--s", p(t, .8, 1.25));
+  set("hook2", { opacity: p(t, 1.6, 2.0, out), transform: `translateY(${lerp(60, 0, p(t, 1.6, 2.1, out)) - 60}px) scale(${lerp(.9, 1, p(t, 1.6, 2.2, back))})` });
+
+  // Phone in/out
+  const phIn = p(t, 2.7, 3.4, out), phOut = p(t, 17.0, 17.4, ease) * 0; // stays through themes
+  const phFinal = p(t, 21.3, 21.9, ease);
+  const phShift = p(t, 14.6, 15.1) * (1 - p(t, 17.0, 17.5));
+  set("phone", {
+    opacity: Math.min(phIn, 1 - phFinal),
+    transform: `translateY(${lerp(900, 0, phIn) + phFinal * 900 + phShift * 1700}px) rotate(${lerp(6, 0, phIn)}deg)`,
+  });
+
+  // labels
+  set("lab1", { opacity: win(t, 2.9, 6.6), transform: `translateY(${lerp(30, 0, p(t, 2.9, 3.4, out))}px)` });
+  set("lab2", { opacity: win(t, 6.6, 9.2), transform: `translateY(${lerp(30, 0, p(t, 6.6, 7.1, out))}px)` });
+  set("lab3", { opacity: win(t, 9.2, 12.4), transform: `translateY(${lerp(30, 0, p(t, 9.2, 9.7, out))}px)` });
+  set("lab4", { opacity: win(t, 12.4, 14.9), transform: `translateY(${lerp(30, 0, p(t, 12.4, 12.9, out))}px)` });
+  set("lab5", { opacity: win(t, 17.3, 21.6), transform: `translateY(${lerp(30, 0, p(t, 17.3, 17.8, out))}px)` });
+
+  // screens
+  set("scrEnv", { opacity: win(t, 2.7, 6.75, .01, .3) });
+  set("scrCount", { opacity: win(t, 6.45, 9.35, .3, .3) });
+  set("scrRsvp", { opacity: win(t, 9.05, 12.55, .3, .3) });
+  set("scrGal", { opacity: win(t, 12.25, 15.1, .3, .01) });
+  set("themeScr", { opacity: p(t, 15.1, 15.12) });
+
+  // envelope: finger tap 3.6, flap opens 3.9–4.5, card rises 4.5–5.4, card fills screen 5.4–6.2
+  const tap = p(t, 3.4, 3.7, out), tapOff = p(t, 3.85, 4.1);
+  set("finger", { opacity: tap * (1 - tapOff), transform: `scale(${lerp(1.4, 1, tap) * lerp(1, .8, p(t, 3.7, 3.85))})` });
+  set("tap", { opacity: 1 - p(t, 3.8, 4.1) });
+  const flap = p(t, 3.9, 4.5);
+  set($("env").querySelector(".flap"), { transform: `rotateX(${flap * 180}deg)`, zIndex: flap > .5 ? 0 : 5, filter: `brightness(${1 - flap * .08})` });
+  $("env").querySelector(".back").style.zIndex = -1;
+  set($("env").querySelector(".seal"), { opacity: 1 - p(t, 3.9, 4.1), transform: `scale(${1 - p(t, 3.9, 4.1) * .4})`, zIndex: 6 });
+  const rise = p(t, 4.5, 5.4, out);
+  set($("env").querySelector(".card"), { transform: `translateY(${-rise * 330}px)` });
+  const fill = p(t, 5.5, 6.2);
+  set("fullcard", { opacity: fill, transform: `scale(${lerp(.55, 1, fill)}) translateY(${lerp(-120, 0, fill)}px)` });
+
+  // countdown: fast ticking
+  const secs = Math.max(0, 25 * 86400 + 4 * 3600 + 12 * 60 + 30 - Math.floor(Math.max(0, t - 6.6) * 9));
+  const pad = n => String(n).padStart(2, "0");
+  $("cd-d").textContent = pad(Math.floor(secs / 86400)); $("cd-h").textContent = pad(Math.floor(secs % 86400 / 3600));
+  $("cd-m").textContent = pad(Math.floor(secs % 3600 / 60)); $("cd-s").textContent = pad(secs % 60);
+  set("gcal", { transform: `scale(${1 - .05 * Math.sin(Math.PI * p(t, 8.0, 8.25, x => x))})` });
+  const ct = p(t, 8.2, 8.5, back);
+  set("calToast", { opacity: clamp(ct), transform: `translateY(${lerp(140, 0, ct)}px)` });
+
+  // RSVP typing
+  const f = [["f1", 9.6, "Maria"], ["f2", 10.0, "Santos"], ["f3", 10.4, "maria@email.com", 34], ["f4", 10.9, "Happy 16th, Chelsea! 💜", 30]];
+  f.forEach(([id, a, s, cps], i) => {
+    $(id).textContent = typed(t, a, s, cps || 18);
+    const next = f[i + 1] ? f[i + 1][1] : 11.7;
+    $("c" + (i + 1)).style.opacity = (t >= a && t < next && Math.floor(t * 4) % 2 === 0) ? 1 : 0;
+  });
+  set("regBtn", { transform: `scale(${1 - .06 * Math.sin(Math.PI * p(t, 11.55, 11.8, x => x))})` });
+  const th = p(t, 11.75, 12.15, back);
+  set("thanks", { opacity: clamp(th * 1.5), transform: `translateY(${lerp(160, 0, th)}px) scale(${lerp(.9, 1, clamp(th))})` });
+
+  // gallery
+  TILES.forEach((_, i) => { const k = p(t, 12.55 + i * .12, 12.95 + i * .12, back); set("ph" + i, { opacity: clamp(k * 1.4), transform: `scale(${lerp(.6, 1, k)})` }); });
+  const gt = p(t, 13.8, 14.1, back);
+  set("galToast", { opacity: clamp(gt), transform: `translateY(${lerp(140, 0, gt)}px)` });
+
+  // feature chips 14.9–17.3
+  set("chips", { opacity: 1 - p(t, 17.0, 17.3) });
+  for (let i = 0; i < 4; i++) { const k = p(t, 15.0 + i * .25, 15.5 + i * .25, out); set("ch" + (i + 1), { opacity: k, transform: `translateX(${lerp(i % 2 ? 260 : -260, 0, k)}px)` }); }
+  set("chips", { top: "380px", visibility: t > 14.8 && t < 17.4 ? "visible" : "hidden" });
+
+  // themes 17.4–21.4: cycle every 0.66s
+  const ti = Math.floor(clamp((t - 17.6) / .64, 0, THEMES.length - 1));
+  applyTheme(ti);
+  const flash = 1 - clamp(((t - 17.6) % .64) / .12);
+  set($("themeScr").querySelector(".tc"), { transform: `translateY(${t > 17.6 && ti > 0 ? lerp(0, 0, 0) : 0}px)`, opacity: t > 17.6 && ti > 0 ? lerp(1, .55, clamp(flash)) : 1 });
+  set("themeName", { opacity: win(t, 17.5, 21.4, .3, .3), transform: `translateY(${lerp(40, 0, p(t, 17.5, 17.9, out))}px)` });
+
+  // CTA 21.6–25
+  const c1 = p(t, 21.7, 22.2, out), c2 = p(t, 22.2, 22.8, back), c3 = p(t, 22.8, 23.3, out), c4 = p(t, 23.2, 23.7, back);
+  set("cta", { opacity: t > 21.5 ? 1 : 0 });
+  set($("cta").querySelector(".l1"), { opacity: c1, transform: `translateY(${lerp(50, 0, c1)}px)` });
+  set($("cta").querySelector(".l2"), { opacity: clamp(c2), transform: `scale(${lerp(.7, 1, c2)})` });
+  set($("cta").querySelector(".types"), { opacity: c3, transform: `translateY(${lerp(40, 0, c3)}px)` });
+  set($("cta").querySelector(".dm"), { opacity: clamp(c4), transform: `scale(${lerp(.8, 1, c4) * (1 + .025 * Math.sin(Math.max(0, t - 23.7) * 6))})` });
+};
+window.seek(new URLSearchParams(location.search).has("t") ? +new URLSearchParams(location.search).get("t") : 0);
+</script>
+</body>
+</html>

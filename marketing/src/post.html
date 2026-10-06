@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Invitation Post</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&family=Great+Vibes&family=Lora&family=Pinyon+Script&family=EB+Garamond&family=Parisienne&family=Playfair+Display&family=Sacramento&family=Josefin+Sans:wght@400;600&family=Dancing+Script:wght@600&family=Nunito:wght@600;800&display=block">
+<style>
+  :root { --ink: #5c3a63; --brand: #9a6aa0; --soft: #e9dcf0; --paper: #fbf6fb; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1350px; overflow: hidden; }
+  body { font-family: "Cormorant Garamond", serif; color: var(--ink); position: relative;
+    background: radial-gradient(640px 480px at 8% 6%, #f6dde8, transparent 70%), radial-gradient(600px 520px at 98% 40%, #e9dcf0, transparent 70%), radial-gradient(560px 480px at 10% 96%, #f0e2f5, transparent 70%), var(--paper); }
+  .slide { position: absolute; inset: 0; display: none; }
+  .eyebrow { font-family: "Jost"; font-weight: 500; letter-spacing: .32em; text-transform: uppercase; color: var(--brand); font-size: 24px; }
+  .script { font-family: "Allura"; color: var(--brand); font-weight: 400; }
+  h1 { font-size: 92px; font-weight: 600; line-height: 1.02; }
+  .foot { position: absolute; left: 70px; right: 70px; bottom: 50px; display: flex; justify-content: space-between; align-items: center; font-family: "Jost"; font-size: 24px; color: var(--brand); letter-spacing: .12em; }
+  .dots { display: flex; gap: 10px; } .dots b { width: 12px; height: 12px; border-radius: 50%; background: #dccbe4; } .dots b.on { background: var(--brand); }
+
+  /* slide 1 */
+  #s1 .txt { position: absolute; left: 70px; top: 110px; width: 470px; }
+  #s1 h1 em { font-family: "Allura"; font-style: normal; font-weight: 400; color: var(--brand); font-size: 140px; display: block; margin-top: 10px; }
+  #s1 p { font-size: 31px; font-style: italic; margin-top: 30px; line-height: 1.35; }
+  #s1 .phone { position: absolute; right: 70px; top: 120px; width: 420px; height: 860px; border-radius: 56px; background: #2b1f2e; padding: 14px; box-shadow: 0 50px 100px -30px rgba(92,58,99,.6); transform: rotate(4deg); }
+  #s1 .phone .scr { width: 100%; height: 100%; border-radius: 44px; overflow: hidden; position: relative; }
+  #s1 .phone img { width: 100%; height: 100%; object-fit: cover; }
+  #s1 .phone .notch { position: absolute; top: 14px; left: 50%; width: 120px; height: 34px; margin-left: -60px; background: #2b1f2e; border-radius: 20px; }
+  #s1 .tags { position: absolute; left: 70px; top: 800px; width: 470px; display: flex; flex-wrap: wrap; gap: 14px; }
+  #s1 .tags span { font-family: "Jost"; font-size: 26px; padding: 14px 26px; border-radius: 999px; background: #fff; border: 2px solid #ead9ef; }
+  #s1 .swipe { position: absolute; right: 70px; top: 1080px; font-family: "Jost"; font-weight: 500; font-size: 30px; color: #fff; background: var(--ink); padding: 22px 40px; border-radius: 999px; }
+
+  /* slide 2 */
+  #s2 .head { position: absolute; left: 70px; right: 70px; top: 90px; text-align: center; }
+  #s2 h1 { font-size: 80px; margin-top: 12px; } #s2 h1 em { font-family: "Allura"; font-style: normal; font-weight: 400; color: var(--brand); font-size: 110px; }
+  #s2 .grid { position: absolute; left: 70px; right: 70px; top: 330px; display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .card { background: rgba(255,255,255,.88); border: 2px solid #ead9ef; border-radius: 30px; padding: 34px 32px; height: 256px; box-shadow: 0 20px 40px -26px rgba(92,58,99,.5); }
+  .card .ic { width: 78px; height: 78px; border-radius: 22px; background: var(--soft); display: grid; place-items: center; }
+  .card .ic svg { width: 44px; height: 44px; color: var(--ink); }
+  .card h3 { font-size: 44px; font-weight: 600; margin-top: 20px; line-height: 1; }
+  .card p { font-family: "Jost"; font-size: 23px; color: #7a5d80; margin-top: 10px; line-height: 1.35; }
+
+  /* slide 3 */
+  #s3 .head { position: absolute; left: 70px; right: 70px; top: 80px; text-align: center; }
+  #s3 h1 { font-size: 80px; margin-top: 12px; } #s3 h1 em { font-family: "Allura"; font-style: normal; font-weight: 400; color: var(--brand); font-size: 110px; }
+  #s3 .grid { position: absolute; left: 70px; right: 70px; top: 330px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .mini { height: 380px; border-radius: 28px; text-align: center; padding: 50px 14px 0; position: relative; overflow: hidden; box-shadow: 0 20px 40px -24px rgba(0,0,0,.35); }
+  .mini .e { font-family: "Jost"; font-size: 13px; letter-spacing: .28em; text-transform: uppercase; }
+  .mini .n { font-size: 60px; line-height: 1.1; margin-top: 30px; white-space: nowrap; }
+  .mini .o { font-size: 26px; margin-top: 8px; }
+  .mini .r { width: 90px; height: 2px; margin: 26px auto; opacity: .5; }
+  .mini .b { margin: 0 auto; width: 150px; height: 44px; border-radius: 999px; display: grid; place-items: center; font-family: "Jost"; font-size: 15px; letter-spacing: .14em; }
+  .mini .lb { position: absolute; left: 0; right: 0; bottom: 18px; font-family: "Jost"; font-size: 17px; font-weight: 500; }
+  #s3 .what { position: absolute; left: 70px; right: 70px; top: 1145px; text-align: center; font-family: "Jost"; font-size: 28px; letter-spacing: .06em; }
+  #s3 .what b { color: var(--brand); font-weight: 500; }
+  #s3 .dm { position: absolute; left: 190px; right: 190px; top: 1205px; height: 90px; border-radius: 999px; background: var(--ink); color: #fff; display: grid; place-items: center; font-family: "Jost"; font-weight: 500; font-size: 32px; }
+</style>
+</head>
+<body>
+
+<section class="slide" id="s1">
+  <div class="txt">
+    <div class="eyebrow">Digital invitations</div>
+    <h1 style="margin-top:20px">Invitations they'll actually <em>open.</em></h1>
+    <p>An interactive invitation website for your celebration. Guests RSVP, count down and share photos, all from one link.</p>
+  </div>
+  <div class="phone"><div class="scr"><img src="assets/invitation-card.jpg" alt=""><div class="notch"></div></div></div>
+  <div class="tags"><span>Envelope reveal</span><span>RSVP</span><span>Countdown</span><span>Photo wall</span><span>Map</span></div>
+  <div class="swipe">Swipe to see more →</div>
+  <div class="foot"><span>FOR BIRTHDAYS · DEBUTS · WEDDINGS</span><span class="dots"><b class="on"></b><b></b><b></b></span></div>
+</section>
+
+<section class="slide" id="s2">
+  <div class="head"><div class="eyebrow">What's inside</div><h1>Everything in <em>one link</em></h1></div>
+  <div class="grid">
+    <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 8l9 6 9-6"/></svg></div><h3>Envelope reveal</h3><p>Opens to show your printed card design</p></div>
+    <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg></div><h3>Live countdown</h3><p>Plus Google, Apple and Outlook calendar buttons</p></div>
+    <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M6 16l9-9 3 3-9 9H6z"/></svg></div><h3>Online RSVP</h3><p>Names, emails and wishes, saved in real time</p></div>
+    <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg></div><h3>Guest photo wall</h3><p>Everyone uploads their snaps to one gallery</p></div>
+    <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><h3>Map &amp; directions</h3><p>Embedded map with a one-tap directions link</p></div>
+    <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><h3>Host guest list</h3><p>Private list and email confirmations to guests</p></div>
+  </div>
+  <div class="foot"><span>WORKS ON ANY PHONE</span><span class="dots"><b></b><b class="on"></b><b></b></span></div>
+</section>
+
+<section class="slide" id="s3">
+  <div class="head"><div class="eyebrow">Fully customised</div><h1>Made in <em>your style</em></h1></div>
+  <div class="grid" id="themes"></div>
+  <div class="what"><b>Colours</b> · <b>Fonts</b> · <b>Wording</b> · <b>Decorations</b> · <b>Your own card</b></div>
+  <div class="dm">DM “INVITE” to get yours ✦</div>
+</section>
+
+<script>
+const TH = [
+  ["Lilac garden", "#5c3a63", "#9a6aa0", "#e9dcf0", "#f6dde8", "#fbf6fb", "Allura", "Cormorant Garamond", "Chelsea", "16th Birthday", "You're invited"],
+  ["Sage & gold", "#2f3d33", "#a8843a", "#e3e8dc", "#f3ead7", "#fbfaf5", "Great Vibes", "Lora", "Ana & Marco", "Wedding", "Save the date"],
+  ["Midnight debut", "#f4ece0", "#d9b77a", "#2b2f55", "#3a2f55", "#121530", "Pinyon Script", "EB Garamond", "Isabella", "18th Debut", "A night to remember", "#d9b77a", "#121530"],
+  ["Blush & rose", "#4a2e35", "#b76e79", "#f3e1e3", "#fbeee8", "#fffaf9", "Parisienne", "Playfair Display", "Baby Sofia", "Christening", "Join us"],
+  ["Ocean breeze", "#1f3b4d", "#2f8f9d", "#dcecef", "#f6efe3", "#fbfdfd", "Sacramento", "Josefin Sans", "Reyes Family", "Reunion", "Sun, sand & family"],
+  ["Kids' party", "#2d2a4a", "#ff6f59", "#e3f2fd", "#fff3c4", "#fffdf7", "Dancing Script", "Nunito", "Liam is 7!", "Birthday Bash", "Come party"],
+];
+document.getElementById("themes").innerHTML = TH.map(([lb, ink, br, soft, hi, paper, sc, se, n, o, e, bi, bt]) => `
+  <div class="mini" style="color:${ink};background:radial-gradient(200px 160px at 10% 8%, ${hi}, transparent 70%),radial-gradient(220px 200px at 95% 60%, ${soft}, transparent 70%),${paper}">
+    <div class="e" style="color:${br}">${e}</div>
+    <div class="n" style="font-family:'${sc}';color:${br};font-size:${n.length > 9 ? 50 : 62}px">${n}</div>
+    <div class="o" style="font-family:'${se}'">${o}</div>
+    <div class="r" style="background:${br}"></div>
+    <div class="b" style="background:${bi || ink};color:${bt || paper};font-family:'${se}'">RSVP</div>
+    <div class="lb" style="color:${br}">${lb}</div>
+  </div>`).join("");
+const s = new URLSearchParams(location.search).get("s") || "1";
+document.getElementById("s" + s).style.display = "block";
+</script>
+</body>
+</html>
