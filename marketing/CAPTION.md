@@ -23,6 +23,6 @@ DM "INVITE" to get yours ✦
 
 ## Story (ig-story-digital-invitation.mp4)
 
-- Add music from the Instagram library. The video is silent on purpose so you can use trending audio.
+- The video comes with an original music-box track (made for this video, so it's safe to post). To use trending audio instead, mute the original sound in the Instagram editor and pick a song.
 - Stickers: a **Link** sticker to your demo site or DM link, placed in the lower third over the "DM INVITE" button (from about 0:22), plus a **Question** sticker that says "What are you celebrating? 🎉".
 - Keep stickers out of the top ~250 px and bottom ~340 px. Those areas are left clear for Instagram's UI.
