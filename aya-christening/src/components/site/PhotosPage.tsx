@@ -24,7 +24,7 @@ export function PhotosPage() {
             <p className="eyebrow">
               {fill(COPY.footerSignature)}
             </p>
-            <h1 className="script mt-2 text-6xl sm:text-7xl">All photos</h1>
+            <h1 className="script foil mt-2 text-6xl sm:text-7xl">All photos</h1>
             <HeartRule className="mt-4" />
             <p className="mt-4 text-lg italic text-ink/80">
               {total === null ? "Loading the memories…" : `${total} photo${total === 1 ? "" : "s"}, newest first.`}

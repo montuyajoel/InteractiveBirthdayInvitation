@@ -6,59 +6,68 @@
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   html,body{margin:0;width:960px;height:1440px}
-  body{font-family:Lora,Georgia,serif;color:#4d2f3c;position:relative;overflow:hidden;
+  body{font-family:Lora,Georgia,serif;color:#4a2832;position:relative;overflow:hidden;
     background:
-      radial-gradient(520px 380px at 10% 6%,#fdeee6,transparent 70%),
-      radial-gradient(520px 420px at 95% 40%,#f7e3ea,transparent 70%),
-      radial-gradient(560px 420px at 20% 100%,#f7e3ea,transparent 70%),
-      radial-gradient(circle at 2px 2px,rgba(169,77,112,.10) 2.6px,transparent 3px) 0 0/40px 40px,
-      #fffafb}
-  .frame{position:absolute;inset:40px;border:3px solid rgba(169,77,112,.55);border-radius:24px}
-  .frame2{position:absolute;inset:58px;border:1px solid rgba(169,77,112,.35);border-radius:16px}
+      radial-gradient(520px 380px at 10% 6%,#fbecdc,transparent 70%),
+      radial-gradient(520px 420px at 95% 40%,#f8e1e6,transparent 70%),
+      radial-gradient(560px 420px at 20% 100%,#f8e1e6,transparent 70%),
+      radial-gradient(circle at 9px 11px,rgba(212,175,55,.55) 1.6px,transparent 2.2px) 0 0/58px 58px,
+      radial-gradient(circle at 40px 44px,rgba(163,90,106,.35) 1.8px,transparent 2.4px) 0 0/78px 78px,
+      radial-gradient(circle at 66px 18px,rgba(212,175,55,.4) 1.2px,transparent 1.8px) 0 0/92px 92px,
+      #fffaf8}
+  .frame{position:absolute;inset:40px;border:4px solid transparent;border-radius:24px;
+    background:linear-gradient(120deg,#c9a24a,#f3dc9a 25%,#b8862f 45%,#e7b9a9 60%,#c9a24a 80%,#f3dc9a) border-box;
+    -webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .frame2{position:absolute;inset:60px;border:1.5px solid rgba(201,162,74,.6);border-radius:16px}
+  .foil{background:linear-gradient(110deg,#a35a6a 0%,#9a6a1f 22%,#c9a24a 32%,#a35a6a 48%,#9c4f62 62%,#9a6a1f 80%,#b8862f 88%,#a35a6a 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;padding:0 .18em .12em;margin:0 -.18em}
+  .gl{position:absolute;width:var(--s);height:var(--s)}
   .c{position:absolute;left:0;right:0;text-align:center}
-  .eyebrow{letter-spacing:.32em;text-transform:uppercase;color:#a94d70;font-size:26px;font-weight:500}
-  .script{font-family:'Great Vibes',cursive;color:#a94d70;line-height:1}
+  .eyebrow{letter-spacing:.32em;text-transform:uppercase;color:#a35a6a;font-size:26px;font-weight:500}
+  .script{font-family:'Great Vibes',cursive;color:#a35a6a;line-height:1}
   svg{position:absolute}
 </style></head><body>
 <div class="frame"></div><div class="frame2"></div>
 
 <!-- mobile -->
 <svg viewBox="0 0 160 130" style="left:330px;top:60px;width:300px">
-  <g stroke="#a94d70" fill="none">
-    <path d="M80 0v14"/><path d="M14 18 Q80 8 146 18" stroke-width="1.4" stroke-linecap="round"/>
+  <g stroke="#a35a6a" fill="none">
+    <path d="M80 0v14"/><path d="M14 18 Q80 8 146 18" stroke="#c9a24a" stroke-width="2" stroke-linecap="round"/>
     <path d="M20 16v36M50 16v60M80 16v42M110 16v66M140 16v34" stroke-opacity=".5" stroke-width=".8"/>
   </g>
-  <circle cx="80" cy="14" r="3" fill="#a94d70" fill-opacity=".5"/>
-  <path transform="translate(20 58)" d="M0-10l2.9 6.1 6.6.8-4.9 4.6 1.3 6.5L0 4.8-5.9 8l1.3-6.5-4.9-4.6 6.6-.8z" fill="#fdeee6" stroke="#a94d70"/>
-  <path transform="translate(50 82)" d="M-10 6h20c4 0 7-3 7-6s-3-6-6-6c-1-4-4-6-8-6-3 0-6 2-7 4-4 0-7 3-7 7 0 4 0 7 1 7z" fill="#fff" stroke="#a94d70"/>
-  <path transform="translate(80 64)" d="M4-10a10 10 0 1 0 6 17A8 8 0 0 1 4-10z" fill="#fdeee6" stroke="#a94d70"/>
-  <path transform="translate(110 88)" d="M0 9s-9-5.5-9-12c0-3.4 2.4-5.5 5.2-5.5 1.6 0 3 .8 3.8 2 .8-1.2 2.2-2 3.8-2C6.6-8.5 9-6.4 9-3 9 3.5 0 9 0 9z" fill="#f3bccd" stroke="#a94d70"/>
-  <path transform="translate(140 56)" d="M0-10l2.9 6.1 6.6.8-4.9 4.6 1.3 6.5L0 4.8-5.9 8l1.3-6.5-4.9-4.6 6.6-.8z" fill="#fdeee6" stroke="#a94d70"/>
+  <circle cx="80" cy="14" r="3.4" fill="#c9a24a"/>
+  <path transform="translate(20 58)" d="M0-10l2.9 6.1 6.6.8-4.9 4.6 1.3 6.5L0 4.8-5.9 8l1.3-6.5-4.9-4.6 6.6-.8z" fill="rgba(212,175,55,.55)" stroke="#b8862f"/>
+  <path transform="translate(50 82)" d="M-10 6h20c4 0 7-3 7-6s-3-6-6-6c-1-4-4-6-8-6-3 0-6 2-7 4-4 0-7 3-7 7 0 4 0 7 1 7z" fill="#fff" stroke="#a35a6a"/>
+  <path transform="translate(80 64)" d="M4-10a10 10 0 1 0 6 17A8 8 0 0 1 4-10z" fill="rgba(212,175,55,.55)" stroke="#b8862f"/>
+  <path transform="translate(110 88)" d="M0 9s-9-5.5-9-12c0-3.4 2.4-5.5 5.2-5.5 1.6 0 3 .8 3.8 2 .8-1.2 2.2-2 3.8-2C6.6-8.5 9-6.4 9-3 9 3.5 0 9 0 9z" fill="#f2b8c6" stroke="#a35a6a"/>
+  <path transform="translate(140 56)" d="M0-10l2.9 6.1 6.6.8-4.9 4.6 1.3 6.5L0 4.8-5.9 8l1.3-6.5-4.9-4.6 6.6-.8z" fill="rgba(212,175,55,.55)" stroke="#b8862f"/>
 </svg>
 
 <!-- clouds -->
-<svg viewBox="0 0 120 60" style="left:70px;top:150px;width:220px"><path d="M24 52h72c11 0 18-7 18-16s-7-16-17-16c-2-10-11-16-21-16-8 0-15 4-19 11-3-2-7-3-11-3-9 0-16 7-17 15C17 26 8 33 8 40c0 7 7 12 16 12z" fill="#fff" stroke="rgba(169,77,112,.3)" stroke-width="1.2"/></svg>
-<svg viewBox="0 0 120 60" style="right:70px;top:250px;width:180px"><path d="M24 52h72c11 0 18-7 18-16s-7-16-17-16c-2-10-11-16-21-16-8 0-15 4-19 11-3-2-7-3-11-3-9 0-16 7-17 15C17 26 8 33 8 40c0 7 7 12 16 12z" fill="#fff" stroke="rgba(169,77,112,.3)" stroke-width="1.2"/></svg>
+<svg viewBox="0 0 120 60" style="left:70px;top:150px;width:220px"><path d="M24 52h72c11 0 18-7 18-16s-7-16-17-16c-2-10-11-16-21-16-8 0-15 4-19 11-3-2-7-3-11-3-9 0-16 7-17 15C17 26 8 33 8 40c0 7 7 12 16 12z" fill="#fff" stroke="rgba(201,162,74,.55)" stroke-width="1.2"/></svg>
+<svg viewBox="0 0 120 60" style="right:70px;top:250px;width:180px"><path d="M24 52h72c11 0 18-7 18-16s-7-16-17-16c-2-10-11-16-21-16-8 0-15 4-19 11-3-2-7-3-11-3-9 0-16 7-17 15C17 26 8 33 8 40c0 7 7 12 16 12z" fill="#fff" stroke="rgba(201,162,74,.55)" stroke-width="1.2"/></svg>
 
 <div class="c eyebrow" style="top:360px">You're invited to the</div>
-<div class="c script" style="top:410px;font-size:150px">Christening</div>
+<div class="c script" style="top:410px;font-size:150px"><span class="foil">Christening</span></div>
 <div class="c eyebrow" style="top:590px;font-size:22px">of our beloved daughter</div>
-<div class="c script" style="top:640px;font-size:132px;color:#4d2f3c">Avrielle Noel</div>
-<div class="c" style="top:800px;font-style:italic;font-size:34px;color:#a94d70">“Aya”</div>
+<div class="c script" style="top:640px;font-size:132px;color:#4a2832">Avrielle <span class="foil">Noel</span></div>
+<div class="c" style="top:800px;font-style:italic;font-size:34px;color:#a35a6a">“Aya”</div>
 
 <!-- dove -->
 <svg viewBox="0 0 80 56" style="left:420px;top:870px;width:120px">
-  <path d="M14 34c8 0 16-2 22-8 4-4 8-6 13-6 4 0 7 2 9 5l7-1-5 5c-2 8-10 14-22 14-8 0-15-3-20-6l-6 4 2-7z" fill="#fff" stroke="#a94d70" stroke-width="1.3" stroke-linejoin="round"/>
-  <path d="M34 28C30 16 34 6 44 2c-2 8 2 12 8 14-6 2-10 6-12 12z" fill="rgba(169,77,112,.12)" stroke="#a94d70" stroke-width="1.3" stroke-linejoin="round"/>
-  <circle cx="56" cy="24" r="1" fill="#a94d70"/>
-  <path d="M65 24c3 2 6 3 10 3" fill="none" stroke="#a9b89a" stroke-width="1.2"/>
-  <ellipse cx="71" cy="23" rx="3" ry="1.4" transform="rotate(-25 71 23)" fill="#a9b89a"/>
-  <ellipse cx="74" cy="29" rx="3" ry="1.4" transform="rotate(25 74 29)" fill="#a9b89a"/>
+  <path d="M14 34c8 0 16-2 22-8 4-4 8-6 13-6 4 0 7 2 9 5l7-1-5 5c-2 8-10 14-22 14-8 0-15-3-20-6l-6 4 2-7z" fill="#fff" stroke="#a35a6a" stroke-width="1.3" stroke-linejoin="round"/>
+  <path d="M34 28C30 16 34 6 44 2c-2 8 2 12 8 14-6 2-10 6-12 12z" fill="rgba(163,90,106,.12)" stroke="#a35a6a" stroke-width="1.3" stroke-linejoin="round"/>
+  <circle cx="56" cy="24" r="1" fill="#a35a6a"/>
+  <path d="M65 24c3 2 6 3 10 3" fill="none" stroke="#c9a24a" stroke-width="1.2"/>
+  <ellipse cx="71" cy="23" rx="3" ry="1.4" transform="rotate(-25 71 23)" fill="#c9a24a"/>
+  <ellipse cx="74" cy="29" rx="3" ry="1.4" transform="rotate(25 74 29)" fill="#c9a24a"/>
 </svg>
 
 <div class="c" style="top:990px;font-size:34px;letter-spacing:.22em;text-transform:uppercase">Sunday · December 20 · 2026</div>
-<div class="c" style="top:1048px;font-size:28px;letter-spacing:.2em;text-transform:uppercase;color:#a94d70">10:00 in the morning</div>
+<div class="c" style="top:1048px;font-size:28px;letter-spacing:.2em;text-transform:uppercase;color:#a35a6a">10:00 in the morning</div>
 <div class="c" style="top:1130px;font-size:36px;letter-spacing:.24em;text-transform:uppercase">Tea Plan</div>
-<div class="c" style="top:1184px;font-size:26px;letter-spacing:.2em;text-transform:uppercase;color:#a94d70">Bacolod City</div>
+<div class="c" style="top:1184px;font-size:26px;letter-spacing:.2em;text-transform:uppercase;color:#a35a6a">Bacolod City</div>
 <div class="c" style="top:1270px;font-style:italic;font-size:28px">Reception to follow</div>
+<!-- sparkles -->
+<svg class="gl" viewBox="0 0 24 24" style="left:120px;top:330px;--s:68px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#c98a96"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:820px;top:380px;--s:56px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:150px;top:900px;--s:52px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:800px;top:880px;--s:76px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#c98a96"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:700px;top:190px;--s:44px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:260px;top:1240px;--s:60px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:740px;top:1250px;--s:48px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#c98a96"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:470px;top:560px;--s:40px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:110px;top:620px;--s:44px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:860px;top:640px;--s:52px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#c98a96"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg>
 </body></html>

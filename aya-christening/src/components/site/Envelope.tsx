@@ -3,9 +3,9 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import invitationCard from "@/assets/invitationCard"
 import { eventTitle } from "@/lib/event"
 import { cn } from "@/lib/utils"
-import { Heart } from "./Decor"
+import { Heart, Sparkle, SparkleBurst } from "./Decor"
 
-/** A blush-pink envelope that opens to reveal the printed invitation. */
+/** A blush-pink envelope with a gold seal that opens to reveal the printed invitation. */
 export function Envelope() {
   const [open, setOpen] = useState(false)
   const [zoom, setZoom] = useState(false)
@@ -66,12 +66,26 @@ export function Envelope() {
         {/* wax seal */}
         <span
           className={cn(
-            "absolute left-1/2 top-[54%] z-20 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-brand text-white shadow-md transition-all duration-300",
+            "gold-seal absolute left-1/2 top-[54%] z-20 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-white ring-2 ring-[#f3dc9a]/70 transition-all duration-300",
             open ? "scale-0 opacity-0" : "group-hover:scale-110",
           )}
         >
           <Heart className="h-6 w-6 text-white" filled />
+          <Sparkle className="absolute -right-2 -top-2 h-4 w-4 animate-twinkle text-gold" />
         </span>
+
+        {/* gold foil edge along the flap */}
+        <span
+          className={cn(
+            "pointer-events-none absolute inset-x-0 top-0 z-10 h-[62%] transition-opacity duration-300",
+            open && "opacity-0",
+          )}
+          style={{
+            clipPath: "polygon(0 0, 100% 0, 50% 100%, 50% 97%, 97% 1.5%, 3% 1.5%, 50% 97%, 50% 100%)",
+            background: "linear-gradient(90deg, #c9a24a, #f3dc9a, #b8862f, #f3dc9a, #c9a24a)",
+          }}
+        />
+        {open && <SparkleBurst className="z-30" />}
       </button>
 
       <p className="mt-4 text-center font-serif italic text-brand">

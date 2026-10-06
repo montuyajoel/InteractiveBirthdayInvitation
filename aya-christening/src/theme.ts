@@ -8,21 +8,22 @@
 
 export const THEME = {
   colors: {
-    ink: "#4d2f3c", // body text, headings, primary buttons
-    brand: "#a94d70", // script titles, labels, icons, links
-    soft: "#f7e3ea", // tinted panels, skeletons, borders' fill
-    highlight: "#fdeee6", // warm wash, hover backgrounds, email call-out
-    paper: "#fffafb", // page background
-    night: "#2a1820", // full-screen photo viewer background
-    foliage: "#a9b89a", // stems / leaves in floral decorations
-    bloom: "#f3bccd", // flower centres and small accents in decorations
+    ink: "#4a2832", // body text, headings, primary buttons
+    brand: "#a35a6a", // rose gold: script titles, labels, icons, links
+    soft: "#f8e1e6", // blush pink panels, skeletons, borders' fill
+    highlight: "#fbecdc", // champagne wash, hover backgrounds, email call-out
+    paper: "#fffaf8", // page background
+    night: "#2a161c", // full-screen photo viewer background
+    foliage: "#c9a24a", // gold: stems, foil lines and sparkles in decorations
+    bloom: "#f2b8c6", // pink: flower centres and small accents in decorations
+    gold: "#d4af37", // bright gold for glitter and foil highlights (decor only, not text)
   },
   // The envelope in the hero (back, front pocket, side folds, top flap).
   envelope: {
-    back: "#f4d9e2",
-    pocket: "#f8e4eb",
-    sides: "#f2d3de",
-    flap: "#eec9d6",
+    back: "#f3d5dc",
+    pocket: "#f8e3e7",
+    sides: "#f1d0d8",
+    flap: "#e9bfc9",
   },
   fonts: {
     script: "Great Vibes", // big decorative titles

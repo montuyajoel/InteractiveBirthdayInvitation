@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { Countdown } from "@/components/site/Countdown"
 import { Directions } from "@/components/site/Directions"
 import { Footer } from "@/components/site/Footer"
+import { GlitterField } from "@/components/site/Decor"
 import { Gallery } from "@/components/site/Gallery"
 import { GuestList } from "@/components/site/GuestList"
 import { Header } from "@/components/site/Header"
@@ -15,11 +16,14 @@ export default function App() {
 
   return (
     <>
+      <GlitterField />
       <Header route={route} />
       {route === "photos" ? (
-        <PhotosPage />
+        <div className="relative z-[1]">
+          <PhotosPage />
+        </div>
       ) : (
-        <main>
+        <main className="relative z-[1]">
           <Hero />
           <Countdown />
           <Rsvp />
@@ -28,7 +32,9 @@ export default function App() {
           <GuestList />
         </main>
       )}
-      <Footer />
+      <div className="relative z-[1]">
+        <Footer />
+      </div>
       <Toaster position="top-center" />
     </>
   )

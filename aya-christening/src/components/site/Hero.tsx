@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { EVENT } from "@/config"
 import { COPY, Title, fill, plainTitle } from "@/lib/copy"
 import { cn } from "@/lib/utils"
-import { BabyMobile, BabysBreath, Cloud, Dove, FloatingBubbles, HeartRule, Star } from "./Decor"
+import { BabyMobile, BabysBreath, Cloud, Dove, FloatingBubbles, HeartRule, Sparkle } from "./Decor"
 import { Envelope } from "./Envelope"
 
 import { eventDateLabel, eventTimeLabel } from "@/lib/event"
@@ -28,10 +28,10 @@ export function Hero() {
       <BabyMobile className="pointer-events-none absolute right-[6%] top-14 hidden w-64 md:block lg:right-[12%]" />
       <Dove className="absolute left-[44%] top-24 hidden h-12 w-16 animate-glide md:block" />
       <Dove className="absolute right-4 top-24 h-9 w-12 animate-glide md:hidden" />
-      <Star className="absolute left-[30%] top-28 h-4 w-4 animate-twinkle" />
-      <Star className="absolute left-[8%] top-[58%] h-5 w-5 animate-twinkle" style={{ animationDelay: "-1s" }} />
-      <Star className="absolute right-[34%] top-[38%] h-3 w-3 animate-twinkle" style={{ animationDelay: "-2s" }} />
-      <Star className="absolute right-[6%] bottom-24 h-4 w-4 animate-twinkle" style={{ animationDelay: "-1.5s" }} />
+      <Sparkle className="absolute left-[30%] top-28 h-6 w-6 animate-twinkle" />
+      <Sparkle className="absolute left-[8%] top-[58%] h-7 w-7 animate-twinkle" style={{ animationDelay: "-1s" }} />
+      <Sparkle className="absolute right-[34%] top-[38%] h-5 w-5 animate-twinkle text-brand" style={{ animationDelay: "-2s" }} />
+      <Sparkle className="absolute right-[6%] bottom-24 h-6 w-6 animate-twinkle" style={{ animationDelay: "-1.5s" }} />
       <BabysBreath className="pointer-events-none absolute -right-4 bottom-0 w-24 -scale-x-100 opacity-90 sm:w-32" />
 
       <div className="mx-auto grid max-w-6xl items-end gap-10 px-4 pb-16 sm:px-6 md:grid-cols-[1.15fr_0.85fr] md:pb-24">
@@ -44,7 +44,7 @@ export function Hero() {
           )}
           <h1
             className={cn(
-              "script mt-1 text-brand",
+              "script foil mt-1",
               // big for short titles ("16th Birthday"), smaller for long ones
               plainTitle(COPY.title).length <= 16
                 ? "text-[5.5rem] sm:text-[8rem]"
@@ -55,7 +55,7 @@ export function Hero() {
           </h1>
           <p className="eyebrow mt-6">{fill(COPY.celebrationFor)}</p>
           <p className="script mt-2 text-7xl text-ink sm:text-8xl">
-            {first} <span className="text-brand">{rest.join(" ")}</span>
+            {first} <span className="foil">{rest.join(" ")}</span>
           </p>
           <HeartRule className="mt-6" />
 

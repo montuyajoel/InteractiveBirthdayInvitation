@@ -21,6 +21,7 @@ module.exports = {
         night: "rgb(var(--c-night) / <alpha-value>)",
         foliage: "rgb(var(--c-foliage) / <alpha-value>)",
         bloom: "rgb(var(--c-bloom) / <alpha-value>)",
+        gold: "rgb(var(--c-gold) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -77,6 +78,20 @@ module.exports = {
           "0%, 100%": { transform: "translate(0, 0) rotate(-4deg)" },
           "50%": { transform: "translate(10px, -14px) rotate(6deg)" },
         },
+        shimmer: {
+          "0%": { backgroundPosition: "200% 50%" },
+          "100%": { backgroundPosition: "-200% 50%" },
+        },
+        glint: {
+          "0%, 70%, 100%": { opacity: "0", transform: "scale(0) rotate(0deg)" },
+          "80%": { opacity: "1", transform: "scale(1) rotate(45deg)" },
+          "90%": { opacity: "0.6", transform: "scale(0.6) rotate(90deg)" },
+        },
+        burst: {
+          "0%": { transform: "translate(-50%, -50%) scale(0)", opacity: "0" },
+          "20%": { opacity: "1" },
+          "100%": { transform: "translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1) rotate(90deg)", opacity: "0" },
+        },
         bob: {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
@@ -113,6 +128,9 @@ module.exports = {
       animation: {
         flutter: "flutter 0.6s ease-in-out infinite",
         drift: "drift 7s ease-in-out infinite",
+        shimmer: "shimmer 7s linear infinite",
+        glint: "glint var(--dur, 4s) ease-in-out infinite",
+        burst: "burst 1.4s ease-out forwards",
         bob: "bob 5s ease-in-out infinite",
         twinkle: "twinkle 3s ease-in-out infinite",
         sway: "sway 6s ease-in-out infinite",
