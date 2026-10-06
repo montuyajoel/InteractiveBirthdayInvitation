@@ -55,6 +55,29 @@
   #s3 .what { position: absolute; left: 70px; right: 70px; top: 1145px; text-align: center; font-family: "Jost"; font-size: 28px; letter-spacing: .06em; }
   #s3 .what b { color: var(--brand); font-weight: 500; }
   #s3 .dm { position: absolute; left: 190px; right: 190px; top: 1205px; height: 90px; border-radius: 999px; background: var(--ink); color: #fff; display: grid; place-items: center; font-family: "Jost"; font-weight: 500; font-size: 32px; }
+  /* slide 4: price list */
+  #s4 .head { position: absolute; left: 70px; right: 70px; top: 72px; text-align: center; }
+  #s4 h1 { font-size: 78px; margin-top: 10px; } #s4 h1 em { font-family: "Allura"; font-style: normal; font-weight: 400; color: var(--brand); font-size: 108px; }
+  #s4 .plans { position: absolute; left: 50px; right: 50px; top: 300px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: start; }
+  .plan { position: relative; background: rgba(255,255,255,.92); border: 2px solid #ead9ef; border-radius: 30px; padding: 34px 22px 28px; height: 650px; box-shadow: 0 24px 44px -28px rgba(92,58,99,.55); }
+  .plan.pop { background: var(--ink); border-color: var(--ink); color: #fff; height: 690px; margin-top: -20px; padding-top: 46px; box-shadow: 0 30px 60px -24px rgba(92,58,99,.8); }
+  .plan .badge { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: #f6dde8; color: var(--ink); font-family: "Jost"; font-weight: 600; font-size: 18px; letter-spacing: .14em; text-transform: uppercase; padding: 9px 20px; border-radius: 999px; }
+  .plan .nm { font-family: "Allura"; font-size: 76px; line-height: 1; color: var(--brand); text-align: center; }
+  .plan.pop .nm { color: #f2d7ea; }
+  .plan .for { font-family: "Jost"; font-size: 18px; text-align: center; color: #8a6a90; margin-top: 8px; min-height: 46px; line-height: 1.3; }
+  .plan.pop .for { color: #e3cfe8; }
+  .plan .pr { font-variant-numeric: lining-nums; text-align: center; font-size: 74px; font-weight: 600; line-height: 1; margin-top: 14px; }
+  .plan .pr small { font-size: 40px; vertical-align: 22px; margin-right: 2px; }
+  .plan .rule { height: 2px; background: currentColor; opacity: .15; margin: 24px 6px 18px; }
+  .plan ul { list-style: none; font-family: "Jost"; font-size: 20px; line-height: 1.3; }
+  .plan li { display: flex; gap: 10px; margin-top: 12px; }
+  .plan li::before { content: "✓"; color: var(--brand); font-weight: 600; flex: none; }
+  .plan.pop li::before { color: #f2b8d6; }
+  .plan li.all { font-weight: 600; }
+  .plan li.all::before { content: "♡"; }
+  #s4 .addons { position: absolute; left: 70px; right: 70px; top: 1020px; text-align: center; font-family: "Jost"; font-size: 22px; line-height: 1.5; color: #6b4e72; }
+  #s4 .addons b { color: var(--brand); font-weight: 600; letter-spacing: .16em; font-size: 18px; display: block; margin-bottom: 4px; }
+  #s4 .dm { position: absolute; left: 190px; right: 190px; top: 1150px; height: 88px; border-radius: 999px; background: var(--ink); color: #fff; display: grid; place-items: center; font-family: "Jost"; font-weight: 500; font-size: 31px; }
 </style>
 </head>
 <body>
@@ -68,7 +91,7 @@
   <div class="phone"><div class="scr"><img src="assets/sample-card.jpg" alt=""><div class="notch"></div></div></div>
   <div class="tags"><span>Envelope reveal</span><span>RSVP</span><span>Countdown</span><span>Photo wall</span><span>Map</span></div>
   <div class="swipe">Swipe to see more →</div>
-  <div class="foot"><span>FOR BIRTHDAYS · DEBUTS · WEDDINGS</span><span class="dots"><b class="on"></b><b></b><b></b></span></div>
+  <div class="foot"><span>FOR BIRTHDAYS · DEBUTS · WEDDINGS</span><span class="dots"><b class="on"></b><b></b><b></b><b></b></span></div>
 </section>
 
 <section class="slide" id="s2">
@@ -83,7 +106,7 @@
     <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12l5 5L20 6"/></svg></div><h3>Email confirmations</h3><p>One tap emails every guest their seat</p></div>
     <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><h3>Calendar invite</h3><p>Date, directions and a .ics file</p></div>
   </div>
-  <div class="foot"><span>WORKS ON ANY PHONE</span><span class="dots"><b></b><b class="on"></b><b></b></span></div>
+  <div class="foot"><span>WORKS ON ANY PHONE</span><span class="dots"><b></b><b class="on"></b><b></b><b></b></span></div>
 </section>
 
 <section class="slide" id="s3">
@@ -91,6 +114,45 @@
   <div class="grid" id="themes"></div>
   <div class="what"><b>Colours</b> · <b>Fonts</b> · <b>Wording</b> · <b>Decorations</b> · <b>Your own card</b></div>
   <div class="dm">DM “INVITE” to get yours ✦</div>
+</section>
+
+<section class="slide" id="s4">
+  <div class="head"><div class="eyebrow">Packages</div><h1>Pick your <em>package</em></h1></div>
+  <div class="plans">
+    <div class="plan">
+      <div class="nm">Basic</div>
+      <div class="for">Simple parties &amp; kids' birthdays</div>
+      <div class="pr"><small>₱</small>1,999</div>
+      <div class="rule"></div>
+      <ul>
+        <li>Envelope reveal</li><li>Countdown + calendar</li><li>Map &amp; directions</li>
+        <li>Online RSVP</li><li>Host guest list</li><li>Preset theme</li><li>1 revision</li><li>Online 1 month after</li>
+      </ul>
+    </div>
+    <div class="plan pop">
+      <div class="badge">Most popular</div>
+      <div class="nm">Classic</div>
+      <div class="for">Debuts, 18ths &amp; sweet sixteens</div>
+      <div class="pr"><small>₱</small>3,499</div>
+      <div class="rule"></div>
+      <ul>
+        <li class="all">Everything in Basic</li><li>Email confirmations</li><li>Guest photo wall</li>
+        <li>Your colours &amp; fonts</li><li>2 revisions</li><li>Online 3 months after</li>
+      </ul>
+    </div>
+    <div class="plan">
+      <div class="nm">Signature</div>
+      <div class="for">Weddings &amp; grand debuts</div>
+      <div class="pr"><small>₱</small>5,499</div>
+      <div class="rule"></div>
+      <ul>
+        <li class="all">Everything in Classic</li><li>Your own .com (1 yr)</li><li>Card designed for you</li>
+        <li>Custom decorations</li><li>3 revisions</li><li>Online 12 months after</li>
+      </ul>
+    </div>
+  </div>
+  <div class="addons"><b>ADD-ONS</b>Rush 48h ₱800 · Card design ₱1,200 · .com domain ₱1,000 · IG teaser video ₱800</div>
+  <div class="dm">DM “INVITE” to book yours ✦</div>
 </section>
 
 <script>

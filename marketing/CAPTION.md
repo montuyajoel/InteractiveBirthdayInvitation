@@ -1,6 +1,6 @@
 # Instagram copy
 
-## Feed post (carousel: ig-post-1.png → ig-post-3.png)
+## Feed post (carousel: ig-post-1.png → ig-post-3.png, then ig-post-4-pricing.png)
 
 Invitations they'll actually open 💌
 
@@ -17,6 +17,8 @@ Skip the paper and the group-chat screenshot. Send your guests one link to an in
 And it's styled your way: colours, fonts, wording, decorations, even your own printed card design. 🎨
 
 Birthdays · Debuts · Weddings · Christenings · Reunions
+
+💜 Packages: Basic ₱1,999 · Classic ₱3,499 · Signature ₱5,499 (swipe to the last slide)
 
 DM "INVITE" to get yours ✦
 
