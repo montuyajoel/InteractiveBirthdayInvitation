@@ -11,7 +11,8 @@ Skip the paper and the group-chat screenshot. Send your guests one link to an in
 📝 Online RSVP, with an email confirmation for each guest
 📸 A photo wall where guests upload their snaps
 📍 Embedded map and one-tap directions
-🔒 A private guest list just for the hosts
+🔒 A private guest list so hosts can see who's coming
+✅ One tap sends every guest a confirmation email with a calendar invite
 
 And it's styled your way: colours, fonts, wording, decorations, even your own printed card design. 🎨
 
@@ -24,5 +25,5 @@ DM "INVITE" to get yours ✦
 ## Story (ig-story-digital-invitation.mp4)
 
 - The video comes with an original music-box track (made for this video, so it's safe to post). To use trending audio instead, mute the original sound in the Instagram editor and pick a song.
-- Stickers: a **Link** sticker to your demo site or DM link, placed in the lower third over the "DM INVITE" button (from about 0:22), plus a **Question** sticker that says "What are you celebrating? 🎉".
+- Stickers: a **Link** sticker to your demo site or DM link, placed in the lower third over the "DM INVITE" button (from about 0:27), plus a **Question** sticker that says "What are you celebrating? 🎉".
 - Keep stickers out of the top ~250 px and bottom ~340 px. Those areas are left clear for Instagram's UI.

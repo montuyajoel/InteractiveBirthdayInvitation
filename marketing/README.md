@@ -2,7 +2,7 @@
 
 | File | Size | Use |
 | --- | --- | --- |
-| `ig-story-digital-invitation.mp4` | 1080×1920, 25 s, 30 fps, with music | Instagram Story / Reel |
+| `ig-story-digital-invitation.mp4` | 1080×1920, 30 s, 30 fps, with music | Instagram Story / Reel |
 | `ig-post-1.png` … `ig-post-3.png` | 1080×1350 | Instagram feed carousel |
 | `CAPTION.md` | | Caption, hashtags and story sticker tips |
 
@@ -13,7 +13,7 @@ The sources are plain HTML in `src/`. The invitation shown is a made-up sample (
 ```bash
 cd marketing/src
 node render.mjs "$PWD/story.html" /tmp/frames 1080 1920 video
-python3 music.py /tmp/music.wav 25
+python3 music.py /tmp/music.wav 30
 ffmpeg -framerate 30 -i /tmp/frames/f%04d.jpg -i /tmp/music.wav -shortest -af loudnorm=I=-16:TP=-1.5 \
   -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 192k ../ig-story-digital-invitation.mp4
 node render.mjs "$PWD/post.html" /tmp/posts 1080 1350 shots "?s=1" "?s=2" "?s=3"

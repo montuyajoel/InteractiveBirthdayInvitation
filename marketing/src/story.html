@@ -101,6 +101,58 @@
   .ph svg { position: absolute; inset: 0; margin: auto; width: 46%; height: 46%; color: rgba(255,255,255,.9); }
   .ph i { position: absolute; left: 14px; bottom: 10px; font-family: "Jost"; font-style: normal; font-size: 17px; color: #fff; letter-spacing: .05em; text-shadow: 0 1px 4px rgba(0,0,0,.25); }
 
+  /* guest list (hosts) */
+  .lockbox { margin-top: 60px; background: #fff; border: 2px solid #ead9ef; border-radius: 28px; padding: 44px 34px; box-shadow: 0 20px 40px -24px rgba(92,58,99,.45); }
+  .lockbox .lk { width: 96px; height: 96px; margin: 0 auto; border-radius: 50%; background: var(--soft); display: grid; place-items: center; }
+  .lockbox .lk svg { width: 50px; height: 50px; color: var(--ink); }
+  .lockbox p { font-size: 32px; font-style: italic; margin-top: 20px; }
+  .pw { margin-top: 24px; height: 80px; border: 2px solid #e2d0ea; border-radius: 16px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .pw b { width: 18px; height: 18px; border-radius: 50%; background: var(--ink); }
+  #glist { position: absolute; left: 36px; right: 36px; top: 300px; }
+  .gstat { display: flex; justify-content: center; gap: 18px; }
+  .gstat div { flex: 1; text-align: center; background: #fff; border: 2px solid #ead9ef; border-radius: 20px; padding: 16px 0; }
+  .gstat b { display: block; font-size: 56px; line-height: 1; font-weight: 600; }
+  .gstat span { font-family: "Jost"; font-size: 16px; letter-spacing: .16em; text-transform: uppercase; color: var(--brand); }
+  .grow { display: flex; align-items: center; gap: 16px; background: #fff; border-radius: 20px; padding: 16px 18px; margin-top: 14px; text-align: left; box-shadow: 0 10px 24px -18px rgba(92,58,99,.5); }
+  .grow .av { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; font-family: "Jost"; font-weight: 600; font-size: 22px; color: #fff; flex: none; }
+  .grow .nm { flex: 1; min-width: 0; }
+  .grow .nm b { display: block; font-size: 30px; font-weight: 600; line-height: 1.1; }
+  .grow .nm i { display: block; font-size: 22px; color: #7a5d80; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .badge { font-family: "Jost"; font-size: 17px; font-weight: 500; padding: 9px 14px; border-radius: 999px; white-space: nowrap; }
+  .badge.no { background: #f3eaf5; color: #8a6a90; }
+  .badge.yes { background: #e2f1e6; color: #3f7a52; }
+
+  /* email */
+  #lockscr { position: absolute; inset: 0; background: linear-gradient(170deg, #b48dc0, #e8c3d8 55%, #f5dfe8); }
+  #lockscr .clock { position: absolute; left: 0; right: 0; top: 150px; text-align: center; color: #fff; font-family: "Jost"; }
+  #lockscr .clock b { display: block; font-size: 150px; font-weight: 400; line-height: 1; }
+  #lockscr .clock span { font-size: 28px; letter-spacing: .04em; }
+  #notif { position: absolute; left: 24px; right: 24px; top: 470px; background: rgba(255,255,255,.92); border-radius: 30px; padding: 22px 24px; display: flex; gap: 18px; box-shadow: 0 20px 40px -16px rgba(60,30,70,.5); }
+  #notif .app { width: 64px; height: 64px; border-radius: 16px; background: var(--ink); display: grid; place-items: center; flex: none; }
+  #notif .app svg { width: 38px; height: 38px; color: #fff; }
+  #notif .meta { font-family: "Jost"; font-size: 19px; color: #8a7590; display: flex; justify-content: space-between; }
+  #notif .ttl { font-family: "Jost"; font-weight: 600; font-size: 23px; margin-top: 4px; color: #3a2840; }
+  #notif .bd { font-family: "Jost"; font-size: 21px; color: #5e4d63; margin-top: 2px; }
+  #mailView { position: absolute; inset: 0; background: #fff; overflow: hidden; }
+  #mailView .bar { position: absolute; left: 0; right: 0; top: 0; height: 130px; padding: 76px 30px 0; background: #fff; z-index: 2; font-family: "Jost"; font-size: 24px; color: var(--brand); border-bottom: 1px solid #f0e6f2; }
+  #mailInner { position: absolute; left: 0; right: 0; top: 130px; padding: 26px 30px; }
+  #mailInner .subj { font-family: "Jost"; font-weight: 600; font-size: 30px; line-height: 1.25; color: #3a2840; }
+  #mailInner .from { display: flex; gap: 14px; align-items: center; margin-top: 18px; font-family: "Jost"; font-size: 20px; color: #8a7590; }
+  #mailInner .from .av { width: 50px; height: 50px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-size: 22px; font-weight: 600; }
+  #mailInner .from b { color: #3a2840; font-weight: 500; display: block; }
+  .mcard { margin-top: 24px; border-radius: 22px; background: linear-gradient(170deg, #f8eef8, #fbf6fb); border: 2px solid #efe3f2; text-align: center; padding: 30px 26px; }
+  .mcard .ey2 { font-family: "Jost"; font-size: 15px; letter-spacing: .3em; text-transform: uppercase; color: var(--brand); }
+  .mcard .ok { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px; background: #e2f1e6; color: #3f7a52; font-family: "Jost"; font-weight: 500; font-size: 22px; padding: 10px 22px; border-radius: 999px; }
+  .mcard .dear { text-align: left; font-size: 28px; margin-top: 24px; line-height: 1.4; }
+  .mcard .det { text-align: left; margin-top: 18px; font-size: 26px; line-height: 1.6; }
+  .mcard .det div { display: flex; gap: 12px; align-items: center; }
+  .mcard .det svg { width: 28px; height: 28px; color: var(--brand); flex: none; }
+  .mcard .btn { height: 70px; font-size: 22px; margin-top: 14px; }
+  .attach { display: flex; gap: 14px; align-items: center; margin-top: 20px; border: 2px solid #efe3f2; border-radius: 18px; padding: 16px 18px; font-family: "Jost"; font-size: 21px; text-align: left; }
+  .attach .ic { width: 52px; height: 52px; border-radius: 12px; background: var(--soft); display: grid; place-items: center; flex: none; }
+  .attach .ic svg { width: 30px; height: 30px; color: var(--ink); }
+  .attach b { display: block; font-weight: 500; color: #3a2840; }
+
   /* feature chips */
   .chips { top: 520px; left: 90px; right: 90px; }
   .chip { display: flex; align-items: center; gap: 28px; background: rgba(255,255,255,.85); border: 2px solid #ead9ef; border-radius: 30px; padding: 30px 36px; margin-bottom: 28px; box-shadow: 0 20px 40px -24px rgba(92,58,99,.45); }
@@ -163,7 +215,9 @@
 <div id="lab2" class="abs center label"><div class="num">02 · SAVE THE DATE</div><div class="t">Live <em>countdown</em></div></div>
 <div id="lab3" class="abs center label"><div class="num">03 · RSVP</div><div class="t">Guests register in <em>seconds</em></div></div>
 <div id="lab4" class="abs center label"><div class="num">04 · MEMORIES</div><div class="t">A shared <em>photo wall</em></div></div>
-<div id="lab5" class="abs center label"><div class="num">05 · CUSTOMISE</div><div class="t">Made in <em>your style</em></div></div>
+<div id="lab6" class="abs center label"><div class="num">05 · FOR THE HOSTS</div><div class="t">See who's <em>coming</em></div></div>
+<div id="lab7" class="abs center label"><div class="num">06 · CONFIRMATIONS</div><div class="t">Every guest gets an <em>email</em></div></div>
+<div id="lab5" class="abs center label"><div class="num">07 · CUSTOMISE</div><div class="t">Made in <em>your style</em></div></div>
 
 <!-- Phone -->
 <div id="phone" class="abs">
@@ -244,6 +298,64 @@
       <div class="toast" id="galToast"><div class="check">✓</div>Photo shared · From Maria</div>
     </div>
 
+    <!-- Guest list screen (hosts) -->
+    <div class="scr" id="scrGuests"><div class="wash"></div>
+      <div class="scr-pad" style="padding-top:110px">
+        <div class="eyebrow" style="font-size:20px">For the hosts</div>
+        <div class="script" style="font-size:88px;margin-top:6px">Guest list</div>
+        <div class="lockbox" id="lockbox">
+          <div class="lk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+          <p>Enter the hosts' password</p>
+          <div class="pw" id="pw"></div>
+          <div class="btn solid" id="unlock" style="margin-top:22px">See who's coming</div>
+        </div>
+      </div>
+      <div id="glist">
+        <div class="gstat"><div><b id="gc1">0</b><span>Coming</span></div><div><b id="gc2">0</b><span>Emailed</span></div></div>
+        <div id="grows"></div>
+        <div class="btn solid" id="sendAll" style="margin-top:22px">Send to 3 not yet invited</div>
+      </div>
+      <div class="toast" id="sentToast"><div class="check">✓</div>3 confirmation emails sent</div>
+    </div>
+
+    <!-- Email screen -->
+    <div class="scr" id="scrMail">
+      <div id="lockscr">
+        <div class="clock"><b>9:41</b><span>Saturday, May 9</span></div>
+        <div id="notif">
+          <div class="app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+          <div style="flex:1">
+            <div class="meta"><span>MAIL</span><span>now</span></div>
+            <div class="ttl">Your seat is confirmed: Amelia's Sweet Sixteen</div>
+            <div class="bd">Dear Maria, we can't wait to celebrate…</div>
+          </div>
+        </div>
+        <div id="finger2" style="position:absolute;left:250px;top:540px;width:90px;height:90px;border-radius:50%;background:rgba(92,58,99,.3);border:4px solid #fff;opacity:0"></div>
+      </div>
+      <div id="mailView">
+        <div class="bar">‹ Inbox</div>
+        <div id="mailInner">
+          <div class="subj">Your seat is confirmed: Amelia's Sweet Sixteen</div>
+          <div class="from"><div class="av">A</div><div><b>Amelia's Sweet Sixteen</b>to Maria</div></div>
+          <div class="mcard">
+            <div class="ey2">You're invited to a</div>
+            <div class="script" style="font-size:80px;margin-top:8px">Sweet Sixteen</div>
+            <div style="font-size:40px;font-style:italic;color:var(--ink)">for Amelia Rose</div>
+            <div class="ok">✓ Your seat is confirmed</div>
+            <div class="dear">Dear Maria,<br>thank you for registering! Here's everything you need:</div>
+            <div class="det">
+              <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Saturday, May 23</div>
+              <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>6:00 PM</div>
+              <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>The Garden Pavilion</div>
+            </div>
+            <div class="btn solid" style="margin-top:22px">Get directions</div>
+            <div class="btn ghost">Add to Google Calendar</div>
+          </div>
+          <div class="attach"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><div><b>invitation.ics</b>For Apple Calendar or Outlook</div></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Theme screen -->
     <div class="scr" id="themeScr">
       <div class="tw"></div>
@@ -263,13 +375,6 @@
   </div>
 </div>
 
-<!-- Feature chips -->
-<div id="chips" class="abs chips">
-  <div class="chip" id="ch1"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div><h3>Map &amp; directions</h3><p>One tap to the venue</p></div></div>
-  <div class="chip" id="ch2"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><div><h3>Private guest list</h3><p>Password-protected, hosts only</p></div></div>
-  <div class="chip" id="ch3"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><div><h3>Email confirmations</h3><p>With calendar invite attached</p></div></div>
-  <div class="chip" id="ch4"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/></svg></div><div><h3>Works on any phone</h3><p>Just share one link</p></div></div>
-</div>
 
 <!-- theme name pill -->
 <div id="themeName" class="abs center"><span class="pill"><span class="dots" id="tDots"></span><span id="tLabel">Lilac garden</span></span></div>
@@ -340,12 +445,15 @@ function applyTheme(i) {
 const TILES = [["#c9a3d1", "#f2c6dc", "cake cutting", "heart"], ["#9fb6e0", "#d8c7ee", "the squad", "star"], ["#f3b6c8", "#f8dfc8", "balloons!", "balloon"], ["#b8d8c8", "#e3d5f0", "party time", "sparkle"], ["#d6b0e0", "#f6dde8", "first dance", "butterfly"], ["#f2c9a0", "#f6dde8", "group photo", "rose"]];
 $("galGrid").innerHTML = TILES.map(([a, b, cap, m], i) => `<div class="ph" id="ph${i}" style="background:linear-gradient(135deg,${a},${b})"><svg viewBox="${MOTIFS[m].vb}">${MOTIFS[m].d}</svg><i>${cap}</i></div>`).join("");
 
+const GUESTS = [["Maria Santos", "Happy 16th, Amelia! 💜", "#b48dc0", 0], ["Joshua Cruz", "Can't wait to dance! 🎉", "#7fa7d6", 1], ["Bea Reyes", "Love you, girl ♡", "#e59ab5", 0], ["Paolo Lim", "See you there!", "#86bfa3", 0], ["Kim Tan", "Best night ever, promise", "#e9b07a", 1]];
+$("grows").innerHTML = GUESTS.map(([n, w, c, sent], i) => `<div class="grow" id="gr${i}"><div class="av" style="background:${c}">${n.split(" ").map(x => x[0]).join("")}</div><div class="nm"><b>${n}</b><i>“${w}”</i></div><span class="badge ${sent ? "yes" : "no"}" id="gb${i}">${sent ? "Emailed ✓" : "Not yet"}</span></div>`).join("");
+
 function typed(t, a, str, cps = 18) { const n = Math.floor(clamp((t - a) * cps, 0, str.length)); return str.slice(0, n); }
 
 // ---------------- timeline ----------------
 // 0–2.8 hook · 2.8–6.6 envelope · 6.6–9.2 countdown · 9.2–12.4 rsvp · 12.4–14.8 gallery
-// 14.8–17.4 feature chips · 17.4–21.6 themes · 21.6–25 CTA
-const T = 25;
+// 14.8–18.5 host guest list · 18.4–22.1 confirmation email · 22–26.2 themes · 26.2–30 CTA
+const T = 30;
 window.DURATION = T;
 window.seek = function (t) {
   // decor float
@@ -359,12 +467,11 @@ window.seek = function (t) {
   set("hook2", { opacity: p(t, 1.6, 2.0, out), transform: `translateY(${lerp(60, 0, p(t, 1.6, 2.1, out)) - 60}px) scale(${lerp(.9, 1, p(t, 1.6, 2.2, back))})` });
 
   // Phone in/out
-  const phIn = p(t, 2.7, 3.4, out), phOut = p(t, 17.0, 17.4, ease) * 0; // stays through themes
-  const phFinal = p(t, 21.3, 21.9, ease);
-  const phShift = p(t, 14.6, 15.1) * (1 - p(t, 17.0, 17.5));
+  const phIn = p(t, 2.7, 3.4, out), phOut = 0;
+  const phFinal = p(t, 25.9, 26.5, ease);
   set("phone", {
     opacity: Math.min(phIn, 1 - phFinal),
-    transform: `translateY(${lerp(900, 0, phIn) + phFinal * 900 + phShift * 1700}px) rotate(${lerp(6, 0, phIn)}deg)`,
+    transform: `translateY(${lerp(900, 0, phIn) + phFinal * 900}px) rotate(${lerp(6, 0, phIn)}deg)`,
   });
 
   // labels
@@ -372,14 +479,18 @@ window.seek = function (t) {
   set("lab2", { opacity: win(t, 6.6, 9.2), transform: `translateY(${lerp(30, 0, p(t, 6.6, 7.1, out))}px)` });
   set("lab3", { opacity: win(t, 9.2, 12.4), transform: `translateY(${lerp(30, 0, p(t, 9.2, 9.7, out))}px)` });
   set("lab4", { opacity: win(t, 12.4, 14.9), transform: `translateY(${lerp(30, 0, p(t, 12.4, 12.9, out))}px)` });
-  set("lab5", { opacity: win(t, 17.3, 21.6), transform: `translateY(${lerp(30, 0, p(t, 17.3, 17.8, out))}px)` });
+  set("lab6", { opacity: win(t, 14.9, 18.45), transform: `translateY(${lerp(30, 0, p(t, 14.9, 15.4, out))}px)` });
+  set("lab7", { opacity: win(t, 18.45, 22.0), transform: `translateY(${lerp(30, 0, p(t, 18.45, 18.95, out))}px)` });
+  set("lab5", { opacity: win(t, 21.95, 26.2), transform: `translateY(${lerp(30, 0, p(t, 21.95, 22.45, out))}px)` });
 
   // screens
   set("scrEnv", { opacity: win(t, 2.7, 6.75, .01, .3) });
   set("scrCount", { opacity: win(t, 6.45, 9.35, .3, .3) });
   set("scrRsvp", { opacity: win(t, 9.05, 12.55, .3, .3) });
-  set("scrGal", { opacity: win(t, 12.25, 15.1, .3, .01) });
-  set("themeScr", { opacity: p(t, 15.1, 15.12) });
+  set("scrGal", { opacity: win(t, 12.25, 15.0, .3, .3) });
+  set("scrGuests", { opacity: win(t, 14.75, 18.6, .3, .3) });
+  set("scrMail", { opacity: win(t, 18.35, 22.4, .3, .01) });
+  set("themeScr", { opacity: p(t, 21.9, 22.25) });
 
   // envelope: finger tap 3.6, flap opens 3.9–4.5, card rises 4.5–5.4, card fills screen 5.4–6.2
   const tap = p(t, 3.4, 3.7, out), tapOff = p(t, 3.85, 4.1);
@@ -419,25 +530,52 @@ window.seek = function (t) {
   const gt = p(t, 13.8, 14.1, back);
   set("galToast", { opacity: clamp(gt), transform: `translateY(${lerp(140, 0, gt)}px)` });
 
-  // feature chips 14.9–17.3
-  set("chips", { opacity: 1 - p(t, 17.0, 17.3) });
-  for (let i = 0; i < 4; i++) { const k = p(t, 15.0 + i * .25, 15.5 + i * .25, out); set("ch" + (i + 1), { opacity: k, transform: `translateX(${lerp(i % 2 ? 260 : -260, 0, k)}px)` }); }
-  set("chips", { top: "380px", visibility: t > 14.8 && t < 17.4 ? "visible" : "hidden" });
+  // host guest list: password 15.2–15.8, unlock 16.0, list 16.3, send-all 17.3
+  const dots = Math.floor(clamp((t - 15.2) / .1, 0, 6));
+  $("pw").innerHTML = "<b></b>".repeat(dots);
+  set("unlock", { transform: `scale(${1 - .06 * Math.sin(Math.PI * p(t, 15.9, 16.1, x => x))})` });
+  const lk = p(t, 16.1, 16.35);
+  set("lockbox", { opacity: 1 - lk, transform: `scale(${1 - lk * .08})` });
+  set("glist", { visibility: t > 16.2 ? "visible" : "hidden" });
+  set($("glist").querySelector(".gstat"), { opacity: p(t, 16.25, 16.5, out) });
+  $("gc1").textContent = Math.round(lerp(0, 12, p(t, 16.3, 16.9, out)));
+  GUESTS.forEach(([, , , sent], i) => {
+    const k = p(t, 16.35 + i * .1, 16.75 + i * .1, back);
+    set("gr" + i, { opacity: clamp(k * 1.4), transform: `translateX(${lerp(120, 0, k)}px)` });
+    const flipAt = sent ? 0 : 17.55 + [0, 0, .15, .3][i];
+    const flipped = sent || t >= flipAt;
+    const b = $("gb" + i);
+    b.className = "badge " + (flipped ? "yes" : "no"); b.textContent = flipped ? "Emailed ✓" : "Not yet";
+    if (!sent) set(b, { transform: `scale(${1 + .18 * Math.sin(Math.PI * p(t, flipAt, flipAt + .25, x => x))})` });
+  });
+  const sentNow = 2 + GUESTS.filter(([, , , s], i) => !s && t >= 17.55 + [0, 0, .15, .3][i]).length;
+  $("gc2").textContent = t > 16.3 ? Math.round(lerp(0, 9, p(t, 16.3, 16.9, out))) + (sentNow - 2) : 0;
+  set("sendAll", { opacity: p(t, 16.8, 17.0), transform: `scale(${1 - .06 * Math.sin(Math.PI * p(t, 17.3, 17.5, x => x))})` });
+  const st = p(t, 17.85, 18.15, back);
+  set("sentToast", { opacity: clamp(st), transform: `translateY(${lerp(140, 0, st)}px)` });
 
-  // themes 17.4–21.4: cycle every 0.66s
-  const ti = Math.floor(clamp((t - 17.6) / .64, 0, THEMES.length - 1));
+  // confirmation email: notification 18.8, tap 19.5, open 19.7, scroll 20.6–21.5
+  const nf = p(t, 18.75, 19.15, back);
+  set("notif", { opacity: clamp(nf), transform: `translateY(${lerp(-160, 0, nf)}px)` });
+  set("finger2", { opacity: p(t, 19.3, 19.45) * (1 - p(t, 19.6, 19.75)), transform: `scale(${lerp(1.3, 1, p(t, 19.3, 19.5, out))})` });
+  const mv = p(t, 19.65, 20.15);
+  set("mailView", { opacity: mv, transform: `translateY(${lerp(500, 0, mv)}px)` });
+  set("mailInner", { transform: `translateY(${-lerp(0, 330, p(t, 20.7, 21.6))}px)` });
+
+  // themes 22–26: cycle every 0.66s
+  const ti = Math.floor(clamp((t - 22.2) / .64, 0, THEMES.length - 1));
   applyTheme(ti);
-  const flash = 1 - clamp(((t - 17.6) % .64) / .12);
-  set($("themeScr").querySelector(".tc"), { transform: `translateY(${t > 17.6 && ti > 0 ? lerp(0, 0, 0) : 0}px)`, opacity: t > 17.6 && ti > 0 ? lerp(1, .55, clamp(flash)) : 1 });
-  set("themeName", { opacity: win(t, 17.5, 21.4, .3, .3), transform: `translateY(${lerp(40, 0, p(t, 17.5, 17.9, out))}px)` });
+  const flash = 1 - clamp(((t - 22.2) % .64) / .12);
+  set($("themeScr").querySelector(".tc"), { transform: `translateY(${t > 22.2 && ti > 0 ? lerp(0, 0, 0) : 0}px)`, opacity: t > 22.2 && ti > 0 ? lerp(1, .55, clamp(flash)) : 1 });
+  set("themeName", { opacity: win(t, 22.1, 26.0, .3, .3), transform: `translateY(${lerp(40, 0, p(t, 22.1, 22.5, out))}px)` });
 
-  // CTA 21.6–25
-  const c1 = p(t, 21.7, 22.2, out), c2 = p(t, 22.2, 22.8, back), c3 = p(t, 22.8, 23.3, out), c4 = p(t, 23.2, 23.7, back);
-  set("cta", { opacity: t > 21.5 ? 1 : 0 });
+  // CTA 26.2–30
+  const c1 = p(t, 26.3, 26.8, out), c2 = p(t, 26.8, 27.4, back), c3 = p(t, 27.4, 27.9, out), c4 = p(t, 27.8, 28.3, back);
+  set("cta", { opacity: t > 26.1 ? 1 : 0 });
   set($("cta").querySelector(".l1"), { opacity: c1, transform: `translateY(${lerp(50, 0, c1)}px)` });
   set($("cta").querySelector(".l2"), { opacity: clamp(c2), transform: `scale(${lerp(.7, 1, c2)})` });
   set($("cta").querySelector(".types"), { opacity: c3, transform: `translateY(${lerp(40, 0, c3)}px)` });
-  set($("cta").querySelector(".dm"), { opacity: clamp(c4), transform: `scale(${lerp(.8, 1, c4) * (1 + .025 * Math.sin(Math.max(0, t - 23.7) * 6))})` });
+  set($("cta").querySelector(".dm"), { opacity: clamp(c4), transform: `scale(${lerp(.8, 1, c4) * (1 + .025 * Math.sin(Math.max(0, t - 28.3) * 6))})` });
 };
 window.seek(new URLSearchParams(location.search).has("t") ? +new URLSearchParams(location.search).get("t") : 0);
 </script>

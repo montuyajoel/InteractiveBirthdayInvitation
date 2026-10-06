@@ -10,7 +10,7 @@ import wave
 import numpy as np
 
 SR = 44100
-BPM = 126
+BPM = 136
 BEAT = 60 / BPM
 
 NOTES = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
@@ -73,7 +73,7 @@ def render(seconds):
         L[i:j] += sig[: j - i] * gain * (1 - pan)
         R[i:j] += sig[: j - i] * gain * (1 + pan)
 
-    bars = PHRASE_A + PHRASE_B + PHRASE_A + ENDING
+    bars = PHRASE_A + PHRASE_B + PHRASE_A + PHRASE_B + ENDING
     for b, bar in enumerate(bars):
         t0 = b * 4 * BEAT
         chord = "C" if b == len(bars) - 1 else PROG[b % 4]
