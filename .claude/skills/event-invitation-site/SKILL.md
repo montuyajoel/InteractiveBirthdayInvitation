@@ -1,0 +1,129 @@
+---
+name: event-invitation-site
+description: Build a complete interactive invitation website for an event (birthday, debut, 18th, wedding, baptism, anniversary, reunion, party) from a proven template. Hero with an envelope that opens to the printed card, countdown and add-to-calendar, guest registration saved to Supabase, photo gallery where guests upload photos (resized under 1 MB) plus an all-photos page, embedded map and directions, a password-protected guest list for the hosts, and host-sent confirmation emails through Gmail on Vercel. Features stay the same; colours, fonts, wording and decorations change per event. Use this whenever someone wants an invitation site, RSVP page, event website or "a page guests can register on", even if they only say something like "make an invite website for my daughter's 18th" or hand you a printed invitation design.
+---
+
+# Event invitation site
+
+This skill turns `assets/template/` (React + Vite + Tailwind + shadcn/ui, with a
+Vercel serverless function for email) into a new event's site. All event
+specifics live in three places, so a new event never needs code surgery:
+
+| What | Where |
+| --- | --- |
+| Event facts (names, date/time zone, venue, map) and **all wording** | `src/config.ts` → `EVENT`, `COPY` |
+| Colours, envelope shades, fonts | `src/theme.ts` → `THEME` (used by the site *and* the email) |
+| The printed invitation image | `src/assets/invitationCard.ts` + `public/email/invitation-card.jpg` |
+
+`scripts/new_event.py` copies the template and fills all three from one
+`event.json`. Decorations (flowers, butterflies, hearts) live in
+`src/components/site/Decor.tsx` and are the main thing to redraw for a
+different motif.
+
+## Workflow
+
+### 1. Gather the event details
+
+Ask only for what's missing, in one round. You need:
+
+- who it's for (full name + the short name used in sentences) and the occasion
+- date, start time, **time zone** and rough duration
+- venue name, street address, and a Google Maps link (or coordinates)
+- whether it's a **surprise** (turns on the "Shhh…" wording everywhere)
+- optional: arrive-by time, the printed invitation image, preferred colours
+
+Never invent dates, addresses or times: they end up in calendar invites and
+emails. Check that the weekday printed on their card matches the date (a
+reused design once said "Friday, October 31" for a year where it was a
+Saturday); point out a mismatch rather than silently picking one.
+
+### 2. Choose the design
+
+If they give a printed card, take the design from it: read the image, and
+pull its palette with
+`convert card.jpg -resize 64x64 -colors 8 -format "%c" histogram:info:`.
+Map the colours to roles (ink = darkest readable text, brand = the card's
+accent/lettering colour, soft/highlight = pale washes, paper = background).
+Pick a script + serif font pair from Google Fonts that echoes the card's
+lettering. Otherwise start from a preset in `references/design.md`.
+Read `references/design.md` before changing decorations or layout: it covers
+the token roles, contrast targets, motif swaps and what not to break.
+
+### 3. Generate the site
+
+```bash
+python3 <skill>/scripts/new_event.py --example > event.json   # start from the example
+# edit event.json (only include keys you want to change)
+python3 <skill>/scripts/new_event.py --dest ./<event-folder> --spec event.json --card card.jpg
+```
+
+The script rejects unknown keys (so typos fail loudly), validates the start
+time format (`2027-04-24T15:30:00+08:00`, local time with its UTC offset) and
+refuses secrets in the Supabase sections. Without `--card` it draws a
+placeholder card in the event's colours.
+
+Wording placeholders: `{name}` (short name), `{honoree}`, `{time}`, `{date}`;
+`^th^` makes a superscript in titles ("18^th^ Birthday"). Set
+`copy.surprise: false` for non-secret events: the countdown shows
+`saveTheDate` instead and the surprise lines disappear from the site and email.
+
+Then adapt what config can't express: redraw `Decor.tsx` motifs if the theme
+calls for it (e.g. leaves for a garden wedding, stars for a debut), and adjust
+the sample gallery captions in `src/lib/gallery.ts`.
+
+### 4. Verify before showing anyone
+
+```bash
+cd <event-folder> && pnpm install          # npm can't install into a pnpm tree
+npx tsc -p tsconfig.app.json --noEmit      # site
+npx tsc -p tsconfig.api.json               # email function
+npx vite build
+```
+
+Then screenshot desktop (1280 px) and mobile (390 px) with Playwright, and
+open the envelope, submit the form empty and filled, and open the gallery
+lightbox. Headless Chromium behind a proxy may not load Google Fonts; pass
+`ignoreHTTPSErrors: true` and don't judge typography from a fallback font.
+Render the invitation email too (bundle `api/_lib/invitationEmail.ts` with
+esbuild and write `invitationEmail(guest, siteUrl).html` to a file), with
+`surprise` both on and off. `references/troubleshooting.md` lists the
+problems this template has hit before and how they were fixed.
+
+Show the user screenshots (and a single-file preview if the
+web-artifacts-builder skill is available: run its `bundle-artifact.sh` in
+the event folder) **before** pushing, and wait for their go-ahead when they
+ask to review first.
+
+### 5. Connect the backend
+
+Walk the user through `references/setup.md`: Supabase SQL (registrations,
+gallery bucket policies, password-protected guest list, invitation
+tracking), Vercel project settings and environment variables, and the Gmail
+app password. They run the SQL and set secrets themselves; you never need,
+and should never store, their database password or secret keys.
+
+## Security rules (why they matter)
+
+- **Only public keys in the site.** Everything in `src/` ships to every
+  visitor. Use the anon/publishable Supabase key; secret keys are rejected by
+  Supabase from browsers anyway ("Forbidden use of secret API key").
+- **The hosts' password is checked in the database**, never in the browser:
+  `guest_list(passcode)` is a `SECURITY DEFINER` function comparing against a
+  bcrypt hash in a private schema. Keep the real password out of the repo:
+  the SQL file says `YOUR_PASSWORD` and the user replaces it when running it.
+- **Guests can insert, never read.** Registrations are insert-only for
+  `anon`; the email function re-checks the password and only emails
+  registered addresses, so it can't be used to spam.
+- If a user pastes a password or connection string into the chat, don't put
+  it anywhere in the project, and suggest they rotate it.
+
+## Feature map (for orientation when editing)
+
+- `Hero.tsx` + `Envelope.tsx`: title block and opening envelope; `Countdown.tsx`: timer + calendar buttons
+- `Rsvp.tsx`: registration form (react-hook-form + zod) → `lib/registrations.ts`
+- `Gallery.tsx`, `PhotosPage.tsx` (`#/photos`), `PhotoUpload.tsx` → `lib/gallery.ts`, `lib/resizeImage.ts`
+- `Directions.tsx`: Google Maps embed + links; `GuestList.tsx`: hosts' list + send buttons
+- `api/send-invitations.ts` + `api/_lib/invitationEmail.ts`: Gmail sending and the email itself
+- `lib/event.ts`: date labels, calendar links, `.ics`, `fill()`; shared by site and email
+- Without Supabase keys every feature still works in **preview mode** (RSVPs in
+  localStorage, sample gallery), which is handy for demos.

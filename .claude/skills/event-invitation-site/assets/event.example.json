@@ -1,0 +1,67 @@
+{
+  "_comment": "Example spec for scripts/new_event.py. Every key is optional; omitted keys keep the template default. Placeholders in copy: {name} {honoree} {time} {date}; ^th^ = superscript.",
+  "event": {
+    "id": "maya-daniel-2027",
+    "honoree": "Maya & Daniel",
+    "honoreeShort": "Maya & Daniel",
+    "start": "2027-04-24T15:30:00+08:00",
+    "timeZone": "Asia/Manila",
+    "timeZoneLabel": "Philippine time",
+    "durationHours": 6,
+    "venue": "Casa Verde Gardens",
+    "address": "12 Acacia Lane, Tagaytay City",
+    "arriveBy": "3:00 PM",
+    "mapsShareUrl": "https://maps.google.com/?q=Casa+Verde+Gardens+Tagaytay",
+    "mapsQuery": "Casa Verde Gardens, Tagaytay"
+  },
+  "copy": {
+    "pageTitle": "{honoree} · Wedding",
+    "metaDescription": "Join us as {honoree} say I do.",
+    "logo": "M & D",
+    "logoAccent": "",
+    "invitedLine": "Together with their families",
+    "kicker": "",
+    "title": "We're getting married",
+    "celebrationFor": "The wedding of",
+    "intro": "We would be honoured to have you with us as we begin our forever: a garden ceremony followed by dinner and dancing.",
+    "eventTitle": "The Wedding of {honoree}",
+    "footerSignature": "{honoree}",
+    "footerLine": "With love and gratitude",
+    "surprise": false,
+    "saveTheDate": "Save the date",
+    "rsvpEyebrow": "Kindly reply",
+    "rsvpTitle": "RSVP",
+    "rsvpIntro": "Please let us know you're coming, and leave the two of us a few words of advice or a wish.",
+    "wishLabel": "Wishes for the couple",
+    "wishPlaceholder": "Dear Maya and Daniel…",
+    "wishRequired": "Leave a few words for the couple",
+    "thankYou": "We've saved you a seat. See you on {date}!",
+    "arriveTip": "The ceremony starts at {time} sharp; please be seated a little early.",
+    "arriveByNote": "The ceremony starts promptly",
+    "emailFromName": "Maya & Daniel",
+    "emailIntro": "Thank you for your RSVP: your seat is confirmed! We can't wait to celebrate with you.",
+    "emailWishLabel": "Your wish for us"
+  },
+  "gallery": {
+    "bucket": "wedding_photos",
+    "folder": "guests"
+  },
+  "theme": {
+    "colors": {
+      "ink": "#2f3d33",
+      "brand": "#a8843a",
+      "soft": "#e3e8dc",
+      "highlight": "#f3ead7",
+      "paper": "#fbfaf5",
+      "night": "#1d241f",
+      "foliage": "#7d9070",
+      "bloom": "#e9d9b0"
+    },
+    "envelope": { "back": "#dfe5d6", "pocket": "#e8ede1", "sides": "#d9e0cf", "flap": "#cfd8c3" },
+    "fonts": {
+      "script": "Great Vibes",
+      "serif": "Lora",
+      "googleFontsUrl": "https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    }
+  }
+}
