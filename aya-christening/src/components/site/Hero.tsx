@@ -5,19 +5,10 @@ import { COPY, Title, fill, plainTitle } from "@/lib/copy"
 import { cn } from "@/lib/utils"
 import { Balloons, Bow, Butterfly, Cross, FloatingBalloons, FloralSpray, HeartRule, Sparkle, garland } from "./Decor"
 import { Envelope } from "./Envelope"
-import ayaPhoto1 from "@/assets/aya-photo-1.jpg"
-import ayaPhoto2 from "@/assets/aya-photo-2.jpg"
 
 import { eventDateLabel, eventTimeLabel } from "@/lib/event"
 
 export { eventDateLabel, eventTimeLabel }
-
-// Photos of Aya shown in the arch; `position` keeps her face in the part of
-// the arch that the envelope doesn't cover.
-const PHOTOS = [
-  { src: ayaPhoto1, position: "44% 30%" },
-  { src: ayaPhoto2, position: "40% 20%" },
-]
 
 // Garlands wrapping the arch: up its left side and over the top, and a
 // cluster at its right foot (coordinates in the arch's 400 x 560 box).
@@ -112,24 +103,10 @@ export function Hero() {
 
         {/* the envelope, set in a dusty-rose arch dressed with balloons and flowers */}
         <div className="relative mx-auto flex min-h-[560px] w-full max-w-[400px] flex-col justify-end md:min-h-[640px]">
-          <div className="pointer-events-none absolute inset-x-4 bottom-12 top-6 sm:inset-x-6" role="img" aria-label={`Photos of baby ${EVENT.honoreeShort}`}>
+          <div className="pointer-events-none absolute inset-x-4 bottom-12 top-6 sm:inset-x-6" aria-hidden>
             <div className="absolute inset-0 rounded-t-full bg-[linear-gradient(180deg,#e2bfc0,#cfa1a5)] shadow-[0_24px_50px_-28px_rgb(var(--c-ink)/0.6)]" />
             <div className="absolute inset-x-[7%] bottom-0 top-[5%] rounded-t-full border-2 border-white/35" />
-            {/* Aya's photos inside the arch, gently crossfading */}
-            <div className="absolute inset-x-[14%] bottom-0 top-[10%] overflow-hidden rounded-t-full bg-[linear-gradient(180deg,#f8eee6,#f1e1d6)] ring-1 ring-gold/60">
-              {PHOTOS.map((p, i) => (
-                <img
-                  key={p.src}
-                  src={p.src}
-                  alt=""
-                  className="absolute inset-0 h-full w-full animate-photo-swap object-cover"
-                  style={{ objectPosition: p.position, animationDelay: `${i * -8}s` }}
-                />
-              ))}
-              {/* soft ivory veil at the bottom so the envelope sits on light, not on the photo */}
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#f8eee6] to-transparent" />
-              <div className="absolute inset-0 rounded-t-full shadow-[inset_0_0_24px_rgb(var(--c-ink)/0.18)]" />
-            </div>
+            <div className="absolute inset-x-[14%] bottom-0 top-[10%] rounded-t-full bg-[linear-gradient(180deg,#f8eee6,#f1e1d6)] ring-1 ring-gold/60" />
             <div className="absolute -bottom-3 -inset-x-3 h-5 rounded-[50%] bg-[#d7aeb0]/70" />
           </div>
           <Balloons

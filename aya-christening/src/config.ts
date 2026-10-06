@@ -51,6 +51,10 @@ export const COPY = {
   surpriseReminder: "Remember: not a word to {name}!",
   saveTheDate: "Save the date", // countdown headline when surprise is false
 
+  milestonesEyebrow: "Watch me grow",
+  milestonesTitle: "{name}'s first months",
+  milestonesIntro: "A little peek at how {name} has grown, one month at a time, on the way to her christening.",
+
   rsvpEyebrow: "Kindly register",
   rsvpTitle: "Join us",
   rsvpIntro: "Let us know you're coming so we can save you a seat, and leave a blessing for {name} to read when she's older.",

@@ -93,11 +93,6 @@ module.exports = {
           "20%": { opacity: "1" },
           "100%": { transform: "translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1) rotate(90deg)", opacity: "0" },
         },
-        "photo-swap": {
-          "0%": { opacity: "0", transform: "scale(1.04)" },
-          "6%, 44%": { opacity: "1" },
-          "50%, 100%": { opacity: "0", transform: "scale(1.12)" },
-        },
         bob: {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
@@ -137,7 +132,6 @@ module.exports = {
         shimmer: "shimmer 7s linear infinite",
         glint: "glint var(--dur, 4s) ease-in-out infinite",
         burst: "burst 1.4s ease-out forwards",
-        "photo-swap": "photo-swap 16s ease-in-out infinite",
         bob: "bob 5s ease-in-out infinite",
         twinkle: "twinkle 3s ease-in-out infinite",
         sway: "sway 6s ease-in-out infinite",
