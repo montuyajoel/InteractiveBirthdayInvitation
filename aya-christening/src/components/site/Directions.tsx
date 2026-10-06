@@ -3,7 +3,8 @@ import { Check, Copy, MapPin, Navigation, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { EVENT } from "@/config"
 import { COPY, fill } from "@/lib/copy"
-import { Butterfly, SectionTitle } from "./Decor"
+import { Butterfly, Cross, SectionTitle } from "./Decor"
+import { churchName } from "@/lib/event"
 
 const q = encodeURIComponent(EVENT.mapsQuery)
 const embedUrl = `https://www.google.com/maps?q=${q}&output=embed`
@@ -14,7 +15,7 @@ export function Directions() {
 
   async function copyVenue() {
     try {
-      await navigator.clipboard.writeText(`${EVENT.venue} — ${EVENT.mapsShareUrl}`)
+      await navigator.clipboard.writeText(`${EVENT.venue} (${COPY.receptionLabel.toLowerCase()}) — ${EVENT.mapsShareUrl}`)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
@@ -44,8 +45,16 @@ export function Directions() {
             <div className="flex items-start gap-3">
               <MapPin className="mt-1 h-6 w-6 shrink-0 text-brand" aria-hidden />
               <div>
-                <p className="eyebrow">The venue</p>
+                <p className="eyebrow">{COPY.receptionLabel}</p>
                 <p className="mt-1 text-3xl text-ink">{EVENT.venue}</p>
+                {EVENT.address && <p className="mt-1 text-brand">{EVENT.address}</p>}
+              </div>
+            </div>
+            <div className="mt-6 flex items-start gap-3">
+              <Cross className="mt-1 h-6 w-5 shrink-0" />
+              <div>
+                <p className="eyebrow">{COPY.churchLabel}</p>
+                <p className={EVENT.church ? "mt-1 text-2xl text-ink" : "mt-1 text-xl italic text-ink/80"}>{churchName}</p>
               </div>
             </div>
 

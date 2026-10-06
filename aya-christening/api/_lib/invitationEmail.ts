@@ -5,6 +5,7 @@ import { THEME } from "../../src/theme.js"
 import {
   directionsUrl,
   eventDateLongLabel,
+  churchName,
   eventLocation,
   eventTimeLabel,
   eventTitle,
@@ -60,6 +61,9 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
   const site = siteUrl.replace(/\/$/, "")
 
   const venue = [
+    `<span style="font-size:13px;color:${C.brand};">${escapeHtml(COPY.churchLabel)}</span>`,
+    `<strong style="font-weight:normal;">${escapeHtml(churchName)}</strong>`,
+    `<span style="display:inline-block;margin-top:8px;font-size:13px;color:${C.brand};">${escapeHtml(COPY.receptionLabel)}</span>`,
     `<strong style="font-weight:normal;">${escapeHtml(EVENT.venue)}</strong>`,
     EVENT.address ? `<span style="font-size:14px;color:${C.brand};">${escapeHtml(EVENT.address)}</span>` : "",
   ]

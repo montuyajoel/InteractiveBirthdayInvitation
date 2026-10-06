@@ -36,7 +36,13 @@ export function fill(text: string): string {
 export const plainTitle = (text: string) => fill(text).replace(/\^(.*?)\^/g, "$1")
 
 export const eventTitle = plainTitle(COPY.eventTitle)
-export const eventLocation = [EVENT.venue, EVENT.address].filter(Boolean).join(", ")
+/** The church, or "Church to be announced" while it isn't set. */
+export const churchName = EVENT.church || fill(COPY.churchTba)
+const reception = [EVENT.venue, EVENT.address].filter(Boolean).join(", ")
+/** For calendar invites and the plain-text email: church, then reception. */
+export const eventLocation = EVENT.church
+  ? `${EVENT.church}; ${COPY.receptionLabel.toLowerCase()} at ${reception}`
+  : `${reception} (${COPY.receptionLabel.toLowerCase()}); ${fill(COPY.churchTba).toLowerCase()}`
 export const directionsUrl = EVENT.mapsShareUrl
 
 const end = () => new Date(EVENT.start.getTime() + EVENT.durationHours * 3600_000)
@@ -56,7 +62,7 @@ export function googleCalendarUrl() {
 }
 
 // RFC 5545 text escaping
-const esc = (v: string) => v.replace(/\\/g, "\\\\").replace(/;/g, "\;").replace(/,/g, "\\,").replace(/\n/g, "\\n")
+const esc = (v: string) => v.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n")
 
 export function icsContent() {
   return [

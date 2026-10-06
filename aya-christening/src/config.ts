@@ -13,17 +13,22 @@ export const EVENT = {
   timeZone: "Asia/Manila", // IANA name, used for labels and calendar invites
   timeZoneLabel: "Philippine time",
   durationHours: 4,
-  venue: "Tea Plan",
+  // The church where the christening takes place. Leave "" while it isn't
+  // decided: the site and emails then say "Church to be announced".
+  church: "",
+  // The reception. The map, directions and calendar pin point here.
+  venue: "Montuya's Residence",
   // Street and city, shown under the venue in emails and calendar invites.
   // Leave "" to show just the venue name.
-  address: "Bacolod City, Negros Occidental",
+  address: "",
   // e.g. "4:30 PM". Leave "" to leave it out of the email.
   arriveBy: "",
   // Pinned location shared from Google Maps (the "Share" link).
-  mapsShareUrl: "https://maps.google.com/?q=Tea+Plan+Bacolod",
+  // 10°37'49.5"N 122°57'48.5"E
+  mapsShareUrl: "https://maps.google.com/?q=10.630417,122.963472",
   // Used for the embedded map and the "Get directions" link. Coordinates
   // ("14.5995,120.9842") pin the exact spot; a name is searched instead.
-  mapsQuery: "Tea Plan, Bacolod City",
+  mapsQuery: "10.630417,122.963472",
 }
 
 // All the wording on the site and in the email. Placeholders:
@@ -60,6 +65,10 @@ export const COPY = {
   sponsorHint: "Tick this if you'd like to stand as a godparent at the christening. We'll get in touch with the details.",
   sponsorThanks: "Thank you for offering to be {name}'s Ninong / Ninang. We'll be in touch with the details.",
   emailSponsorNote: "Thank you for offering to be {name}'s Ninong / Ninang! We'll get in touch with the details before the christening.",
+
+  churchLabel: "Christening", // shown before the church name
+  churchTba: "Church to be announced",
+  receptionLabel: "Reception",
 
   rsvpEyebrow: "Kindly register",
   rsvpTitle: "Join us",

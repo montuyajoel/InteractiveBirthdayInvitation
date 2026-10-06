@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import { Balloons, Bow, Butterfly, Cross, FloatingBalloons, FloralSpray, HeartRule, Sparkle, garland } from "./Decor"
 import { Envelope } from "./Envelope"
 
-import { eventDateLabel, eventTimeLabel } from "@/lib/event"
+import { churchName, eventDateLabel, eventTimeLabel } from "@/lib/event"
 
 export { eventDateLabel, eventTimeLabel }
 
@@ -79,9 +79,16 @@ export function Hero() {
             </div>
             <div className="flex items-start gap-3">
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-brand" aria-hidden />
-              <div>
+              <div className="grid gap-2">
                 <dt className="sr-only">Where</dt>
-                <dd className="uppercase tracking-[0.2em] text-ink">{EVENT.venue}</dd>
+                <dd>
+                  <span className="block text-sm uppercase tracking-[0.2em] text-brand">{COPY.churchLabel}</span>
+                  <span className="uppercase tracking-[0.2em] text-ink">{churchName}</span>
+                </dd>
+                <dd>
+                  <span className="block text-sm uppercase tracking-[0.2em] text-brand">{COPY.receptionLabel}</span>
+                  <span className="uppercase tracking-[0.2em] text-ink">{EVENT.venue}</span>
+                </dd>
               </div>
             </div>
           </dl>
