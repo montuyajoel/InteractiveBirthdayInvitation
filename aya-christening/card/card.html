@@ -1,73 +1,79 @@
 <!doctype html>
-<!-- Source of the invitation card image (src/assets/invitation-card.jpg).
-     To change it: edit here, then render at 960x1440 and install with
-     scripts/new_event.py's install_card (see README "Invitation card"). -->
+<!-- Source of the invitation card image (src/assets/invitation-card.jpg),
+     styled after an arch-top welcome sign with a balloon garland.
+     To change it: edit here, render at 960x1440 (e.g. a Playwright
+     screenshot), then install it with the skill's install_card(). -->
 <html><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
 <style>
   html,body{margin:0;width:960px;height:1440px}
-  body{font-family:Lora,Georgia,serif;color:#4a2832;position:relative;overflow:hidden;
+  body{font-family:'Cormorant Garamond',Georgia,serif;color:#4f3426;position:relative;overflow:hidden;font-variant-numeric:lining-nums;
     background:
-      radial-gradient(520px 380px at 10% 6%,#fbecdc,transparent 70%),
-      radial-gradient(520px 420px at 95% 40%,#f8e1e6,transparent 70%),
-      radial-gradient(560px 420px at 20% 100%,#f8e1e6,transparent 70%),
-      radial-gradient(circle at 9px 11px,rgba(212,175,55,.55) 1.6px,transparent 2.2px) 0 0/58px 58px,
-      radial-gradient(circle at 40px 44px,rgba(163,90,106,.35) 1.8px,transparent 2.4px) 0 0/78px 78px,
-      radial-gradient(circle at 66px 18px,rgba(212,175,55,.4) 1.2px,transparent 1.8px) 0 0/92px 92px,
-      #fffaf8}
-  .frame{position:absolute;inset:40px;border:4px solid transparent;border-radius:24px;
-    background:linear-gradient(120deg,#c9a24a,#f3dc9a 25%,#b8862f 45%,#e7b9a9 60%,#c9a24a 80%,#f3dc9a) border-box;
-    -webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
-  .frame2{position:absolute;inset:60px;border:1.5px solid rgba(201,162,74,.6);border-radius:16px}
-  .foil{background:linear-gradient(110deg,#a35a6a 0%,#9a6a1f 22%,#c9a24a 32%,#a35a6a 48%,#9c4f62 62%,#9a6a1f 80%,#b8862f 88%,#a35a6a 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;padding:0 .18em .12em;margin:0 -.18em}
-  .gl{position:absolute;width:var(--s);height:var(--s)}
-  .c{position:absolute;left:0;right:0;text-align:center}
-  .eyebrow{letter-spacing:.32em;text-transform:uppercase;color:#a35a6a;font-size:26px;font-weight:500}
-  .script{font-family:'Great Vibes',cursive;color:#a35a6a;line-height:1}
-  svg{position:absolute}
+      radial-gradient(600px 480px at 15% 10%,#f6eadf,transparent 70%),
+      radial-gradient(560px 520px at 90% 60%,#f1ddd8,transparent 70%),
+      radial-gradient(700px 400px at 50% 110%,#ecd6cf,transparent 70%),
+      radial-gradient(circle at 9px 11px,rgba(201,164,92,.45) 1.4px,transparent 2px) 0 0/64px 64px,
+      #f8efe7}
+  .sign{position:absolute;left:150px;top:150px;width:660px;height:1190px;border-radius:330px 330px 26px 26px;
+    background:linear-gradient(180deg,#fffdf9,#fbf5ee);box-shadow:0 30px 60px -30px rgba(79,52,38,.45)}
+  .sign:after{content:"";position:absolute;inset:18px;border-radius:312px 312px 14px 14px;border:2px solid rgba(201,164,92,.75)}
+  .c{position:absolute;left:150px;width:620px;text-align:center}
+  .caps{letter-spacing:.3em;text-transform:uppercase;font-weight:600;color:#8c6a45}
+  .script{font-family:Allura,cursive;line-height:1}
+  .foil{background:linear-gradient(110deg,#8c6a45 0%,#8c6a45 30%,#b08a4e 42%,#c9a45c 48%,#b08a4e 54%,#8c6a45 66%,#8c6a45 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;padding:.14em .18em .12em;margin:0 -.18em}
+  svg{position:absolute;overflow:visible}
+  .rule{position:absolute;height:2px;background:linear-gradient(90deg,transparent,#c9a45c,transparent)}
 </style></head><body>
-<div class="frame"></div><div class="frame2"></div>
+<div class="sign"></div>
+<svg id="decor" width="960" height="1440" style="left:0;top:0"></svg>
 
-<!-- mobile -->
-<svg viewBox="0 0 160 130" style="left:330px;top:60px;width:300px">
-  <g stroke="#a35a6a" fill="none">
-    <path d="M80 0v14"/><path d="M14 18 Q80 8 146 18" stroke="#c9a24a" stroke-width="2" stroke-linecap="round"/>
-    <path d="M20 16v36M50 16v60M80 16v42M110 16v66M140 16v34" stroke-opacity=".5" stroke-width=".8"/>
-  </g>
-  <circle cx="80" cy="14" r="3.4" fill="#c9a24a"/>
-  <path transform="translate(20 58)" d="M0-10l2.9 6.1 6.6.8-4.9 4.6 1.3 6.5L0 4.8-5.9 8l1.3-6.5-4.9-4.6 6.6-.8z" fill="rgba(212,175,55,.55)" stroke="#b8862f"/>
-  <path transform="translate(50 82)" d="M-10 6h20c4 0 7-3 7-6s-3-6-6-6c-1-4-4-6-8-6-3 0-6 2-7 4-4 0-7 3-7 7 0 4 0 7 1 7z" fill="#fff" stroke="#a35a6a"/>
-  <path transform="translate(80 64)" d="M4-10a10 10 0 1 0 6 17A8 8 0 0 1 4-10z" fill="rgba(212,175,55,.55)" stroke="#b8862f"/>
-  <path transform="translate(110 88)" d="M0 9s-9-5.5-9-12c0-3.4 2.4-5.5 5.2-5.5 1.6 0 3 .8 3.8 2 .8-1.2 2.2-2 3.8-2C6.6-8.5 9-6.4 9-3 9 3.5 0 9 0 9z" fill="#f2b8c6" stroke="#a35a6a"/>
-  <path transform="translate(140 56)" d="M0-10l2.9 6.1 6.6.8-4.9 4.6 1.3 6.5L0 4.8-5.9 8l1.3-6.5-4.9-4.6 6.6-.8z" fill="rgba(212,175,55,.55)" stroke="#b8862f"/>
-</svg>
+<svg viewBox="0 0 24 32" style="left:442px;top:250px;width:36px"><path d="M12 2v28M4 10h16" stroke="#c9a45c" stroke-width="2.4" stroke-linecap="round"/></svg>
+<div class="c caps" style="top:318px;font-size:30px">You're invited to</div>
+<div class="c script" style="top:362px;font-size:76px;color:#8c6a45">the Christening of</div>
+<div class="c script" style="top:494px;font-size:122px;white-space:nowrap"><span class="foil">Avrielle Noel</span></div>
+<div class="c" style="top:650px;font-style:italic;font-size:40px;color:#8c6a45">“Aya”</div>
+<div class="rule" style="left:310px;width:130px;top:744px"></div>
+<div class="rule" style="left:480px;width:130px;top:744px"></div>
+<svg viewBox="0 0 24 24" style="left:448px;top:732px;width:24px"><path d="M12 20.5s-7.5-4.6-7.5-10.2C4.5 7.4 6.6 5.5 9 5.5c1.4 0 2.5.7 3 1.7.5-1 1.6-1.7 3-1.7 2.4 0 4.5 1.9 4.5 4.8 0 5.6-7.5 10.2-7.5 10.2z" fill="#c4959a"/></svg>
 
-<!-- clouds -->
-<svg viewBox="0 0 120 60" style="left:70px;top:150px;width:220px"><path d="M24 52h72c11 0 18-7 18-16s-7-16-17-16c-2-10-11-16-21-16-8 0-15 4-19 11-3-2-7-3-11-3-9 0-16 7-17 15C17 26 8 33 8 40c0 7 7 12 16 12z" fill="#fff" stroke="rgba(201,162,74,.55)" stroke-width="1.2"/></svg>
-<svg viewBox="0 0 120 60" style="right:70px;top:250px;width:180px"><path d="M24 52h72c11 0 18-7 18-16s-7-16-17-16c-2-10-11-16-21-16-8 0-15 4-19 11-3-2-7-3-11-3-9 0-16 7-17 15C17 26 8 33 8 40c0 7 7 12 16 12z" fill="#fff" stroke="rgba(201,162,74,.55)" stroke-width="1.2"/></svg>
+<!-- two columns, like the sign -->
+<svg viewBox="0 0 24 32" style="left:290px;top:800px;width:34px"><path d="M12 2v28M4 10h16" stroke="#8c6a45" stroke-width="2.4" stroke-linecap="round"/></svg>
+<div style="position:absolute;left:190px;width:236px;top:860px;text-align:center" class="caps"><div style="font-size:24px;line-height:1.5">Baptized<br>in His love</div></div>
+<div style="position:absolute;left:459px;top:806px;width:2px;height:170px;background:rgba(201,164,92,.6)"></div>
+<div style="position:absolute;left:480px;width:260px;top:806px;text-align:center">
+  <div class="caps" style="font-size:24px;line-height:1.5">Sunday</div>
+  <div style="font-size:40px;font-weight:600;letter-spacing:.06em">December 20</div>
+  <div class="caps" style="font-size:24px;line-height:1.5">2026</div>
+  <div class="caps" style="font-size:24px;line-height:1.5;color:#4f3426">10:00 AM</div>
+</div>
 
-<div class="c eyebrow" style="top:360px">You're invited to the</div>
-<div class="c script" style="top:410px;font-size:150px"><span class="foil">Christening</span></div>
-<div class="c eyebrow" style="top:590px;font-size:22px">of our beloved daughter</div>
-<div class="c script" style="top:640px;font-size:132px;color:#4a2832">Avrielle <span class="foil">Noel</span></div>
-<div class="c" style="top:800px;font-style:italic;font-size:34px;color:#a35a6a">“Aya”</div>
+<div class="c caps" style="top:1020px;font-size:34px;color:#4f3426">Tea Plan</div>
+<div class="c caps" style="top:1068px;font-size:22px">Bacolod City</div>
+<div class="c script" style="top:1132px;font-size:58px;color:#8c6a45">Reception to follow</div>
+<div class="c" style="top:1214px;font-style:italic;font-size:28px;color:#6b4e3a">We can't wait to celebrate with you</div>
 
-<!-- dove -->
-<svg viewBox="0 0 80 56" style="left:420px;top:870px;width:120px">
-  <path d="M14 34c8 0 16-2 22-8 4-4 8-6 13-6 4 0 7 2 9 5l7-1-5 5c-2 8-10 14-22 14-8 0-15-3-20-6l-6 4 2-7z" fill="#fff" stroke="#a35a6a" stroke-width="1.3" stroke-linejoin="round"/>
-  <path d="M34 28C30 16 34 6 44 2c-2 8 2 12 8 14-6 2-10 6-12 12z" fill="rgba(163,90,106,.12)" stroke="#a35a6a" stroke-width="1.3" stroke-linejoin="round"/>
-  <circle cx="56" cy="24" r="1" fill="#a35a6a"/>
-  <path d="M65 24c3 2 6 3 10 3" fill="none" stroke="#c9a24a" stroke-width="1.2"/>
-  <ellipse cx="71" cy="23" rx="3" ry="1.4" transform="rotate(-25 71 23)" fill="#c9a24a"/>
-  <ellipse cx="74" cy="29" rx="3" ry="1.4" transform="rotate(25 74 29)" fill="#c9a24a"/>
-</svg>
-
-<div class="c" style="top:990px;font-size:34px;letter-spacing:.22em;text-transform:uppercase">Sunday · December 20 · 2026</div>
-<div class="c" style="top:1048px;font-size:28px;letter-spacing:.2em;text-transform:uppercase;color:#a35a6a">10:00 in the morning</div>
-<div class="c" style="top:1130px;font-size:36px;letter-spacing:.24em;text-transform:uppercase">Tea Plan</div>
-<div class="c" style="top:1184px;font-size:26px;letter-spacing:.2em;text-transform:uppercase;color:#a35a6a">Bacolod City</div>
-<div class="c" style="top:1270px;font-style:italic;font-size:28px">Reception to follow</div>
-<!-- sparkles -->
-<svg class="gl" viewBox="0 0 24 24" style="left:120px;top:330px;--s:68px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#c98a96"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:820px;top:380px;--s:56px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:150px;top:900px;--s:52px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:800px;top:880px;--s:76px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#c98a96"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:700px;top:190px;--s:44px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:260px;top:1240px;--s:60px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:740px;top:1250px;--s:48px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#c98a96"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:470px;top:560px;--s:40px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:110px;top:620px;--s:44px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#d4af37"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg><svg class="gl" viewBox="0 0 24 24" style="left:860px;top:640px;--s:52px"><path d="M12 1.5c.7 5.6 2.9 8.3 10.5 10.5C14.9 14.2 12.7 16.9 12 22.5 11.3 16.9 9.1 14.2 1.5 12 9.1 9.8 11.3 7.1 12 1.5z" fill="#c98a96"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></svg>
+<script>
+// Shapes shared with src/components/site/Decor.tsx (balloons, roses, pampas, butterfly)
+const TONES={rose:["#ecd0cf","#d3a3a6","#b48085"],blush:["#fbeae6","#efcdc8","#d6aba6"],ivory:["#fffcf7","#f5ebe0","#ddcbb8"],nude:["#f5e6d7","#e2c6ac","#c4a284"],gold:["#fbecbd","#d2ae64","#8f6a2c"]};
+let seed=11;const rand=()=>{seed=(seed+0x6d2b79f5)|0;let t=Math.imul(seed^(seed>>>15),1|seed);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296};
+let defs=Object.entries(TONES).map(([t,[a,b,c]])=>`<radialGradient id="g-${t}" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="${a}"/><stop offset="${t==='gold'?.45:.55}" stop-color="${b}"/><stop offset="1" stop-color="${c}"/></radialGradient>`).join("")
+  +`<linearGradient id="wing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#f6e2bf"/></linearGradient>`
+  +`<filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feFlood flood-color="#ffd896" flood-opacity=".9"/><feComposite in2="b" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+const tones=["rose","ivory","blush","nude","gold","ivory","rose","blush"];
+function garland(pts,size){const out=[];pts.forEach(([x,y],i)=>{out.push([x,y,(16+rand()*12)*size,tones[i%8]]);const a=rand()*Math.PI*2;out.push([x+Math.cos(a)*20*size,y+Math.sin(a)*20*size,(7+rand()*6)*size,tones[(i+3)%8]])});return out.sort((p,q)=>q[2]-p[2])}
+const balloons=b=>b.map(([x,y,r,t])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="url(#g-${t})"/><ellipse cx="${x-r*.35}" cy="${y-r*.4}" rx="${r*.22}" ry="${r*.13}" transform="rotate(-35 ${x-r*.35} ${y-r*.4})" fill="#fff" opacity="${t==='gold'?.85:.55}"/>`).join("");
+function rose(x,y,r,w=true){const [f,e]=w?["#fffaf2","#dccab6"]:["#f0cfca","#c99a96"];return `<g stroke="${e}" stroke-width="1.4" stroke-linecap="round"><circle cx="${x}" cy="${y}" r="${r}" fill="${f}"/><path d="M${x-r*.75} ${y+r*.1}c${r*.1} ${-r*.8} ${r*1.3} ${-r*.9} ${r*1.45} ${-r*.1}" fill="none"/><path d="M${x-r*.5} ${y+r*.35}c${r*.2} ${r*.4} ${r*.9} ${r*.4} ${r*1.05} ${-r*.1}" fill="none"/><path d="M${x-r*.3} ${y}c0 ${-r*.45} ${r*.6} ${-r*.45} ${r*.6} 0s${-r*.3} ${r*.3} ${-r*.35} ${r*.05}" fill="none"/></g>`}
+function pampas([x0,y0,cx,cy,x1,y1],n=26){const at=t=>[(1-t)**2*x0+2*(1-t)*t*cx+t*t*x1,(1-t)**2*y0+2*(1-t)*t*cy+t*t*y1];let d="";for(let i=0;i<n;i++){const t=.35+i/n*.65;const[px,py]=at(t),[qx,qy]=at(Math.min(1,t+.02));const a=Math.atan2(qy-py,qx-px);const len=16*Math.sin(Math.PI*Math.min(1,(t-.3)/.75))+5;const s=i%2?1:-1;d+=`M${px} ${py}L${px+Math.cos(a+s*.9)*len} ${py+Math.sin(a+s*.9)*len}`}return `<g fill="none" stroke="#c8a67e" stroke-linecap="round"><path d="M${x0} ${y0}Q${cx} ${cy} ${x1} ${y1}" stroke-width="1.8"/><path d="${d}" stroke-width="2.6" opacity=".75"/></g>`}
+function spray(tx,ty,sc,flip){const g=[pampas([110,110,80,50,40,6]),pampas([112,112,150,60,200,30],20),pampas([106,116,60,110,8,96],18),
+ `<g fill="#b9b896" opacity=".8"><ellipse cx="74" cy="128" rx="11" ry="4.5" transform="rotate(25 74 128)"/><ellipse cx="150" cy="132" rx="11" ry="4.5" transform="rotate(-20 150 132)"/></g>`,
+ rose(96,110,20),rose(130,104,16,false),rose(114,136,15),rose(76,96,12,false),rose(150,124,11),
+ [[60,80],[70,66],[150,84],[164,98],[90,76],[140,146],[84,140],[170,116],[58,110],[104,82]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.2" fill="#fff" stroke="#e7d6c6" stroke-width=".6"/><circle cx="${x}" cy="${y}" r=".9" fill="#e3b5b8"/>`).join("")].join("");
+ return `<g transform="translate(${tx} ${ty}) scale(${flip?-sc:sc} ${sc})">${g}</g>`}
+const butterfly=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})" filter="url(#glow)"><path d="M32 24C26 8 8 6 10 17c2 8 13 9 22 7zM32 24c6-16 24-18 22-7-2 8-13 9-22 7zM32 24c-6 4-15 13-9 16 4 2 8-6 9-16zM32 24c6 4 15 13 9 16-4 2-8-6-9-16z" fill="url(#wing)" stroke="#c9a45c" stroke-width="1"/><path d="M32 17v16M32 17l-3-5M32 17l3-5" stroke="#c9a45c" stroke-width="1.1" fill="none"/></g>`;
+// garland up the right side of the arch and over its shoulder, plus a cluster at the bottom left
+const right=garland([[820,1340],[838,1290],[812,1240],[836,1190],[816,1140],[840,1090],[818,1040],[838,990],[814,940],[836,890],[818,840],[832,790],[812,740],[828,690],[808,640],[818,590],[800,540],[804,490],[786,440],[784,392],[764,348],[746,306],[722,268]],1.9);
+seed=4;const left=garland([[150,1350],[118,1330],[176,1376],[96,1290],[130,1260]],1.9);
+document.getElementById("decor").innerHTML=`<defs>${defs}</defs>${spray(-10,20,1.75,false)}${balloons(right)}${balloons(left)}${spray(940,1250,1.4,true)}${butterfly(70,560,1.6)}${butterfly(830,160,1.1)}`;
+</script>
 </body></html>

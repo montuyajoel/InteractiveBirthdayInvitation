@@ -1,21 +1,263 @@
+import { useId } from "react"
 import { cn } from "@/lib/utils"
 
 type Props = { className?: string; style?: React.CSSProperties }
 
-export function Butterfly({ className, style, flutter = true }: Props & { flutter?: boolean }) {
+
+// ---------------------------------------------------------------------------
+// Balloons, after the dusty-rose, ivory, nude and gold garlands.
+
+type Tone = "rose" | "blush" | "ivory" | "nude" | "gold"
+
+// [light, base, shade] for each balloon colour
+const TONES: Record<Tone, [string, string, string]> = {
+  rose: ["#ecd0cf", "#d3a3a6", "#b48085"],
+  blush: ["#fbeae6", "#efcdc8", "#d6aba6"],
+  ivory: ["#fffcf7", "#f5ebe0", "#ddcbb8"],
+  nude: ["#f5e6d7", "#e2c6ac", "#c4a284"],
+  gold: ["#fbecbd", "#d2ae64", "#8f6a2c"],
+}
+
+export type BalloonSpec = [x: number, y: number, r: number, tone: Tone]
+
+/** Seeded random numbers so a cluster looks the same on every visit. */
+function seeded(seed: number) {
+  return () => {
+    seed = (seed + 0x6d2b79f5) | 0
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+/** Packs balloons of mixed sizes along a curve, like an organic garland. */
+export function garland(points: [number, number][], seed = 7, size = 1): BalloonSpec[] {
+  const rand = seeded(seed)
+  const tones: Tone[] = ["rose", "ivory", "blush", "nude", "gold", "ivory", "rose", "blush"]
+  const out: BalloonSpec[] = []
+  points.forEach(([x, y], i) => {
+    out.push([x, y, (16 + rand() * 12) * size, tones[i % tones.length]])
+    // a smaller filler balloon tucked beside each big one
+    const a = rand() * Math.PI * 2
+    out.push([x + Math.cos(a) * 20 * size, y + Math.sin(a) * 20 * size, (7 + rand() * 6) * size, tones[(i + 3) % tones.length]])
+  })
+  // draw the small ones last so they sit on top
+  return out.sort((p, q) => q[2] - p[2])
+}
+
+export function Balloons({
+  balloons,
+  viewBox,
+  className,
+  style,
+  bob = true,
+}: Props & { balloons: BalloonSpec[]; viewBox: string; bob?: boolean }) {
+  const id = useId().replace(/:/g, "")
   return (
-    <svg viewBox="0 0 64 48" className={cn("text-brand", className)} style={style} aria-hidden>
+    <svg viewBox={viewBox} className={cn("overflow-visible", className)} style={style} aria-hidden>
+      <defs>
+        {(Object.keys(TONES) as Tone[]).map((t) => (
+          <radialGradient key={t} id={`${id}-${t}`} cx="35%" cy="30%" r="75%">
+            <stop offset="0" stopColor={TONES[t][0]} />
+            <stop offset={t === "gold" ? ".45" : ".55"} stopColor={TONES[t][1]} />
+            <stop offset="1" stopColor={TONES[t][2]} />
+          </radialGradient>
+        ))}
+      </defs>
+      {balloons.map(([x, y, r, t], i) => (
+        <g
+          key={i}
+          className={cn(bob && i % 3 === 0 && "animate-bob")}
+          style={bob ? { animationDelay: `${-(i % 7) * 0.7}s`, animationDuration: `${5 + (i % 4)}s` } : undefined}
+        >
+          <circle cx={x} cy={y} r={r} fill={`url(#${id}-${t})`} />
+          <ellipse
+            cx={x - r * 0.35}
+            cy={y - r * 0.4}
+            rx={r * 0.22}
+            ry={r * 0.13}
+            transform={`rotate(-35 ${x - r * 0.35} ${y - r * 0.4})`}
+            fill="#fff"
+            opacity={t === "gold" ? 0.85 : 0.55}
+          />
+        </g>
+      ))}
+    </svg>
+  )
+}
+
+/** A few balloons on ribbons drifting up behind a section. */
+export function FloatingBalloons({ className }: { className?: string }) {
+  const items = [
+    { left: "5%", size: 22, dur: "22s", delay: "0s", tone: "rose" },
+    { left: "21%", size: 16, dur: "19s", delay: "-8s", tone: "gold" },
+    { left: "40%", size: 14, dur: "24s", delay: "-15s", tone: "ivory" },
+    { left: "58%", size: 18, dur: "21s", delay: "-4s", tone: "blush" },
+    { left: "77%", size: 15, dur: "18s", delay: "-11s", tone: "gold" },
+    { left: "92%", size: 20, dur: "23s", delay: "-6s", tone: "nude" },
+  ] as const
+  return (
+    <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)} aria-hidden>
+      {items.map((b, i) => (
+        <span
+          key={i}
+          className="absolute -bottom-16 animate-rise"
+          style={{ left: b.left, "--dur": b.dur, "--dx": i % 2 ? "-14px" : "14px", animationDelay: b.delay } as React.CSSProperties}
+        >
+          <svg viewBox="0 0 20 44" style={{ width: b.size, height: b.size * 2.2 }}>
+            <defs>
+              <radialGradient id={`fb-${i}`} cx="35%" cy="30%" r="75%">
+                <stop offset="0" stopColor={TONES[b.tone][0]} />
+                <stop offset=".55" stopColor={TONES[b.tone][1]} />
+                <stop offset="1" stopColor={TONES[b.tone][2]} />
+              </radialGradient>
+            </defs>
+            <ellipse cx="10" cy="10" rx="9" ry="10" fill={`url(#fb-${i})`} />
+            <path d="M10 20l-1.5 2h3z" fill={TONES[b.tone][2]} />
+            <path d="M10 22c-3 6 3 10 0 16s2 6 0 6" fill="none" stroke={TONES[b.tone][2]} strokeWidth=".6" />
+          </svg>
+        </span>
+      ))}
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Butterflies, flowers, bow and cross.
+
+/** An ivory butterfly with a warm glow, like the lit butterflies by the arch. */
+export function Butterfly({ className, style, flutter = true, glow = true }: Props & { flutter?: boolean; glow?: boolean }) {
+  const id = useId().replace(/:/g, "")
+  return (
+    <svg
+      viewBox="0 0 64 48"
+      className={cn("text-gold", className)}
+      style={{ filter: glow ? "drop-shadow(0 0 6px rgb(255 226 170 / 0.95)) drop-shadow(0 0 14px rgb(255 214 150 / 0.6))" : undefined, ...style }}
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id={`${id}-w`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#fffaf0" />
+          <stop offset="1" stopColor="#f6e2bf" />
+        </linearGradient>
+      </defs>
       <g className={cn(flutter && "animate-flutter")} style={{ transformOrigin: "32px 24px" }}>
         <path
           d="M32 24C26 8 8 6 10 17c2 8 13 9 22 7zM32 24c6-16 24-18 22-7-2 8-13 9-22 7zM32 24c-6 4-15 13-9 16 4 2 8-6 9-16zM32 24c6 4 15 13 9 16-4 2-8-6-9-16z"
-          fill="currentColor"
-          fillOpacity=".12"
+          fill={`url(#${id}-w)`}
           stroke="currentColor"
-          strokeWidth="1.3"
+          strokeWidth="1"
           strokeLinejoin="round"
         />
+        <path d="M31 22C26 13 17 11 14 15M33 22c5-9 14-11 17-7M30 26c-3 4-6 8-5 11M34 26c3 4 6 8 5 11" fill="none" stroke="currentColor" strokeWidth=".5" opacity=".7" />
       </g>
-      <path d="M32 17v16M32 17l-3-5M32 17l3-5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+      <path d="M32 17v16M32 17l-3-5M32 17l3-5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" fill="none" />
+    </svg>
+  )
+}
+
+/** A thin gold cross, as on the welcome sign. */
+export function Cross({ className, style }: Props) {
+  return (
+    <svg viewBox="0 0 24 32" className={cn("text-gold", className)} style={style} aria-hidden>
+      <path d="M12 2v28M4 10h16" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M12 2v28M4 10h16" stroke="#fff6dc" strokeWidth=".6" strokeLinecap="round" opacity=".8" />
+    </svg>
+  )
+}
+
+/** A dusty-rose satin bow with long tails. */
+export function Bow({ className, style }: Props) {
+  return (
+    <svg viewBox="0 0 120 150" className={className} style={style} aria-hidden>
+      <defs>
+        <linearGradient id="bow-satin" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#dcb0b3" />
+          <stop offset=".5" stopColor="#c4959a" />
+          <stop offset="1" stopColor="#a7767c" />
+        </linearGradient>
+      </defs>
+      <g fill="url(#bow-satin)" stroke="#9c6b71" strokeWidth=".8" strokeLinejoin="round">
+        <path d="M58 40C46 50 34 92 22 140l16-6 8 14c4-40 10-82 18-104z" />
+        <path d="M62 40c12 10 24 52 36 100l-16-6-8 14c-4-40-10-82-18-104z" />
+        <path d="M58 36C40 14 10 8 8 26c-2 16 26 22 50 16z" />
+        <path d="M62 36c18-22 48-28 50-10 2 16-26 22-50 16z" />
+        <rect x="52" y="30" width="16" height="16" rx="5" />
+      </g>
+      <path d="M20 22c10-6 24-2 34 10M100 22c-10-6-24-2-34 10" fill="none" stroke="#fff" strokeOpacity=".35" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function Rose({ x, y, r, white = true }: { x: number; y: number; r: number; white?: boolean }) {
+  const [fill, edge] = white ? ["#fffaf2", "#dccab6"] : ["#f0cfca", "#c99a96"]
+  return (
+    <g stroke={edge} strokeWidth=".9" strokeLinecap="round">
+      <circle cx={x} cy={y} r={r} fill={fill} />
+      <path
+        d={`M${x - r * 0.75} ${y + r * 0.1}c${r * 0.1} ${-r * 0.8} ${r * 1.3} ${-r * 0.9} ${r * 1.45} ${-r * 0.1}`}
+        fill="none"
+      />
+      <path d={`M${x - r * 0.5} ${y + r * 0.35}c${r * 0.2} ${r * 0.4} ${r * 0.9} ${r * 0.4} ${r * 1.05} ${-r * 0.1}`} fill="none" />
+      <path
+        d={`M${x - r * 0.3} ${y}c0 ${-r * 0.45} ${r * 0.6} ${-r * 0.45} ${r * 0.6} 0s${-r * 0.3} ${r * 0.3} ${-r * 0.35} ${r * 0.05}`}
+        fill="none"
+      />
+    </g>
+  )
+}
+
+function Pampas({ d, n = 22 }: { d: [number, number, number, number, number, number]; n?: number }) {
+  // a quadratic stem from (x0,y0) via (cx,cy) to (x1,y1), feathered along its length
+  const [x0, y0, cx, cy, x1, y1] = d
+  const at = (t: number) => [
+    (1 - t) ** 2 * x0 + 2 * (1 - t) * t * cx + t * t * x1,
+    (1 - t) ** 2 * y0 + 2 * (1 - t) * t * cy + t * t * y1,
+  ]
+  const feathers = Array.from({ length: n }, (_, i) => {
+    const t = 0.35 + (i / n) * 0.65
+    const [px, py] = at(t)
+    const [qx, qy] = at(Math.min(1, t + 0.02))
+    const ang = Math.atan2(qy - py, qx - px)
+    const len = 9 * Math.sin(Math.PI * Math.min(1, (t - 0.3) / 0.75)) + 3
+    const side = i % 2 ? 1 : -1
+    const fx = px + Math.cos(ang + side * 0.9) * len
+    const fy = py + Math.sin(ang + side * 0.9) * len
+    return `M${px.toFixed(1)} ${py.toFixed(1)}L${fx.toFixed(1)} ${fy.toFixed(1)}`
+  }).join("")
+  return (
+    <g fill="none" style={{ stroke: "rgb(var(--c-foliage))" }} strokeLinecap="round">
+      <path d={`M${x0} ${y0}Q${cx} ${cy} ${x1} ${y1}`} strokeWidth="1.1" />
+      <path d={feathers} strokeWidth="1.6" opacity=".75" />
+    </g>
+  )
+}
+
+/** White and blush roses with baby's breath and pampas, like the sign's corners. */
+export function FloralSpray({ className, style }: Props) {
+  return (
+    <svg viewBox="0 0 220 180" className={cn("overflow-visible", className)} style={style} aria-hidden>
+      <Pampas d={[110, 110, 80, 50, 40, 6]} />
+      <Pampas d={[112, 112, 150, 60, 200, 30]} n={18} />
+      <Pampas d={[106, 116, 60, 110, 8, 96]} n={16} />
+      <g style={{ fill: "#b9b896" }} opacity=".8">
+        <ellipse cx="74" cy="128" rx="11" ry="4.5" transform="rotate(25 74 128)" />
+        <ellipse cx="150" cy="132" rx="11" ry="4.5" transform="rotate(-20 150 132)" />
+        <ellipse cx="128" cy="76" rx="9" ry="4" transform="rotate(-50 128 76)" />
+      </g>
+      <Rose x={96} y={110} r={20} />
+      <Rose x={130} y={104} r={16} white={false} />
+      <Rose x={114} y={136} r={15} />
+      <Rose x={76} y={96} r={12} white={false} />
+      <Rose x={150} y={124} r={11} />
+      {[
+        [60, 80], [70, 66], [150, 84], [164, 98], [90, 76], [140, 146], [84, 140], [170, 116], [58, 110], [104, 82],
+      ].map(([x, y], i) => (
+        <g key={i}>
+          <circle cx={x} cy={y} r="3.2" fill="#fff" stroke="#e7d6c6" strokeWidth=".6" />
+          <circle cx={x} cy={y} r=".9" style={{ fill: "rgb(var(--c-bloom))" }} />
+        </g>
+      ))}
     </svg>
   )
 }
@@ -59,7 +301,7 @@ const GLITTER: [number, number, number, number, number, "gold" | "brand" | "bloo
   [18, 54, 7, 3.5, 2.7, "gold"], [63, 92, 8, 3.6, 0.7, "gold"], [97, 44, 8, 3.3, 1.2, "brand"],
 ]
 
-/** Gold and rose-gold glints winking on and off across the whole page. */
+/** Gold glints winking on and off across the page, like light on the gold balloons. */
 export function GlitterField() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
@@ -68,7 +310,7 @@ export function GlitterField() {
           key={i}
           className={cn(
             "absolute animate-glint",
-            tone === "gold" ? "text-gold" : tone === "brand" ? "text-brand" : "text-bloom",
+            tone === "bloom" ? "text-bloom" : "text-gold",
           )}
           style={
             {
@@ -95,7 +337,7 @@ export function SparkleBurst({ className }: { className?: string }) {
       dx: `${Math.round(Math.cos(angle) * dist)}px`,
       dy: `${Math.round(Math.sin(angle) * dist - 40)}px`,
       size: 10 + (i % 4) * 4,
-      tone: i % 3 === 0 ? "text-brand" : i % 3 === 1 ? "text-gold" : "text-bloom",
+      tone: i % 3 === 0 ? "text-mauve" : i % 3 === 1 ? "text-gold" : "text-bloom",
       delay: `${(i % 5) * 60}ms`,
     }
   })
@@ -155,158 +397,11 @@ export function BabysBreath({ className, style }: Props) {
   )
 }
 
-/** A soft, puffy cloud. */
-export function Cloud({ className, style }: Props) {
-  return (
-    <svg viewBox="0 0 120 60" className={className} style={style} aria-hidden>
-      <path
-        d="M24 52h72c11 0 18-7 18-16s-7-16-17-16c-2-10-11-16-21-16-8 0-15 4-19 11-3-2-7-3-11-3-9 0-16 7-17 15C17 26 8 33 8 40c0 7 7 12 16 12z"
-        fill="#fff"
-        fillOpacity=".9"
-        style={{ stroke: "rgb(var(--c-gold) / 0.45)" }}
-        strokeWidth="1.2"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-/** A five-point star with rounded corners. */
-export function Star({ className, style, filled = true }: Props & { filled?: boolean }) {
-  return (
-    <svg viewBox="0 0 24 24" className={cn("text-brand", className)} style={style} aria-hidden>
-      <path
-        d="M12 3.2l2.5 5.3 5.8.7-4.3 4 1.1 5.7L12 16.1l-5.1 2.8L8 13.2l-4.3-4 5.8-.7z"
-        fill={filled ? "currentColor" : "none"}
-        fillOpacity={filled ? 0.35 : 0}
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-/** A dove carrying an olive sprig, the christening symbol. */
-export function Dove({ className, style }: Props) {
-  return (
-    <svg viewBox="0 0 80 56" className={cn("text-brand", className)} style={style} aria-hidden>
-      <g strokeLinejoin="round" strokeLinecap="round">
-        <path
-          d="M14 34c8 0 16-2 22-8 4-4 8-6 13-6 4 0 7 2 9 5l7-1-5 5c-2 8-10 14-22 14-8 0-15-3-20-6l-6 4 2-7z"
-          fill="#fff"
-          stroke="currentColor"
-          strokeWidth="1.3"
-        />
-        <g className="animate-flutter" style={{ transformOrigin: "40px 28px" }}>
-          <path
-            d="M34 28C30 16 34 6 44 2c-2 8 2 12 8 14-6 2-10 6-12 12z"
-            fill="currentColor"
-            fillOpacity=".12"
-            stroke="currentColor"
-            strokeWidth="1.3"
-          />
-        </g>
-        <circle cx="56" cy="24" r="1" fill="currentColor" />
-        <path d="M65 24c3 2 6 3 10 3" fill="none" style={{ stroke: "rgb(var(--c-foliage))" }} strokeWidth="1.2" />
-        <ellipse cx="71" cy="23" rx="3" ry="1.4" transform="rotate(-25 71 23)" style={{ fill: "rgb(var(--c-foliage) / 0.7)" }} />
-        <ellipse cx="74" cy="29" rx="3" ry="1.4" transform="rotate(25 74 29)" style={{ fill: "rgb(var(--c-foliage) / 0.7)" }} />
-      </g>
-    </svg>
-  )
-}
-
-/** A crib mobile: a moon, stars and clouds swaying from a little bar. */
-export function BabyMobile({ className, style }: Props) {
-  const charms: { x: number; len: number; delay: string; kind: "star" | "moon" | "cloud" | "heart" }[] = [
-    { x: 20, len: 46, delay: "0s", kind: "star" },
-    { x: 50, len: 70, delay: "-1.5s", kind: "cloud" },
-    { x: 80, len: 52, delay: "-3s", kind: "moon" },
-    { x: 110, len: 76, delay: "-4.5s", kind: "heart" },
-    { x: 140, len: 44, delay: "-2s", kind: "star" },
-  ]
-  return (
-    <svg viewBox="0 0 160 130" className={cn("overflow-visible text-brand", className)} style={style} aria-hidden>
-      <g className="animate-sway" style={{ transformOrigin: "80px 0px", transformBox: "view-box" }}>
-        <path d="M80 0v14" stroke="currentColor" strokeWidth="1" />
-        <path d="M14 18 Q80 8 146 18" fill="none" style={{ stroke: "rgb(var(--c-gold))" }} strokeWidth="1.8" strokeLinecap="round" />
-        <circle cx="80" cy="14" r="3.4" style={{ fill: "rgb(var(--c-gold))" }} />
-        {charms.map((c, i) => (
-          <g
-            key={i}
-            className="animate-sway"
-            style={{ transformOrigin: `${c.x}px 16px`, transformBox: "view-box", animationDelay: c.delay, animationDuration: `${4 + i * 0.6}s` }}
-          >
-            <path d={`M${c.x} 16v${c.len - 10}`} stroke="currentColor" strokeOpacity=".5" strokeWidth=".8" />
-            <g transform={`translate(${c.x} ${c.len + 6})`}>
-              {c.kind === "star" && (
-                <path d="M0-10l2.9 6.1 6.6.8-4.9 4.6 1.3 6.5L0 4.8-5.9 8l1.3-6.5-4.9-4.6 6.6-.8z" style={{ fill: "rgb(var(--c-gold) / 0.55)", stroke: "rgb(var(--c-foliage))" }} strokeWidth="1" strokeLinejoin="round" />
-              )}
-              {c.kind === "moon" && (
-                <path d="M4-10a10 10 0 1 0 6 17A8 8 0 0 1 4-10z" style={{ fill: "rgb(var(--c-gold) / 0.45)", stroke: "rgb(var(--c-foliage))" }} strokeWidth="1" />
-              )}
-              {c.kind === "cloud" && (
-                <path d="M-10 6h20c4 0 7-3 7-6s-3-6-6-6c-1-4-4-6-8-6-3 0-6 2-7 4-4 0-7 3-7 7 0 4 0 7 1 7z" fill="#fff" stroke="currentColor" strokeWidth="1" />
-              )}
-              {c.kind === "heart" && (
-                <path d="M0 9s-9-5.5-9-12c0-3.4 2.4-5.5 5.2-5.5 1.6 0 3 .8 3.8 2 .8-1.2 2.2-2 3.8-2C6.6-8.5 9-6.4 9-3 9 3.5 0 9 0 9z" fill="rgb(var(--c-bloom))" stroke="currentColor" strokeWidth="1" />
-              )}
-            </g>
-          </g>
-        ))}
-      </g>
-    </svg>
-  )
-}
-
-const BUBBLES = [
-  { left: "6%", size: 14, dur: "16s", delay: "0s", dx: "18px", kind: "bubble" },
-  { left: "18%", size: 10, dur: "13s", delay: "-6s", dx: "-12px", kind: "heart" },
-  { left: "31%", size: 18, dur: "18s", delay: "-3s", dx: "14px", kind: "bubble" },
-  { left: "47%", size: 9, dur: "12s", delay: "-9s", dx: "-10px", kind: "star" },
-  { left: "62%", size: 16, dur: "17s", delay: "-1s", dx: "16px", kind: "bubble" },
-  { left: "74%", size: 11, dur: "14s", delay: "-11s", dx: "-14px", kind: "heart" },
-  { left: "86%", size: 20, dur: "19s", delay: "-5s", dx: "10px", kind: "bubble" },
-  { left: "94%", size: 9, dur: "13s", delay: "-8s", dx: "-8px", kind: "star" },
-] as const
-
-/** Pearly bubbles, little hearts and gold glints drifting up behind a section. */
-export function FloatingBubbles({ className }: { className?: string }) {
-  return (
-    <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)} aria-hidden>
-      {BUBBLES.map((b, i) => (
-        <span
-          key={i}
-          className="absolute -bottom-6 animate-rise"
-          style={
-            {
-              left: b.left,
-              width: b.size,
-              height: b.size,
-              "--dur": b.dur,
-              "--dx": b.dx,
-              animationDelay: b.delay,
-            } as React.CSSProperties
-          }
-        >
-          {b.kind === "bubble" && (
-            <span className="block h-full w-full rounded-full border border-gold/40 bg-[radial-gradient(circle_at_35%_30%,#fff,rgb(var(--c-bloom)/0.5)_55%,rgb(var(--c-gold)/0.35))] shadow-[0_0_8px_rgb(var(--c-gold)/0.35)]" />
-          )}
-          {b.kind === "heart" && <Heart className="h-full w-full opacity-70" filled />}
-          {b.kind === "star" && <Sparkle className="h-full w-full" />}
-        </span>
-      ))}
-    </div>
-  )
-}
-
 export function HeartRule({ className }: { className?: string }) {
   return (
     <div className={cn("flex items-center gap-3 text-brand", className)} aria-hidden>
       <span className="foil-line h-px w-20" />
-      <Sparkle className="h-3 w-3" />
-      <Heart className="h-5 w-5" />
-      <Sparkle className="h-3 w-3" />
+      <Heart className="h-4 w-4 text-mauve" filled />
       <span className="foil-line h-px w-20" />
     </div>
   )

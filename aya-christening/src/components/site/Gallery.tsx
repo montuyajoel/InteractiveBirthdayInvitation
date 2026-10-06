@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { GALLERY_CHANGED, loadPhotos, type GalleryResult, type Photo } from "@/lib/gallery"
 import { PHOTOS_ROUTE } from "@/lib/route"
 import { cn } from "@/lib/utils"
-import { Dove, SectionTitle } from "./Decor"
+import { Butterfly, SectionTitle } from "./Decor"
 import { PhotoUpload } from "./PhotoUpload"
 
 /** How many of the newest photos the home page shows. */
@@ -61,7 +61,7 @@ export function PhotoWall({
       )}
 
       {state.status === "ready" && photos.length === 0 && (
-        <Empty icon={<Dove className="h-10 w-14" />} text="No photos yet. Be the first to share one!" />
+        <Empty icon={<Butterfly className="h-10 w-12" glow={false} />} text="No photos yet. Be the first to share one!" />
       )}
 
       {photos.length > 0 && (

@@ -3,9 +3,9 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import invitationCard from "@/assets/invitationCard"
 import { eventTitle } from "@/lib/event"
 import { cn } from "@/lib/utils"
-import { Heart, Sparkle, SparkleBurst } from "./Decor"
+import { Cross, Sparkle, SparkleBurst } from "./Decor"
 
-/** A blush-pink envelope with a gold seal that opens to reveal the printed invitation. */
+/** A dusty-rose envelope with a gold seal that opens to reveal the printed invitation. */
 export function Envelope() {
   const [open, setOpen] = useState(false)
   const [zoom, setZoom] = useState(false)
@@ -70,7 +70,7 @@ export function Envelope() {
             open ? "scale-0 opacity-0" : "group-hover:scale-110",
           )}
         >
-          <Heart className="h-6 w-6 text-white" filled />
+          <Cross className="h-7 w-5 text-white" />
           <Sparkle className="absolute -right-2 -top-2 h-4 w-4 animate-twinkle text-gold" />
         </span>
 

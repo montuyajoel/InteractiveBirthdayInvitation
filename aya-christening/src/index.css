@@ -38,16 +38,15 @@
   body {
     @apply bg-background text-foreground font-serif antialiased;
     font-size: 1.0625rem;
-    /* blush and champagne washes over scattered gold and rose-gold glitter */
+    /* warm ivory room: champagne and blush light, with a few gold flecks */
     background-image:
-      radial-gradient(40rem 28rem at 8% 4%, rgb(var(--c-highlight) / 0.9), transparent 70%),
-      radial-gradient(36rem 30rem at 96% 30%, rgb(var(--c-soft) / 0.95), transparent 70%),
-      radial-gradient(30rem 26rem at 12% 78%, rgb(var(--c-soft) / 0.75), transparent 70%),
-      radial-gradient(34rem 24rem at 88% 96%, rgb(var(--c-highlight) / 0.8), transparent 70%),
-      radial-gradient(circle at 7px 9px, rgb(var(--c-gold) / 0.45) 0.9px, transparent 1.3px),
-      radial-gradient(circle at 31px 37px, rgb(var(--c-brand) / 0.3) 1.1px, transparent 1.5px),
-      radial-gradient(circle at 52px 14px, rgb(var(--c-gold) / 0.35) 0.7px, transparent 1.1px);
-    background-size: auto, auto, auto, auto, 46px 46px, 62px 62px, 74px 74px;
+      radial-gradient(40rem 28rem at 8% 4%, rgb(var(--c-highlight) / 0.95), transparent 70%),
+      radial-gradient(36rem 30rem at 96% 30%, rgb(var(--c-soft) / 0.9), transparent 70%),
+      radial-gradient(30rem 26rem at 12% 78%, rgb(var(--c-soft) / 0.7), transparent 70%),
+      radial-gradient(34rem 24rem at 88% 96%, rgb(var(--c-highlight) / 0.85), transparent 70%),
+      radial-gradient(circle at 7px 9px, rgb(var(--c-gold) / 0.4) 0.9px, transparent 1.3px),
+      radial-gradient(circle at 52px 14px, rgb(var(--c-gold) / 0.3) 0.7px, transparent 1.1px);
+    background-size: auto, auto, auto, auto, 58px 58px, 86px 86px;
     background-attachment: fixed;
   }
 }
@@ -63,18 +62,17 @@
     @apply font-script font-normal text-brand;
     line-height: 0.9;
   }
-  /* Gold-foil lettering: rose gold into gold, with a slow moving shine. */
+  /* Gold-foil lettering, like the sign's gold script, with a slow moving shine. */
   .foil {
     background-image: linear-gradient(
       110deg,
-      #a35a6a 0%,
-      #9a6a1f 18%,
-      #b8862f 26%,
-      #a35a6a 40%,
-      #9c4f62 55%,
-      #9a6a1f 72%,
-      #b8862f 80%,
-      #a35a6a 100%
+      #8c6a45 0%,
+      #8c6a45 30%,
+      #b08a4e 42%,
+      #c9a45c 48%,
+      #b08a4e 54%,
+      #8c6a45 66%,
+      #8c6a45 100%
     );
     background-size: 200% 100%;
     -webkit-background-clip: text;
@@ -86,7 +84,7 @@
     margin: -0.14em -0.18em 0;
   }
   .foil-line {
-    background-image: linear-gradient(90deg, transparent, rgb(var(--c-gold)), #e8c977, rgb(var(--c-brand) / 0.7), transparent);
+    background-image: linear-gradient(90deg, transparent, rgb(var(--c-gold)), #e8c977, rgb(var(--c-gold)), transparent);
   }
   .gold-seal {
     background: radial-gradient(circle at 32% 28%, #f7e4a6, #d4af37 42%, #a97f22 78%, #8a6418);

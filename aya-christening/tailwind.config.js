@@ -22,6 +22,7 @@ module.exports = {
         foliage: "rgb(var(--c-foliage) / <alpha-value>)",
         bloom: "rgb(var(--c-bloom) / <alpha-value>)",
         gold: "rgb(var(--c-gold) / <alpha-value>)",
+        mauve: "rgb(var(--c-mauve) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

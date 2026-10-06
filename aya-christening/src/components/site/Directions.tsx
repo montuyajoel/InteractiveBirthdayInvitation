@@ -3,7 +3,7 @@ import { Check, Copy, MapPin, Navigation, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { EVENT } from "@/config"
 import { COPY, fill } from "@/lib/copy"
-import { Dove, SectionTitle } from "./Decor"
+import { Butterfly, SectionTitle } from "./Decor"
 
 const q = encodeURIComponent(EVENT.mapsQuery)
 const embedUrl = `https://www.google.com/maps?q=${q}&output=embed`
@@ -37,7 +37,7 @@ export function Directions() {
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
             />
-            <Dove className="absolute -right-5 -top-7 h-10 w-14 animate-glide" />
+            <Butterfly className="absolute -right-1 -top-7 h-10 w-12 animate-drift sm:-right-5" />
           </div>
 
           <div className="flex flex-col">

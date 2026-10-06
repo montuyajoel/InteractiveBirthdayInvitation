@@ -16,7 +16,7 @@ import {
   submitRegistration,
   type Registration,
 } from "@/lib/registrations"
-import { BabysBreath, Dove, Heart, HeartRule, SectionTitle } from "./Decor"
+import { Butterfly, FloralSpray, Heart, HeartRule, SectionTitle } from "./Decor"
 import { PhotoUpload } from "./PhotoUpload"
 import { rememberGuest, rememberedGuest } from "@/lib/guest"
 import { eventDateLabel, eventTimeLabel } from "./Hero"
@@ -71,7 +71,7 @@ export function Rsvp() {
             <li>{eventTimeLabel}</li>
             <li>{EVENT.venue}</li>
           </ul>
-          <BabysBreath className="pointer-events-none mt-10 hidden w-28 md:block" />
+          <FloralSpray className="pointer-events-none mt-10 hidden w-44 md:block" />
         </div>
 
         <div className="relative">
@@ -190,7 +190,7 @@ function ThankYou({ r, onAnother }: { r: Registration; onAnother: () => void }) 
   return (
     <div className="relative py-6 text-center" role="status">
       <HeartBurst />
-      <Dove className="mx-auto h-12 w-16 animate-bob" />
+      <Butterfly className="mx-auto h-12 w-14 animate-drift" />
       <p className="script mt-2 text-6xl">Thank you, {r.firstName}!</p>
       <HeartRule className="mt-4 justify-center" />
       <p className="mx-auto mt-6 max-w-md text-xl italic text-ink/90">
