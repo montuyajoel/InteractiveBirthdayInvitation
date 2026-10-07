@@ -49,13 +49,30 @@ lettering. Otherwise start from a preset in `references/design.md`.
 Read `references/design.md` before changing decorations or layout: it covers
 the token roles, contrast targets, motif swaps and what not to break.
 
-### 3. Generate the site
+### 3. Generate the site on its own branch
+
+Each event gets its own branch named `<celebrant>-<event>` (lowercase,
+hyphenated: `mallows-birthday`, `aya-christening`), started from the skill
+branch `invitation-skill`, with the site in a folder of the same name. In the
+repo, with a clean working tree:
 
 ```bash
-python3 <skill>/scripts/new_event.py --example > event.json   # start from the example
-# edit event.json (only include keys you want to change)
-python3 <skill>/scripts/new_event.py --dest ./<event-folder> --spec event.json --card card.jpg
+python3 <skill>/scripts/new_event.py --example > /tmp/event.json   # start from the example
+# edit /tmp/event.json (only include keys you want to change)
+python3 <skill>/scripts/init_project.py --celebrant "Aya" --event christening \
+    --spec /tmp/event.json --card card.jpg
 ```
+
+`init_project.py` refuses a branch name that already exists (locally or on
+origin), switches to the new branch, generates the site with `new_event.py`,
+and adds a `vercel.json` that builds only that branch, so each event's Vercel
+project ignores pushes to the others. It doesn't commit; verify first (step 4),
+then commit and `git push -u origin <branch>`. Use the celebrant's short name
+for the branch (the one guests know, e.g. a nickname) and ask if unsure.
+Keep the spec file outside the repo so the tree stays clean.
+
+To build a site outside this setup (another repo, a quick demo), call
+`new_event.py --dest ./<folder> --spec event.json --card card.jpg` directly.
 
 The script rejects unknown keys (so typos fail loudly), validates the start
 time format (`2027-04-24T15:30:00+08:00`, local time with its UTC offset) and
