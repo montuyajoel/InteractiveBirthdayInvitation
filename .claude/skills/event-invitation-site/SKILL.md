@@ -53,8 +53,9 @@ the token roles, contrast targets, motif swaps and what not to break.
 
 Each event gets its own branch named `<celebrant>-<event>` (lowercase,
 hyphenated: `mallows-birthday`, `aya-christening`), started from the skill
-branch `invitation-skill`, with the site in a folder of the same name. In the
-repo, with a clean working tree:
+branch `invitation-skill`, with the site in **`invitation/`** (the same folder
+name on every event branch, so Vercel's Root Directory is always `invitation`).
+In the repo, with a clean working tree:
 
 ```bash
 python3 <skill>/scripts/new_event.py --example > /tmp/event.json   # start from the example
@@ -70,6 +71,14 @@ project ignores pushes to the others. It doesn't commit; verify first (step 4),
 then commit and `git push -u origin <branch>`. Use the celebrant's short name
 for the branch (the one guests know, e.g. a nickname) and ask if unsure.
 Keep the spec file outside the repo so the tree stays clean.
+
+**Where later changes go.** Every change for an event (wording, photos,
+colours, fixes) is made in `invitation/` on that event's branch, then
+committed and pushed there; its Vercel project redeploys from it. Never edit
+another event's branch for it, and don't edit the template in
+`.claude/skills/event-invitation-site/assets/template/` for one event. A fix
+that every future event should get goes into the template on
+`invitation-skill` as well.
 
 To build a site outside this setup (another repo, a quick demo), call
 `new_event.py --dest ./<folder> --spec event.json --card card.jpg` directly.

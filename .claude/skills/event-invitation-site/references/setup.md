@@ -36,17 +36,17 @@ Check: `select to_regclass('public.registrations') is not null, (select count(*)
 
 One Vercel project per event, all importing the same repo:
 
-- Add New → Project → import the repo; **Root Directory** = the event folder,
-  which has the same name as its branch (e.g. `aya-christening`);
+- Add New → Project → import the repo; **Root Directory** = `invitation`
+  (every event branch keeps its site there);
   Framework = Vite (build `npm run build`, output `dist`).
 - Settings → Environments → Production → branch = the event's branch. Vercel
   only offers a branch it has built: if it says "No deployments found", go to
   Deployments → ⋯ → Create Deployment → the branch name, then retry.
 - The folder's `vercel.json` (`ignoreCommand`) builds only that branch, so
   pushes to other events' branches show as *Canceled*. Leave the dashboard's
-  "Ignored Build Step" empty: it overrides `vercel.json`. Branches that don't
-  contain the folder at all fail with "Root Directory does not exist"; those
-  are preview builds and don't touch the live site.
+  "Ignored Build Step" empty: it overrides `vercel.json`. Branches without an
+  `invitation/` folder (e.g. `invitation-skill`) fail with "Root Directory
+  does not exist"; those are preview builds and don't touch the live site.
 - Environment Variables:
 
 | Variable | Value |

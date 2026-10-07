@@ -5,8 +5,8 @@
 
 Every event lives on a branch named <celebrant>-<event> (e.g. aya-christening,
 mallows-birthday), created from the skill branch (default: invitation-skill),
-with the site in a folder of the same name. That folder gets a vercel.json that
-builds only for that branch, so each event's Vercel project ignores pushes to
+with the site in invitation/ (the same folder on every event branch). It gets a
+vercel.json that builds only for that branch, so each event's Vercel project ignores pushes to
 the others. Nothing is committed or pushed: verify the site first, then
 commit and `git push -u origin <branch>`.
 """
@@ -24,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import new_event  # noqa: E402
 
 SKILL_BRANCH = "invitation-skill"
+SITE_FOLDER = "invitation"  # Vercel Root Directory for every event
 
 
 def slugify(s):
@@ -89,7 +90,7 @@ def main():
     spec_file.write_text(json.dumps(spec))
 
     git("switch", "--no-track", "-c", branch, base, cwd=repo)  # never push into the skill branch
-    dest = repo / branch
+    dest = repo / SITE_FOLDER
     if dest.exists():
         raise SystemExit(f"{dest} already exists on {base}")
 
@@ -103,12 +104,12 @@ def main():
 
     print(f"""
 Branch:  {branch} (from {base}, not committed yet)
-Site:    {branch}/  (vercel.json builds only for {branch})
+Site:    {SITE_FOLDER}/  (vercel.json builds only for {branch})
 
 Next:
-  1. cd {branch} && pnpm install, then verify (see SKILL.md step 4)
-  2. git add {branch} && git commit && git push -u origin {branch}
-  3. Vercel: new project from this repo, Root Directory = {branch},
+  1. cd {SITE_FOLDER} && pnpm install, then verify (see SKILL.md step 4)
+  2. git add {SITE_FOLDER} && git commit && git push -u origin {branch}
+  3. Vercel: new project from this repo, Root Directory = {SITE_FOLDER},
      Production Branch = {branch} (deploy the branch once first:
      Deployments -> ... -> Create Deployment -> {branch})""")
 
