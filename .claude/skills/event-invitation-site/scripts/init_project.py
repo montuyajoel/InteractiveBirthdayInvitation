@@ -88,7 +88,7 @@ def main():
     spec_file = Path(tempfile.mkstemp(suffix=".json")[1])
     spec_file.write_text(json.dumps(spec))
 
-    git("switch", "-c", branch, base, cwd=repo)
+    git("switch", "--no-track", "-c", branch, base, cwd=repo)  # never push into the skill branch
     dest = repo / branch
     if dest.exists():
         raise SystemExit(f"{dest} already exists on {base}")
