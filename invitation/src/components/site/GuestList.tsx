@@ -13,7 +13,7 @@ import {
   sendInvitations,
   type GuestListEntry,
 } from "@/lib/registrations"
-import { SectionTitle } from "./Decor"
+import { Cross, SectionTitle } from "./Decor"
 
 type State =
   | { status: "locked"; error?: string }
@@ -121,7 +121,7 @@ export function GuestList() {
   }
 
   return (
-    <section id="guests" aria-label="Guest list" className="relative border-t border-mauve/20 py-16">
+    <section id="guests" aria-label="Guest list" className="relative border-t border-brand/20 py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {!expanded ? (
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -131,7 +131,7 @@ export function GuestList() {
             <Button
               variant="outline"
               onClick={() => setExpanded(true)}
-              className="gap-2 rounded-none border-mauve/50 bg-transparent uppercase tracking-[0.18em] text-plum hover:bg-white/60"
+              className="gap-2 rounded-none border-brand/50 bg-transparent uppercase tracking-[0.18em] text-ink hover:bg-white/60"
             >
               <Users /> See who's coming
             </Button>
@@ -140,7 +140,7 @@ export function GuestList() {
           <div className="grid gap-8 md:grid-cols-[1fr_minmax(0,24rem)] md:items-end">
             <SectionTitle eyebrow="For the hosts" title="Guest list" />
             {registrationsConnected ? (
-              <form onSubmit={unlock} className="paper border border-mauve/25 p-5 sm:p-6">
+              <form onSubmit={unlock} className="paper border border-brand/25 p-5 sm:p-6">
                 <label htmlFor="guest-list-password" className="eyebrow text-[0.7rem]">
                   Password
                 </label>
@@ -152,7 +152,7 @@ export function GuestList() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     aria-invalid={state.status === "locked" && !!state.error}
-                    className="rounded-none border-0 border-b border-mauve/40 bg-transparent px-0 text-lg shadow-none focus-visible:border-mauve focus-visible:ring-0"
+                    className="rounded-none border-0 border-b border-brand/40 bg-transparent px-0 text-lg shadow-none focus-visible:border-brand focus-visible:ring-0"
                     autoFocus
                   />
                   <Button
@@ -179,10 +179,14 @@ export function GuestList() {
             <div className="flex flex-wrap items-end justify-between gap-6">
               <SectionTitle eyebrow="For the hosts" title="Guest list" />
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                <p className="text-lg italic text-plum">
+                <p className="text-lg italic text-ink">
                   {state.guests.length} {state.guests.length === 1 ? "guest has" : "guests have"} confirmed
+                  {(() => {
+                    const sponsors = state.guests.filter((g) => g.ninong_ninang).length
+                    return sponsors > 0 ? ` · ${sponsors} ${sponsors === 1 ? "wants" : "want"} to be Ninong/Ninang` : null
+                  })()}
                 </p>
-                <Button variant="ghost" onClick={lock} className="gap-2 rounded-none text-mauve hover:bg-blush/50">
+                <Button variant="ghost" onClick={lock} className="gap-2 rounded-none text-brand hover:bg-highlight/50">
                   <Lock /> Lock
                 </Button>
               </div>
@@ -213,37 +217,42 @@ export function GuestList() {
             {(progress || notice) && (
               <p
                 role="status"
-                className={`mt-4 text-sm ${notice?.tone === "error" && !progress ? "text-destructive" : "text-plum"}`}
+                className={`mt-4 text-sm ${notice?.tone === "error" && !progress ? "text-destructive" : "text-ink"}`}
               >
                 {progress ?? notice?.text}
               </p>
             )}
 
             {state.guests.length === 0 ? (
-              <p className="mt-10 border border-dashed border-mauve/40 py-12 text-center italic text-mauve">
+              <p className="mt-10 border border-dashed border-brand/40 py-12 text-center italic text-brand">
                 No one has registered yet.
               </p>
             ) : (
-              <ol className="paper mt-10 divide-y divide-mauve/15 border border-mauve/25">
+              <ol className="paper mt-10 divide-y divide-brand/15 border border-brand/25">
                 {state.guests.map((g, i) => (
                   <li
                     key={`${g.email}-${i}`}
-                    className="grid gap-1 px-5 py-4 sm:grid-cols-[2.5rem_minmax(0,14rem)_1fr_auto_10.5rem] sm:items-start sm:gap-6"
+                    className="grid gap-1 px-5 py-4 sm:grid-cols-[2.5rem_minmax(0,14rem)_1fr_auto_auto] sm:items-start sm:gap-6"
                   >
-                    <span className="hidden text-sm tabular-nums text-mauve sm:block">{i + 1}.</span>
+                    <span className="hidden text-sm tabular-nums text-brand sm:block">{i + 1}.</span>
                     <div className="min-w-0">
-                      <p className="text-lg text-plum">
+                      <p className="text-lg text-ink">
                         {g.first_name} {g.last_name}
                       </p>
+                      {g.ninong_ninang && (
+                        <p className="mt-0.5 inline-flex items-center gap-1 border border-gold/60 bg-highlight/60 px-2 py-0.5 text-[0.65rem] uppercase tracking-[0.16em] text-brand">
+                          <Cross className="h-3 w-2.5" /> Ninong / Ninang
+                        </p>
+                      )}
                       <p className="truncate text-sm text-muted-foreground">{g.email}</p>
                     </div>
-                    <p className="italic text-plum/80">“{g.wishes}”</p>
-                    <p className="text-xs uppercase tracking-[0.18em] text-mauve sm:pt-1.5 sm:text-right">
+                    <p className="italic text-ink/80">“{g.wishes}”</p>
+                    <p className="text-xs uppercase tracking-[0.18em] text-brand sm:pt-1.5 sm:text-right">
                       {registeredOn(g.created_at)}
                     </p>
                     <div className="mt-2 flex items-center gap-2 sm:mt-0 sm:justify-end">
                       {g.invite_sent_at && (
-                        <span className="flex items-center gap-1 text-xs text-mauve" title={new Date(g.invite_sent_at).toString()}>
+                        <span className="flex items-center gap-1 whitespace-nowrap text-xs text-brand" title={new Date(g.invite_sent_at).toString()}>
                           <Check className="h-3.5 w-3.5" aria-hidden /> Sent {registeredOn(g.invite_sent_at)}
                         </span>
                       )}
@@ -252,7 +261,7 @@ export function GuestList() {
                         variant={g.invite_sent_at ? "ghost" : "outline"}
                         disabled={sending.size > 0}
                         onClick={() => send([g.email])}
-                        className="gap-1.5 rounded-none border-mauve/50 bg-transparent text-plum hover:bg-blush/50"
+                        className="gap-1.5 rounded-none border-brand/50 bg-transparent text-ink hover:bg-highlight/50"
                         aria-label={`${g.invite_sent_at ? "Resend" : "Send"} invitation to ${g.first_name} ${g.last_name}`}
                       >
                         {sending.has(g.email) ? <Loader2 className="animate-spin" /> : <Mail />}

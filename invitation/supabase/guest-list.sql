@@ -1,4 +1,4 @@
--- Registrations project (rgicukixlxexgzcxgvqg): password-protected guest list.
+-- Registrations project: password-protected guest list.
 -- Paste into Supabase → SQL Editor → New query, REPLACE  YOUR_PASSWORD  below
 -- with the hosts' password, then Run. Re-run any time to change the password.
 --
@@ -21,8 +21,17 @@ insert into private.guest_list_password (id, hash)
 values (1, extensions.crypt('YOUR_PASSWORD', extensions.gen_salt('bf', 10)))
 on conflict (id) do update set hash = excluded.hash;
 
-create or replace function public.guest_list(passcode text)
-returns table (first_name text, last_name text, email text, wishes text, created_at timestamptz)
+-- Columns added by later scripts, so re-running this file (e.g. to change
+-- the password) keeps the full guest list.
+alter table public.registrations add column if not exists invite_sent_at timestamptz;
+alter table public.registrations add column if not exists ninong_ninang boolean not null default false;
+
+drop function if exists public.guest_list(text);
+create function public.guest_list(passcode text)
+returns table (
+  first_name text, last_name text, email text, wishes text,
+  created_at timestamptz, invite_sent_at timestamptz, ninong_ninang boolean
+)
 language plpgsql
 security definer
 set search_path = ''
@@ -36,11 +45,12 @@ begin
   end if;
 
   return query
-    select r.first_name, r.last_name, r.email, r.wishes, r.created_at
+    select r.first_name, r.last_name, r.email, r.wishes, r.created_at, r.invite_sent_at, r.ninong_ninang
     from public.registrations r
     order by r.created_at;
 end;
 $$;
-
 revoke all on function public.guest_list(text) from public;
 grant execute on function public.guest_list(text) to anon;
+
+notify pgrst, 'reload schema';

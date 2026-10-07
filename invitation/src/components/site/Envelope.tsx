@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import invitationCard from "@/assets/invitationCard"
-import { EVENT } from "@/config"
+import { eventTitle } from "@/lib/event"
 import { cn } from "@/lib/utils"
-import { Heart } from "./Decor"
+import { Cross, Sparkle, SparkleBurst } from "./Decor"
 
-/** A lilac envelope that opens to reveal the printed invitation. */
+/** A dusty-rose envelope with a gold seal that opens to reveal the printed invitation. */
 export function Envelope() {
   const [open, setOpen] = useState(false)
   const [zoom, setZoom] = useState(false)
@@ -22,7 +22,7 @@ export function Envelope() {
         aria-label={open ? "View the full invitation" : "Open the envelope"}
       >
         {/* back of envelope */}
-        <span className="absolute inset-0 rounded-[3px] bg-[#e4d2ec] shadow-[0_18px_40px_-18px_rgb(92_58_99/0.55)]" />
+        <span className="absolute inset-0 rounded-[3px] bg-[var(--env-back)] shadow-[0_18px_40px_-18px_rgb(var(--c-ink)/0.55)]" />
 
         {/* the card */}
         <span
@@ -35,29 +35,29 @@ export function Envelope() {
         >
           <img
             src={invitationCard}
-            alt={`Invitation to ${EVENT.celebrant}'s surprise ${EVENT.age}th birthday`}
-            className="h-full w-full rounded-[2px] object-cover shadow-[0_10px_30px_-10px_rgb(92_58_99/0.5)] ring-1 ring-white"
+            alt={`Invitation: ${eventTitle}`}
+            className="h-full w-full rounded-[2px] object-cover shadow-[0_10px_30px_-10px_rgb(var(--c-ink)/0.5)] ring-1 ring-white"
           />
         </span>
 
         {/* front pocket */}
         <span
-          className="absolute inset-0 rounded-[3px] bg-[#eadcf1]"
+          className="absolute inset-0 rounded-[3px] bg-[var(--env-pocket)]"
           style={{ clipPath: "polygon(0 34%, 50% 66%, 100% 34%, 100% 100%, 0 100%)" }}
         />
         <span
-          className="absolute inset-0 bg-[#e1cdea]"
+          className="absolute inset-0 bg-[var(--env-sides)]"
           style={{ clipPath: "polygon(0 34%, 50% 66%, 0 100%)" }}
         />
         <span
-          className="absolute inset-0 bg-[#e1cdea]"
+          className="absolute inset-0 bg-[var(--env-sides)]"
           style={{ clipPath: "polygon(100% 34%, 50% 66%, 100% 100%)" }}
         />
 
         {/* flap */}
         <span
           className={cn(
-            "absolute inset-x-0 top-0 h-[62%] origin-top bg-[#d9c2e4] transition-transform duration-500 [backface-visibility:hidden]",
+            "absolute inset-x-0 top-0 h-[62%] origin-top bg-[var(--env-flap)] transition-transform duration-500 [backface-visibility:hidden]",
             open ? "[transform:rotateX(180deg)] -z-0 opacity-0 delay-150" : "z-10",
           )}
           style={{ clipPath: "polygon(0 0, 100% 0, 50% 100%)" }}
@@ -66,15 +66,29 @@ export function Envelope() {
         {/* wax seal */}
         <span
           className={cn(
-            "absolute left-1/2 top-[54%] z-20 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-mauve text-white shadow-md transition-all duration-300",
+            "gold-seal absolute left-1/2 top-[54%] z-20 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-white ring-2 ring-[#f3dc9a]/70 transition-all duration-300",
             open ? "scale-0 opacity-0" : "group-hover:scale-110",
           )}
         >
-          <Heart className="h-6 w-6 text-white" filled />
+          <Cross className="h-7 w-5 text-white" />
+          <Sparkle className="absolute -right-2 -top-2 h-4 w-4 animate-twinkle text-gold" />
         </span>
+
+        {/* gold foil edge along the flap */}
+        <span
+          className={cn(
+            "pointer-events-none absolute inset-x-0 top-0 z-10 h-[62%] transition-opacity duration-300",
+            open && "opacity-0",
+          )}
+          style={{
+            clipPath: "polygon(0 0, 100% 0, 50% 100%, 50% 97%, 97% 1.5%, 3% 1.5%, 50% 97%, 50% 100%)",
+            background: "linear-gradient(90deg, #c9a24a, #f3dc9a, #b8862f, #f3dc9a, #c9a24a)",
+          }}
+        />
+        {open && <SparkleBurst className="z-30" />}
       </button>
 
-      <p className="mt-4 text-center font-serif italic text-mauve">
+      <p className="mt-4 text-center font-serif italic text-brand">
         {open ? "Tap the card to see it up close" : "Tap the seal to open your invitation"}
       </p>
 
@@ -83,7 +97,7 @@ export function Envelope() {
           <DialogTitle className="sr-only">Invitation</DialogTitle>
           <img
             src={invitationCard}
-            alt={`Invitation to ${EVENT.celebrant}'s surprise ${EVENT.age}th birthday`}
+            alt={`Invitation: ${eventTitle}`}
             className="max-h-[88vh] w-full rounded-[2px] object-contain"
           />
         </DialogContent>

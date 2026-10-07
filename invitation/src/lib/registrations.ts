@@ -1,4 +1,4 @@
-import { REGISTRATIONS } from "@/config"
+import { EVENT, REGISTRATIONS } from "@/config"
 import { isConfigured, supabaseHeaders, supabaseUrl } from "@/lib/supabase"
 
 export const registrationsConnected = isConfigured(REGISTRATIONS)
@@ -8,11 +8,13 @@ export type Registration = {
   lastName: string
   email: string
   wishes: string
+  // ticked "I'd love to be a Ninong/Ninang"
+  sponsor: boolean
 }
 
 export class AlreadyRegisteredError extends Error {}
 
-const LOCAL_KEY = "chelsea16.registrations"
+const LOCAL_KEY = `${EVENT.id}.registrations`
 
 export async function submitRegistration(r: Registration): Promise<void> {
   if (registrationsConnected) {
@@ -24,6 +26,9 @@ export async function submitRegistration(r: Registration): Promise<void> {
         last_name: r.lastName,
         email: r.email.toLowerCase(),
         wishes: r.wishes,
+        // Only sent when ticked, so plain registrations keep working on a
+        // database that hasn't had supabase/ninong-ninang.sql run yet.
+        ...(r.sponsor ? { ninong_ninang: true } : {}),
       }),
     })
     if (res.status === 409) throw new AlreadyRegisteredError()
@@ -62,6 +67,8 @@ export type GuestListEntry = {
   created_at: string
   // Missing until supabase/send-invitations.sql has been run.
   invite_sent_at?: string | null
+  // Missing until supabase/ninong-ninang.sql has been run.
+  ninong_ninang?: boolean
 }
 
 export class WrongPasswordError extends Error {}

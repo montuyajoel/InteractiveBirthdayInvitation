@@ -1,16 +1,18 @@
--- Registrations project (rgicukixlxexgzcxgvqg): tracks which guests have been
+-- Registrations project: tracks which guests have been
 -- emailed their invitation. Run AFTER guest-list.sql. Safe to re-run, and it
 -- doesn't touch the hosts' password.
 
 alter table public.registrations add column if not exists invite_sent_at timestamptz;
 
--- guest_list now also returns invite_sent_at (the return type changed, so
--- the function is dropped and recreated).
+alter table public.registrations add column if not exists ninong_ninang boolean not null default false;
+
+-- guest_list now also returns invite_sent_at and ninong_ninang (the return
+-- type changed, so the function is dropped and recreated).
 drop function if exists public.guest_list(text);
 create function public.guest_list(passcode text)
 returns table (
   first_name text, last_name text, email text, wishes text,
-  created_at timestamptz, invite_sent_at timestamptz
+  created_at timestamptz, invite_sent_at timestamptz, ninong_ninang boolean
 )
 language plpgsql
 security definer
@@ -25,7 +27,7 @@ begin
   end if;
 
   return query
-    select r.first_name, r.last_name, r.email, r.wishes, r.created_at, r.invite_sent_at
+    select r.first_name, r.last_name, r.email, r.wishes, r.created_at, r.invite_sent_at, r.ninong_ninang
     from public.registrations r
     order by r.created_at;
 end;

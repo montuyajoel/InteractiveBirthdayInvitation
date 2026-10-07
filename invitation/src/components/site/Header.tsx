@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import type { Route } from "@/lib/route"
+import { COPY, fill } from "@/lib/copy"
 import { cn } from "@/lib/utils"
 
 const LINKS = [
   { href: "#invitation", label: "Invitation" },
+  { href: "#milestones", label: "Aya" },
   { href: "#rsvp", label: "Register" },
   { href: "#gallery", label: "Gallery" },
   { href: "#directions", label: "Directions" },
@@ -41,12 +43,12 @@ export function Header({ route }: { route: Route }) {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow] duration-300",
-        scrolled ? "paper shadow-[0_1px_0_rgb(154_106_160/0.2)]" : "bg-transparent",
+        scrolled ? "paper shadow-[0_1px_0_rgb(var(--c-brand)/0.2)]" : "bg-transparent",
       )}
     >
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <a href="#invitation" className="script shrink-0 text-3xl leading-none text-plum sm:text-4xl">
-          Chelsea <span className="text-mauve">16</span>
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6">
+        <a href="#invitation" className="script shrink-0 text-[1.65rem] leading-none text-ink min-[400px]:text-3xl sm:text-4xl">
+          {fill(COPY.logo)} {COPY.logoAccent && <span className="text-brand">{fill(COPY.logoAccent)}</span>}
         </a>
         <ul className="flex items-center gap-0.5 overflow-x-auto sm:gap-2">
           {LINKS.map((l) => (
@@ -54,10 +56,10 @@ export function Header({ route }: { route: Route }) {
               <a
                 href={l.href}
                 className={cn(
-                  "block whitespace-nowrap px-1 py-1 text-[0.62rem] uppercase tracking-[0.12em] sm:tracking-[0.22em] transition-colors sm:px-3 sm:text-xs",
+                  "block whitespace-nowrap px-[3px] py-1 text-[0.6rem] uppercase tracking-[0.06em] sm:tracking-[0.22em] transition-colors sm:px-3 sm:text-xs",
                   active === l.href
-                    ? "text-plum underline decoration-mauve/60 underline-offset-[6px]"
-                    : "text-mauve hover:text-plum",
+                    ? "text-ink underline decoration-brand/60 underline-offset-[6px]"
+                    : "text-brand hover:text-ink",
                 )}
               >
                 {l.label}
