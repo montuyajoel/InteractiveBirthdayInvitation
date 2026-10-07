@@ -24,3 +24,5 @@
 | TS 6 `baseUrl is deprecated` | scaffold uses baseUrl for path aliases | `"ignoreDeprecations": "6.0"` (already set) |
 | Choosing the same photo again does nothing | file input not reset after a rejected attempt | the uploader resets the input on every change (keep it that way) |
 | Times off for guests abroad | start written without offset | `start` must include the venue's UTC offset; labels use `EVENT.timeZone` |
+| Page width "breathes" / jitters sideways on phones | an animated decoration (drifting butterfly) poking past the screen edge | `overflow-x: clip` on html/body (already set); keep absolutely positioned decor inside the viewport on small screens; check with `document.documentElement.scrollWidth === innerWidth` at 390 px over a few seconds |
+| Countdown numbers vanish on tablets | three-column countdown squeezed at 768–1279 px | columns only from `xl`; stacked below (already set) |
