@@ -19,6 +19,7 @@ import tempfile
 import unicodedata
 from pathlib import Path
 
+sys.dont_write_bytecode = True  # a __pycache__ folder would make the tree look dirty
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import new_event  # noqa: E402
 
