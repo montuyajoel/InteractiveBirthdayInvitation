@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react"
 import { Toaster } from "@/components/ui/sonner"
 import { Countdown } from "@/components/site/Countdown"
 import { Directions } from "@/components/site/Directions"
@@ -30,6 +31,7 @@ export default function App() {
       )}
       <Footer />
       <Toaster position="top-center" />
+      <Analytics />
     </>
   )
 }
