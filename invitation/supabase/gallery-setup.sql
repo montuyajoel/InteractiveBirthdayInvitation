@@ -1,4 +1,4 @@
--- Gallery project: public photo bucket "christening_photos", guest uploads in "guests/".
+-- Gallery project: public photo bucket "christening_photos", guest uploads in "aya-photos/".
 -- (The setup script fills these in from src/config.ts.)
 -- Paste into Supabase → SQL Editor → New query, then Run. Safe to re-run.
 -- Several events can share one project: each event's rules are named after
@@ -22,15 +22,18 @@ create policy "gallery list christening_photos"
   on storage.objects for select to public
   using (bucket_id = 'christening_photos');
 
--- 3. Let guests add photos: JPEGs only, only inside the guests folder.
+-- 3. Let guests add photos: JPEGs only, only inside the aya-photos folder.
 --    There are no update/delete rules, so guests can't overwrite or remove
 --    anything. Delete unwanted photos from the dashboard.
+-- (Earlier versions of this file let guests upload into "guests/"; that
+-- rule is removed here so uploads only go to "aya-photos/".)
 drop policy if exists "gallery upload christening_photos/guests" on storage.objects;
-create policy "gallery upload christening_photos/guests"
+drop policy if exists "gallery upload christening_photos/aya-photos" on storage.objects;
+create policy "gallery upload christening_photos/aya-photos"
   on storage.objects for insert to public
   with check (
     bucket_id = 'christening_photos'
-    and name like 'guests/%.jpg'
+    and name like 'aya-photos/%.jpg'
   );
 
 -- Older sites used the shared names "anyone can list gallery" and "guests can
