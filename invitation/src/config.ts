@@ -117,7 +117,7 @@ export const GALLERY = {
   url: env.VITE_GALLERY_SUPABASE_URL || "",
   key: env.VITE_GALLERY_SUPABASE_KEY || "",
   bucket: "christening_photos", // must be a public bucket
-  folder: "guests", // sub-folder inside the bucket; "" for the bucket root
+  folder: "aya-photos", // sub-folder inside the bucket; "" for the bucket root
 }
 
 // Studio credit shown at the bottom of every site and invitation email.
