@@ -29,7 +29,7 @@ export function Countdown() {
 
   return (
     <section aria-label="Countdown" className="relative border-y border-brand/25 bg-white/55">
-      <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-12 sm:px-6 md:grid-cols-[auto_1fr_auto] md:gap-12">
+      <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-12 sm:px-6 xl:grid-cols-[auto_1fr_auto] xl:gap-12">
         <div className="relative">
           <p className="script foil -rotate-6 text-5xl sm:text-6xl">
             {fill(COPY.surprise ? COPY.surpriseHeadline : COPY.saveTheDate)}
@@ -54,7 +54,7 @@ export function Countdown() {
           </ol>
         )}
 
-        <div className="flex flex-wrap gap-2 md:flex-col">
+        <div className="flex flex-wrap gap-2 xl:flex-col">
           <Button asChild variant="ghost" className="justify-start gap-2 rounded-none text-ink hover:bg-highlight/60">
             <a href={googleCalendarUrl()} target="_blank" rel="noreferrer">
               <CalendarPlus /> Google Calendar

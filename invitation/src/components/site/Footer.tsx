@@ -1,3 +1,4 @@
+import { CREDIT } from "@/config"
 import { COPY, fill } from "@/lib/copy"
 import { Balloons, Butterfly, Cross, FloralSpray, Sparkle, garland } from "./Decor"
 
@@ -17,6 +18,12 @@ export function Footer() {
         <p className="eyebrow mt-4">{fill(COPY.footerLine)}</p>
         <p className="script foil mt-4 text-6xl">{fill(COPY.footerSignature)}</p>
       </div>
+      <p className="border-t border-brand/15 px-4 py-5 text-center text-xs tracking-wide text-muted-foreground">
+        {CREDIT.text}{" "}
+        <a href={`mailto:${CREDIT.email}`} className="text-brand underline-offset-4 hover:underline">
+          {CREDIT.email}
+        </a>
+      </p>
     </footer>
   )
 }

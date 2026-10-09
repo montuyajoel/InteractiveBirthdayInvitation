@@ -10,10 +10,13 @@ import { Milestones } from "@/components/site/Milestones"
 import { Hero } from "@/components/site/Hero"
 import { PhotosPage } from "@/components/site/PhotosPage"
 import { Rsvp } from "@/components/site/Rsvp"
+import { ShareCard } from "@/components/site/ShareCard"
 import { useRoute } from "@/lib/route"
 
 export default function App() {
   const route = useRoute()
+
+  if (route === "share-card") return <ShareCard />
 
   return (
     <>

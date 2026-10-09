@@ -32,13 +32,10 @@ password), redeploy, and smoke-test with your own email.
 
 The registration form asks guests whether they'd like to be Aya's
 Ninong/Ninang (godparent). It's saved in the `ninong_ninang` column of
-`registrations` and shown as a tag, with a count, in the hosts' guest list.
+the event's table and shown as a tag, with a count, in the hosts' guest list.
 
-- **New database:** nothing extra; `setup.sql`, `guest-list.sql` and
-  `send-invitations.sql` already include it.
-- **Database set up before this was added:** run
-  `supabase/ninong-ninang.sql` once in Supabase → SQL Editor. Until then,
-  guests who tick the box get an error (unticked registrations still work).
+`supabase/setup.sql` creates the column along with the rest of this event's
+table (`aya_christening_2026_guests`), so there's no separate step.
 
-To see who offered in Supabase: Table Editor → `registrations`, filter
+To see who offered in Supabase: Table Editor → `aya_christening_2026_guests`, filter
 `ninong_ninang` = true.

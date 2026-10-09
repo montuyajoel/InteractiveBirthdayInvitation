@@ -45,6 +45,7 @@ export const COPY = {
   kicker: "", // spaced capitals above the title; "" to hide
   title: "Christening",
   celebrationFor: "of our little one",
+  shareHeadline: "You're invited!", // big line on the link-preview picture (public/share.jpg)
   intro: "With hearts full of joy, we invite you to witness {name}'s christening as she is welcomed into God's family, followed by a little celebration with everyone who loves her.",
   eventTitle: "{honoree}'s Christening", // calendar entries, email subject
   footerSignature: "Baby {name}",
@@ -104,7 +105,10 @@ const env: Record<string, string | undefined> =
 export const REGISTRATIONS = {
   url: env.VITE_SUPABASE_URL || "",
   key: env.VITE_SUPABASE_ANON_KEY || "",
-  table: "registrations",
+  // This event's own table. Several events can share one Supabase project:
+  // each gets its own table, send log and functions, all named after this
+  // (supabase/setup.sql). Lowercase letters, digits and _ only.
+  table: "aya_christening_2026_guests",
 }
 
 // Supabase project holding the photo gallery bucket.
@@ -114,4 +118,11 @@ export const GALLERY = {
   key: env.VITE_GALLERY_SUPABASE_KEY || "",
   bucket: "christening_photos", // must be a public bucket
   folder: "guests", // sub-folder inside the bucket; "" for the bucket root
+}
+
+// Studio credit shown at the bottom of every site and invitation email.
+// Keep it on every event.
+export const CREDIT = {
+  text: "For customized invitations, email us at",
+  email: "thedigitalinvitationsph@gmail.com",
 }

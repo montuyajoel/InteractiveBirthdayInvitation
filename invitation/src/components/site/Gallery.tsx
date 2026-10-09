@@ -126,6 +126,7 @@ function Empty({ icon, text }: { icon: React.ReactNode; text: string }) {
 
 function Tile({ photo, index, onOpen }: { photo: Photo; index: number; onOpen: () => void }) {
   const [loaded, setLoaded] = useState(false)
+  const [failed, setFailed] = useState(false)
   // alternate a slight tilt so the grid feels like prints laid on a table
   const tilt = ["-rotate-[0.6deg]", "rotate-[0.5deg]", "rotate-0"][index % 3]
 
@@ -140,15 +141,32 @@ function Tile({ photo, index, onOpen }: { photo: Photo; index: number; onOpen: (
       )}
       aria-label={photo.caption ? `Open photo: ${photo.caption}` : `Open photo ${index + 1}`}
     >
-      <span className="relative block overflow-hidden bg-soft/60" style={photo.ratio ? { aspectRatio: photo.ratio } : undefined}>
+      <span
+        className="relative block overflow-hidden bg-soft/60"
+        // Reserve a 4:3 box until the real shape is known, so tiles don't collapse.
+        style={{ aspectRatio: photo.ratio || (loaded ? undefined : 4 / 3) }}
+      >
+        {failed && (
+          <span className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-center text-sm italic text-muted-foreground">
+            <ImageOff className="h-6 w-6" aria-hidden />
+            Photo unavailable
+          </span>
+        )}
         <img
           src={photo.src}
           alt={photo.caption || `Party photo ${index + 1}`}
           loading="lazy"
           onLoad={() => setLoaded(true)}
+          onError={() => {
+            // Usually a private bucket: public photo links only work when the
+            // bucket is marked Public (supabase/gallery-setup.sql does this).
+            console.error("Gallery photo failed to load (is the bucket public?):", photo.src)
+            setFailed(true)
+          }}
           className={cn(
             "block h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]",
             loaded ? "opacity-100" : "opacity-0",
+            failed && "invisible",
           )}
         />
       </span>

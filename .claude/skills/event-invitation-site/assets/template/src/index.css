@@ -31,6 +31,11 @@
   * {
     @apply border-border;
   }
+  html,
+  body {
+    /* Decorations peek past the edges; never let them widen the page on phones. */
+    overflow-x: clip;
+  }
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 4.5rem;

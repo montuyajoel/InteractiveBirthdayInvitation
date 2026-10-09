@@ -26,8 +26,7 @@ export async function submitRegistration(r: Registration): Promise<void> {
         last_name: r.lastName,
         email: r.email.toLowerCase(),
         wishes: r.wishes,
-        // Only sent when ticked, so plain registrations keep working on a
-        // database that hasn't had supabase/ninong-ninang.sql run yet.
+        // Only sent when ticked (the column defaults to false).
         ...(r.sponsor ? { ninong_ninang: true } : {}),
       }),
     })
@@ -56,8 +55,12 @@ export async function submitRegistration(r: Registration): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Hosts-only guest list. The password is checked by the `guest_list`
-// database function (supabase/guest-list.sql), never in the browser.
+// Hosts-only guest list. The password is checked by this event's
+// `<table>_guest_list` database function (supabase/setup.sql), never in the
+// browser.
+
+/** This event's database functions are named after its table. */
+const rpc = (name: string) => supabaseUrl(REGISTRATIONS, `/rest/v1/rpc/${REGISTRATIONS.table}_${name}`)
 
 export type GuestListEntry = {
   first_name: string
@@ -65,17 +68,48 @@ export type GuestListEntry = {
   email: string
   wishes: string
   created_at: string
-  // Missing until supabase/send-invitations.sql has been run.
   invite_sent_at?: string | null
-  // Missing until supabase/ninong-ninang.sql has been run.
+  // ticked "I'd love to be a Ninong/Ninang"
   ninong_ninang?: boolean
+  invite_count?: number
+  last_invite_status?: "sent" | "failed" | null
+  last_invite_error?: string | null
+  last_invite_at?: string | null
+}
+
+/** One row of the invite_log table: a single send attempt. */
+export type InviteLogEntry = {
+  email: string
+  guest_name: string
+  status: "sent" | "failed"
+  error: string | null
+  message_id: string | null
+  sent_at: string
+}
+
+export class InviteLogNotSetUpError extends Error {}
+
+/** Every send attempt, newest first. */
+export async function fetchInviteHistory(passcode: string): Promise<InviteLogEntry[]> {
+  const res = await fetch(rpc("invite_history"), {
+    method: "POST",
+    headers: supabaseHeaders(REGISTRATIONS),
+    body: JSON.stringify({ passcode }),
+  })
+  if (res.ok) return res.json()
+
+  const detail = await res.text().catch(() => "")
+  if (detail.includes("invalid passcode") || detail.includes("28P01")) throw new WrongPasswordError()
+  if (res.status === 404 || detail.includes("PGRST202")) throw new InviteLogNotSetUpError()
+  console.error(`Supabase rejected the invite history request (${res.status}):`, detail)
+  throw new Error(`Could not load the invite history (${res.status})`)
 }
 
 export class WrongPasswordError extends Error {}
 export class GuestListNotSetUpError extends Error {}
 
 export async function fetchGuestList(passcode: string): Promise<GuestListEntry[]> {
-  const res = await fetch(supabaseUrl(REGISTRATIONS, "/rest/v1/rpc/guest_list"), {
+  const res = await fetch(rpc("guest_list"), {
     method: "POST",
     headers: supabaseHeaders(REGISTRATIONS),
     body: JSON.stringify({ passcode }),
@@ -114,9 +148,10 @@ export async function sendInvitations(
   passcode: string,
   emails: string[],
   onProgress?: (done: number, total: number) => void,
-): Promise<{ sent: string[]; failed: string[] }> {
+): Promise<{ sent: string[]; failed: string[]; errors: Record<string, string> }> {
   const sent: string[] = []
   const failed: string[] = []
+  const errors: Record<string, string> = {}
   for (let i = 0; i < emails.length; i += SEND_BATCH) {
     const batch = emails.slice(i, i + SEND_BATCH)
     let res: Response
@@ -143,7 +178,8 @@ export async function sendInvitations(
     if (!res.ok) throw new Error(`Sending failed (${res.status})`)
     sent.push(...body.sent)
     failed.push(...body.failed)
+    Object.assign(errors, body.errors ?? {})
     onProgress?.(Math.min(i + SEND_BATCH, emails.length), emails.length)
   }
-  return { sent, failed }
+  return { sent, failed, errors }
 }

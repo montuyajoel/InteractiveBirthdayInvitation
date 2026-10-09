@@ -1,56 +1,11 @@
--- Registrations project: password-protected guest list.
--- Paste into Supabase → SQL Editor → New query, REPLACE  YOUR_PASSWORD  below
--- with the hosts' password, then Run. Re-run any time to change the password.
+-- This event's hosts' password for the guest list and invitation sending.
+-- Run setup.sql first. Paste into Supabase → SQL Editor → New query, REPLACE
+-- YOUR_PASSWORD below with the hosts' password, then Run. Re-run any time to
+-- change it. Don't save the real password back into this file.
 --
--- The password is checked here in the database, never in the website, and
--- only a bcrypt hash of it is stored. The registrations table itself stays
--- unreadable with the public key.
+-- The password is checked in the database, never in the website, and only a
+-- bcrypt hash of it is stored. Each event has its own password.
 
-create extension if not exists pgcrypto with schema extensions;
-
--- Not exposed through the API.
-create schema if not exists private;
-revoke all on schema private from public, anon, authenticated;
-
-create table if not exists private.guest_list_password (
-  id   int primary key default 1 check (id = 1),
-  hash text not null
-);
-
-insert into private.guest_list_password (id, hash)
-values (1, extensions.crypt('YOUR_PASSWORD', extensions.gen_salt('bf', 10)))
-on conflict (id) do update set hash = excluded.hash;
-
--- Columns added by later scripts, so re-running this file (e.g. to change
--- the password) keeps the full guest list.
-alter table public.registrations add column if not exists invite_sent_at timestamptz;
-alter table public.registrations add column if not exists ninong_ninang boolean not null default false;
-
-drop function if exists public.guest_list(text);
-create function public.guest_list(passcode text)
-returns table (
-  first_name text, last_name text, email text, wishes text,
-  created_at timestamptz, invite_sent_at timestamptz, ninong_ninang boolean
-)
-language plpgsql
-security definer
-set search_path = ''
-as $$
-begin
-  if not exists (
-    select 1 from private.guest_list_password p
-    where p.hash = extensions.crypt(passcode, p.hash)
-  ) then
-    raise exception 'invalid passcode' using errcode = '28P01';
-  end if;
-
-  return query
-    select r.first_name, r.last_name, r.email, r.wishes, r.created_at, r.invite_sent_at, r.ninong_ninang
-    from public.registrations r
-    order by r.created_at;
-end;
-$$;
-revoke all on function public.guest_list(text) from public;
-grant execute on function public.guest_list(text) to anon;
-
-notify pgrst, 'reload schema';
+insert into private.event_passwords (event_table, hash)
+values ('aya_christening_2026_guests', extensions.crypt('YOUR_PASSWORD', extensions.gen_salt('bf', 10)))
+on conflict (event_table) do update set hash = excluded.hash;

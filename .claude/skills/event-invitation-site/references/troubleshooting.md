@@ -4,14 +4,16 @@
 | --- | --- | --- |
 | Registration 401 `Forbidden use of secret API key in browser` | secret key in the site | use the publishable/anon key; rotate the secret key |
 | 401 `No API key found in request` | opening the REST URL in a browser tab, or empty key | test through the form; set the key |
-| 401 `permission denied for table registrations` (42501) | `anon` lacks INSERT grant | run `setup.sql` again (has `grant insert … to anon`) |
+| 401 `permission denied for table <table>` (42501) on RSVP | `setup.sql` not run for this event's table, or `REGISTRATIONS.table` doesn't match the table in Supabase | run this event's `setup.sql` (grants insert to `anon`); check the table name in `src/config.ts` |
 | Upload 400/403 `new row violates row-level security policy` | storage insert policy missing or wrong bucket/folder | run `gallery-setup.sql` in the **gallery** project; check bucket + folder names match config; inspect Logs → Storage for the object path |
 | Gallery shows sample tiles | gallery key not set (preview mode) | set `VITE_GALLERY_SUPABASE_KEY`, redeploy |
 | Gallery empty although files exist | wrong bucket/folder, or no SELECT policy | match `GALLERY.bucket/folder`; run gallery SQL |
-| "The guest list isn't set up in the database yet" | `guest_list` missing (404/PGRST202) or site calls the other project | check with the query in setup.md; `notify pgrst, 'reload schema';`; check the request host in DevTools |
-| "That password isn't right" though SQL ran | `YOUR_PASSWORD` not replaced, or typo/space | `select hash = extensions.crypt('…', hash) from private.guest_list_password;` → if false, `update … set hash = extensions.crypt('…', extensions.gen_salt('bf', 10))` |
+| Gallery lists photos (captions show) but every picture is blank / "Photo unavailable" | bucket is **private**: public photo links return 400 | re-run `gallery-setup.sql` (sets the bucket public), or Storage → bucket → Edit → Public bucket; or `update storage.buckets set public = true where id = '<bucket>';` |
+| Another event's gallery stopped listing or uploading after a new event's gallery SQL ran | older `gallery-setup.sql` used shared rule names ("anyone can list gallery", "guests can share photos"), so the newest event replaced them | re-run each affected event's `gallery-setup.sql` from the current template (rules are now named per bucket/folder) |
+| "The guest list isn't set up in the database yet" | `<table>_guest_list` missing (404/PGRST202): `setup.sql` not run for this table, table name mismatch, or site calls the other project | check with the query in setup.md; `notify pgrst, 'reload schema';`; check the request host in DevTools |
+| "That password isn't right" though SQL ran | `guest-list.sql` not run for this event, `YOUR_PASSWORD` not replaced, or typo/space | `select hash = extensions.crypt('…', hash) from private.event_passwords where event_table = '<table>';` → no row: run `guest-list.sql`; false: re-run it with the right password |
 | "Sending only works on the live site" | you're on localhost / a file preview | expected; test on Vercel |
-| "The email function isn't deployed (404)" | Root Directory wrong, or not redeployed | set Root Directory to the event folder; redeploy |
+| "The email function isn't deployed (404)" | Root Directory wrong, or not redeployed | set Root Directory to `invitation`; redeploy |
 | "The email function failed (500)" / FUNCTION_INVOCATION_FAILED | crash at load; often extensionless imports | keep `.js` extensions on relative imports in `api/` and anything it imports (`src/config.js`, `src/lib/event.js`): with `"type": "module"` Vercel runs plain Node ESM |
 | "Email isn't set up yet" | `GMAIL_USER` / `GMAIL_APP_PASSWORD` missing | add env vars, redeploy |
 | Blank page in the single-file bundle: `$… $exports is not defined` | Parcel scope-hoisting + `import { z } from "zod"` | use `import * as z from "zod"` |
@@ -24,3 +26,9 @@
 | TS 6 `baseUrl is deprecated` | scaffold uses baseUrl for path aliases | `"ignoreDeprecations": "6.0"` (already set) |
 | Choosing the same photo again does nothing | file input not reset after a rejected attempt | the uploader resets the input on every change (keep it that way) |
 | Times off for guests abroad | start written without offset | `start` must include the venue's UTC offset; labels use `EVENT.timeZone` |
+| Page width "breathes" / jitters sideways on phones | an animated decoration (drifting butterfly) poking past the screen edge | `overflow-x: clip` on html/body (already set); keep absolutely positioned decor inside the viewport on small screens; check with `document.documentElement.scrollWidth === innerWidth` at 390 px over a few seconds |
+| Countdown numbers vanish on tablets | three-column countdown squeezed at 768–1279 px | columns only from `xl`; stacked below (already set) |
+| "The send history isn't set up yet" | `<table>_invite_history` missing | re-run this event's `supabase/setup.sql` |
+| A guest shows "Failed" | Gmail rejected that send; hover the badge or open **Send history** for the error | fix the address or Gmail settings, then **Send invitation** again (the guest stays in "not yet invited") |
+| One event's hosts see another event's guests | both sites use the same `REGISTRATIONS.table` (or an old site's shared `registrations`) | give each event its own table name and run `setup.sql` + `guest-list.sql` for it |
+| Shared link shows text but no picture | `public/share.jpg` missing, the `og:image` address is relative (no `SITE_URL` and not on Vercel), or the app cached the old preview | run `scripts/share_image.mjs` and commit the image; set `SITE_URL`; re-scrape in Facebook's Sharing Debugger, or share the link with `?v=2` added |
