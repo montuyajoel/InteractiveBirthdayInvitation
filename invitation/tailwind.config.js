@@ -8,15 +8,19 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        script: ['"Allura"', "cursive"],
-        serif: ['"Cormorant Garamond"', "Georgia", "serif"],
+        script: ["var(--font-script)", "cursive"],
+        serif: ["var(--font-serif)", "Georgia", "serif"],
       },
       colors: {
-        plum: "#5c3a63",
-        mauve: "#9a6aa0",
-        lilac: "#e9dcf0",
-        blush: "#f6dde8",
-        paper: "#fbf6fb",
+        // Role colours from src/theme.ts (applied as CSS variables in main.tsx)
+        ink: "rgb(var(--c-ink) / <alpha-value>)",
+        brand: "rgb(var(--c-brand) / <alpha-value>)",
+        soft: "rgb(var(--c-soft) / <alpha-value>)",
+        highlight: "rgb(var(--c-highlight) / <alpha-value>)",
+        paper: "rgb(var(--c-paper) / <alpha-value>)",
+        night: "rgb(var(--c-night) / <alpha-value>)",
+        foliage: "rgb(var(--c-foliage) / <alpha-value>)",
+        bloom: "rgb(var(--c-bloom) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -38,13 +42,13 @@ module.exports = {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         card: {
           DEFAULT: "hsl(var(--card))",
@@ -65,6 +69,10 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        sway: {
+          "0%, 100%": { transform: "rotate(-4deg)" },
+          "50%": { transform: "rotate(4deg)" },
+        },
         flutter: {
           "0%, 100%": { transform: "scaleX(1)" },
           "50%": { transform: "scaleX(0.55)" },
@@ -80,6 +88,7 @@ module.exports = {
         },
       },
       animation: {
+        sway: "sway 4s ease-in-out infinite",
         flutter: "flutter 0.6s ease-in-out infinite",
         drift: "drift 7s ease-in-out infinite",
         "float-up": "float-up 1.8s ease-out forwards",

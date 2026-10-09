@@ -9,6 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { EVENT } from "@/config"
+import { COPY, fill } from "@/lib/copy"
 import {
   AlreadyRegisteredError,
   registrationsConnected,
@@ -28,12 +29,12 @@ const schema = z.object({
   wishes: z
     .string()
     .trim()
-    .min(1, `Leave a little wish for ${EVENT.celebrant.split(" ")[0]}`)
+    .min(1, fill(COPY.wishRequired))
     .max(WISH_MAX, `Please keep it under ${WISH_MAX} characters`),
 })
 
 const fieldClass =
-  "rounded-none border-0 border-b border-mauve/40 bg-transparent px-0 text-lg shadow-none focus-visible:border-mauve focus-visible:ring-0"
+  "rounded-none border-0 border-b border-brand/40 bg-transparent px-0 text-lg shadow-none focus-visible:border-brand focus-visible:ring-0"
 
 export function Rsvp() {
   const [done, setDone] = useState<Registration | null>(rememberedGuest)
@@ -61,12 +62,11 @@ export function Rsvp() {
     <section id="rsvp" className="relative scroll-mt-16 py-20 sm:py-28">
       <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
         <div className="relative">
-          <SectionTitle eyebrow="Kindly register" title="Save your seat" />
-          <p className="mt-6 max-w-sm text-xl italic leading-relaxed text-plum/90">
-            Let us know you're coming so we can plan the surprise. Leave a birthday wish for{" "}
-            {EVENT.celebrant.split(" ")[0]} too: we'll gather them all for her.
+          <SectionTitle eyebrow={fill(COPY.rsvpEyebrow)} title={fill(COPY.rsvpTitle)} />
+          <p className="mt-6 max-w-sm text-xl italic leading-relaxed text-ink/90">
+            {fill(COPY.rsvpIntro)}
           </p>
-          <ul className="mt-8 space-y-2 text-sm uppercase tracking-[0.2em] text-mauve">
+          <ul className="mt-8 space-y-2 text-sm uppercase tracking-[0.2em] text-brand">
             <li>{eventDateLabel}</li>
             <li>{eventTimeLabel}</li>
             <li>{EVENT.venue}</li>
@@ -75,10 +75,10 @@ export function Rsvp() {
         </div>
 
         <div className="relative">
-          <div className="paper relative border border-mauve/25 p-6 shadow-[0_30px_60px_-40px_rgb(92_58_99/0.6)] sm:p-10">
+          <div className="paper relative border border-brand/25 p-6 shadow-[0_30px_60px_-40px_rgb(var(--c-ink)/0.6)] sm:p-10">
             {/* folded corner */}
             <span
-              className="absolute right-0 top-0 h-10 w-10 bg-lilac"
+              className="absolute right-0 top-0 h-10 w-10 bg-soft"
               style={{ clipPath: "polygon(0 0, 100% 100%, 0 100%)" }}
               aria-hidden
             />
@@ -141,7 +141,7 @@ export function Rsvp() {
                     render={({ field }) => (
                       <FormItem>
                         <div className="flex items-baseline justify-between">
-                          <FormLabel className="eyebrow text-[0.7rem]">Birthday wishes</FormLabel>
+                          <FormLabel className="eyebrow text-[0.7rem]">{fill(COPY.wishLabel)}</FormLabel>
                           <span
                             className={`text-xs tabular-nums ${wishLength > WISH_MAX ? "text-destructive" : "text-muted-foreground"}`}
                           >
@@ -151,8 +151,8 @@ export function Rsvp() {
                         <FormControl>
                           <Textarea
                             rows={5}
-                            placeholder={`Dear ${EVENT.celebrant.split(" ")[0]}, happy sweet sixteen…`}
-                            className="resize-none rounded-none border-mauve/40 bg-white/60 text-lg italic placeholder:text-mauve/50 focus-visible:ring-mauve/40"
+                            placeholder={fill(COPY.wishPlaceholder)}
+                            className="resize-none rounded-none border-brand/40 bg-white/60 text-lg italic placeholder:text-brand/50 focus-visible:ring-brand/40"
                             {...field}
                           />
                         </FormControl>
@@ -193,15 +193,17 @@ function ThankYou({ r, onAnother }: { r: Registration; onAnother: () => void }) 
       <Butterfly className="mx-auto h-12 w-14" />
       <p className="script mt-2 text-6xl">Thank you, {r.firstName}!</p>
       <HeartRule className="mt-4 justify-center" />
-      <p className="mx-auto mt-6 max-w-md text-xl italic text-plum/90">
-        You're on the list. We can't wait to celebrate with you on {eventDateLabel}.
+      <p className="mx-auto mt-6 max-w-md text-xl italic text-ink/90">
+        {fill(COPY.thankYou)}
       </p>
-      <blockquote className="mx-auto mt-8 max-w-md border-l-2 border-mauve/50 pl-4 text-left italic text-mauve">
+      <blockquote className="mx-auto mt-8 max-w-md border-l-2 border-brand/50 pl-4 text-left italic text-brand">
         “{r.wishes}”
       </blockquote>
-      <p className="mt-8 text-xs uppercase tracking-[0.25em] text-mauve">Remember: not a word to {EVENT.celebrant.split(" ")[0]}!</p>
-      <PhotoUpload guestName={`${r.firstName} ${r.lastName}`} className="mt-10 border-t border-mauve/20 pt-8" />
-      <Button variant="link" className="mt-6 text-mauve" onClick={onAnother}>
+      {COPY.surprise && (
+        <p className="mt-8 text-xs uppercase tracking-[0.25em] text-brand">{fill(COPY.surpriseReminder)}</p>
+      )}
+      <PhotoUpload guestName={`${r.firstName} ${r.lastName}`} className="mt-10 border-t border-brand/20 pt-8" />
+      <Button variant="link" className="mt-6 text-brand" onClick={onAnother}>
         Register another guest
       </Button>
     </div>
@@ -230,7 +232,7 @@ function HeartBurst() {
             ["--rot" as string]: `${h.rot}deg`,
           }}
         >
-          <Heart className="text-mauve" filled style={{ width: h.size, height: h.size }} />
+          <Heart className="text-brand" filled style={{ width: h.size, height: h.size }} />
         </span>
       ))}
     </div>

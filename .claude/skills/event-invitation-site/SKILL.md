@@ -16,7 +16,14 @@ specifics live in three places, so a new event never needs code surgery:
 | The printed invitation image | `src/assets/invitationCard.ts` + `public/email/invitation-card.jpg` |
 
 `scripts/new_event.py` copies the template and fills all three from one
-`event.json`. Decorations (flowers, butterflies, hearts) live in
+`event.json`.
+
+**Where the site goes:** always the repo's `invitation/` folder, never a new
+folder. That folder is the Vercel project's Root Directory, so a site
+anywhere else doesn't deploy. Each client gets their own git branch from the
+default branch (e.g. `claude/brendan-angelina-wedding`), and the new event
+replaces the previous one inside `invitation/` on that branch; earlier
+clients stay on their own branches. Keep `invitation/vercel.json` as it is. Decorations (flowers, butterflies, hearts) live in
 `src/components/site/Decor.tsx` and are the main thing to redraw for a
 different motif.
 
@@ -54,8 +61,14 @@ the token roles, contrast targets, motif swaps and what not to break.
 ```bash
 python3 <skill>/scripts/new_event.py --example > event.json   # start from the example
 # edit event.json (only include keys you want to change)
-python3 <skill>/scripts/new_event.py --dest ./<event-folder> --spec event.json --card card.jpg
+git checkout -b claude/<client-event> origin/main                  # one branch per client
+python3 <skill>/scripts/new_event.py --spec event.json --card card.jpg --replace   # writes invitation/
 ```
+
+`--dest` defaults to `invitation`; `--replace` clears the previous event out
+of it first (keeping `vercel.json`, `node_modules`, `.vercel`), so no stale
+files such as old decoration images survive. Keep `event.json`, screenshots
+and other scratch files out of the repo.
 
 The script rejects unknown keys (so typos fail loudly), validates the start
 time format (`2027-04-24T15:30:00+08:00`, local time with its UTC offset) and
@@ -74,7 +87,7 @@ the sample gallery captions in `src/lib/gallery.ts`.
 ### 4. Verify before showing anyone
 
 ```bash
-cd <event-folder> && pnpm install          # npm can't install into a pnpm tree
+cd invitation && pnpm install          # npm can't install into a pnpm tree
 npx tsc -p tsconfig.app.json --noEmit      # site
 npx tsc -p tsconfig.api.json               # email function
 npx vite build
@@ -91,7 +104,7 @@ problems this template has hit before and how they were fixed.
 
 Show the user screenshots (and a single-file preview if the
 web-artifacts-builder skill is available: run its `bundle-artifact.sh` in
-the event folder) **before** pushing, and wait for their go-ahead when they
+`invitation/`) **before** pushing, and wait for their go-ahead when they
 ask to review first.
 
 ### 5. Connect the backend

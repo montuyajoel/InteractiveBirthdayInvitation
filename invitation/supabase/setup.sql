@@ -1,4 +1,4 @@
--- Registrations project (rgicukixlxexgzcxgvqg): guest registrations table.
+-- Registrations project: guest registrations table.
 -- Paste into Supabase → SQL Editor → New query, then Run. Safe to re-run.
 
 -- 1. Guest registrations ----------------------------------------------------

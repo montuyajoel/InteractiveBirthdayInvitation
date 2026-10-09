@@ -11,7 +11,7 @@
 | "The guest list isn't set up in the database yet" | `guest_list` missing (404/PGRST202) or site calls the other project | check with the query in setup.md; `notify pgrst, 'reload schema';`; check the request host in DevTools |
 | "That password isn't right" though SQL ran | `YOUR_PASSWORD` not replaced, or typo/space | `select hash = extensions.crypt('…', hash) from private.guest_list_password;` → if false, `update … set hash = extensions.crypt('…', extensions.gen_salt('bf', 10))` |
 | "Sending only works on the live site" | you're on localhost / a file preview | expected; test on Vercel |
-| "The email function isn't deployed (404)" | Root Directory wrong, or not redeployed | set Root Directory to the event folder; redeploy |
+| "The email function isn't deployed (404)" | Root Directory wrong, or not redeployed | set Root Directory to `invitation`; redeploy |
 | "The email function failed (500)" / FUNCTION_INVOCATION_FAILED | crash at load; often extensionless imports | keep `.js` extensions on relative imports in `api/` and anything it imports (`src/config.js`, `src/lib/event.js`): with `"type": "module"` Vercel runs plain Node ESM |
 | "Email isn't set up yet" | `GMAIL_USER` / `GMAIL_APP_PASSWORD` missing | add env vars, redeploy |
 | Blank page in the single-file bundle: `$… $exports is not defined` | Parcel scope-hoisting + `import { z } from "zod"` | use `import * as z from "zod"` |

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Create a new event invitation site from the template.
 
-    python3 new_event.py --dest ./my-event --spec event.json [--card card.jpg] [--force]
+    python3 new_event.py --spec event.json [--card card.jpg] [--dest invitation] [--replace]
     python3 new_event.py --example            # print an example event.json
 
 The spec is JSON with any of these sections (see assets/event.example.json):
@@ -10,6 +10,11 @@ The spec is JSON with any of these sections (see assets/event.example.json):
   registrations -> REGISTRATIONS in config.ts   (url, table)
   gallery       -> GALLERY in config.ts         (url, bucket, folder)
   theme         -> THEME in src/theme.ts        (colors, envelope, fonts, radius)
+
+The site always lives in the repo's `invitation/` folder (the Vercel project's
+Root Directory), one client per git branch. --dest defaults to it; when it
+already holds the previous event, --replace clears it first (keeping
+vercel.json, node_modules and .vercel) so no old files are left behind.
 Only keys you give are changed; everything else keeps the template default.
 Unknown keys are an error, so typos don't silently do nothing.
 """
@@ -37,6 +42,8 @@ TARGETS = {
     "theme.fonts": ("src/theme.ts", ["THEME", "fonts"]),
     "theme": ("src/theme.ts", ["THEME"]),  # top-level scalars such as radius
 }
+# Left in place by --replace: deploy settings and installed packages.
+KEEP = {"vercel.json", "node_modules", ".vercel"}
 # Never written into the site: these must stay out of public code.
 FORBIDDEN = re.compile(r"service_role|sb_secret_|postgres(ql)?://|password", re.I)
 
@@ -215,23 +222,29 @@ def placeholder_card(dest):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--dest", help="folder to create the site in")
+    ap.add_argument("--dest", default="invitation", help="site folder (default: invitation, the Vercel Root Directory)")
     ap.add_argument("--spec", help="event.json with the event details, wording and theme")
     ap.add_argument("--card", help="the printed invitation image (jpg/png)")
-    ap.add_argument("--force", action="store_true", help="allow a non-empty --dest (template files are overwritten)")
+    ap.add_argument("--replace", action="store_true", help="clear the previous event out of --dest first (keeps vercel.json, node_modules, .vercel)")
     ap.add_argument("--example", action="store_true", help="print an example event.json and exit")
     a = ap.parse_args()
 
     if a.example:
         print(EXAMPLE.read_text())
         return
-    if not a.dest:
-        ap.error("--dest is required")
     dest = Path(a.dest).resolve()
-    if dest.exists() and any(dest.iterdir()) and not a.force:
-        raise SystemExit(f"{dest} is not empty (use --force to overwrite template files there)")
+    if dest.exists() and any(dest.iterdir()) and not a.replace:
+        raise SystemExit(
+            f"{dest} already holds a site. Start a new branch for this client, then rerun with --replace "
+            "to swap the previous event out (vercel.json is kept)."
+        )
 
     spec = json.loads(Path(a.spec).read_text()) if a.spec else {}
+    if dest.exists():
+        for child in dest.iterdir():
+            if child.name in KEEP:
+                continue
+            shutil.rmtree(child) if child.is_dir() and not child.is_symlink() else child.unlink()
     shutil.copytree(TEMPLATE, dest, dirs_exist_ok=True)
     apply_spec(dest, spec)
     fill_static_files(dest)

@@ -34,7 +34,7 @@ Check: `select to_regclass('public.registrations') is not null, (select count(*)
 
 ## 3. Vercel
 
-- Import the repo; **Root Directory** = the event folder (e.g. `invitation`);
+- Import the repo; **Root Directory** = `invitation` (every event lives there, one branch per client);
   Framework = Vite (build `npm run build`, output `dist`).
 - Environment Variables:
 

@@ -8,12 +8,13 @@
 // Env (Vercel → Settings → Environment Variables):
 //   GMAIL_USER          the Gmail address to send from
 //   GMAIL_APP_PASSWORD  a Google app password for that account (not the normal password)
-//   EMAIL_FROM_NAME     optional sender name, default "Chelsea's 16th Birthday"
-//   SITE_URL            optional, e.g. https://chelsea16.vercel.app (defaults to the request's site)
+//   EMAIL_FROM_NAME     optional sender name, default COPY.emailFromName in src/config.ts
+//   SITE_URL            optional, e.g. https://my-event.vercel.app (defaults to the request's site)
 //   VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY  same as the website
 import nodemailer from "nodemailer"
 import type { Transporter } from "nodemailer"
-import { REGISTRATIONS } from "../src/config.js"
+import { COPY, REGISTRATIONS } from "../src/config.js"
+import { fill } from "../src/lib/event.js"
 import { invitationEmail, type InvitationGuest } from "./_lib/invitationEmail.js"
 
 export const config = { maxDuration: 60 }
@@ -71,7 +72,7 @@ export async function handleSend(request: Request, deps: Deps): Promise<Response
 
   const transport = deps.createTransport(env)
   const siteUrl = env.SITE_URL || new URL(request.url).origin
-  const fromName = env.EMAIL_FROM_NAME || "Chelsea's 16th Birthday"
+  const fromName = env.EMAIL_FROM_NAME || fill(COPY.emailFromName)
   const sent: string[] = []
   const failed: string[] = []
 
