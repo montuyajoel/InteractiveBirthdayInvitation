@@ -62,11 +62,15 @@ One Vercel project per event, all importing the same repo:
 - Settings → Environments → Production → branch = the event's branch. Vercel
   only offers a branch it has built: if it says "No deployments found", go to
   Deployments → ⋯ → Create Deployment → the branch name, then retry.
-- The folder's `vercel.json` (`ignoreCommand`) builds only that branch, so
-  pushes to other events' branches show as *Canceled*. Leave the dashboard's
-  "Ignored Build Step" empty: it overrides `vercel.json`. Branches without an
-  `invitation/` folder (e.g. `invitation-skill`) fail with "Root Directory
-  does not exist"; those are preview builds and don't touch the live site.
+- The folder's `vercel.json` (`ignoreCommand`) builds only production
+  deployments, i.e. pushes to the branch set above; pushes to other events'
+  branches show as *Canceled*. It can't name the branch: Vercel reads
+  `vercel.json` from the commit it builds, so a push to `aya-christening`
+  would bring Aya's file into every other project. It also takes precedence
+  over the dashboard's "Ignored Build Step", so leave that empty. Branches
+  without an `invitation/` folder (e.g. `invitation-skill`) fail with "Root
+  Directory does not exist"; those are preview builds and don't touch the
+  live site.
 - Environment Variables:
 
 | Variable | Value |

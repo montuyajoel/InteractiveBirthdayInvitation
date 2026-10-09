@@ -39,12 +39,15 @@ def git(*args, check=True, cwd=None):
     return r
 
 
-def vercel_json(branch):
+def vercel_json():
     return json.dumps(
         {
             "$schema": "https://openapi.vercel.sh/vercel.json",
-            # exit 1 = build, exit 0 = skip: only this event's branch deploys.
-            "ignoreCommand": f'if [ "$VERCEL_GIT_COMMIT_REF" = "{branch}" ]; then exit 1; else exit 0; fi',
+            # exit 1 = build, exit 0 = skip. Vercel reads this file from the
+            # commit being built, so it can't name a branch: a push to another
+            # event's branch carries that event's file. VERCEL_ENV is
+            # "production" only for the project's own production branch.
+            "ignoreCommand": 'if [ "$VERCEL_ENV" = "production" ]; then exit 1; else exit 0; fi',
         },
         indent=2,
     ) + "\n"
@@ -100,7 +103,7 @@ def main():
     sys.argv = argv
     new_event.main()
     spec_file.unlink()
-    (dest / "vercel.json").write_text(vercel_json(branch))
+    (dest / "vercel.json").write_text(vercel_json())
 
     print(f"""
 Branch:  {branch} (from {base}, not committed yet)
