@@ -110,6 +110,20 @@ esbuild and write `invitationEmail(guest, siteUrl).html` to a file), with
 `surprise` both on and off. `references/troubleshooting.md` lists the
 problems this template has hit before and how they were fixed.
 
+Make the **link-preview picture** (what WhatsApp, Messenger, iMessage,
+Facebook… show when the site's link is shared):
+
+```bash
+node <skill>/scripts/share_image.mjs invitation   # → invitation/public/share.jpg
+```
+
+It screenshots the hidden `#/share-card` page (`ShareCard.tsx`: "You're
+invited!" from `COPY.shareHeadline`, names, date, venue and the printed card)
+at 1200×630. Give `ShareCard.tsx` the event's own motif, look at the
+result, and commit `public/share.jpg`. Re-run it whenever names, date, venue,
+card or design change. `index.html` already carries the `og:` / `twitter:`
+tags.
+
 Show the user screenshots (and a single-file preview if the
 web-artifacts-builder skill is available: run its `bundle-artifact.sh` in
 `invitation/`) **before** pushing, and wait for their go-ahead when they
@@ -151,6 +165,9 @@ and should never store, their database password or secret keys.
 ## Feature map (for orientation when editing)
 
 - `Hero.tsx` + `Envelope.tsx`: title block and opening envelope; `Countdown.tsx`: timer + calendar buttons
+- `ShareCard.tsx` (`#/share-card`, not linked): the 1200×630 link-preview picture →
+  `public/share.jpg` via `scripts/share_image.mjs`; `vite.config.ts` turns `%SITE_URL%` in the
+  `og:` tags into the full address (`SITE_URL`, else Vercel's production domain)
 - `Rsvp.tsx`: registration form (react-hook-form + zod) → `lib/registrations.ts`
 - `Gallery.tsx`, `PhotosPage.tsx` (`#/photos`), `PhotoUpload.tsx` → `lib/gallery.ts`, `lib/resizeImage.ts`
 - `Directions.tsx`: Google Maps embed + links; `GuestList.tsx`: hosts' list + send buttons

@@ -65,7 +65,7 @@ with them.
 | `GMAIL_USER` | the Gmail address that sends invitations |
 | `GMAIL_APP_PASSWORD` | 16-character Google app password |
 | `EMAIL_FROM_NAME` | optional; defaults to `COPY.emailFromName` |
-| `SITE_URL` | optional; defaults to the request's own origin |
+| `SITE_URL` | optional; the site's address, e.g. `https://brendan-angelina.vercel.app`. Used for links in emails and for the link-preview picture. Defaults to the request's own address (emails) and Vercel's production domain (preview picture); **set it when using a custom domain** |
 
 `VITE_*` values are baked in at build time and are public: **redeploy after
 changing them**. Keep the two Supabase URLs straight: a gallery URL in
@@ -84,3 +84,18 @@ work. Gmail allows roughly 500 messages a day, plenty for a guest list.
 3. Unlock "See who's coming" with the password → you're listed.
 4. Click **Send invitation** on your row → email arrives with the card,
    details, directions, Google Calendar link and `invitation.ics`.
+
+## Link previews (the picture shown when the link is shared)
+
+`public/share.jpg` plus the `og:` tags in `index.html` make WhatsApp,
+Messenger, iMessage, Facebook, Viber, X and Slack show a large "You're
+invited!" picture. After deploying:
+
+- Check it at <https://developers.facebook.com/tools/debug/> (paste the
+  site's address → **Scrape Again**). This also refreshes Messenger and
+  Facebook's cached preview.
+- Apps cache a link's preview for days. If an old preview (no picture) still
+  shows in WhatsApp, share the link with something added, e.g.
+  `https://site.vercel.app/?v=2`; it opens the same page.
+- The picture must be reachable at `<site>/share.jpg` (open it in a browser).
+

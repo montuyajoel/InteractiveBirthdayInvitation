@@ -40,6 +40,7 @@ export const COPY = {
   kicker: "", // spaced capitals above the title; "" to hide
   title: "Wedding Party",
   celebrationFor: "Celebrating",
+  shareHeadline: "You're invited!", // big line on the link-preview picture (public/share.jpg)
   intro: "Come raise a glass with us: an evening of dinner, dancing and good company as we celebrate our marriage with the people we love.",
   eventTitle: "Wedding Party of {honoree}", // calendar entries, email subject
   footerSignature: "{honoree}",

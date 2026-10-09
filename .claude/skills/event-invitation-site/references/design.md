@@ -81,6 +81,14 @@ voice, warm and short. Keep `{name}` where a name belongs so one change of
 translate all `COPY` strings; the few fixed UI strings (button labels like
 "Count me in", "Register", "Gallery", form errors) live in the components.
 
+## Link-preview picture
+
+`src/components/site/ShareCard.tsx` is the 1200×630 picture apps show when
+the link is shared. Keep the text big (it is often shown at ~300 px wide):
+the headline, names, date and venue, plus the printed card. Use the same
+decorations as the site (the template's sprigs are placeholders). Render it
+with `scripts/share_image.mjs`, then look at `public/share.jpg`.
+
 ## Don't break
 
 - the studio credit line at the bottom of the footer and the email (`CREDIT` in `src/config.ts`)

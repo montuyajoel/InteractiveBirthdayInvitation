@@ -29,3 +29,4 @@
 | "The send history isn't set up yet" | `<table>_invite_history` missing | re-run this event's `supabase/setup.sql` |
 | A guest shows "Failed" | Gmail rejected that send; hover the badge or open **Send history** for the error | fix the address or Gmail settings, then **Send invitation** again (the guest stays in "not yet invited") |
 | One event's hosts see another event's guests | both sites use the same `REGISTRATIONS.table` (or an old site's shared `registrations`) | give each event its own table name and run `setup.sql` + `guest-list.sql` for it |
+| Shared link shows text but no picture | `public/share.jpg` missing, the `og:image` address is relative (no `SITE_URL` and not on Vercel), or the app cached the old preview | run `scripts/share_image.mjs` and commit the image; set `SITE_URL`; re-scrape in Facebook's Sharing Debugger, or share the link with `?v=2` added |

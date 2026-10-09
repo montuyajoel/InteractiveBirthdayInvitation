@@ -190,6 +190,9 @@ def fill_static_files(dest):
     esc = lambda s: s.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
     h = h.replace("%PAGE_TITLE%", esc(fill(read_config_string(cfg, "COPY", "pageTitle"))))
     h = h.replace("%META_DESCRIPTION%", esc(fill(read_config_string(cfg, "COPY", "metaDescription"))))
+    theme = (dest / "src/theme.ts").read_text()
+    brand = re.search(r'brand:\s*"(#[0-9a-fA-F]{6})"', theme)
+    h = h.replace("%BRAND_COLOR%", "%23" + (brand.group(1)[1:] if brand else "9a6aa0"))
     html.write_text(h)
 
     sql = dest / "supabase/gallery-setup.sql"

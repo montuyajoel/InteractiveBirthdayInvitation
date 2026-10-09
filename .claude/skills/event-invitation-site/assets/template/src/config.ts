@@ -40,6 +40,7 @@ export const COPY = {
   kicker: "", // spaced capitals above the title; "" to hide
   title: "18^th^ Birthday",
   celebrationFor: "Celebration for",
+  shareHeadline: "You're invited!", // big line on the link-preview picture (public/share.jpg)
   intro: "Join us for an evening of food, music and good company as we celebrate {name}'s 18th birthday.",
   eventTitle: "{honoree}'s 18th Birthday", // calendar entries, email subject
   footerSignature: "{honoree} · 18",
