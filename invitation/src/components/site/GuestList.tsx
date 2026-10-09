@@ -54,7 +54,7 @@ export function GuestList() {
         status: "error",
         text:
           err instanceof InviteLogNotSetUpError
-            ? "The send history isn't set up yet: run supabase/invite-log.sql in Supabase."
+            ? "The send history isn't set up yet: run supabase/setup.sql in Supabase."
             : err instanceof WrongPasswordError
               ? "The password was rejected. Lock and unlock again."
               : "Couldn't load the send history. Please try again.",

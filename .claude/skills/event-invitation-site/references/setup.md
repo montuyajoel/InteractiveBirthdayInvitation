@@ -1,33 +1,43 @@
 # Backend setup (Supabase, Vercel, Gmail)
 
 Everything works without a backend in **preview mode**. To go live, the
-hosts need: a Supabase project (registrations), optionally a second one or a
-bucket for photos, a Vercel project, and a Gmail account for sending.
+hosts need: a Supabase project for registrations (one project can hold every
+event), optionally a second one or a bucket for photos, a Vercel project,
+and a Gmail account for sending.
 Walk them through it in this order; they run the SQL and set the secrets.
 
-## 1. Registrations project (Supabase)
+## 1. Registrations (Supabase): one table per event
+
+Several events can share one Supabase project (the free plan only allows two
+active projects). Each event gets its own table, named in
+`REGISTRATIONS.table` in `src/config.ts` (the setup script derives it from
+the event id, e.g. `santos_debut_2027_guests`, or takes
+`registrations.table` from `event.json`). Its send log
+(`<table>_invite_log`), its functions (`<table>_guest_list`,
+`<table>_log_invites`, `<table>_invite_history`) and its hosts' password are
+all separate, so one event's hosts never see another event's guests, and the
+same guest can RSVP to several events.
 
 1. SQL Editor → New query → paste **`supabase/setup.sql`** → Run.
-   Creates `registrations` (unique email, wish ≤ 500 chars), insert-only for `anon`.
-2. Paste **`supabase/guest-list.sql`**, replace `YOUR_PASSWORD` with the
-   hosts' password (once, on the `crypt('YOUR_PASSWORD', …)` line) → Run.
-   Re-run with a new password to change it. Don't save the real password
-   back into the file.
-3. Paste **`supabase/send-invitations.sql`** → Run (tracks who was emailed;
-   doesn't touch the password).
-4. Paste **`supabase/invite-log.sql`** → Run. Creates the `invite_log`
-   table: one row per invitation email attempt (guest, time, `sent`/`failed`,
-   the error, Gmail's message ID). The guest list then shows how many times
-   each guest was emailed and flags failed sends, and **Send history** lists
-   every attempt. The table is closed to the public key; only the
-   password-checked functions `log_invites` and `invite_history` touch it.
-   Safe to re-run; doesn't touch the password. Until it's run, sending still
-   works and only the "last sent" date is kept.
-5. Project Settings → API Keys → copy the **publishable** key
+   Creates this event's table (unique email per event, wish ≤ 500 chars),
+   insert-only for `anon`, plus its send log and functions. Safe to re-run,
+   and safe if the table was already created by hand: it then adds the
+   security the bare table lacks (without it, Supabase lets the public key
+   read every guest).
+2. Paste **`supabase/guest-list.sql`**, replace `YOUR_PASSWORD` with this
+   event's hosts' password → Run. Re-run with a new password to change it.
+   Don't save the real password back into the file.
+3. Project Settings → API Keys → copy the **publishable** key
    (`sb_publishable_…`) or the legacy **anon** key (`eyJ…`). Never the secret
-   / service_role key.
+   / service_role key. Every event in the project uses the same key.
 
-Check: `select to_regclass('public.registrations') is not null, to_regclass('public.invite_log') is not null, (select count(*) from pg_proc where proname in ('guest_list', 'log_invites', 'invite_history'));` → `true, true, 3`.
+Check (replace the table name):
+`select to_regclass('public.my_event_guests') is not null, to_regclass('public.my_event_guests_invite_log') is not null, (select count(*) from pg_proc where proname like 'my_event_guests\_%'), exists (select 1 from private.event_passwords where event_table = 'my_event_guests');`
+→ `true, true, 3, true`.
+
+Sites made before per-event tables (one shared `registrations` table with
+`guest_list`, `mark_invites_sent`) keep working; the new names never clash
+with them.
 
 ## 2. Gallery bucket (same or another Supabase project)
 
@@ -48,7 +58,7 @@ Check: `select to_regclass('public.registrations') is not null, to_regclass('pub
 
 | Variable | Value |
 | --- | --- |
-| `VITE_SUPABASE_URL` | registrations project URL (or set it in config.ts) |
+| `VITE_SUPABASE_URL` | registrations project URL (the same for every event in that project) |
 | `VITE_SUPABASE_ANON_KEY` | registrations publishable/anon key |
 | `VITE_GALLERY_SUPABASE_URL` | gallery project URL |
 | `VITE_GALLERY_SUPABASE_KEY` | gallery publishable key |

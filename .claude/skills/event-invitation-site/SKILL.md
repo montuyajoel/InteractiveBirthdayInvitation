@@ -117,9 +117,9 @@ ask to review first.
 
 ### 5. Connect the backend
 
-Walk the user through `references/setup.md`: Supabase SQL (registrations,
-gallery bucket policies, password-protected guest list, invitation
-tracking, and the `invite_log` table that records every invitation email), Vercel project settings and environment variables, and the Gmail
+Walk the user through `references/setup.md`: Supabase SQL (`setup.sql`
+creates this event's own registrations table, send log and functions;
+`guest-list.sql` sets this event's hosts' password; gallery bucket policies), Vercel project settings and environment variables, and the Gmail
 app password. They run the SQL and set secrets themselves; you never need,
 and should never store, their database password or secret keys.
 
@@ -128,14 +128,20 @@ and should never store, their database password or secret keys.
 - **Only public keys in the site.** Everything in `src/` ships to every
   visitor. Use the anon/publishable Supabase key; secret keys are rejected by
   Supabase from browsers anyway ("Forbidden use of secret API key").
+- **One table per event, never shared.** Many events live in one Supabase
+  project, each with its own table (`REGISTRATIONS.table`), send log,
+  functions and password. Never point a new event at another event's table
+  (or at an old site's shared `registrations`): its hosts would see the other
+  event's guests and could email them. The setup script names the table from
+  the event id; `registrations.table` in `event.json` overrides it.
 - **The hosts' password is checked in the database**, never in the browser:
-  `guest_list(passcode)` is a `SECURITY DEFINER` function comparing against a
-  bcrypt hash in a private schema. Keep the real password out of the repo:
+  `<table>_guest_list(passcode)` is a `SECURITY DEFINER` function comparing
+  against this event's bcrypt hash in `private.event_passwords`. Keep the real password out of the repo:
   the SQL file says `YOUR_PASSWORD` and the user replaces it when running it.
-- **The invite log is closed to the public key.** `invite_log` has RLS on
-  and no grants; the email function writes to it through `log_invites`
-  (password-checked, registered guests only, 10 rows per call) and hosts
-  read it through `invite_history`. Don't add a select policy for `anon`.
+- **The invite log is closed to the public key.** `<table>_invite_log` has
+  RLS on and no grants; the email function writes to it through
+  `<table>_log_invites` (password-checked, this event's guests only, 10 rows
+  per call) and hosts read it through `<table>_invite_history`. Don't add a select policy for `anon`.
 - **Guests can insert, never read.** Registrations are insert-only for
   `anon`; the email function re-checks the password and only emails
   registered addresses, so it can't be used to spam.
@@ -149,7 +155,7 @@ and should never store, their database password or secret keys.
 - `Gallery.tsx`, `PhotosPage.tsx` (`#/photos`), `PhotoUpload.tsx` → `lib/gallery.ts`, `lib/resizeImage.ts`
 - `Directions.tsx`: Google Maps embed + links; `GuestList.tsx`: hosts' list + send buttons
 - `api/send-invitations.ts` + `api/_lib/invitationEmail.ts`: Gmail sending and the email itself;
-  every attempt is logged to `invite_log` (`supabase/invite-log.sql`), shown in `GuestList.tsx`
+  every attempt is logged to `<table>_invite_log` (`supabase/setup.sql`), shown in `GuestList.tsx`
   as per-guest send counts, failed badges and a **Send history** panel
 - `lib/event.ts`: date labels, calendar links, `.ics`, `fill()`; shared by site and email
 - Without Supabase keys every feature still works in **preview mode** (RSVPs in

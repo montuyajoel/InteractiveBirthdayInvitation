@@ -2,7 +2,7 @@
 // Emails the invitation to registered guests chosen by a host.
 //
 // Body: { passcode: string, emails: string[] }  (at most 10 per request)
-// The hosts' password is checked by the database (guest_list), and mail is
+// The hosts' password is checked by the database (<table>_guest_list), and mail is
 // only ever sent to addresses that are actually registered.
 //
 // Env (Vercel → Settings → Environment Variables):
@@ -46,8 +46,9 @@ export async function handleSend(request: Request, deps: Deps): Promise<Response
 
   const supabaseUrl = (env.VITE_SUPABASE_URL || REGISTRATIONS.url).replace(/\/$/, "")
   const supabaseKey = env.VITE_SUPABASE_ANON_KEY || REGISTRATIONS.key
+  // This event's functions are named after its table (supabase/setup.sql).
   const rpc = (name: string, args: unknown) =>
-    deps.fetch(`${supabaseUrl}/rest/v1/rpc/${name}`, {
+    deps.fetch(`${supabaseUrl}/rest/v1/rpc/${REGISTRATIONS.table}_${name}`, {
       method: "POST",
       headers: {
         apikey: supabaseKey,
@@ -75,7 +76,7 @@ export async function handleSend(request: Request, deps: Deps): Promise<Response
   const fromName = env.EMAIL_FROM_NAME || fill(COPY.emailFromName)
   const sent: string[] = []
   const failed: string[] = []
-  // One row per attempt for the invite_log table (supabase/invite-log.sql).
+  // One row per attempt for this event's <table>_invite_log (supabase/setup.sql).
   const log: { email: string; name: string; status: "sent" | "failed"; error?: string; message_id?: string }[] = []
 
   for (const email of wanted) {
@@ -111,15 +112,7 @@ export async function handleSend(request: Request, deps: Deps): Promise<Response
   if (log.length > 0) {
     const res = await rpc("log_invites", { passcode, entries: log })
     logged = res.ok
-    if (!res.ok) {
-      const detail = await res.text().catch(() => "")
-      console.error("log_invites failed", res.status, detail)
-      // invite-log.sql not run yet: at least record who was sent one.
-      if (sent.length > 0) {
-        const mark = await rpc("mark_invites_sent", { passcode, emails: sent })
-        if (!mark.ok) console.error("mark_invites_sent failed", mark.status, await mark.text().catch(() => ""))
-      }
-    }
+    if (!res.ok) console.error("log_invites failed", res.status, await res.text().catch(() => ""))
   }
 
   const errors = Object.fromEntries(log.filter((l) => l.error).map((l) => [l.email, l.error]))

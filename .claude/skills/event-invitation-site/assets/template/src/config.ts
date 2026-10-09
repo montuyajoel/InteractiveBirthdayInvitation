@@ -85,7 +85,10 @@ const env: Record<string, string | undefined> =
 export const REGISTRATIONS = {
   url: env.VITE_SUPABASE_URL || "",
   key: env.VITE_SUPABASE_ANON_KEY || "",
-  table: "registrations",
+  // This event's own table. Several events can share one Supabase project:
+  // each gets its own table, send log and functions, all named after this
+  // (supabase/setup.sql). Lowercase letters, digits and _ only.
+  table: "my_event_guests",
 }
 
 // Supabase project holding the photo gallery bucket.

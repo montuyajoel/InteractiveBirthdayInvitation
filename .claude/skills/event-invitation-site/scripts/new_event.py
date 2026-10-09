@@ -152,8 +152,32 @@ def read_config_string(text, block, key):
     return json.loads(m.group(1)) if m else ""
 
 
+TABLE_RE = re.compile(r"^[a-z][a-z0-9_]{0,39}$")
+
+
+def set_event_table(dest, spec):
+    """Each event gets its own table (and functions named after it) so many
+    events can share one Supabase project. Default: from the event id."""
+    if "table" in spec.get("registrations", {}):
+        return
+    cfg = (dest / "src/config.ts").read_text()
+    event_id = read_config_string(cfg, "EVENT", "id")
+    table = re.sub(r"[^a-z0-9]+", "_", event_id.lower()).strip("_")[:33] + "_guests"
+    if not table[0].isalpha():
+        table = "e_" + table
+    apply_section(dest, "registrations", {"table": table})
+
+
 def fill_static_files(dest):
     cfg = (dest / "src/config.ts").read_text()
+    table = read_config_string(cfg, "REGISTRATIONS", "table")
+    if not TABLE_RE.match(table):
+        raise SystemExit(
+            f"registrations.table '{table}' must be lowercase letters, digits and _, start with a letter, max 40 chars"
+        )
+    for name in ("setup.sql", "guest-list.sql"):
+        f = dest / "supabase" / name
+        f.write_text(f.read_text().replace("{{TABLE}}", table))
     honoree = read_config_string(cfg, "EVENT", "honoree")
     short = read_config_string(cfg, "EVENT", "honoreeShort")
 
@@ -247,6 +271,7 @@ def main():
             shutil.rmtree(child) if child.is_dir() and not child.is_symlink() else child.unlink()
     shutil.copytree(TEMPLATE, dest, dirs_exist_ok=True)
     apply_spec(dest, spec)
+    set_event_table(dest, spec)
     fill_static_files(dest)
     if a.card:
         install_card(dest, a.card)

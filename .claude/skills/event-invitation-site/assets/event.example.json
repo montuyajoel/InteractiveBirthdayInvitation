@@ -42,6 +42,9 @@
     "emailIntro": "Thank you for your RSVP: your seat is confirmed! We can't wait to celebrate with you.",
     "emailWishLabel": "Your wish for us"
   },
+  "registrations": {
+    "table": "maya_daniel_2027_guests"
+  },
   "gallery": {
     "bucket": "wedding_photos",
     "folder": "guests"
@@ -57,7 +60,12 @@
       "foliage": "#7d9070",
       "bloom": "#e9d9b0"
     },
-    "envelope": { "back": "#dfe5d6", "pocket": "#e8ede1", "sides": "#d9e0cf", "flap": "#cfd8c3" },
+    "envelope": {
+      "back": "#dfe5d6",
+      "pocket": "#e8ede1",
+      "sides": "#d9e0cf",
+      "flap": "#cfd8c3"
+    },
     "fonts": {
       "script": "Great Vibes",
       "serif": "Lora",
