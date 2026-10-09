@@ -109,7 +109,82 @@
   100% { background-position: -200% 50%; }
 }
 
+/* The blush-tinted map in "How to get there" (CuteMap.tsx). */
+.cute-map.leaflet-container {
+  isolation: isolate; /* keep Leaflet's layers under the sticky header */
+  background: rgb(var(--c-soft));
+  font-family: var(--font-serif), Georgia, serif;
+}
+.cute-map .leaflet-tile-pane {
+  filter: grayscale(1); /* CARTO's light map, made fully grey for the wash */
+}
+/* The blend goes on the pane (a layer of its own) so it mixes with the map below. */
+.cute-map .leaflet-tint-pane {
+  mix-blend-mode: multiply;
+}
+.cute-map .cute-map-wash {
+  position: absolute;
+  left: -20000px;
+  top: -20000px;
+  width: 40000px;
+  height: 40000px;
+  background: #f7e0db;
+}
+.cute-map .cute-map-pin {
+  background: none;
+  border: 0;
+}
+/* bob the drawing, not the marker: Leaflet positions the marker itself */
+.cute-map .cute-map-pin svg {
+  display: block;
+  animation: bob 4s ease-in-out infinite;
+}
+.cute-map .cute-map-label {
+  border: 1px solid rgb(var(--c-gold) / 0.7);
+  border-radius: 999px;
+  background: rgb(255 253 249 / 0.95);
+  padding: 4px 12px;
+  color: rgb(var(--c-ink));
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  box-shadow: 0 6px 16px -8px rgb(var(--c-ink) / 0.45);
+}
+.cute-map .cute-map-label::before {
+  border-top-color: rgb(var(--c-gold) / 0.7);
+}
+.cute-map .leaflet-bar {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.cute-map .leaflet-bar a {
+  margin-bottom: 6px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgb(var(--c-gold) / 0.6) !important;
+  border-radius: 999px !important;
+  background: rgb(255 253 249 / 0.95);
+  color: rgb(var(--c-brand));
+  line-height: 32px;
+  box-shadow: 0 6px 14px -8px rgb(var(--c-ink) / 0.5);
+}
+.cute-map .leaflet-bar a:hover {
+  background: rgb(var(--c-highlight));
+  color: rgb(var(--c-ink));
+}
+.cute-map .leaflet-control-attribution {
+  border-top-left-radius: 8px;
+  background: rgb(255 253 249 / 0.8);
+  color: rgb(var(--c-ink) / 0.7);
+  font-size: 10px;
+}
+.cute-map .leaflet-control-attribution a {
+  color: rgb(var(--c-brand));
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .cute-map .cute-map-pin svg {
+    animation: none;
+  }
   html {
     scroll-behavior: auto;
   }
