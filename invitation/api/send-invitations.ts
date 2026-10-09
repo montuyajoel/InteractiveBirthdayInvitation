@@ -75,15 +75,18 @@ export async function handleSend(request: Request, deps: Deps): Promise<Response
   const fromName = env.EMAIL_FROM_NAME || fill(COPY.emailFromName)
   const sent: string[] = []
   const failed: string[] = []
+  // One row per attempt for the invite_log table (supabase/invite-log.sql).
+  const log: { email: string; name: string; status: "sent" | "failed"; error?: string; message_id?: string }[] = []
 
   for (const email of wanted) {
     const guest = byEmail.get(email)
     if (!guest) continue
     const mail = invitationEmail(guest, siteUrl)
+    const name = `${guest.first_name} ${guest.last_name}`
     try {
-      await transport.sendMail({
+      const info = await transport.sendMail({
         from: { name: fromName, address: env.GMAIL_USER },
-        to: { name: `${guest.first_name} ${guest.last_name}`, address: guest.email },
+        to: { name, address: guest.email },
         subject: mail.subject,
         html: mail.html,
         text: mail.text,
@@ -96,18 +99,31 @@ export async function handleSend(request: Request, deps: Deps): Promise<Response
         ],
       })
       sent.push(email)
+      log.push({ email, name, status: "sent", message_id: info?.messageId })
     } catch (err) {
       console.error("send failed", email, err)
       failed.push(email)
+      log.push({ email, name, status: "failed", error: err instanceof Error ? err.message : String(err) })
     }
   }
 
-  if (sent.length > 0) {
-    const mark = await rpc("mark_invites_sent", { passcode, emails: sent })
-    if (!mark.ok) console.error("mark_invites_sent failed", mark.status, await mark.text().catch(() => ""))
+  let logged = false
+  if (log.length > 0) {
+    const res = await rpc("log_invites", { passcode, entries: log })
+    logged = res.ok
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "")
+      console.error("log_invites failed", res.status, detail)
+      // invite-log.sql not run yet: at least record who was sent one.
+      if (sent.length > 0) {
+        const mark = await rpc("mark_invites_sent", { passcode, emails: sent })
+        if (!mark.ok) console.error("mark_invites_sent failed", mark.status, await mark.text().catch(() => ""))
+      }
+    }
   }
 
-  return json(200, { sent, failed, notRegistered })
+  const errors = Object.fromEntries(log.filter((l) => l.error).map((l) => [l.email, l.error]))
+  return json(200, { sent, failed, errors, notRegistered, logged })
 }
 
 export function POST(request: Request) {

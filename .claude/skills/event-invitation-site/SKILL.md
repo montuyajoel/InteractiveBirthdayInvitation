@@ -1,6 +1,6 @@
 ---
 name: event-invitation-site
-description: Build a complete interactive invitation website for an event (birthday, debut, 18th, wedding, baptism, anniversary, reunion, party) from a proven template. Hero with an envelope that opens to the printed card, countdown and add-to-calendar, guest registration saved to Supabase, photo gallery where guests upload photos (resized under 1 MB) plus an all-photos page, embedded map and directions, a password-protected guest list for the hosts, and host-sent confirmation emails through Gmail on Vercel. Features stay the same; colours, fonts, wording and decorations change per event. Use this whenever someone wants an invitation site, RSVP page, event website or "a page guests can register on", even if they only say something like "make an invite website for my daughter's 18th" or hand you a printed invitation design.
+description: Build a complete interactive invitation website for an event (birthday, debut, 18th, wedding, baptism, anniversary, reunion, party) from a proven template. Hero with an envelope that opens to the printed card, countdown and add-to-calendar, guest registration saved to Supabase, photo gallery where guests upload photos (resized under 1 MB) plus an all-photos page, embedded map and directions, a password-protected guest list for the hosts, and host-sent confirmation emails through Gmail on Vercel, with a database log of every invite sent (who, when, sent or failed). Features stay the same; colours, fonts, wording and decorations change per event. Use this whenever someone wants an invitation site, RSVP page, event website or "a page guests can register on", even if they only say something like "make an invite website for my daughter's 18th" or hand you a printed invitation design.
 ---
 
 # Event invitation site
@@ -111,7 +111,7 @@ ask to review first.
 
 Walk the user through `references/setup.md`: Supabase SQL (registrations,
 gallery bucket policies, password-protected guest list, invitation
-tracking), Vercel project settings and environment variables, and the Gmail
+tracking, and the `invite_log` table that records every invitation email), Vercel project settings and environment variables, and the Gmail
 app password. They run the SQL and set secrets themselves; you never need,
 and should never store, their database password or secret keys.
 
@@ -124,6 +124,10 @@ and should never store, their database password or secret keys.
   `guest_list(passcode)` is a `SECURITY DEFINER` function comparing against a
   bcrypt hash in a private schema. Keep the real password out of the repo:
   the SQL file says `YOUR_PASSWORD` and the user replaces it when running it.
+- **The invite log is closed to the public key.** `invite_log` has RLS on
+  and no grants; the email function writes to it through `log_invites`
+  (password-checked, registered guests only, 10 rows per call) and hosts
+  read it through `invite_history`. Don't add a select policy for `anon`.
 - **Guests can insert, never read.** Registrations are insert-only for
   `anon`; the email function re-checks the password and only emails
   registered addresses, so it can't be used to spam.
@@ -136,7 +140,9 @@ and should never store, their database password or secret keys.
 - `Rsvp.tsx`: registration form (react-hook-form + zod) → `lib/registrations.ts`
 - `Gallery.tsx`, `PhotosPage.tsx` (`#/photos`), `PhotoUpload.tsx` → `lib/gallery.ts`, `lib/resizeImage.ts`
 - `Directions.tsx`: Google Maps embed + links; `GuestList.tsx`: hosts' list + send buttons
-- `api/send-invitations.ts` + `api/_lib/invitationEmail.ts`: Gmail sending and the email itself
+- `api/send-invitations.ts` + `api/_lib/invitationEmail.ts`: Gmail sending and the email itself;
+  every attempt is logged to `invite_log` (`supabase/invite-log.sql`), shown in `GuestList.tsx`
+  as per-guest send counts, failed badges and a **Send history** panel
 - `lib/event.ts`: date labels, calendar links, `.ics`, `fill()`; shared by site and email
 - Without Supabase keys every feature still works in **preview mode** (RSVPs in
   localStorage, sample gallery), which is handy for demos.

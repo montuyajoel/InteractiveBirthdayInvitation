@@ -1,17 +1,20 @@
 import { useState } from "react"
-import { Check, Loader2, Lock, LockOpen, Mail, Send, Users } from "lucide-react"
+import { AlertCircle, Check, History, Loader2, Lock, LockOpen, Mail, Send, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
   EmailNotConfiguredError,
   GuestListNotSetUpError,
+  InviteLogNotSetUpError,
   SendFunctionError,
   SendingUnavailableError,
   WrongPasswordError,
   fetchGuestList,
+  fetchInviteHistory,
   registrationsConnected,
   sendInvitations,
   type GuestListEntry,
+  type InviteLogEntry,
 } from "@/lib/registrations"
 import { SectionTitle } from "./Decor"
 
@@ -22,6 +25,14 @@ type State =
 
 const registeredOn = (iso: string) =>
   new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" })
+const sentOn = (iso: string) =>
+  new Date(iso).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })
+
+type History =
+  | { status: "closed" }
+  | { status: "loading" }
+  | { status: "open"; entries: InviteLogEntry[] }
+  | { status: "error"; text: string }
 
 /** Hosts-only list of everyone who registered, behind a password. */
 export function GuestList() {
@@ -32,6 +43,24 @@ export function GuestList() {
   const [sending, setSending] = useState<Set<string>>(new Set())
   const [progress, setProgress] = useState<string | null>(null)
   const [notice, setNotice] = useState<{ tone: "ok" | "error"; text: string } | null>(null)
+  const [history, setHistory] = useState<History>({ status: "closed" })
+
+  async function loadHistory() {
+    setHistory({ status: "loading" })
+    try {
+      setHistory({ status: "open", entries: await fetchInviteHistory(password) })
+    } catch (err) {
+      setHistory({
+        status: "error",
+        text:
+          err instanceof InviteLogNotSetUpError
+            ? "The send history isn't set up yet: run supabase/invite-log.sql in Supabase."
+            : err instanceof WrongPasswordError
+              ? "The password was rejected. Lock and unlock again."
+              : "Couldn't load the send history. Please try again.",
+      })
+    }
+  }
 
   async function send(emails: string[]) {
     if (emails.length === 0 || state.status !== "open") return
@@ -39,21 +68,35 @@ export function GuestList() {
     setSending(new Set(emails))
     setProgress(emails.length > 1 ? `Sending 0 of ${emails.length}…` : null)
     try {
-      const { sent, failed } = await sendInvitations(password, emails, (done, total) =>
+      const { sent, failed, errors } = await sendInvitations(password, emails, (done, total) =>
         setProgress(total > 1 ? `Sending ${done} of ${total}…` : null),
       )
       const now = new Date().toISOString()
       const sentSet = new Set(sent)
+      const failedSet = new Set(failed)
       setState((st) =>
         st.status === "open"
           ? {
               ...st,
-              guests: st.guests.map((g) =>
-                sentSet.has(g.email.toLowerCase()) ? { ...g, invite_sent_at: now } : g,
-              ),
+              guests: st.guests.map((g) => {
+                const key = g.email.toLowerCase()
+                if (sentSet.has(key))
+                  return {
+                    ...g,
+                    invite_sent_at: now,
+                    invite_count: (g.invite_count ?? (g.invite_sent_at ? 1 : 0)) + 1,
+                    last_invite_status: "sent",
+                    last_invite_error: null,
+                    last_invite_at: now,
+                  }
+                if (failedSet.has(key))
+                  return { ...g, last_invite_status: "failed", last_invite_error: errors[key] ?? null, last_invite_at: now }
+                return g
+              }),
             }
           : st,
       )
+      if (history.status === "open") loadHistory()
       setNotice(
         failed.length
           ? { tone: "error", text: `Sent ${sent.length}, but ${failed.length} failed: ${failed.join(", ")}. Try those again.` }
@@ -117,6 +160,7 @@ export function GuestList() {
     setNotice(null)
     setPassword("")
     setState({ status: "locked" })
+    setHistory({ status: "closed" })
     setExpanded(false)
   }
 
@@ -181,7 +225,20 @@ export function GuestList() {
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <p className="text-lg italic text-ink">
                   {state.guests.length} {state.guests.length === 1 ? "guest has" : "guests have"} confirmed
+                  {state.guests.length > 0 && (
+                    <span className="text-brand">
+                      {" "}· {state.guests.filter((g) => g.invite_sent_at).length} invited
+                    </span>
+                  )}
                 </p>
+                <Button
+                  variant="ghost"
+                  onClick={() => (history.status === "closed" ? loadHistory() : setHistory({ status: "closed" }))}
+                  className="gap-2 rounded-none text-brand hover:bg-highlight/50"
+                  aria-expanded={history.status !== "closed"}
+                >
+                  <History /> {history.status === "closed" ? "Send history" : "Hide history"}
+                </Button>
                 <Button variant="ghost" onClick={lock} className="gap-2 rounded-none text-brand hover:bg-highlight/50">
                   <Lock /> Lock
                 </Button>
@@ -219,6 +276,8 @@ export function GuestList() {
               </p>
             )}
 
+            {history.status !== "closed" && <SendHistory history={history} />}
+
             {state.guests.length === 0 ? (
               <p className="mt-10 border border-dashed border-brand/40 py-12 text-center italic text-brand">
                 No one has registered yet.
@@ -242,10 +301,20 @@ export function GuestList() {
                       {registeredOn(g.created_at)}
                     </p>
                     <div className="mt-2 flex items-center gap-2 sm:mt-0 sm:justify-end">
-                      {g.invite_sent_at && (
-                        <span className="flex items-center gap-1 whitespace-nowrap text-xs text-brand" title={new Date(g.invite_sent_at).toString()}>
-                          <Check className="h-3.5 w-3.5" aria-hidden /> Sent {registeredOn(g.invite_sent_at)}
+                      {g.last_invite_status === "failed" && g.last_invite_at ? (
+                        <span
+                          className="flex items-center gap-1 whitespace-nowrap text-xs text-destructive"
+                          title={g.last_invite_error ?? undefined}
+                        >
+                          <AlertCircle className="h-3.5 w-3.5" aria-hidden /> Failed {registeredOn(g.last_invite_at)}
                         </span>
+                      ) : (
+                        g.invite_sent_at && (
+                          <span className="flex items-center gap-1 whitespace-nowrap text-xs text-brand" title={new Date(g.invite_sent_at).toString()}>
+                            <Check className="h-3.5 w-3.5" aria-hidden /> Sent {registeredOn(g.invite_sent_at)}
+                            {(g.invite_count ?? 0) > 1 && <span className="text-muted-foreground"> · {g.invite_count}×</span>}
+                          </span>
+                        )
                       )}
                       <Button
                         size="sm"
@@ -267,5 +336,46 @@ export function GuestList() {
         )}
       </div>
     </section>
+  )
+}
+
+/** Every send attempt, newest first, from the invite_log table. */
+function SendHistory({ history }: { history: History }) {
+  return (
+    <div className="paper mt-8 border border-brand/25 p-5 sm:p-6" aria-live="polite">
+      <p className="eyebrow flex items-center gap-2">
+        <History className="h-3.5 w-3.5" aria-hidden /> Send history
+      </p>
+      {history.status === "loading" ? (
+        <p className="mt-4 flex items-center gap-2 text-sm italic text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> Loading…
+        </p>
+      ) : history.status === "error" ? (
+        <p className="mt-4 text-sm text-destructive" role="alert">
+          {history.text}
+        </p>
+      ) : history.status === "open" && history.entries.length === 0 ? (
+        <p className="mt-4 text-sm italic text-muted-foreground">No invitations have been sent yet.</p>
+      ) : history.status === "open" ? (
+        <ol className="mt-4 max-h-80 divide-y divide-brand/10 overflow-y-auto text-sm">
+          {history.entries.map((e, i) => (
+            <li key={`${e.sent_at}-${e.email}-${i}`} className="grid gap-x-4 gap-y-0.5 py-2.5 sm:grid-cols-[9rem_minmax(0,1fr)_auto]">
+              <span className="tabular-nums text-muted-foreground">{sentOn(e.sent_at)}</span>
+              <span className="min-w-0">
+                <span className="text-ink">{e.guest_name || e.email}</span>
+                {e.guest_name && <span className="ml-2 break-all text-muted-foreground">{e.email}</span>}
+                {e.error && <span className="block text-xs text-destructive">{e.error}</span>}
+              </span>
+              <span
+                className={`flex items-center gap-1 text-xs uppercase tracking-[0.18em] ${e.status === "sent" ? "text-brand" : "text-destructive"}`}
+              >
+                {e.status === "sent" ? <Check className="h-3.5 w-3.5" aria-hidden /> : <AlertCircle className="h-3.5 w-3.5" aria-hidden />}
+                {e.status}
+              </span>
+            </li>
+          ))}
+        </ol>
+      ) : null}
+    </div>
   )
 }

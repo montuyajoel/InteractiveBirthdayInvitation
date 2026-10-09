@@ -15,11 +15,19 @@ Walk them through it in this order; they run the SQL and set the secrets.
    back into the file.
 3. Paste **`supabase/send-invitations.sql`** → Run (tracks who was emailed;
    doesn't touch the password).
-4. Project Settings → API Keys → copy the **publishable** key
+4. Paste **`supabase/invite-log.sql`** → Run. Creates the `invite_log`
+   table: one row per invitation email attempt (guest, time, `sent`/`failed`,
+   the error, Gmail's message ID). The guest list then shows how many times
+   each guest was emailed and flags failed sends, and **Send history** lists
+   every attempt. The table is closed to the public key; only the
+   password-checked functions `log_invites` and `invite_history` touch it.
+   Safe to re-run; doesn't touch the password. Until it's run, sending still
+   works and only the "last sent" date is kept.
+5. Project Settings → API Keys → copy the **publishable** key
    (`sb_publishable_…`) or the legacy **anon** key (`eyJ…`). Never the secret
    / service_role key.
 
-Check: `select to_regclass('public.registrations') is not null, (select count(*) from pg_proc where proname = 'guest_list');` → `true, 1`.
+Check: `select to_regclass('public.registrations') is not null, to_regclass('public.invite_log') is not null, (select count(*) from pg_proc where proname in ('guest_list', 'log_invites', 'invite_history'));` → `true, true, 3`.
 
 ## 2. Gallery bucket (same or another Supabase project)
 

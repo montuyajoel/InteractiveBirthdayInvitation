@@ -62,6 +62,39 @@ export type GuestListEntry = {
   created_at: string
   // Missing until supabase/send-invitations.sql has been run.
   invite_sent_at?: string | null
+  // Missing until supabase/invite-log.sql has been run.
+  invite_count?: number
+  last_invite_status?: "sent" | "failed" | null
+  last_invite_error?: string | null
+  last_invite_at?: string | null
+}
+
+/** One row of the invite_log table: a single send attempt. */
+export type InviteLogEntry = {
+  email: string
+  guest_name: string
+  status: "sent" | "failed"
+  error: string | null
+  message_id: string | null
+  sent_at: string
+}
+
+export class InviteLogNotSetUpError extends Error {}
+
+/** Every send attempt, newest first (supabase/invite-log.sql). */
+export async function fetchInviteHistory(passcode: string): Promise<InviteLogEntry[]> {
+  const res = await fetch(supabaseUrl(REGISTRATIONS, "/rest/v1/rpc/invite_history"), {
+    method: "POST",
+    headers: supabaseHeaders(REGISTRATIONS),
+    body: JSON.stringify({ passcode }),
+  })
+  if (res.ok) return res.json()
+
+  const detail = await res.text().catch(() => "")
+  if (detail.includes("invalid passcode") || detail.includes("28P01")) throw new WrongPasswordError()
+  if (res.status === 404 || detail.includes("PGRST202")) throw new InviteLogNotSetUpError()
+  console.error(`Supabase rejected the invite history request (${res.status}):`, detail)
+  throw new Error(`Could not load the invite history (${res.status})`)
 }
 
 export class WrongPasswordError extends Error {}
@@ -107,9 +140,10 @@ export async function sendInvitations(
   passcode: string,
   emails: string[],
   onProgress?: (done: number, total: number) => void,
-): Promise<{ sent: string[]; failed: string[] }> {
+): Promise<{ sent: string[]; failed: string[]; errors: Record<string, string> }> {
   const sent: string[] = []
   const failed: string[] = []
+  const errors: Record<string, string> = {}
   for (let i = 0; i < emails.length; i += SEND_BATCH) {
     const batch = emails.slice(i, i + SEND_BATCH)
     let res: Response
@@ -136,7 +170,8 @@ export async function sendInvitations(
     if (!res.ok) throw new Error(`Sending failed (${res.status})`)
     sent.push(...body.sent)
     failed.push(...body.failed)
+    Object.assign(errors, body.errors ?? {})
     onProgress?.(Math.min(i + SEND_BATCH, emails.length), emails.length)
   }
-  return { sent, failed }
+  return { sent, failed, errors }
 }
