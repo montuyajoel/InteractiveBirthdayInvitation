@@ -4,7 +4,7 @@ export const EVENT = {
   // Short slug: used for browser storage keys and calendar file names.
   id: "aya-christening-2026",
   // Name of the person (or couple) being celebrated, shown in script.
-  honoree: "Avrielle Noelle",
+  honoree: "Moriah Avrielle",
   // Used inside sentences: "Leave a wish for {name}".
   honoreeShort: "Aya",
   // Local start time at the venue WITH its UTC offset, so it is right
