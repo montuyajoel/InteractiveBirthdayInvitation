@@ -41,13 +41,15 @@ with them.
 
 ## 2. Gallery bucket (same or another Supabase project)
 
-1. Storage → New bucket → name = `GALLERY.bucket` in config, **Public**.
-   Create the folder `GALLERY.folder` (or upload into it).
-2. Paste **`supabase/gallery-setup.sql`** (bucket/folder already filled in by
-   the setup script) → Run. It lets the site list photos, lets guests upload
-   `.jpg` into that folder only (no update/delete), and caps files at 1 MB.
-   The cap also applies to dashboard uploads; resize big photos first or drop
-   that `update storage.buckets` statement.
+1. Paste **`supabase/gallery-setup.sql`** (bucket/folder already filled in by
+   the setup script) → Run. It creates the bucket `GALLERY.bucket` as
+   **Public** (or makes an existing one public: a private bucket lists the
+   photos but every picture fails to load), lets the site list photos, lets
+   guests upload `.jpg` into `GALLERY.folder` only (no update/delete), and
+   caps files at 1 MB. The cap also applies to dashboard uploads; resize big
+   photos first. Its rules are named after the bucket and folder, so several
+   events can share one project without overwriting each other's.
+2. (Nothing to create by hand: the folder appears with the first upload.)
 3. Copy that project's publishable key.
 
 ## 3. Vercel
