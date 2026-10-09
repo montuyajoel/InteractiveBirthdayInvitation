@@ -33,3 +33,11 @@ Every event can use the same Supabase project: each gets its own table
 and hosts' password, so no event sees another's guests.
 
 Improve the template on this branch; existing events keep their own copy.
+
+## Plugins
+
+`.claude/settings.json` enables the
+[context-mode](https://github.com/mksglu/context-mode) plugin (MCP server,
+hooks and `/context-mode:ctx-*` skills that keep large tool output out of the
+context window). Claude Code offers to install it when it opens this repo;
+check it with `/context-mode:ctx-doctor`. It needs Node.js 22.5+.
