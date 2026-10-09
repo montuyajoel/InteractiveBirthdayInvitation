@@ -32,7 +32,7 @@ export function ShareCard() {
         <p className="mt-1 text-[19px] uppercase tracking-[0.22em] text-brand">{EVENT.venue}</p>
       </div>
 
-      <div className="absolute right-[70px] top-1/2 w-[340px] -translate-y-1/2 rotate-[3deg] bg-white p-3 shadow-[0_30px_60px_-20px_rgb(var(--c-ink)/0.45)]">
+      <div className="absolute right-[70px] top-1/2 w-[340px] -translate-y-1/2 rotate-[3deg] bg-soft p-3 shadow-[0_30px_60px_-20px_rgb(var(--c-night)/0.45)]">
         <img src={invitationCard} alt="" className="block w-full" />
       </div>
     </div>

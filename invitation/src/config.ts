@@ -13,17 +13,17 @@ export const EVENT = {
   timeZone: "Asia/Manila", // IANA name, used for labels and calendar invites
   timeZoneLabel: "Philippine time",
   durationHours: 4,
-  venue: "VENUE NAME",
+  venue: "Sugarland Hotel",
   // Street and city, shown under the venue in emails and calendar invites.
   // Leave "" to show just the venue name.
-  address: "",
+  address: "Araneta Street, Bacolod City",
   // e.g. "4:30 PM". Leave "" to leave it out of the email.
   arriveBy: "",
   // Pinned location shared from Google Maps (the "Share" link).
   mapsShareUrl: "https://maps.app.goo.gl/F1sPrR8MnALdv5567",
   // Used for the embedded map and the "Get directions" link. Coordinates
   // ("14.5995,120.9842") pin the exact spot; a name is searched instead.
-  mapsQuery: "VENUE NAME",
+  mapsQuery: "Sugarland Hotel, Araneta Street, Bacolod City",
 }
 
 // All the wording on the site and in the email. Placeholders:

@@ -19,12 +19,12 @@ export type InvitationGuest = { first_name: string; last_name: string; email: st
 // Email clients ignore CSS variables, so the theme's hex values go in directly.
 const C = {
   page: THEME.colors.paper,
-  card: "#ffffff",
+  card: "#141417", // black-vibe card, a step lighter than the page
   ink: THEME.colors.ink,
   brand: THEME.colors.brand,
   soft: THEME.colors.soft,
   highlight: THEME.colors.highlight,
-  line: THEME.colors.soft,
+  line: "#3a3426",
 }
 const SERIF = THEME.fonts.emailSerif
 
@@ -32,9 +32,9 @@ const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")
 
 function button(href: string, label: string, primary: boolean) {
-  const bg = primary ? C.ink : C.card
-  const fg = primary ? "#ffffff" : C.ink
-  return `<a href="${escapeHtml(href)}" target="_blank" style="display:inline-block;margin:4px;padding:12px 22px;background:${bg};color:${fg};border:1px solid ${C.ink};font-family:${SERIF};font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">${label}</a>`
+  const bg = primary ? C.brand : C.card
+  const fg = primary ? C.page : C.ink
+  return `<a href="${escapeHtml(href)}" target="_blank" style="display:inline-block;margin:4px;padding:12px 22px;background:${bg};color:${fg};border:1px solid ${C.brand};font-family:${SERIF};font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">${label}</a>`
 }
 
 function detailRow(label: string, value: string, sub?: string) {
@@ -64,7 +64,7 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="light only">
+<meta name="color-scheme" content="dark only">
 <title>${escapeHtml(subject)}</title>
 </head>
 <body style="margin:0;padding:0;background:${C.page};">
@@ -77,7 +77,7 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
       <h1 style="margin:10px 0 0;font-family:${SERIF};font-size:34px;font-weight:normal;font-style:italic;color:${C.brand};">${escapeHtml(plainTitle(COPY.title))}</h1>
       <p style="margin:8px 0 0;font-family:${SERIF};font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${C.brand};">${escapeHtml(fill(COPY.celebrationFor))}</p>
       <p style="margin:6px 0 0;font-family:${SERIF};font-size:28px;font-style:italic;color:${C.ink};">${escapeHtml(EVENT.honoree)}</p>
-      <p style="margin:14px 0 0;font-size:18px;color:${C.brand};">&#9825;</p>
+      <p style="margin:14px 0 0;font-size:18px;color:${C.brand};">&#9733;</p>
     </td></tr>
 
     <tr><td style="padding:12px 32px 0;">
@@ -131,7 +131,7 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
     }
 
     <tr><td align="center" style="padding:30px 32px 34px;font-family:${SERIF};">
-      <p style="margin:0;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${C.brand};">${escapeHtml(fill(COPY.footerLine))} &#9829;</p>
+      <p style="margin:0;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${C.brand};">${escapeHtml(fill(COPY.footerLine))} &#9733;</p>
       <p style="margin:12px 0 0;font-size:13px;color:${C.brand};">
         <a href="${site}/" style="color:${C.ink};">Visit the invitation site</a> to see the photo gallery and share your own photos.
       </p>

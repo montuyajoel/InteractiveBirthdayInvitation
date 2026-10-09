@@ -145,7 +145,7 @@ export function PhotoUpload({ guestName, className }: { guestName?: string; clas
         }}
         className={cn(
           "mt-5 flex cursor-pointer flex-col items-center gap-2 border border-dashed px-4 py-7 text-center text-brand transition",
-          dragging ? "border-brand bg-highlight/50" : "border-brand/45 bg-white/50 hover:bg-highlight/30",
+          dragging ? "border-brand bg-highlight/50" : "border-brand/45 bg-soft/50 hover:bg-highlight/30",
         )}
       >
         <ImagePlus className="h-7 w-7" strokeWidth={1.3} aria-hidden />
@@ -165,7 +165,7 @@ export function PhotoUpload({ guestName, className }: { guestName?: string; clas
         <>
           <ul className="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-4">
             {items.map((it) => (
-              <li key={it.id} className="relative bg-white p-1 shadow-sm ring-1 ring-brand/15">
+              <li key={it.id} className="relative bg-soft p-1 shadow-sm ring-1 ring-brand/15">
                 <img
                   src={it.preview}
                   alt=""
@@ -181,7 +181,7 @@ export function PhotoUpload({ guestName, className }: { guestName?: string; clas
                   {it.status === "resizing" || it.status === "uploading" ? (
                     <Loader2 className="h-6 w-6 animate-spin text-ink" aria-label={it.status} />
                   ) : it.status === "done" ? (
-                    <span className="grid h-6 w-6 place-items-center rounded-full bg-brand text-white">
+                    <span className="grid h-6 w-6 place-items-center rounded-full bg-brand text-paper">
                       <Check className="h-4 w-4" aria-label="Uploaded" />
                     </span>
                   ) : (
@@ -191,7 +191,7 @@ export function PhotoUpload({ guestName, className }: { guestName?: string; clas
                   )}
                 </span>
                 {it.size !== undefined && it.status !== "error" && (
-                  <span className="absolute bottom-1 left-1 bg-white/85 px-1 text-[0.6rem] tabular-nums text-ink">
+                  <span className="absolute bottom-1 left-1 bg-soft/85 px-1 text-[0.6rem] tabular-nums text-ink">
                     {formatSize(it.size)}
                   </span>
                 )}

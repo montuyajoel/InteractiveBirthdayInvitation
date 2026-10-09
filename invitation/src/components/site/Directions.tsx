@@ -28,7 +28,7 @@ export function Directions() {
         <SectionTitle eyebrow="Finding your way" title="How to get there" />
 
         <div className="mt-12 grid gap-10 md:grid-cols-[1.45fr_1fr] md:gap-14">
-          <div className="relative bg-white p-2 shadow-[0_30px_60px_-40px_rgb(var(--c-ink)/0.7)] ring-1 ring-brand/20">
+          <div className="relative bg-soft p-2 shadow-[0_30px_60px_-40px_rgb(var(--c-night)/0.7)] ring-1 ring-brand/20">
             <iframe
               title={`Map showing ${EVENT.venue}`}
               src={embedUrl}
@@ -59,7 +59,7 @@ export function Directions() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="justify-start gap-3 rounded-none border-brand/50 bg-transparent uppercase tracking-[0.18em] text-ink hover:bg-white/60"
+                className="justify-start gap-3 rounded-none border-brand/50 bg-transparent uppercase tracking-[0.18em] text-ink hover:bg-soft/60"
               >
                 <a href={EVENT.mapsShareUrl} target="_blank" rel="noreferrer">
                   <ExternalLink /> Open pinned location

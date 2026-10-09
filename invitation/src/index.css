@@ -64,7 +64,7 @@
     line-height: 0.9;
   }
   .paper {
-    background-color: rgb(255 255 255 / 0.72);
+    background-color: rgb(var(--c-soft) / 0.8);
     backdrop-filter: blur(6px);
   }
 }

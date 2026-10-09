@@ -114,11 +114,11 @@ function prettify(filename: string) {
 const C = THEME.colors
 
 const MOTIFS: Record<string, string> = {
-  cap: `<path d="M150 70 L40 115 L150 160 L260 115 Z" fill="${C.ink}" stroke="${C.brand}" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M90 136 V180 C90 198 118 210 150 210 C182 210 210 198 210 180 V136" fill="${C.ink}" opacity=".9"/>
+  cap: `<path d="M90 136 V180 C90 198 118 210 150 210 C182 210 210 198 210 180 V136" fill="${C.paper}" stroke="${C.brand}" stroke-width="3"/>
+    <path d="M150 70 L40 115 L150 160 L260 115 Z" fill="${C.paper}" stroke="${C.brand}" stroke-width="3" stroke-linejoin="round"/>
     <path d="M150 115 L238 135 V190" fill="none" stroke="${C.bloom}" stroke-width="4" stroke-linecap="round"/>
     <path d="M230 190 h16 l4 26 h-24 z" fill="${C.bloom}"/><circle cx="150" cy="115" r="6" fill="${C.bloom}"/>`,
-  diploma: `<rect x="60" y="110" width="180" height="56" rx="28" fill="#fff" stroke="${C.brand}" stroke-width="3"/>
+  diploma: `<rect x="60" y="110" width="180" height="56" rx="28" fill="${C.ink}" stroke="${C.brand}" stroke-width="3"/>
     <ellipse cx="236" cy="138" rx="12" ry="28" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>
     <rect x="136" y="106" width="22" height="64" fill="${C.brand}" opacity=".85"/>
     <path d="M147 170 l-16 46 l14 -8 l6 14 z M147 170 l16 46 l-14 -8 l-6 14 z" fill="${C.brand}" opacity=".85"/>`,
@@ -140,7 +140,7 @@ const MOTIFS: Record<string, string> = {
     .join(""),
   books: `<rect x="80" y="180" width="150" height="26" rx="4" fill="${C.ink}"/><rect x="92" y="152" width="134" height="26" rx="4" fill="${C.brand}"/>
     <rect x="76" y="124" width="140" height="26" rx="4" fill="${C.soft}" stroke="${C.ink}" stroke-width="2"/>
-    <path d="M150 112 q-30 -16 -54 -6 v-40 q24 -10 54 6 q30 -16 54 -6 v40 q-24 -10 -54 6z" fill="#fff" stroke="${C.ink}" stroke-width="2.5"/>
+    <path d="M150 112 q-30 -16 -54 -6 v-40 q24 -10 54 6 q30 -16 54 -6 v40 q-24 -10 -54 6z" fill="${C.ink}" stroke="${C.ink}" stroke-width="2.5"/>
     <path d="M150 72 v40" stroke="${C.ink}" stroke-width="2"/>`,
 }
 
