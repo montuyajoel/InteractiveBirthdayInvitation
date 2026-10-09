@@ -83,6 +83,7 @@ translate all `COPY` strings; the few fixed UI strings (button labels like
 
 ## Don't break
 
+- the studio credit line at the bottom of the footer and the email (`CREDIT` in `src/config.ts`)
 - the `id` anchors (`#invitation`, `#rsvp`, `#gallery`, `#directions`, `#guests`) used by the header
 - the `#/photos` route (hash routing works on any static host)
 - mobile: test at 390 px; long names must wrap, not overflow

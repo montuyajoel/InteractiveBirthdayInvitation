@@ -18,6 +18,14 @@ specifics live in three places, so a new event never needs code surgery:
 `scripts/new_event.py` copies the template and fills all three from one
 `event.json`.
 
+**Studio credit (every site):** the footer of every site and the bottom of
+every invitation email say "For customized invitations, email us at
+thedigitalinvitationsph@gmail.com". It comes from `CREDIT` in
+`src/config.ts`, is already in the template, and is not part of
+`event.json`. Keep it on every event: don't remove, restyle away or reword
+it unless the studio owner asks, and check it in the footer and email
+screenshots before showing anyone.
+
 **Where the site goes:** always the repo's `invitation/` folder, never a new
 folder. That folder is the Vercel project's Root Directory, so a site
 anywhere else doesn't deploy. Each client gets their own git branch from the

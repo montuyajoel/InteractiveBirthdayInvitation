@@ -1,3 +1,4 @@
+import { CREDIT } from "@/config"
 import { COPY, fill } from "@/lib/copy"
 import { FloralBand, Heart } from "./Decor"
 
@@ -10,6 +11,12 @@ export function Footer() {
         <p className="script mt-4 text-5xl">{fill(COPY.footerSignature)}</p>
       </div>
       <FloralBand edge="bottom" className="mx-auto mb-8 mt-2 block w-[115%] max-w-none -translate-x-[6.5%] sm:w-full sm:max-w-4xl sm:translate-x-0" />
+      <p className="border-t border-brand/15 px-4 py-5 text-center text-xs tracking-wide text-muted-foreground">
+        {CREDIT.text}{" "}
+        <a href={`mailto:${CREDIT.email}`} className="text-brand underline-offset-4 hover:underline">
+          {CREDIT.email}
+        </a>
+      </p>
     </footer>
   )
 }

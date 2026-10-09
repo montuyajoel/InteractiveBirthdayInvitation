@@ -96,3 +96,10 @@ export const GALLERY = {
   bucket: "event_photos", // must be a public bucket
   folder: "guests", // sub-folder inside the bucket; "" for the bucket root
 }
+
+// Studio credit shown at the bottom of every site and invitation email.
+// Keep it on every event.
+export const CREDIT = {
+  text: "For customized invitations, email us at",
+  email: "thedigitalinvitationsph@gmail.com",
+}
