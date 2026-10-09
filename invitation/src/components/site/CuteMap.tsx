@@ -3,9 +3,11 @@ import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import { cn } from "@/lib/utils"
 
-// A soft, blush-tinted map (Leaflet + CARTO's light basemap, free, no API
-// key) with a balloon-shaped pin. Used when EVENT.mapsQuery is coordinates;
-// the Google Maps buttons beside it still open full directions.
+// A soft, blush-tinted map (Leaflet + OpenStreetMap's own tiles: free, no
+// API key; their policy asks for light use and the credit line) with a
+// balloon-shaped pin. Used when EVENT.mapsQuery is coordinates; the Google
+// Maps buttons beside it still open full directions. If the tiles can't be
+// loaded, onFail lets the page fall back to the Google embed.
 
 /** "10.630417,122.963472" → [lat, lng], or null if it isn't coordinates. */
 export function parseLatLng(q: string): [number, number] | null {
@@ -38,11 +40,13 @@ export function CuteMap({
   lng,
   label,
   className,
+  onFail,
 }: {
   lat: number
   lng: number
   label: string
   className?: string
+  onFail?: () => void
 }) {
   const el = useRef<HTMLDivElement>(null)
 
@@ -54,12 +58,18 @@ export function CuteMap({
       scrollWheelZoom: false, // don't hijack page scrolling
       attributionControl: true,
     })
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-      subdomains: "abcd",
-      maxZoom: 20,
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map)
+
+    // Nothing loads (blocked, offline): hand over to the Google embed.
+    let loaded = 0
+    let failed = 0
+    tiles.on("tileload", () => loaded++)
+    tiles.on("tileerror", () => {
+      if (++failed >= 4 && loaded === 0) onFail?.()
+    })
 
     // A blush wash multiplied over the grey map (whites turn blush, greys
     // dusty rose), in its own layer between the map and the pin. It moves
@@ -85,6 +95,8 @@ export function CuteMap({
     return () => {
       map.remove()
     }
+    // onFail is read at error time; re-creating the map for it isn't needed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lat, lng, label])
 
   return <div ref={el} className={cn("cute-map", className)} role="region" aria-label={`Map showing ${label}`} />

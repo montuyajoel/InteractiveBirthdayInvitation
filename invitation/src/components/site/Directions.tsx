@@ -17,6 +17,7 @@ const CORNER = garland([[20, 30], [50, 14], [10, 64], [64, 46], [36, 84]], 61, 0
 
 export function Directions() {
   const [copied, setCopied] = useState(false)
+  const [mapFailed, setMapFailed] = useState(false)
 
   async function copyVenue() {
     try {
@@ -35,11 +36,12 @@ export function Directions() {
 
         <div className="mt-12 grid gap-10 md:grid-cols-[1.45fr_1fr] md:gap-14">
           <div className="relative rounded-[2rem] bg-white p-2.5 shadow-[0_30px_60px_-40px_rgb(var(--c-ink)/0.7)] ring-1 ring-gold/50">
-            {pin ? (
+            {pin && !mapFailed ? (
               <CuteMap
                 lat={pin[0]}
                 lng={pin[1]}
                 label={EVENT.venue}
+                onFail={() => setMapFailed(true)}
                 className="aspect-[4/3] w-full overflow-hidden rounded-[1.6rem] md:aspect-auto md:h-[440px]"
               />
             ) : (

@@ -116,7 +116,8 @@
   font-family: var(--font-serif), Georgia, serif;
 }
 .cute-map .leaflet-tile-pane {
-  filter: grayscale(1); /* CARTO's light map, made fully grey for the wash */
+  /* OpenStreetMap's colourful map made soft and grey for the blush wash */
+  filter: grayscale(1) brightness(1.08) contrast(0.82);
 }
 /* The blend goes on the pane (a layer of its own) so it mixes with the map below. */
 .cute-map .leaflet-tint-pane {
