@@ -7,7 +7,7 @@ import { FloralBand, Heart, HeartRule } from "./Decor"
 import { PetalFall } from "./Florals"
 import { Envelope } from "./Envelope"
 
-import { eventDateLabel, eventTimeLabel } from "@/lib/event"
+import { eventDateLabel, eventTimeLabel, hasSchedule, stops } from "@/lib/event"
 
 export { eventDateLabel, eventTimeLabel }
 
@@ -55,14 +55,24 @@ export function Hero() {
               <div>
                 <dt className="sr-only">When</dt>
                 <dd className="uppercase tracking-[0.2em] text-ink">{eventDateLabel}</dd>
-                <dd className="text-sm uppercase tracking-[0.2em] text-brand">{eventTimeLabel}</dd>
+                {!hasSchedule && <dd className="text-sm uppercase tracking-[0.2em] text-brand">{eventTimeLabel}</dd>}
               </div>
             </div>
             <div className="flex items-start gap-3">
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-brand" aria-hidden />
-              <div>
+              <div className="grid gap-3">
                 <dt className="sr-only">Where</dt>
-                <dd className="uppercase tracking-[0.2em] text-ink">{EVENT.venue}</dd>
+                {stops.map((s) => (
+                  <dd key={s.venue}>
+                    {hasSchedule && (
+                      <span className="block text-sm uppercase tracking-[0.2em] text-brand">
+                        {s.label} · {s.time}
+                      </span>
+                    )}
+                    <span className="block uppercase tracking-[0.2em] text-ink">{s.venue}</span>
+                    {hasSchedule && s.address && <span className="block text-sm italic text-ink/70">{s.address}</span>}
+                  </dd>
+                ))}
               </div>
             </div>
           </dl>

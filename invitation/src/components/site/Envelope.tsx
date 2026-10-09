@@ -1,25 +1,59 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
-import invitationCard from "@/assets/invitationCard"
-import { eventTitle } from "@/lib/event"
+import { CARDS } from "@/assets/cards"
 import { cn } from "@/lib/utils"
 import { Heart } from "./Decor"
 
-/** A lilac envelope that opens to reveal the printed invitation. */
+/** Left/right swipe on touch screens: calls back with -1 or +1. */
+function useSwipe(onSwipe: (dir: -1 | 1) => void) {
+  const start = useRef<number | null>(null)
+  const swiped = useRef(false)
+  return {
+    swiped,
+    handlers: {
+      onTouchStart: (e: React.TouchEvent) => {
+        start.current = e.touches[0].clientX
+        swiped.current = false
+      },
+      onTouchEnd: (e: React.TouchEvent) => {
+        if (start.current === null) return
+        const dx = e.changedTouches[0].clientX - start.current
+        start.current = null
+        if (Math.abs(dx) > 40) {
+          swiped.current = true
+          onSwipe(dx < 0 ? 1 : -1)
+        }
+      },
+    },
+  }
+}
+
+/** An envelope that opens to reveal the printed invitation card(s). */
 export function Envelope() {
   const [open, setOpen] = useState(false)
   const [zoom, setZoom] = useState(false)
+  const [index, setIndex] = useState(0)
+  const many = CARDS.length > 1
+  const card = CARDS[index]
+  const go = (dir: -1 | 1) => setIndex((i) => (i + dir + CARDS.length) % CARDS.length)
+  const swipe = useSwipe((dir) => open && many && go(dir))
 
   return (
     <div className="relative mx-auto w-[300px] sm:w-[340px]">
       <button
         type="button"
-        onClick={() => (open ? setZoom(true) : setOpen(true))}
+        onClick={() => {
+          if (swipe.swiped.current) return // a swipe isn't a tap
+          if (open) setZoom(true)
+          else setOpen(true)
+        }}
+        {...swipe.handlers}
         className={cn(
           "group relative block h-[210px] w-full transition-[margin] duration-700 focus-visible:outline-none sm:h-[236px]",
           open ? "mt-[230px] sm:mt-[250px]" : "mt-6 md:mt-[120px]",
         )}
-        aria-label={open ? "View the full invitation" : "Open the envelope"}
+        aria-label={open ? `View the card up close: ${card.alt}` : "Open the envelope"}
       >
         {/* back of envelope */}
         <span className="absolute inset-0 rounded-[3px] bg-[var(--env-back)] shadow-[0_18px_40px_-18px_rgb(var(--c-ink)/0.55)]" />
@@ -34,9 +68,10 @@ export function Envelope() {
           )}
         >
           <img
-            src={invitationCard}
-            alt={`Invitation: ${eventTitle}`}
-            className="h-full w-full rounded-[2px] object-cover shadow-[0_10px_30px_-10px_rgb(var(--c-ink)/0.5)] ring-1 ring-white"
+            key={card.src}
+            src={card.src}
+            alt={card.alt}
+            className="h-full w-full rounded-[2px] bg-white object-cover shadow-[0_10px_30px_-10px_rgb(var(--c-ink)/0.5)] ring-1 ring-white animate-in fade-in duration-500"
           />
         </span>
 
@@ -74,20 +109,77 @@ export function Envelope() {
         </span>
       </button>
 
-      <p className="mt-4 text-center font-serif italic text-brand">
-        {open ? "Tap the card to see it up close" : "Tap the seal to open your invitation"}
+      {open && many && <CardPicker index={index} onIndex={setIndex} onStep={go} className="mt-4" />}
+
+      <p className="mt-3 text-center font-serif italic text-brand">
+        {!open
+          ? "Tap the seal to open your invitation"
+          : many
+            ? "Swipe or use the arrows to see each card; tap one to see it up close"
+            : "Tap the card to see it up close"}
       </p>
 
       <Dialog open={zoom} onOpenChange={setZoom}>
         <DialogContent className="max-w-[min(92vw,560px)] border-none bg-transparent p-0 shadow-none">
-          <DialogTitle className="sr-only">Invitation</DialogTitle>
+          <DialogTitle className="sr-only">
+            Invitation card {index + 1} of {CARDS.length}
+          </DialogTitle>
           <img
-            src={invitationCard}
-            alt={`Invitation: ${eventTitle}`}
-            className="max-h-[88vh] w-full rounded-[2px] object-contain"
+            key={card.src}
+            src={card.src}
+            alt={card.alt}
+            {...swipe.handlers}
+            className="max-h-[80vh] w-full rounded-[2px] object-contain animate-in fade-in duration-300"
           />
+          {many && <CardPicker index={index} onIndex={setIndex} onStep={go} dark />}
         </DialogContent>
       </Dialog>
+    </div>
+  )
+}
+
+/** Previous / next arrows with a dot per card. */
+function CardPicker({
+  index,
+  onIndex,
+  onStep,
+  dark = false,
+  className,
+}: {
+  index: number
+  onIndex: (i: number) => void
+  onStep: (dir: -1 | 1) => void
+  dark?: boolean
+  className?: string
+}) {
+  const btn = cn(
+    "grid h-9 w-9 place-items-center rounded-full transition focus-visible:outline-none focus-visible:ring-2",
+    dark
+      ? "bg-white/15 text-white hover:bg-white/25 focus-visible:ring-white"
+      : "text-brand hover:bg-highlight focus-visible:ring-brand",
+  )
+  return (
+    <div className={cn("flex items-center justify-center gap-3", className)}>
+      <button type="button" onClick={() => onStep(-1)} className={btn} aria-label="Previous card">
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+      {CARDS.map((c, i) => (
+        <button
+          key={c.src}
+          type="button"
+          onClick={() => onIndex(i)}
+          aria-label={`Card ${i + 1}: ${c.alt}`}
+          aria-current={i === index}
+          className={cn(
+            "h-2.5 rounded-full transition-all",
+            i === index ? "w-6" : "w-2.5",
+            dark ? (i === index ? "bg-white" : "bg-white/40") : i === index ? "bg-brand" : "bg-brand/30",
+          )}
+        />
+      ))}
+      <button type="button" onClick={() => onStep(1)} className={btn} aria-label="Next card">
+        <ChevronRight className="h-5 w-5" />
+      </button>
     </div>
   )
 }

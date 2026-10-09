@@ -1,6 +1,6 @@
 // Event wording and calendar data shared by the website and the invitation
 // email (api/send-invitations.ts), so both always say the same thing.
-import { COPY, EVENT } from "../config.js"
+import { COPY, EVENT, type Stop } from "../config.js"
 
 const opts = { timeZone: EVENT.timeZone }
 
@@ -36,12 +36,38 @@ export function fill(text: string): string {
 export const plainTitle = (text: string) => fill(text).replace(/\^(.*?)\^/g, "$1")
 
 export const eventTitle = plainTitle(COPY.eventTitle)
-export const eventLocation = [EVENT.venue, EVENT.address].filter(Boolean).join(", ")
-export const directionsUrl = EVENT.mapsShareUrl
+
+/** Every place on the day, in order. A single-venue event is one stop. */
+export const stops: Stop[] = EVENT.schedule.length
+  ? EVENT.schedule
+  : [
+      {
+        label: "",
+        time: eventTimeLabel,
+        venue: EVENT.venue,
+        address: EVENT.address,
+        mapsShareUrl: EVENT.mapsShareUrl,
+        mapsQuery: EVENT.mapsQuery,
+      },
+    ]
+export const hasSchedule = stops.length > 1
+export const stopLocation = (s: Stop) => [s.venue, s.address].filter(Boolean).join(", ")
+/** "Ceremony 12:00 noon · Reception 7:00 PM", or just the start time. */
+export const eventTimesLabel = hasSchedule ? stops.map((s) => `${s.label} ${s.time}`).join(" · ") : eventTimeLabel
+
+export const eventLocation = stopLocation(stops[0])
+export const directionsUrl = stops[0].mapsShareUrl
 
 const end = () => new Date(EVENT.start.getTime() + EVENT.durationHours * 3600_000)
 const stamp = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "")
-const details = `${COPY.surprise ? `${fill(COPY.surpriseHeadline)} ` : ""}Directions: ${EVENT.mapsShareUrl}`
+const details = [
+  COPY.surprise ? fill(COPY.surpriseHeadline) : "",
+  ...(hasSchedule
+    ? stops.map((s) => `${s.label}: ${s.time}, ${stopLocation(s)}. Directions: ${s.mapsShareUrl}`)
+    : [`Directions: ${stops[0].mapsShareUrl}`]),
+]
+  .filter(Boolean)
+  .join("\n")
 
 export function googleCalendarUrl() {
   const params = new URLSearchParams({
