@@ -71,7 +71,7 @@ export function Rsvp() {
             <li>{eventTimeLabel}</li>
             <li>{EVENT.venue}</li>
           </ul>
-          <BabysBreath className="pointer-events-none mt-10 hidden w-28 md:block" />
+          <BabysBreath className="pointer-events-none mt-10 hidden w-44 md:block" />
         </div>
 
         <div className="relative">

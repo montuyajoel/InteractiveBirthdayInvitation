@@ -1,7 +1,5 @@
 import { cn } from "@/lib/utils"
-import floralsTop from "@/assets/florals-top.jpg"
-import floralsBottom from "@/assets/florals-bottom.jpg"
-import floralsCorner from "@/assets/florals-corner.jpg"
+import { CornerBouquet, FloralSpray } from "./Florals"
 
 type Props = { className?: string; style?: React.CSSProperties }
 
@@ -58,27 +56,15 @@ export function Sparkle({ className, style }: Props) {
   )
 }
 
-/** The white peony and fern corner from the printed card. (Named BabysBreath
- *  so the template's call sites keep working.) Multiply blends its white
- *  background into the page. */
+/** A small peony bouquet. (Named BabysBreath so the template's call sites
+ *  keep working.) */
 export function BabysBreath({ className, style }: Props) {
-  return <img src={floralsCorner} alt="" aria-hidden className={cn("mix-blend-multiply", className)} style={style} />
+  return <CornerBouquet className={className} style={style} />
 }
 
-/** The full floral spray from the top / bottom edge of the printed card. */
+/** The swaying arch of peonies and greenery along the top / bottom edge. */
 export function FloralBand({ edge, className }: { edge: "top" | "bottom"; className?: string }) {
-  return (
-    <img
-      src={edge === "top" ? floralsTop : floralsBottom}
-      alt=""
-      aria-hidden
-      className={cn("pointer-events-none select-none mix-blend-multiply", className)}
-      style={{
-        maskImage: `linear-gradient(to ${edge === "top" ? "bottom" : "top"}, #000 70%, transparent)`,
-        WebkitMaskImage: `linear-gradient(to ${edge === "top" ? "bottom" : "top"}, #000 70%, transparent)`,
-      }}
-    />
-  )
+  return <FloralSpray flip={edge === "bottom"} className={className} />
 }
 
 export function HeartRule({ className }: { className?: string }) {

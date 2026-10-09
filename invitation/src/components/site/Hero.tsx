@@ -4,6 +4,7 @@ import { EVENT } from "@/config"
 import { COPY, Title, fill, plainTitle } from "@/lib/copy"
 import { cn } from "@/lib/utils"
 import { FloralBand, Heart, HeartRule } from "./Decor"
+import { PetalFall } from "./Florals"
 import { Envelope } from "./Envelope"
 
 import { eventDateLabel, eventTimeLabel } from "@/lib/event"
@@ -15,7 +16,8 @@ export function Hero() {
 
   return (
     <section id="invitation" className="relative overflow-hidden pt-24 sm:pt-28">
-      <FloralBand edge="top" className="mx-auto -mt-4 mb-2 block w-full max-w-3xl sm:-mt-6" />
+      <PetalFall />
+      <FloralBand edge="top" className="relative mx-auto -mt-2 mb-4 block w-[115%] max-w-none -translate-x-[6.5%] sm:w-full sm:max-w-4xl sm:translate-x-0" />
       <Heart className="absolute left-[6%] top-[78%] h-4 w-4 opacity-60" filled />
 
       <div className="mx-auto grid max-w-6xl items-end gap-10 px-4 pb-16 sm:px-6 md:grid-cols-[1.15fr_0.85fr] md:pb-24">

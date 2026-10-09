@@ -69,6 +69,26 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        breathe: {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.04)" },
+        },
+        "petal-fall": {
+          "0%": { top: "-5%", transform: "translateX(0)", opacity: "0" },
+          "10%": { opacity: ".95" },
+          "35%": { transform: "translateX(40px)" },
+          "65%": { transform: "translateX(-25px)" },
+          "90%": { opacity: ".9" },
+          "100%": { top: "102%", transform: "translateX(15px)", opacity: "0" },
+        },
+        "petal-spin": {
+          "0%": { transform: "rotate(0deg) rotateX(0deg)" },
+          "100%": { transform: "rotate(360deg) rotateX(360deg)" },
+        },
+        "sway-soft": {
+          "0%, 100%": { transform: "rotate(-1.6deg)" },
+          "50%": { transform: "rotate(1.6deg)" },
+        },
         sway: {
           "0%, 100%": { transform: "rotate(-4deg)" },
           "50%": { transform: "rotate(4deg)" },
@@ -89,6 +109,11 @@ module.exports = {
       },
       animation: {
         sway: "sway 4s ease-in-out infinite",
+        "sway-soft": "sway-soft 6s ease-in-out infinite",
+        "sway-slow": "sway-soft 9s ease-in-out infinite",
+        breathe: "breathe 7s ease-in-out infinite",
+        "petal-fall": "petal-fall 13s linear infinite",
+        "petal-spin": "petal-spin 4s linear infinite",
         flutter: "flutter 0.6s ease-in-out infinite",
         drift: "drift 7s ease-in-out infinite",
         "float-up": "float-up 1.8s ease-out forwards",

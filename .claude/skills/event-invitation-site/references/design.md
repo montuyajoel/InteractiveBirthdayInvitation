@@ -59,6 +59,16 @@ still work) or swap the calls. Keep strokes thin (1–1.3 px at 24 px), fills
 at low opacity, and avoid adding motifs to every section: two or three placements per
 screen is plenty.
 
+Don't crop artwork out of the printed card for decorations: the crops show
+hard edges and look cut off. Draw the motif as SVG instead, coloured to match
+the card. `invitation/src/components/site/Florals.tsx` on the
+`claude/brendan-angelina-wedding` branch is a worked example (peonies,
+hydrangea, eucalyptus, ferns, an arch along the hero top that flips for the
+footer, plus falling petals). Gentle motion suits these: stems swaying from
+their base (`transform-origin` at the stem's base in SVG user units), slow
+"breathing" flowers, a dozen drifting petals. Keep it subtle and pointer-events
+free; the `prefers-reduced-motion` rule in `index.css` already stills it.
+
 The gallery's sample tiles (`src/lib/gallery.ts`, `MOTIFS` and `SAMPLES`)
 are small SVG illustrations shown before real photos exist; rename the
 captions (and redraw if needed) to suit the event.
