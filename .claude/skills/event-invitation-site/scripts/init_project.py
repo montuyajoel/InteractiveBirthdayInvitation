@@ -45,9 +45,13 @@ def vercel_json():
             "$schema": "https://openapi.vercel.sh/vercel.json",
             # exit 1 = build, exit 0 = skip. Vercel reads this file from the
             # commit being built, so it can't name a branch: a push to another
-            # event's branch carries that event's file. VERCEL_ENV is
-            # "production" only for the project's own production branch.
-            "ignoreCommand": 'if [ "$VERCEL_ENV" = "production" ]; then exit 1; else exit 0; fi',
+            # event's branch carries that event's file. Production builds only
+            # from the project's production branch (VERCEL_ENV); previews only
+            # from branches named <EVENT_BRANCH>-... or <EVENT_BRANCH>/..., where
+            # EVENT_BRANCH is a per-project environment variable in Vercel.
+            "ignoreCommand": 'if [ "$VERCEL_ENV" = production ]; then exit 1; fi; '
+            'case "$VERCEL_GIT_COMMIT_REF" in "$EVENT_BRANCH"-*|"$EVENT_BRANCH"/*) '
+            '[ -n "$EVENT_BRANCH" ] && exit 1;; esac; exit 0',
         },
         indent=2,
     ) + "\n"
@@ -107,7 +111,7 @@ def main():
 
     print(f"""
 Branch:  {branch} (from {base}, not committed yet)
-Site:    {SITE_FOLDER}/  (vercel.json builds only for {branch})
+Site:    {SITE_FOLDER}/  (vercel.json builds production from {branch}, previews from {branch}-*)
 
 Next:
   1. cd {SITE_FOLDER} && pnpm install, then verify (see SKILL.md step 4)

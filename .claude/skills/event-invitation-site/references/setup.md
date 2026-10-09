@@ -62,19 +62,22 @@ One Vercel project per event, all importing the same repo:
 - Settings → Environments → Production → branch = the event's branch. Vercel
   only offers a branch it has built: if it says "No deployments found", go to
   Deployments → ⋯ → Create Deployment → the branch name, then retry.
-- The folder's `vercel.json` (`ignoreCommand`) builds only production
-  deployments, i.e. pushes to the branch set above; pushes to other events'
-  branches show as *Canceled*. It can't name the branch: Vercel reads
-  `vercel.json` from the commit it builds, so a push to `aya-christening`
-  would bring Aya's file into every other project. It also takes precedence
-  over the dashboard's "Ignored Build Step", so leave that empty. Branches
-  without an `invitation/` folder (e.g. `invitation-skill`) fail with "Root
-  Directory does not exist"; those are preview builds and don't touch the
-  live site.
+- The folder's `vercel.json` (`ignoreCommand`) keeps each project to its own
+  event: production builds only from the branch set above, and previews only
+  from branches named `<branch>-...` or `<branch>/...` (e.g.
+  `mallows-birthday-new-photos`), using the project's `EVENT_BRANCH`
+  variable below. Everything else shows as *Canceled*. The file can't name
+  the branch itself: Vercel reads `vercel.json` from the commit it builds, so
+  a push to `aya-christening` would bring Aya's file into every project. It
+  also takes precedence over the dashboard's "Ignored Build Step", so leave
+  that empty. Branches without an `invitation/` folder (e.g.
+  `invitation-skill`) fail with "Root Directory does not exist"; those are
+  preview builds and don't touch the live site.
 - Environment Variables:
 
 | Variable | Value |
 | --- | --- |
+| `EVENT_BRANCH` | the event's branch, e.g. `mallows-birthday` (all environments; lets that event's preview branches build) |
 | `VITE_SUPABASE_URL` | registrations project URL (the same for every event in that project) |
 | `VITE_SUPABASE_ANON_KEY` | registrations publishable/anon key |
 | `VITE_GALLERY_SUPABASE_URL` | gallery project URL |
