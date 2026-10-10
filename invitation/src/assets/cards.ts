@@ -9,5 +9,5 @@ export type Card = { src: string; alt: string }
 export const CARDS: Card[] = [
   { src: nuptials, alt: "The Taguibao and Keenan Nuptials" },
   { src: ceremony, alt: "Ceremony: Saturday, December 19, 2026 at 12:00 noon, St. John the Baptist Church, Blackrock" },
-  { src: reception, alt: "Wedding Party: Saturday, December 19, 2026 at 4 pm, Talbot Hotel Stillorgan" },
+  { src: reception, alt: "Wedding Reception: Saturday, December 19, 2026 at 4:00 pm, Talbot Hotel Stillorgan" },
 ]
