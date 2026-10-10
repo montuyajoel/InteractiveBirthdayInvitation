@@ -17,7 +17,7 @@ import {
   type InviteLogEntry,
 } from "@/lib/registrations"
 import { DEMO_PASSWORD } from "@/lib/showcase"
-import { SectionTitle } from "./Decor"
+import { Cross, SectionTitle } from "./Decor"
 
 type State =
   | { status: "locked"; error?: string }
@@ -237,6 +237,10 @@ export function GuestList() {
                       {" "}· {state.guests.filter((g) => g.invite_sent_at).length} invited
                     </span>
                   )}
+                  {(() => {
+                    const sponsors = state.guests.filter((g) => g.ninong_ninang).length
+                    return sponsors > 0 ? ` · ${sponsors} ${sponsors === 1 ? "wants" : "want"} to be Ninong/Ninang` : null
+                  })()}
                 </p>
                 <Button
                   variant="ghost"
@@ -301,6 +305,11 @@ export function GuestList() {
                       <p className="text-lg text-ink">
                         {g.first_name} {g.last_name}
                       </p>
+                      {g.ninong_ninang && (
+                        <p className="mt-0.5 inline-flex items-center gap-1 border border-gold/60 bg-highlight/60 px-2 py-0.5 text-[0.65rem] uppercase tracking-[0.16em] text-brand">
+                          <Cross className="h-3 w-2.5" /> Ninong / Ninang
+                        </p>
+                      )}
                       <p className="truncate text-sm text-muted-foreground">{g.email}</p>
                     </div>
                     <p className="italic text-ink/80">“{g.wishes}”</p>

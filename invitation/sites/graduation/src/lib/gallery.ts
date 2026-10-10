@@ -114,34 +114,43 @@ function prettify(filename: string) {
 const C = THEME.colors
 
 const MOTIFS: Record<string, string> = {
-  cake: `<rect x="70" y="120" width="160" height="90" rx="10" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>
-    <path d="M70 150 q20 18 40 0 t40 0 t40 0 t40 0" fill="none" stroke="${C.brand}" stroke-width="3"/>
-    <rect x="135" y="80" width="10" height="40" fill="#e8c88f"/><rect x="155" y="80" width="10" height="40" fill="#e8c88f"/>
-    <path d="M140 64 q6 8 0 14 q-6 -6 0 -14z M160 64 q6 8 0 14 q-6 -6 0 -14z" fill="#f2b45c"/>
-    <path d="M150 170 l-26 -14 v28z M150 170 l26 -14 v28z" fill="${C.soft}"/>`,
-  balloons: `<ellipse cx="115" cy="110" rx="38" ry="46" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
-    <ellipse cx="185" cy="95" rx="38" ry="46" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>
-    <path d="M115 156 q10 40 -4 80 M185 141 q-12 50 6 95" fill="none" stroke="${C.brand}" stroke-width="2"/>`,
-  ribbon: `<path d="M150 120 C110 70 60 80 70 115 C78 145 120 135 150 120 Z M150 120 C190 70 240 80 230 115 C222 145 180 135 150 120 Z" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
-    <path d="M150 120 L118 210 L134 204 L142 222 Z M150 120 L182 210 L166 204 L158 222 Z" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
-    <circle cx="150" cy="120" r="12" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>`,
-  heart: `<path d="M150 220 s-80 -46 -80 -102 c0 -30 22 -50 46 -50 c16 0 28 8 34 20 c6 -12 18 -20 34 -20 c24 0 46 20 46 50 c0 56 -80 102 -80 102z" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>`,
-  butterfly: `<path d="M150 140 C120 70 50 66 58 112 C64 146 110 148 150 140 Z M150 140 C180 70 250 66 242 112 C236 146 190 148 150 140 Z M150 140 C122 156 86 196 112 208 C130 214 144 180 150 140 Z M150 140 C178 156 214 196 188 208 C170 214 156 180 150 140 Z" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
-    <path d="M150 110 V190" stroke="${C.brand}" stroke-width="4" stroke-linecap="round"/>`,
-  flowers: `<g fill="#fff" stroke="${C.brand}" stroke-width="2">${[
-    [100, 90], [140, 70], [190, 95], [120, 130], [170, 135], [215, 140], [90, 160], [150, 175],
-  ]
-    .map(([x, y]) => `<circle cx="${x}" cy="${y}" r="13"/><circle cx="${x}" cy="${y}" r="4" fill="${C.bloom}"/>`)
-    .join("")}</g><path d="M150 250 C150 210 120 180 100 160 M150 250 C150 200 175 160 190 95 M150 250 C140 200 150 180 150 175 M150 250 C170 210 210 170 215 140" fill="none" stroke="${C.foliage}" stroke-width="2"/>`,
+  cap: `<path d="M90 136 V180 C90 198 118 210 150 210 C182 210 210 198 210 180 V136" fill="${C.paper}" stroke="${C.brand}" stroke-width="3"/>
+    <path d="M150 70 L40 115 L150 160 L260 115 Z" fill="${C.paper}" stroke="${C.brand}" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M150 115 L238 135 V190" fill="none" stroke="${C.bloom}" stroke-width="4" stroke-linecap="round"/>
+    <path d="M230 190 h16 l4 26 h-24 z" fill="${C.bloom}"/><circle cx="150" cy="115" r="6" fill="${C.bloom}"/>`,
+  diploma: `<rect x="60" y="110" width="180" height="56" rx="28" fill="${C.ink}" stroke="${C.brand}" stroke-width="3"/>
+    <ellipse cx="236" cy="138" rx="12" ry="28" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>
+    <rect x="136" y="106" width="22" height="64" fill="${C.brand}" opacity=".85"/>
+    <path d="M147 170 l-16 46 l14 -8 l6 14 z M147 170 l16 46 l-14 -8 l-6 14 z" fill="${C.brand}" opacity=".85"/>`,
+  chart: `<path d="M70 220 H240 M70 220 V70" stroke="${C.ink}" stroke-width="3" stroke-linecap="round"/>
+    ${[[90, 160], [126, 130], [162, 100], [198, 80]].map(([x, y], i) => `<rect x="${x}" y="${y}" width="26" height="${220 - y}" rx="3" fill="${i % 2 ? C.brand : C.soft}" stroke="${C.ink}" stroke-width="2"/>`).join("")}
+    <path d="M90 140 L130 112 L170 84 L214 58" fill="none" stroke="${C.ink}" stroke-width="3" stroke-dasharray="6 6"/>
+    <path d="M214 58 l-14 0 m14 0 l-4 13" stroke="${C.ink}" stroke-width="3" stroke-linecap="round"/>`,
+  laurel: `<g fill="${C.soft}" stroke="${C.foliage}" stroke-width="2">${[0, 1, 2, 3, 4, 5]
+    .map((i) => {
+      const a = 200 - i * 26
+      const x = 150 + Math.cos((a * Math.PI) / 180) * 80
+      const y = 150 - Math.sin((a * Math.PI) / 180) * 80
+      const x2 = 300 - x
+      return `<ellipse cx="${x}" cy="${y}" rx="18" ry="8" transform="rotate(${-a + 70} ${x} ${y})"/><ellipse cx="${x2}" cy="${y}" rx="18" ry="8" transform="rotate(${a - 70} ${x2} ${y})"/>`
+    })
+    .join("")}</g><text x="150" y="168" text-anchor="middle" font-family="Georgia, serif" font-size="46" fill="${C.brand}">BS</text>`,
+  stars: [[110, 100, 34], [196, 90, 24], [160, 176, 42]]
+    .map(([x, y, r]) => `<path transform="translate(${x} ${y}) scale(${r / 12})" d="M0 -9.8l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6-4.5-4.2 6.1-.7z" fill="${C.bloom}" stroke="${C.brand}" stroke-width="${24 / r}"/>`)
+    .join(""),
+  books: `<rect x="80" y="180" width="150" height="26" rx="4" fill="${C.ink}"/><rect x="92" y="152" width="134" height="26" rx="4" fill="${C.brand}"/>
+    <rect x="76" y="124" width="140" height="26" rx="4" fill="${C.soft}" stroke="${C.ink}" stroke-width="2"/>
+    <path d="M150 112 q-30 -16 -54 -6 v-40 q24 -10 54 6 q30 -16 54 -6 v40 q-24 -10 -54 6z" fill="${C.ink}" stroke="${C.ink}" stroke-width="2.5"/>
+    <path d="M150 72 v40" stroke="${C.ink}" stroke-width="2"/>`,
 }
 
 const SAMPLES: { motif: keyof typeof MOTIFS; caption: string; w: number; h: number; tint: string }[] = [
-  { motif: "cake", caption: "Grad cake", w: 300, h: 380, tint: C.highlight },
-  { motif: "balloons", caption: "Party balloons", w: 300, h: 300, tint: C.soft },
-  { motif: "butterfly", caption: "New beginnings", w: 300, h: 260, tint: C.soft },
-  { motif: "ribbon", caption: "Diploma ribbon", w: 300, h: 360, tint: C.soft },
-  { motif: "flowers", caption: "Flowers from Lola", w: 300, h: 300, tint: C.highlight },
-  { motif: "heart", caption: "Proud of you", w: 300, h: 280, tint: C.highlight },
+  { motif: "cap", caption: "Caps off", w: 300, h: 300, tint: C.highlight },
+  { motif: "chart", caption: "By the numbers", w: 300, h: 340, tint: C.soft },
+  { motif: "diploma", caption: "The diploma", w: 300, h: 260, tint: C.highlight },
+  { motif: "books", caption: "All those late nights", w: 300, h: 340, tint: C.soft },
+  { motif: "laurel", caption: "Cum Laude", w: 300, h: 300, tint: C.highlight },
+  { motif: "stars", caption: "Gold stars", w: 300, h: 280, tint: C.soft },
 ]
 
 function sampleSvg(motif: string, w: number, h: number, tint: string) {

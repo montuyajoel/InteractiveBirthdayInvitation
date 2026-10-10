@@ -1,8 +1,7 @@
 // Showcase-only: "Contact us" section at the bottom of every sample event.
 import { useState } from "react"
 import { Mail, Send } from "lucide-react"
-import { CREDIT } from "@/config"
-import { SHOWCASE_EVENTS, SLUG } from "@/lib/showcase"
+import { CONTACT_EMAIL, SHOWCASE_EVENTS, SLUG } from "@/lib/showcase"
 import { SYSTEM_FONT } from "./ShowcaseBar"
 
 const input =
@@ -25,7 +24,7 @@ export function ContactUs() {
       subject: `${type} invitation inquiry from ${name.trim()}`,
       body: `${message.trim()}\n\nName: ${name.trim()}\nEvent: ${type}\nSeen on: ${location.href}`,
     })
-    location.href = `mailto:${CREDIT.email}?${q.toString().replace(/\+/g, "%20")}`
+    location.href = `mailto:${CONTACT_EMAIL}?${q.toString().replace(/\+/g, "%20")}`
   }
 
   return (
@@ -45,10 +44,10 @@ export function ContactUs() {
           you, with registration, photo gallery and email confirmations.
         </p>
         <a
-          href={`mailto:${CREDIT.email}?subject=${encodeURIComponent("Custom invitation inquiry")}`}
+          href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Custom invitation inquiry")}`}
           className="mt-8 inline-flex min-h-11 items-center gap-2 rounded-full bg-[#0071e3] px-6 text-[17px] font-medium text-white transition hover:bg-[#0077ed]"
         >
-          <Mail className="h-4 w-4" /> {CREDIT.email}
+          <Mail className="h-4 w-4" /> {CONTACT_EMAIL}
         </a>
       </div>
 

@@ -8,7 +8,6 @@ const LINKS = [
   { href: "#rsvp", label: "Register" },
   { href: "#gallery", label: "Gallery" },
   { href: "#directions", label: "Directions" },
-  { href: "#contact", label: "Contact" },
 ]
 
 export function Header({ route }: { route: Route }) {
@@ -52,7 +51,7 @@ export function Header({ route }: { route: Route }) {
         </a>
         <ul className="flex items-center gap-0.5 overflow-x-auto sm:gap-2">
           {LINKS.map((l) => (
-            <li key={l.href} className={l.href === "#invitation" || l.href === "#contact" ? "hidden sm:block" : undefined}>
+            <li key={l.href} className={l.href === "#invitation" ? "hidden sm:block" : undefined}>
               <a
                 href={l.href}
                 className={cn(

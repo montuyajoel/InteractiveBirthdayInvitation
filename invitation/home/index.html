@@ -52,7 +52,7 @@
     @media (max-width: 760px) { .nav nav a.opt { display: none; } .nav .wrap { gap: 14px; padding: 0 16px; } .nav nav { gap: 16px; } }
 
     .hero { text-align: center; padding: 88px 0 56px; }
-    .grad { background: linear-gradient(90deg, #c2577a, #8c6d33 40%, #2f7585 75%, #2f3d33); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .grad { background: linear-gradient(90deg, #8a5a90, #a0646e 35%, #8a6a2c 65%, #4a6a48); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .cta { margin-top: 30px; display: flex; gap: 24px; justify-content: center; align-items: center; flex-wrap: wrap; }
 
     .events { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; padding-bottom: 96px; }
@@ -185,14 +185,14 @@
 
   <script>
     const EVENTS = [
-      { slug: "birthday", label: "Surprise 16th birthday", name: "Isabel “Bella” Navarro", start: "2026-11-21T18:00:00+08:00", place: "San Juan City", color: "#a8505f" },
-      { slug: "wedding", label: "Wedding", name: "Marco & Elena", start: "2027-02-13T15:00:00+08:00", place: "Tagaytay City", color: "#8a6a2c" },
-      { slug: "graduation", label: "Graduation party", name: "Joaquin Ramos", start: "2027-06-05T18:00:00+08:00", place: "Bonifacio Global City", color: "#1f2340" },
-      { slug: "christening", label: "Christening", name: "Baby Gabriel Lim", start: "2026-12-06T10:00:00+08:00", place: "Quezon City", color: "#2f7585" },
+      { slug: "birthday", label: "Surprise 16th birthday", name: "Isabel Sofia", start: "2026-11-21T17:00:00+08:00", place: "Casa Lumiere Garden", color: "#8a5a90" },
+      { slug: "wedding", label: "Wedding", name: "Elena & Marco", start: "2027-02-13T12:00:00+00:00", place: "Killiney, Co. Dublin", color: "#4a6a48" },
+      { slug: "graduation", label: "Graduation celebration", name: "Joaquin", start: "2027-06-05T16:00:00+08:00", place: "Iloilo City", color: "#8a6a2c" },
+      { slug: "christening", label: "Christening", name: "Sofia Gabrielle “Gabby”", start: "2026-12-06T10:00:00+08:00", place: "The Reyes Residence", color: "#a0646e" },
     ];
     const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     document.getElementById("events").innerHTML = EVENTS.map((e) => {
-      const d = new Date(e.start).toLocaleDateString("en-US", { weekday: "short", month: "long", day: "numeric", year: "numeric", timeZone: "Asia/Manila" });
+      const d = new Date(e.start).toLocaleDateString("en-US", { weekday: "short", month: "long", day: "numeric", year: "numeric", timeZone: e.slug === "wedding" ? "Europe/Dublin" : "Asia/Manila" });
       return `<a class="ev" href="/${e.slug}/"><div class="img"><img src="/${e.slug}/email/invitation-card.jpg" alt="${esc(e.name)} invitation card" loading="lazy" width="992" height="1488"></div>
         <div class="body"><small style="color:${e.color}">${esc(e.label)}</small><strong>${esc(e.name)}</strong><span>${d} · ${esc(e.place)}</span><span class="go">Open invitation ›</span></div></a>`;
     }).join("");

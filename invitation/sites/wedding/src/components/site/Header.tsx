@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import type { Route } from "@/lib/route"
+import { PAGE_OPTIONS } from "@/config"
 import { COPY, fill } from "@/lib/copy"
 import { cn } from "@/lib/utils"
 
@@ -8,8 +9,7 @@ const LINKS = [
   { href: "#rsvp", label: "Register" },
   { href: "#gallery", label: "Gallery" },
   { href: "#directions", label: "Directions" },
-  { href: "#contact", label: "Contact" },
-]
+].filter((l) => PAGE_OPTIONS.gallery || l.href !== "#gallery")
 
 export function Header({ route }: { route: Route }) {
   const [scrolled, setScrolled] = useState(false)
@@ -52,7 +52,7 @@ export function Header({ route }: { route: Route }) {
         </a>
         <ul className="flex items-center gap-0.5 overflow-x-auto sm:gap-2">
           {LINKS.map((l) => (
-            <li key={l.href} className={l.href === "#invitation" || l.href === "#contact" ? "hidden sm:block" : undefined}>
+            <li key={l.href} className={l.href === "#invitation" ? "hidden sm:block" : undefined}>
               <a
                 href={l.href}
                 className={cn(

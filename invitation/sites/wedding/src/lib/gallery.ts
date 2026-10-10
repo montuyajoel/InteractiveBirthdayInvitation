@@ -126,8 +126,8 @@ const MOTIFS: Record<string, string> = {
     <path d="M150 120 L118 210 L134 204 L142 222 Z M150 120 L182 210 L166 204 L158 222 Z" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
     <circle cx="150" cy="120" r="12" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>`,
   heart: `<path d="M150 220 s-80 -46 -80 -102 c0 -30 22 -50 46 -50 c16 0 28 8 34 20 c6 -12 18 -20 34 -20 c24 0 46 20 46 50 c0 56 -80 102 -80 102z" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>`,
-  butterfly: `<path d="M150 140 C120 70 50 66 58 112 C64 146 110 148 150 140 Z M150 140 C180 70 250 66 242 112 C236 146 190 148 150 140 Z M150 140 C122 156 86 196 112 208 C130 214 144 180 150 140 Z M150 140 C178 156 214 196 188 208 C170 214 156 180 150 140 Z" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
-    <path d="M150 110 V190" stroke="${C.brand}" stroke-width="4" stroke-linecap="round"/>`,
+  butterfly: `<path d="M150 240 C146 180 152 110 150 40" fill="none" stroke="${C.brand}" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="120" cy="190" rx="22" ry="17" transform="rotate(-30 120 190)" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/><ellipse cx="182" cy="170" rx="22" ry="17" transform="rotate(25 182 170)" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/><ellipse cx="116" cy="140" rx="22" ry="17" transform="rotate(-25 116 140)" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/><ellipse cx="186" cy="118" rx="22" ry="17" transform="rotate(30 186 118)" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/><ellipse cx="126" cy="92" rx="22" ry="17" transform="rotate(-20 126 92)" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/><ellipse cx="176" cy="72" rx="22" ry="17" transform="rotate(20 176 72)" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/><ellipse cx="150" cy="48" rx="22" ry="17" transform="rotate(0 150 48)" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>`,
   flowers: `<g fill="#fff" stroke="${C.brand}" stroke-width="2">${[
     [100, 90], [140, 70], [190, 95], [120, 130], [170, 135], [215, 140], [90, 160], [150, 175],
   ]
@@ -136,12 +136,12 @@ const MOTIFS: Record<string, string> = {
 }
 
 const SAMPLES: { motif: keyof typeof MOTIFS; caption: string; w: number; h: number; tint: string }[] = [
-  { motif: "cake", caption: "Cake tasting", w: 300, h: 380, tint: C.highlight },
-  { motif: "balloons", caption: "Garden party", w: 300, h: 300, tint: C.soft },
-  { motif: "butterfly", caption: "Butterflies at the villa", w: 300, h: 260, tint: C.soft },
-  { motif: "ribbon", caption: "Ribbons & lace", w: 300, h: 360, tint: C.soft },
-  { motif: "flowers", caption: "The bouquet", w: 300, h: 300, tint: C.highlight },
-  { motif: "heart", caption: "Forever", w: 300, h: 280, tint: C.highlight },
+  { motif: "cake", caption: "Wedding cake", w: 300, h: 380, tint: C.highlight },
+  { motif: "balloons", caption: "Party lights", w: 300, h: 300, tint: C.soft },
+  { motif: "butterfly", caption: "Garden greenery", w: 300, h: 260, tint: C.soft },
+  { motif: "ribbon", caption: "Satin ribbons", w: 300, h: 360, tint: C.soft },
+  { motif: "flowers", caption: "White peonies", w: 300, h: 300, tint: C.highlight },
+  { motif: "heart", caption: "With love", w: 300, h: 280, tint: C.highlight },
 ]
 
 function sampleSvg(motif: string, w: number, h: number, tint: string) {

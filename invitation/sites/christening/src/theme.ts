@@ -8,24 +8,26 @@
 
 export const THEME = {
   colors: {
-    ink: "#1f3b4d", // body text, headings, primary buttons
-    brand: "#2f7585", // script titles, labels, icons, links
-    soft: "#dcecef", // tinted panels, skeletons, borders' fill
-    highlight: "#f6efe3", // warm wash, hover backgrounds, email call-out
-    paper: "#fbfdfd", // page background
-    night: "#122430", // full-screen photo viewer background
-    foliage: "#8fb3a3", // stems / leaves in floral decorations
-    bloom: "#bfe0ea", // flower centres and small accents in decorations
+    ink: "#4f3426", // warm brown: body text, headings, primary buttons
+    brand: "#8c6a45", // antique gold, like the welcome sign's lettering: titles, labels, links
+    soft: "#f3e2dd", // blush: panels, skeletons, borders' fill
+    highlight: "#f4e7da", // champagne wash, hover backgrounds, email call-out
+    paper: "#fdf9f4", // ivory page background
+    night: "#2b1d16", // full-screen photo viewer background
+    foliage: "#c8a67e", // pampas grass and stems in decorations
+    bloom: "#e3b5b8", // blush petals and small accents in decorations
+    gold: "#c9a45c", // metallic gold balloons, foil lines, glints (decor only, not text)
+    mauve: "#c4959a", // dusty rose arch, bow and balloons (decor only, not text)
   },
   // The envelope in the hero (back, front pocket, side folds, top flap).
   envelope: {
-    back: "#d3e6ea",
-    pocket: "#dcecef",
-    sides: "#cde2e7",
-    flap: "#c2dbe1",
+    back: "#ebd3cf",
+    pocket: "#f2e0dc",
+    sides: "#e7ccc7",
+    flap: "#dcb8b5",
   },
   fonts: {
-    script: "Allura", // big decorative titles
+    script: "Allura", // big decorative titles, like the sign's handwriting
     serif: "Cormorant Garamond", // everything else
     googleFontsUrl: "https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap",
     // Email clients can't load web fonts reliably; use a safe stack there.

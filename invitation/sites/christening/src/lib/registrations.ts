@@ -9,6 +9,8 @@ export type Registration = {
   lastName: string
   email: string
   wishes: string
+  // ticked "I'd love to be a Ninong/Ninang"
+  sponsor: boolean
 }
 
 export class AlreadyRegisteredError extends Error {}
@@ -25,6 +27,8 @@ export async function submitRegistration(r: Registration): Promise<void> {
         last_name: r.lastName,
         email: r.email.toLowerCase(),
         wishes: r.wishes,
+        // Only sent when ticked (the column defaults to false).
+        ...(r.sponsor ? { ninong_ninang: true } : {}),
       }),
     })
     if (res.status === 409) throw new AlreadyRegisteredError()
@@ -66,6 +70,8 @@ export type GuestListEntry = {
   wishes: string
   created_at: string
   invite_sent_at?: string | null
+  // ticked "I'd love to be a Ninong/Ninang"
+  ninong_ninang?: boolean
   invite_count?: number
   last_invite_status?: "sent" | "failed" | null
   last_invite_error?: string | null

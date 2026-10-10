@@ -8,21 +8,21 @@
 
 export const THEME = {
   colors: {
-    ink: "#1f2340", // body text, headings, primary buttons
-    brand: "#8c6d33", // script titles, labels, icons, links
-    soft: "#e6e1ef", // tinted panels, skeletons, borders' fill
-    highlight: "#f4ece0", // warm wash, hover backgrounds, email call-out
-    paper: "#fbfaf8", // page background
-    night: "#0f1226", // full-screen photo viewer background
-    foliage: "#9a8f6a", // stems / leaves in floral decorations
-    bloom: "#e8cf96", // flower centres and small accents in decorations
+    ink: "#f2ece0", // body text, headings, primary buttons
+    brand: "#d2ae62", // script titles, labels, icons, links
+    soft: "#1a1a1e", // tinted panels, skeletons, borders' fill
+    highlight: "#2a2416", // warm wash, hover backgrounds, email call-out
+    paper: "#0b0b0d", // page background
+    night: "#000000", // full-screen photo viewer background
+    foliage: "#8c8574", // stems / leaves in floral decorations
+    bloom: "#d2ae62", // flower centres and small accents in decorations
   },
   // The envelope in the hero (back, front pocket, side folds, top flap).
   envelope: {
-    back: "#dcd6e8",
-    pocket: "#e6e1ef",
-    sides: "#d6cfe4",
-    flap: "#ccc4dd",
+    back: "#16161a",
+    pocket: "#1f1f24",
+    sides: "#1b1b20",
+    flap: "#26262c",
   },
   fonts: {
     script: "Pinyon Script", // big decorative titles
@@ -73,20 +73,20 @@ export function applyTheme(theme: Theme = THEME, root: HTMLElement = document.do
   const c = theme.colors
   set("--background", hexToHslTriplet(c.paper))
   set("--foreground", hexToHslTriplet(c.ink))
-  set("--card", hexToHslTriplet(c.paper, 2))
+  set("--card", hexToHslTriplet(c.soft))
   set("--card-foreground", hexToHslTriplet(c.ink))
-  set("--popover", hexToHslTriplet(c.paper, 2))
+  set("--popover", hexToHslTriplet(c.soft))
   set("--popover-foreground", hexToHslTriplet(c.ink))
-  set("--primary", hexToHslTriplet(c.ink))
-  set("--primary-foreground", hexToHslTriplet(c.paper, 2))
+  set("--primary", hexToHslTriplet(c.brand))
+  set("--primary-foreground", hexToHslTriplet(c.paper))
   set("--secondary", hexToHslTriplet(c.soft))
   set("--secondary-foreground", hexToHslTriplet(c.ink))
   set("--muted", hexToHslTriplet(c.soft, 4))
-  set("--muted-foreground", hexToHslTriplet(c.ink, 16))
+  set("--muted-foreground", hexToHslTriplet(c.ink, -22))
   set("--accent", hexToHslTriplet(c.highlight))
   set("--accent-foreground", hexToHslTriplet(c.ink))
-  set("--border", hexToHslTriplet(c.soft, -4))
-  set("--input", hexToHslTriplet(c.soft, -8))
+  set("--border", hexToHslTriplet(c.soft, 8))
+  set("--input", hexToHslTriplet(c.soft, 14))
   set("--ring", hexToHslTriplet(c.brand))
   set("--radius", theme.radius)
 

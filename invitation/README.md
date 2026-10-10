@@ -1,19 +1,19 @@
 # Celebrations: sample invitation sites
 
-Four sample events built with the `event-invitation-site` skill, served from
-one address. Every name, address, guest and picture here is made up.
+Four sample events served from one address, each a copy of a real event's
+site with every name, place, date and photo swapped for made-up ones.
 
-| Path | Event |
-| --- | --- |
-| `/` | Landing page (Apple-style), with Contact us at the bottom |
-| `/birthday/` | Isabel "Bella" Navarro's surprise 16th birthday |
-| `/wedding/` | Marco & Elena's wedding |
-| `/graduation/` | Joaquin Ramos's graduation party |
-| `/christening/` | Baby Gabriel Lim's christening |
+| Path | Sample event | Design copied from |
+| --- | --- | --- |
+| `/` | Landing page (Apple-style), with Contact us at the bottom | |
+| `/birthday/` | Isabel Sofia's surprise 16th birthday | `mallows-birthday` |
+| `/wedding/` | Elena & Marco's wedding | `claude/brendan-angelina-wedding` |
+| `/graduation/` | Joaquin's graduation celebration | `joel-graduation` |
+| `/christening/` | Baby Sofia Gabrielle ("Gabby")'s christening | `aya-christening` |
 
-Each event site is the skill's template with all its features (envelope,
-countdown and calendar, registration, gallery, directions, hosts' guest list
-and confirmation emails), plus a small showcase layer:
+Each site keeps its real event's look and features (envelope and printed
+cards, decorations, countdown and calendar, registration, gallery, map,
+hosts' guest list, confirmation email) and adds a small showcase layer:
 
 - **Sample database.** No Supabase: registrations stay in the visitor's
   browser, and the hosts' guest list (password `demo`) shows five made-up
@@ -29,30 +29,41 @@ and confirmation emails), plus a small showcase layer:
 
 | Folder | What |
 | --- | --- |
-| `specs/<slug>.json` | each event's details, wording and colours (the skill's `event.json`) |
-| `cards/<slug>.jpg` | the printed invitation cards, drawn by `scripts/make_cards.mjs` |
+| `scripts/import_sites.py` | copies each real site from its branch and swaps in the made-up details |
+| `scripts/cards.config.mjs` | where each real card's details sit, and the made-up text that replaces them |
+| `cards/` | the edited printed cards (and the christening's illustrated "first months") |
 | `overlay/` | showcase files copied into every site |
-| `sites/<slug>/` | the generated sites (don't edit by hand; see below) |
+| `sites/<slug>/` | the imported sites (don't edit by hand: re-run the import) |
 | `home/` | the landing page, and `share.jpg`, its link-preview picture |
 | `api/send-confirmation.ts` | the sample email function (Vercel) |
 
 ## Change something
 
-Edit a spec, `overlay/` or `scripts/build_sites.py`, then regenerate:
+The made-up details live in `scripts/import_sites.py` (text: names, places,
+dates, map pins) and `scripts/cards.config.mjs` (the printed cards). The
+import fails if any real name or place is left over, so a new event branch or
+a change to one shows up straight away.
 
 ```bash
-node scripts/make_cards.mjs            # only if names/dates/venues changed (needs Playwright)
-node scripts/make_home_share.mjs       # landing page's link preview, if a card changed
 pnpm install                           # once
-python3 scripts/build_sites.py         # regenerates sites/ (and their link previews)
+node scripts/edit_cards.mjs            # printed cards → cards/ (reads the originals from git)
+node scripts/make_milestones.mjs       # christening "first months" pictures
+python3 scripts/import_sites.py        # sites/ from the event branches (+ link previews)
+node scripts/make_home_share.mjs       # landing page's link preview
 pnpm run typecheck && pnpm run build   # → dist/
 ```
+
+The real cards and photos are never copied into this folder: the scripts read
+them from the event branches with `git show`/`git archive`, so those branches
+must be fetched (`git fetch origin`).
 
 ## Link previews
 
 Sharing any of the addresses on Facebook, Messenger, WhatsApp, iMessage or X
 shows a 1200×630 picture: `home/share.jpg` for the main address (all four
-cards) and `sites/<slug>/public/share.jpg` for each event. The tags use full
+cards) and `sites/<slug>/public/share.jpg` for each event (the birthday's is
+drawn by `scripts/make_birthday_share.mjs`; it predates the template's
+share-card page). The tags use full
 addresses, filled in at build time from `SITE_URL` or Vercel's production
 domain. After a deploy, paste the address into
 [Facebook's Sharing Debugger](https://developers.facebook.com/tools/debug/)

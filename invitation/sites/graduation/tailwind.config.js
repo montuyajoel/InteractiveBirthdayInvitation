@@ -73,6 +73,10 @@ module.exports = {
           "0%, 100%": { transform: "scaleX(1)" },
           "50%": { transform: "scaleX(0.55)" },
         },
+        tassel: {
+          "0%, 100%": { transform: "rotate(-5deg)" },
+          "50%": { transform: "rotate(7deg)" },
+        },
         drift: {
           "0%, 100%": { transform: "translate(0, 0) rotate(-4deg)" },
           "50%": { transform: "translate(10px, -14px) rotate(6deg)" },
@@ -85,6 +89,7 @@ module.exports = {
       },
       animation: {
         flutter: "flutter 0.6s ease-in-out infinite",
+        tassel: "tassel 2.4s ease-in-out infinite",
         drift: "drift 7s ease-in-out infinite",
         "float-up": "float-up 1.8s ease-out forwards",
         "accordion-down": "accordion-down 0.2s ease-out",

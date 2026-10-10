@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { EVENT } from "@/config"
@@ -16,11 +17,12 @@ import {
   submitRegistration,
   type Registration,
 } from "@/lib/registrations"
-import { BabysBreath, Butterfly, Heart, HeartRule, SectionTitle } from "./Decor"
+import { Butterfly, Cross, FloralSpray, Heart, HeartRule, SectionTitle } from "./Decor"
 import { PhotoUpload } from "./PhotoUpload"
 import { SampleEmail } from "./SampleEmail"
 import { rememberGuest, rememberedGuest } from "@/lib/guest"
 import { eventDateLabel, eventTimeLabel } from "./Hero"
+import { churchName } from "@/lib/event"
 
 const WISH_MAX = 500
 const schema = z.object({
@@ -32,6 +34,7 @@ const schema = z.object({
     .trim()
     .min(1, fill(COPY.wishRequired))
     .max(WISH_MAX, `Please keep it under ${WISH_MAX} characters`),
+  sponsor: z.boolean(),
 })
 
 const fieldClass =
@@ -41,7 +44,7 @@ export function Rsvp() {
   const [done, setDone] = useState<Registration | null>(rememberedGuest)
   const form = useForm<Registration>({
     resolver: zodResolver(schema),
-    defaultValues: { firstName: "", lastName: "", email: "", wishes: "" },
+    defaultValues: { firstName: "", lastName: "", email: "", wishes: "", sponsor: false },
   })
   const wishLength = form.watch("wishes").length
 
@@ -70,9 +73,14 @@ export function Rsvp() {
           <ul className="mt-8 space-y-2 text-sm uppercase tracking-[0.2em] text-brand">
             <li>{eventDateLabel}</li>
             <li>{eventTimeLabel}</li>
-            <li>{EVENT.venue}</li>
+            <li>
+              {COPY.churchLabel}: {churchName}
+            </li>
+            <li>
+              {COPY.receptionLabel}: {EVENT.venue}
+            </li>
           </ul>
-          <BabysBreath className="pointer-events-none mt-10 hidden w-28 md:block" />
+          <FloralSpray className="pointer-events-none mt-10 hidden w-44 md:block" />
         </div>
 
         <div className="relative">
@@ -161,6 +169,27 @@ export function Rsvp() {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="sponsor"
+                    render={({ field }) => (
+                      <FormItem className="flex items-start gap-3 space-y-0 border border-gold/50 bg-highlight/40 px-4 py-3.5">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={(v) => field.onChange(v === true)}
+                            className="mt-1 h-5 w-5 rounded-[3px] border-brand/70 bg-white data-[state=checked]:border-brand data-[state=checked]:bg-brand"
+                          />
+                        </FormControl>
+                        <div className="grid gap-1">
+                          <FormLabel className="cursor-pointer text-lg leading-snug text-ink">
+                            {fill(COPY.sponsorLabel)}
+                          </FormLabel>
+                          <p className="text-sm italic text-muted-foreground">{fill(COPY.sponsorHint)}</p>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
                   <div className="flex flex-wrap items-center justify-between gap-4">
                     <Button
                       type="submit"
@@ -191,7 +220,7 @@ function ThankYou({ r, onAnother }: { r: Registration; onAnother: () => void }) 
   return (
     <div className="relative py-6 text-center" role="status">
       <HeartBurst />
-      <Butterfly className="mx-auto h-12 w-14" />
+      <Butterfly className="mx-auto h-12 w-14 animate-drift" />
       <p className="script mt-2 text-6xl">Thank you, {r.firstName}!</p>
       <HeartRule className="mt-4 justify-center" />
       <p className="mx-auto mt-6 max-w-md text-xl italic text-ink/90">
@@ -200,6 +229,12 @@ function ThankYou({ r, onAnother }: { r: Registration; onAnother: () => void }) 
       <blockquote className="mx-auto mt-8 max-w-md border-l-2 border-brand/50 pl-4 text-left italic text-brand">
         “{r.wishes}”
       </blockquote>
+      {r.sponsor && (
+        <p className="mx-auto mt-6 flex max-w-md items-start justify-center gap-2 text-lg italic text-brand">
+          <Cross className="mt-1 h-5 w-4 shrink-0" />
+          {fill(COPY.sponsorThanks)}
+        </p>
+      )}
       {COPY.surprise && (
         <p className="mt-8 text-xs uppercase tracking-[0.25em] text-brand">{fill(COPY.surpriseReminder)}</p>
       )}

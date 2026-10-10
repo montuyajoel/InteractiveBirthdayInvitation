@@ -29,10 +29,10 @@ export function SampleEmail({ guest }: { guest: Registration }) {
     : null
 
   return (
-    <div className="mt-10 border-t border-brand/20 pt-8">
+    <div className="mt-10 border-t border-mauve/20 pt-8">
       <p className="eyebrow">Sample confirmation email</p>
-      <p className="mx-auto mt-2 max-w-md text-base italic text-ink/80">
-        See what your guests receive: we'll send it to <span className="not-italic text-ink">{guest.email}</span>.
+      <p className="mx-auto mt-2 max-w-md text-base italic text-plum/80">
+        See what your guests receive: we'll send it to <span className="not-italic text-plum">{guest.email}</span>.
       </p>
       <div className="mt-5 flex flex-wrap justify-center gap-3">
         <Button
@@ -46,13 +46,13 @@ export function SampleEmail({ guest }: { guest: Registration }) {
         <Button
           variant="outline"
           onClick={() => setOpen(true)}
-          className="gap-2 rounded-none border-brand/50 bg-transparent uppercase tracking-[0.18em] text-ink hover:bg-white/60"
+          className="gap-2 rounded-none border-mauve/50 bg-transparent uppercase tracking-[0.18em] text-plum hover:bg-white/60"
         >
           <Eye /> Preview
         </Button>
       </div>
       <p className="mt-3 min-h-5 text-sm" role="status">
-        {status.state === "sent" && <span className="text-brand">Sent! Check your inbox (and the spam folder, just in case).</span>}
+        {status.state === "sent" && <span className="text-mauve">Sent! Check your inbox (and the spam folder, just in case).</span>}
         {status.state === "error" && <span className="text-destructive">{status.text}</span>}
       </p>
 
@@ -67,7 +67,7 @@ export function SampleEmail({ guest }: { guest: Registration }) {
               title="Confirmation email preview"
               srcDoc={email.html}
               sandbox="allow-popups allow-popups-to-escape-sandbox"
-              className="h-[70vh] w-full rounded border border-brand/20 bg-white"
+              className="h-[70vh] w-full rounded border border-mauve/20 bg-white"
             />
           )}
         </DialogContent>

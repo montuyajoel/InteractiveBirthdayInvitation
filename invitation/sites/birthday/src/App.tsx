@@ -8,15 +8,12 @@ import { Header } from "@/components/site/Header"
 import { Hero } from "@/components/site/Hero"
 import { PhotosPage } from "@/components/site/PhotosPage"
 import { Rsvp } from "@/components/site/Rsvp"
-import { ShareCard } from "@/components/site/ShareCard"
 import { useRoute } from "@/lib/route"
 import { ContactUs } from "@/components/site/ContactUs"
 import { ShowcaseBar } from "@/components/site/ShowcaseBar"
 
 export default function App() {
   const route = useRoute()
-
-  if (route === "share-card") return <ShareCard />
 
   return (
     <>

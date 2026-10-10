@@ -15,13 +15,13 @@ try {
 }
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-const card = (slug) => `data:image/jpeg;base64,${readFileSync(path.join(root, "cards", `${slug}.jpg`)).toString("base64")}`
+const card = (file) => `data:image/jpeg;base64,${readFileSync(path.join(root, "cards", file)).toString("base64")}`
 // Fanned like a hand of cards: [slug, x, y, rotation]
 const FAN = [
-  ["birthday", 0, 34, -10],
-  ["wedding", 92, 8, -3.5],
-  ["graduation", 184, 8, 3.5],
-  ["christening", 276, 34, 10],
+  ["birthday.jpg", 0, 34, -10],
+  ["wedding-2-ceremony.jpg", 92, 8, -3.5],
+  ["graduation.jpg", 184, 8, 3.5],
+  ["christening.jpg", 276, 34, 10],
 ]
 
 const html = `<!doctype html><html><head>
@@ -36,7 +36,7 @@ const html = `<!doctype html><html><head>
   .text { position: absolute; left: 64px; top: 0; bottom: 0; width: 600px; display: flex; flex-direction: column; justify-content: center; }
   .eyebrow { font-size: 24px; font-weight: 600; color: #6e6e73; }
   h1 { margin-top: 14px; font-size: 64px; line-height: 1.02; font-weight: 800; letter-spacing: -0.045em; }
-  .grad { background: linear-gradient(90deg, #c2577a, #8c6d33 45%, #2f7585 80%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .grad { background: linear-gradient(90deg, #8a5a90, #a0646e 35%, #8a6a2c 65%, #4a6a48); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .sub { margin-top: 22px; font-size: 25px; line-height: 1.35; font-weight: 500; color: #6e6e73; }
   .pills { margin-top: 30px; display: flex; gap: 10px; flex-wrap: wrap; }
   .pill { padding: 8px 16px; border-radius: 999px; background: #fff; font-size: 19px; font-weight: 600;
@@ -50,8 +50,8 @@ const html = `<!doctype html><html><head>
     <h1>Every celebration.<br><span class="grad">Beautifully invited.</span></h1>
     <p class="sub">Open the envelope, register, and get the confirmation email.</p>
     <div class="pills">
-      <span class="pill" style="color:#a8505f">Birthday</span><span class="pill" style="color:#8a6a2c">Wedding</span>
-      <span class="pill" style="color:#1f2340">Graduation</span><span class="pill" style="color:#2f7585">Christening</span>
+      <span class="pill" style="color:#8a5a90">Birthday</span><span class="pill" style="color:#4a6a48">Wedding</span>
+      <span class="pill" style="color:#8a6a2c">Graduation</span><span class="pill" style="color:#a0646e">Christening</span>
     </div>
   </div>
   <div class="fan">${FAN.map(([s, x, y, r]) => `<img src="${card(s)}" style="left:${x}px;top:${y}px;transform:rotate(${r}deg)">`).join("")}</div>

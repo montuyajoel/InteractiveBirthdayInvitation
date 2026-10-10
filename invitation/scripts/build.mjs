@@ -27,5 +27,8 @@ for (const slug of SLUGS) {
     stdio: "inherit",
     env: { ...env, SITE_URL: base ? `${base}/${slug}` : `/${slug}` },
   })
+  // The birthday site has no site-url plugin of its own: fill its tags here.
+  const page = path.join(dist, slug, "index.html")
+  writeFileSync(page, readFileSync(page, "utf8").replaceAll("%SITE_URL%", base ? `${base}/${slug}` : `/${slug}`))
 }
 console.log("\nDone: dist/")

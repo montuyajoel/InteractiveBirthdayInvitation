@@ -113,35 +113,44 @@ function prettify(filename: string) {
 
 const C = THEME.colors
 
+const MAUVE = C.mauve
+const GOLD = C.gold
+
+const balloon = (x: number, y: number, r: number, fill: string) =>
+  `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}"/><ellipse cx="${x - r * 0.35}" cy="${y - r * 0.4}" rx="${r * 0.22}" ry="${r * 0.13}" fill="#fff" opacity=".6" transform="rotate(-35 ${x - r * 0.35} ${y - r * 0.4})"/>`
+
 const MOTIFS: Record<string, string> = {
-  cake: `<rect x="70" y="120" width="160" height="90" rx="10" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>
-    <path d="M70 150 q20 18 40 0 t40 0 t40 0 t40 0" fill="none" stroke="${C.brand}" stroke-width="3"/>
-    <rect x="135" y="80" width="10" height="40" fill="#e8c88f"/><rect x="155" y="80" width="10" height="40" fill="#e8c88f"/>
-    <path d="M140 64 q6 8 0 14 q-6 -6 0 -14z M160 64 q6 8 0 14 q-6 -6 0 -14z" fill="#f2b45c"/>
-    <path d="M150 170 l-26 -14 v28z M150 170 l26 -14 v28z" fill="${C.soft}"/>`,
-  balloons: `<ellipse cx="115" cy="110" rx="38" ry="46" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
-    <ellipse cx="185" cy="95" rx="38" ry="46" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>
-    <path d="M115 156 q10 40 -4 80 M185 141 q-12 50 6 95" fill="none" stroke="${C.brand}" stroke-width="2"/>`,
-  ribbon: `<path d="M150 120 C110 70 60 80 70 115 C78 145 120 135 150 120 Z M150 120 C190 70 240 80 230 115 C222 145 180 135 150 120 Z" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
-    <path d="M150 120 L118 210 L134 204 L142 222 Z M150 120 L182 210 L166 204 L158 222 Z" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
-    <circle cx="150" cy="120" r="12" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>`,
-  heart: `<path d="M150 220 s-80 -46 -80 -102 c0 -30 22 -50 46 -50 c16 0 28 8 34 20 c6 -12 18 -20 34 -20 c24 0 46 20 46 50 c0 56 -80 102 -80 102z" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>`,
-  butterfly: `<path d="M150 140 C120 70 50 66 58 112 C64 146 110 148 150 140 Z M150 140 C180 70 250 66 242 112 C236 146 190 148 150 140 Z M150 140 C122 156 86 196 112 208 C130 214 144 180 150 140 Z M150 140 C178 156 214 196 188 208 C170 214 156 180 150 140 Z" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
-    <path d="M150 110 V190" stroke="${C.brand}" stroke-width="4" stroke-linecap="round"/>`,
-  flowers: `<g fill="#fff" stroke="${C.brand}" stroke-width="2">${[
-    [100, 90], [140, 70], [190, 95], [120, 130], [170, 135], [215, 140], [90, 160], [150, 175],
+  balloons: [
+    [110, 110, 40, MAUVE], [180, 96, 44, "#f5ebe0"], [150, 160, 36, GOLD], [90, 170, 26, C.bloom], [215, 160, 30, "#e2c6ac"], [140, 70, 22, C.bloom],
   ]
-    .map(([x, y]) => `<circle cx="${x}" cy="${y}" r="13"/><circle cx="${x}" cy="${y}" r="4" fill="${C.bloom}"/>`)
-    .join("")}</g><path d="M150 250 C150 210 120 180 100 160 M150 250 C150 200 175 160 190 95 M150 250 C140 200 150 180 150 175 M150 250 C170 210 210 170 215 140" fill="none" stroke="${C.foliage}" stroke-width="2"/>`,
+    .map(([x, y, r, f]) => balloon(x as number, y as number, r as number, f as string))
+    .join(""),
+  bow: `<g fill="${MAUVE}" stroke="${C.brand}" stroke-width="2" stroke-linejoin="round">
+    <path d="M146 110C126 130 110 190 96 240l20-8 10 18c6-50 14-100 24-136z"/><path d="M154 110c20 20 36 80 50 130l-20-8-10 18c-6-50-14-100-24-136z"/>
+    <path d="M146 104C120 70 70 62 68 92c-2 26 44 34 78 18z"/><path d="M154 104c26-34 76-42 78-12 2 26-44 34-78 18z"/>
+    <rect x="138" y="94" width="24" height="24" rx="8"/></g>`,
+  butterfly: `<path d="M150 140 C120 70 50 66 58 112 C64 146 110 148 150 140 Z M150 140 C180 70 250 66 242 112 C236 146 190 148 150 140 Z M150 140 C122 156 86 196 112 208 C130 214 144 180 150 140 Z M150 140 C178 156 214 196 188 208 C170 214 156 180 150 140 Z" fill="#fff8ec" stroke="${GOLD}" stroke-width="3"/>
+    <path d="M150 110 V190" stroke="${C.brand}" stroke-width="4" stroke-linecap="round"/>`,
+  cross: `<path d="M150 60v170M110 110h80" stroke="${GOLD}" stroke-width="12" stroke-linecap="round"/>
+    <path d="M150 60v170M110 110h80" stroke="#fff3cf" stroke-width="3" stroke-linecap="round" opacity=".7"/>`,
+  heart: `<path d="M150 220 s-80 -46 -80 -102 c0 -30 22 -50 46 -50 c16 0 28 8 34 20 c6 -12 18 -20 34 -20 c24 0 46 20 46 50 c0 56 -80 102 -80 102z" fill="${C.bloom}" stroke="${C.brand}" stroke-width="3"/>`,
+  roses: `<g stroke="${C.brand}" stroke-width="2">${[
+    [110, 120, 30, "#fffaf2"], [175, 110, 26, C.bloom], [145, 165, 28, "#fffaf2"], [205, 165, 20, "#fffaf2"], [90, 175, 18, C.bloom],
+  ]
+    .map(
+      ([x, y, r, f]) =>
+        `<circle cx="${x}" cy="${y}" r="${r}" fill="${f}"/><path d="M${(x as number) - (r as number) * 0.6} ${y}c0 -${(r as number) * 0.7} ${(r as number) * 1.2} -${(r as number) * 0.7} ${(r as number) * 1.2} 0M${(x as number) - (r as number) * 0.3} ${y}c0 -${(r as number) * 0.35} ${(r as number) * 0.6} -${(r as number) * 0.35} ${(r as number) * 0.6} 0" fill="none"/>`,
+    )
+    .join("")}</g><path d="M150 250 C140 220 120 200 100 190 M150 250 C160 220 200 200 210 180" fill="none" stroke="${C.foliage}" stroke-width="3"/>`,
 }
 
 const SAMPLES: { motif: keyof typeof MOTIFS; caption: string; w: number; h: number; tint: string }[] = [
-  { motif: "cake", caption: "Baptism cake", w: 300, h: 380, tint: C.highlight },
-  { motif: "balloons", caption: "Baby blue balloons", w: 300, h: 300, tint: C.soft },
-  { motif: "butterfly", caption: "Little wings", w: 300, h: 260, tint: C.soft },
-  { motif: "ribbon", caption: "Christening ribbon", w: 300, h: 360, tint: C.soft },
-  { motif: "flowers", caption: "Altar flowers", w: 300, h: 300, tint: C.highlight },
-  { motif: "heart", caption: "Blessed", w: 300, h: 280, tint: C.highlight },
+  { motif: "balloons", caption: "Balloon garland", w: 300, h: 300, tint: C.soft },
+  { motif: "cross", caption: "Baptized in His love", w: 300, h: 360, tint: C.highlight },
+  { motif: "butterfly", caption: "Butterflies", w: 300, h: 280, tint: C.highlight },
+  { motif: "bow", caption: "Satin bow", w: 300, h: 360, tint: C.soft },
+  { motif: "roses", caption: "Flowers for Gabby", w: 300, h: 300, tint: C.highlight },
+  { motif: "heart", caption: "With love", w: 300, h: 280, tint: C.soft },
 ]
 
 function sampleSvg(motif: string, w: number, h: number, tint: string) {

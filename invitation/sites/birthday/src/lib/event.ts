@@ -1,6 +1,6 @@
 // Event wording and calendar data shared by the website and the invitation
 // email (api/send-invitations.ts), so both always say the same thing.
-import { COPY, EVENT } from "../config.js"
+import { EVENT } from "../config.js"
 
 const opts = { timeZone: EVENT.timeZone }
 
@@ -23,25 +23,13 @@ export const eventTimeLabel = EVENT.start.toLocaleTimeString("en-US", {
   minute: "2-digit",
 })
 
-/** Fills {name}, {honoree}, {time} and {date} in a COPY string. */
-export function fill(text: string): string {
-  return text
-    .replace(/\{name\}/g, EVENT.honoreeShort)
-    .replace(/\{honoree\}/g, EVENT.honoree)
-    .replace(/\{time\}/g, eventTimeLabel)
-    .replace(/\{date\}/g, eventDateLabel)
-}
-
-/** Plain-text version of a COPY title: fills placeholders, drops ^…^ marks. */
-export const plainTitle = (text: string) => fill(text).replace(/\^(.*?)\^/g, "$1")
-
-export const eventTitle = plainTitle(COPY.eventTitle)
+export const eventTitle = `${EVENT.celebrant}'s Surprise ${EVENT.age}th Birthday`
 export const eventLocation = [EVENT.venue, EVENT.address].filter(Boolean).join(", ")
 export const directionsUrl = EVENT.mapsShareUrl
 
 const end = () => new Date(EVENT.start.getTime() + EVENT.durationHours * 3600_000)
 const stamp = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "")
-const details = `${COPY.surprise ? `${fill(COPY.surpriseHeadline)} ` : ""}Directions: ${EVENT.mapsShareUrl}`
+const details = `Shhh... it's a surprise! Directions: ${EVENT.mapsShareUrl}`
 
 export function googleCalendarUrl() {
   const params = new URLSearchParams({
@@ -62,11 +50,11 @@ export function icsContent() {
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    `PRODID:-//${EVENT.id}//invite//EN`,
+    "PRODID:-//showcase-birthday//invite//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",
-    `UID:${EVENT.id}-${stamp(EVENT.start)}@invite`,
+    `UID:showcase-birthday-${stamp(EVENT.start)}@invite`,
     `DTSTAMP:${stamp(new Date())}`,
     `DTSTART:${stamp(EVENT.start)}`,
     `DTEND:${stamp(end())}`,

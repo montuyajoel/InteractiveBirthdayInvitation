@@ -12,6 +12,7 @@ import { ShareCard } from "@/components/site/ShareCard"
 import { useRoute } from "@/lib/route"
 import { ContactUs } from "@/components/site/ContactUs"
 import { ShowcaseBar } from "@/components/site/ShowcaseBar"
+import { PAGE_OPTIONS } from "@/config"
 
 export default function App() {
   const route = useRoute()
@@ -21,14 +22,14 @@ export default function App() {
   return (
     <>
       <Header route={route} />
-      {route === "photos" ? (
+      {route === "photos" && PAGE_OPTIONS.gallery ? (
         <PhotosPage />
       ) : (
         <main>
           <Hero />
           <Countdown />
           <Rsvp />
-          <Gallery />
+          {PAGE_OPTIONS.gallery && <Gallery />}
           <Directions />
           <GuestList />
         </main>

@@ -1,6 +1,6 @@
-import { EVENT, REGISTRATIONS } from "@/config"
+import { REGISTRATIONS } from "@/config"
 import { isConfigured, supabaseHeaders, supabaseUrl } from "@/lib/supabase"
-import { demoGuestList, demoInviteHistory, demoSend } from "@/lib/demoDb"
+import { demoGuestList, demoSend } from "@/lib/demoDb"
 
 export const registrationsConnected = isConfigured(REGISTRATIONS)
 
@@ -13,7 +13,7 @@ export type Registration = {
 
 export class AlreadyRegisteredError extends Error {}
 
-const LOCAL_KEY = `${EVENT.id}.registrations`
+const LOCAL_KEY = "showcase-birthday.registrations"
 
 export async function submitRegistration(r: Registration): Promise<void> {
   if (registrationsConnected) {
@@ -52,12 +52,8 @@ export async function submitRegistration(r: Registration): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Hosts-only guest list. The password is checked by this event's
-// `<table>_guest_list` database function (supabase/setup.sql), never in the
-// browser.
-
-/** This event's database functions are named after its table. */
-const rpc = (name: string) => supabaseUrl(REGISTRATIONS, `/rest/v1/rpc/${REGISTRATIONS.table}_${name}`)
+// Hosts-only guest list. The password is checked by the `guest_list`
+// database function (supabase/guest-list.sql), never in the browser.
 
 export type GuestListEntry = {
   first_name: string
@@ -65,44 +61,8 @@ export type GuestListEntry = {
   email: string
   wishes: string
   created_at: string
+  // Missing until supabase/send-invitations.sql has been run.
   invite_sent_at?: string | null
-  invite_count?: number
-  last_invite_status?: "sent" | "failed" | null
-  last_invite_error?: string | null
-  last_invite_at?: string | null
-}
-
-/** One row of the invite_log table: a single send attempt. */
-export type InviteLogEntry = {
-  email: string
-  guest_name: string
-  status: "sent" | "failed"
-  error: string | null
-  message_id: string | null
-  sent_at: string
-}
-
-export class InviteLogNotSetUpError extends Error {}
-
-/** Every send attempt, newest first. */
-export async function fetchInviteHistory(passcode: string): Promise<InviteLogEntry[]> {
-  if (!registrationsConnected) {
-    const entries = demoInviteHistory(passcode)
-    if (!entries) throw new WrongPasswordError()
-    return entries
-  }
-  const res = await fetch(rpc("invite_history"), {
-    method: "POST",
-    headers: supabaseHeaders(REGISTRATIONS),
-    body: JSON.stringify({ passcode }),
-  })
-  if (res.ok) return res.json()
-
-  const detail = await res.text().catch(() => "")
-  if (detail.includes("invalid passcode") || detail.includes("28P01")) throw new WrongPasswordError()
-  if (res.status === 404 || detail.includes("PGRST202")) throw new InviteLogNotSetUpError()
-  console.error(`Supabase rejected the invite history request (${res.status}):`, detail)
-  throw new Error(`Could not load the invite history (${res.status})`)
 }
 
 export class WrongPasswordError extends Error {}
@@ -115,7 +75,7 @@ export async function fetchGuestList(passcode: string): Promise<GuestListEntry[]
     if (!guests) throw new WrongPasswordError()
     return guests
   }
-  const res = await fetch(rpc("guest_list"), {
+  const res = await fetch(supabaseUrl(REGISTRATIONS, "/rest/v1/rpc/guest_list"), {
     method: "POST",
     headers: supabaseHeaders(REGISTRATIONS),
     body: JSON.stringify({ passcode }),
@@ -154,10 +114,9 @@ export async function sendInvitations(
   passcode: string,
   emails: string[],
   onProgress?: (done: number, total: number) => void,
-): Promise<{ sent: string[]; failed: string[]; errors: Record<string, string> }> {
+): Promise<{ sent: string[]; failed: string[] }> {
   const sent: string[] = []
   const failed: string[] = []
-  const errors: Record<string, string> = {}
   if (!registrationsConnected) return demoSend(emails, onProgress)
   for (let i = 0; i < emails.length; i += SEND_BATCH) {
     const batch = emails.slice(i, i + SEND_BATCH)
@@ -185,8 +144,7 @@ export async function sendInvitations(
     if (!res.ok) throw new Error(`Sending failed (${res.status})`)
     sent.push(...body.sent)
     failed.push(...body.failed)
-    Object.assign(errors, body.errors ?? {})
     onProgress?.(Math.min(i + SEND_BATCH, emails.length), emails.length)
   }
-  return { sent, failed, errors }
+  return { sent, failed }
 }

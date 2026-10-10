@@ -76,7 +76,7 @@ export function Rsvp() {
         </div>
 
         <div className="relative">
-          <div className="paper relative border border-brand/25 p-6 shadow-[0_30px_60px_-40px_rgb(var(--c-ink)/0.6)] sm:p-10">
+          <div className="paper relative border border-brand/25 p-6 shadow-[0_30px_60px_-40px_rgb(var(--c-night)/0.6)] sm:p-10">
             {/* folded corner */}
             <span
               className="absolute right-0 top-0 h-10 w-10 bg-soft"
@@ -153,7 +153,7 @@ export function Rsvp() {
                           <Textarea
                             rows={5}
                             placeholder={fill(COPY.wishPlaceholder)}
-                            className="resize-none rounded-none border-brand/40 bg-white/60 text-lg italic placeholder:text-brand/50 focus-visible:ring-brand/40"
+                            className="resize-none rounded-none border-brand/40 bg-soft/60 text-lg italic placeholder:text-brand/50 focus-visible:ring-brand/40"
                             {...field}
                           />
                         </FormControl>
@@ -168,7 +168,7 @@ export function Rsvp() {
                       disabled={form.formState.isSubmitting}
                       className="rounded-none px-10 uppercase tracking-[0.2em]"
                     >
-                      {form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : <Heart className="text-white" filled />}
+                      {form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : <Heart className="text-primary-foreground" filled />}
                       Count me in
                     </Button>
                     {!registrationsConnected && (

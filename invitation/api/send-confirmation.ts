@@ -19,22 +19,15 @@ import * as birthday from "../sites/birthday/api/_lib/invitationEmail.js"
 import * as wedding from "../sites/wedding/api/_lib/invitationEmail.js"
 import * as graduation from "../sites/graduation/api/_lib/invitationEmail.js"
 import * as christening from "../sites/christening/api/_lib/invitationEmail.js"
-import { COPY as birthdayCopy } from "../sites/birthday/src/config.js"
-import { COPY as weddingCopy } from "../sites/wedding/src/config.js"
-import { COPY as graduationCopy } from "../sites/graduation/src/config.js"
-import { COPY as christeningCopy } from "../sites/christening/src/config.js"
-import { fill as birthdayFill } from "../sites/birthday/src/lib/event.js"
-import { fill as weddingFill } from "../sites/wedding/src/lib/event.js"
-import { fill as graduationFill } from "../sites/graduation/src/lib/event.js"
-import { fill as christeningFill } from "../sites/christening/src/lib/event.js"
 
 export const config = { maxDuration: 30 }
 
+// Sender names, as each event's email would show them.
 const EVENTS = {
-  birthday: { email: birthday.invitationEmail, from: birthdayFill(birthdayCopy.emailFromName) },
-  wedding: { email: wedding.invitationEmail, from: weddingFill(weddingCopy.emailFromName) },
-  graduation: { email: graduation.invitationEmail, from: graduationFill(graduationCopy.emailFromName) },
-  christening: { email: christening.invitationEmail, from: christeningFill(christeningCopy.emailFromName) },
+  birthday: { email: birthday.invitationEmail, from: "Isabel's 16th Birthday" },
+  wedding: { email: wedding.invitationEmail, from: "Marco & Elena" },
+  graduation: { email: graduation.invitationEmail, from: "Joaquin's Graduation" },
+  christening: { email: christening.invitationEmail, from: "Baby Gabby's Christening" },
 } as const
 
 const NAME = /^[\p{L}][\p{L}\p{M} .'-]{0,39}$/u

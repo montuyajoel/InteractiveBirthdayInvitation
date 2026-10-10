@@ -51,7 +51,7 @@ export function PhotoWall({
       {state.status === "loading" && (
         <div className="columns-2 gap-4 md:columns-3">
           {[260, 340, 220, 300, 260, 320].map((h, i) => (
-            <Skeleton key={i} className="mb-4 w-full rounded-none bg-soft/70" style={{ height: h }} />
+            <Skeleton key={i} className="mb-4 w-full rounded-none bg-lilac/70" style={{ height: h }} />
           ))}
         </div>
       )}
@@ -84,11 +84,11 @@ export function Gallery() {
   const total = state.status === "ready" ? state.photos.length : 0
 
   return (
-    <section id="gallery" className="relative scroll-mt-16 border-t border-brand/20 bg-white/40 py-20 sm:py-28">
+    <section id="gallery" className="relative scroll-mt-16 border-t border-mauve/20 bg-white/40 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionTitle eyebrow="Moments & memories" title="Gallery" />
-          <p className="max-w-sm text-lg italic text-ink/80">
+          <p className="max-w-sm text-lg italic text-plum/80">
             {state.status === "ready" && state.source === "sample"
               ? "A preview of the gallery. Party photos will appear here once they're uploaded."
               : "The latest moments from our guests. Tap any photo to see it up close."}
@@ -107,7 +107,7 @@ export function Gallery() {
           </div>
         )}
 
-        <div className="paper mx-auto mt-14 max-w-xl border border-brand/25 p-6 shadow-[0_30px_60px_-40px_rgb(var(--c-ink)/0.6)] sm:p-8">
+        <div className="paper mx-auto mt-14 max-w-xl border border-mauve/25 p-6 shadow-[0_30px_60px_-40px_rgb(92_58_99/0.6)] sm:p-8">
           <PhotoUpload />
         </div>
       </div>
@@ -117,7 +117,7 @@ export function Gallery() {
 
 function Empty({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
-    <div className="grid place-items-center gap-3 border border-dashed border-brand/40 py-16 text-center text-brand">
+    <div className="grid place-items-center gap-3 border border-dashed border-mauve/40 py-16 text-center text-mauve">
       {icon}
       <p className="italic">{text}</p>
     </div>
@@ -126,7 +126,6 @@ function Empty({ icon, text }: { icon: React.ReactNode; text: string }) {
 
 function Tile({ photo, index, onOpen }: { photo: Photo; index: number; onOpen: () => void }) {
   const [loaded, setLoaded] = useState(false)
-  const [failed, setFailed] = useState(false)
   // alternate a slight tilt so the grid feels like prints laid on a table
   const tilt = ["-rotate-[0.6deg]", "rotate-[0.5deg]", "rotate-0"][index % 3]
 
@@ -135,43 +134,26 @@ function Tile({ photo, index, onOpen }: { photo: Photo; index: number; onOpen: (
       type="button"
       onClick={onOpen}
       className={cn(
-        "group relative block w-full bg-white p-2 text-left shadow-[0_14px_30px_-20px_rgb(var(--c-ink)/0.6)] ring-1 ring-brand/15 transition duration-300 hover:z-10 hover:-translate-y-1 hover:rotate-0 hover:shadow-[0_24px_40px_-20px_rgb(var(--c-ink)/0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+        "group relative block w-full bg-white p-2 text-left shadow-[0_14px_30px_-20px_rgb(92_58_99/0.6)] ring-1 ring-mauve/15 transition duration-300 hover:z-10 hover:-translate-y-1 hover:rotate-0 hover:shadow-[0_24px_40px_-20px_rgb(92_58_99/0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mauve",
         photo.caption ? "pb-9" : "pb-2",
         tilt,
       )}
       aria-label={photo.caption ? `Open photo: ${photo.caption}` : `Open photo ${index + 1}`}
     >
-      <span
-        className="relative block overflow-hidden bg-soft/60"
-        // Reserve a 4:3 box until the real shape is known, so tiles don't collapse.
-        style={{ aspectRatio: photo.ratio || (loaded ? undefined : 4 / 3) }}
-      >
-        {failed && (
-          <span className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-center text-sm italic text-muted-foreground">
-            <ImageOff className="h-6 w-6" aria-hidden />
-            Photo unavailable
-          </span>
-        )}
+      <span className="relative block overflow-hidden bg-lilac/60" style={photo.ratio ? { aspectRatio: photo.ratio } : undefined}>
         <img
           src={photo.src}
           alt={photo.caption || `Party photo ${index + 1}`}
           loading="lazy"
           onLoad={() => setLoaded(true)}
-          onError={() => {
-            // Usually a private bucket: public photo links only work when the
-            // bucket is marked Public (supabase/gallery-setup.sql does this).
-            console.error("Gallery photo failed to load (is the bucket public?):", photo.src)
-            setFailed(true)
-          }}
           className={cn(
             "block h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]",
             loaded ? "opacity-100" : "opacity-0",
-            failed && "invisible",
           )}
         />
       </span>
       {photo.caption && (
-        <span className="absolute inset-x-3 bottom-2 truncate font-script text-2xl text-brand">{photo.caption}</span>
+        <span className="absolute inset-x-3 bottom-2 truncate font-script text-2xl text-mauve">{photo.caption}</span>
       )}
     </button>
   )
@@ -228,7 +210,7 @@ function Lightbox({
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onIndex(null)}>
       <DialogContent
-        className="flex h-[100dvh] max-h-none w-screen max-w-none flex-col gap-0 border-none bg-night/95 p-0 text-white sm:rounded-none [&>button.absolute]:hidden"
+        className="flex h-[100dvh] max-h-none w-screen max-w-none flex-col gap-0 border-none bg-[#2e1f33]/95 p-0 text-white sm:rounded-none [&>button.absolute]:hidden"
         onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
         onTouchEnd={(e) => {
           if (touchX.current === null) return
@@ -238,7 +220,7 @@ function Lightbox({
         }}
       >
         <div className="flex items-center justify-between px-4 py-3 sm:px-6">
-          <DialogTitle className="font-script text-3xl font-normal text-soft">
+          <DialogTitle className="font-script text-3xl font-normal text-[#f1dff3]">
             {photo?.caption || "Moments & memories"}
           </DialogTitle>
           <DialogDescription className="sr-only">
@@ -286,7 +268,7 @@ function Lightbox({
                 onClick={() => onIndex(i)}
                 className={cn(
                   "block h-14 w-14 overflow-hidden ring-1 transition sm:h-16 sm:w-16",
-                  i === index ? "opacity-100 ring-2 ring-soft" : "opacity-50 ring-white/20 hover:opacity-90",
+                  i === index ? "opacity-100 ring-2 ring-[#e3c8ec]" : "opacity-50 ring-white/20 hover:opacity-90",
                 )}
                 aria-label={`Show photo ${i + 1}`}
                 aria-current={i === index}

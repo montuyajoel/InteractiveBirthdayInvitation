@@ -31,7 +31,7 @@ export function Countdown() {
     <section aria-label="Countdown" className="relative border-y border-brand/25 bg-white/55">
       <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-12 sm:px-6 xl:grid-cols-[auto_1fr_auto] xl:gap-12">
         <div className="relative">
-          <p className="script -rotate-6 text-5xl text-brand sm:text-6xl">
+          <p className="script foil -rotate-6 text-5xl sm:text-6xl">
             {fill(COPY.surprise ? COPY.surpriseHeadline : COPY.saveTheDate)}
           </p>
           <Heart className="absolute -right-2 -bottom-4 h-5 w-5" />
@@ -65,7 +65,8 @@ export function Countdown() {
           </Button>
         </div>
       </div>
-      <Sparkle className="absolute right-6 top-4 h-5 w-5 opacity-60" />
+      <Sparkle className="absolute right-6 top-4 h-6 w-6 animate-twinkle" />
+      <Sparkle className="absolute left-8 bottom-6 h-4 w-4 animate-twinkle text-brand" style={{ animationDelay: "-1.5s" }} />
       <p className="sr-only">Event starts {EVENT.start.toString()}</p>
     </section>
   )

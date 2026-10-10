@@ -28,7 +28,7 @@ export function Countdown() {
   const { done, units } = remaining(now)
 
   return (
-    <section aria-label="Countdown" className="relative border-y border-brand/25 bg-white/55">
+    <section aria-label="Countdown" className="relative border-y border-brand/25 bg-soft/55">
       <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-12 sm:px-6 xl:grid-cols-[auto_1fr_auto] xl:gap-12">
         <div className="relative">
           <p className="script -rotate-6 text-5xl text-brand sm:text-6xl">

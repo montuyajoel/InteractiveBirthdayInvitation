@@ -61,7 +61,7 @@ export function PhotoWall({
       )}
 
       {state.status === "ready" && photos.length === 0 && (
-        <Empty icon={<Butterfly className="h-10 w-12" />} text="No photos yet. Be the first to share one!" />
+        <Empty icon={<Butterfly className="h-10 w-12" glow={false} />} text="No photos yet. Be the first to share one!" />
       )}
 
       {photos.length > 0 && (

@@ -22,7 +22,7 @@ export function Envelope() {
         aria-label={open ? "View the full invitation" : "Open the envelope"}
       >
         {/* back of envelope */}
-        <span className="absolute inset-0 rounded-[3px] bg-[var(--env-back)] shadow-[0_18px_40px_-18px_rgb(var(--c-ink)/0.55)]" />
+        <span className="absolute inset-0 rounded-[3px] bg-[var(--env-back)] shadow-[0_18px_40px_-18px_rgb(var(--c-night)/0.55)]" />
 
         {/* the card */}
         <span
@@ -36,7 +36,7 @@ export function Envelope() {
           <img
             src={invitationCard}
             alt={`Invitation: ${eventTitle}`}
-            className="h-full w-full rounded-[2px] object-cover shadow-[0_10px_30px_-10px_rgb(var(--c-ink)/0.5)] ring-1 ring-white"
+            className="h-full w-full rounded-[2px] object-cover shadow-[0_10px_30px_-10px_rgb(var(--c-night)/0.5)] ring-1 ring-brand/40"
           />
         </span>
 
@@ -66,11 +66,11 @@ export function Envelope() {
         {/* wax seal */}
         <span
           className={cn(
-            "absolute left-1/2 top-[54%] z-20 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-brand text-white shadow-md transition-all duration-300",
+            "absolute left-1/2 top-[54%] z-20 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-brand text-paper shadow-md transition-all duration-300",
             open ? "scale-0 opacity-0" : "group-hover:scale-110",
           )}
         >
-          <Heart className="h-6 w-6 text-white" filled />
+          <Heart className="h-6 w-6 text-paper" filled />
         </span>
       </button>
 

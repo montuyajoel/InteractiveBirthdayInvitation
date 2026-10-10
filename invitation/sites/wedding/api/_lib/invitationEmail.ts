@@ -1,12 +1,14 @@
 // The invitation email sent to registered guests. Email clients ignore most
 // modern CSS, so this is table-based HTML with inline styles.
-import { COPY, CREDIT, EVENT } from "../../src/config.js"
+import { COPY, CREDIT, EVENT, PAGE_OPTIONS } from "../../src/config.js"
 import { THEME } from "../../src/theme.js"
 import {
-  directionsUrl,
   eventDateLongLabel,
-  eventLocation,
   eventTimeLabel,
+  eventTimesLabel,
+  hasSchedule,
+  stopLocation,
+  stops,
   eventTitle,
   fill,
   googleCalendarUrl,
@@ -49,15 +51,16 @@ function detailRow(label: string, value: string, sub?: string) {
 export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
   const first = escapeHtml(guest.first_name)
   const subject = `Your seat is confirmed: ${eventTitle}`
-  const preheader = `See you on ${eventDateLongLabel} at ${eventTimeLabel}.${COPY.surprise ? ` ${fill(COPY.surpriseHeadline)}` : ""}`
+  const preheader = `See you on ${eventDateLongLabel}: ${eventTimesLabel}.${COPY.surprise ? ` ${fill(COPY.surpriseHeadline)}` : ""}`
   const site = siteUrl.replace(/\/$/, "")
 
-  const venue = [
-    `<strong style="font-weight:normal;">${escapeHtml(EVENT.venue)}</strong>`,
-    EVENT.address ? `<span style="font-size:14px;color:${C.brand};">${escapeHtml(EVENT.address)}</span>` : "",
-  ]
-    .filter(Boolean)
-    .join("<br>")
+  const venue = (s: (typeof stops)[number]) =>
+    [
+      `<strong style="font-weight:normal;">${escapeHtml(s.venue)}</strong>`,
+      s.address ? `<span style="font-size:14px;color:${C.brand};">${escapeHtml(s.address)}</span>` : "",
+    ]
+      .filter(Boolean)
+      .join("<br>")
 
   const html = `<!doctype html>
 <html lang="en">
@@ -81,7 +84,7 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
     </td></tr>
 
     <tr><td style="padding:12px 32px 0;">
-      <img src="${site}/email/invitation-card.jpg" width="496" alt="${escapeHtml(eventTitle)} invitation" style="display:block;width:100%;max-width:496px;height:auto;border:0;">
+      <img src="${site}${PAGE_OPTIONS.emailCard}" width="496" alt="${escapeHtml(eventTitle)} invitation" style="display:block;width:100%;max-width:496px;height:auto;border:0;">
     </td></tr>
 
     <tr><td style="padding:28px 32px 0;font-family:${SERIF};color:${C.ink};">
@@ -93,15 +96,23 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
 
     <tr><td style="padding:22px 32px 0;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid ${C.line};">
-        ${detailRow("When", escapeHtml(eventDateLongLabel), `${escapeHtml(eventTimeLabel)} (${escapeHtml(EVENT.timeZoneLabel)})`)}
+        ${
+          hasSchedule
+            ? detailRow("When", escapeHtml(eventDateLongLabel), `${escapeHtml(EVENT.timeZoneLabel)}`)
+            : detailRow("When", escapeHtml(eventDateLongLabel), `${escapeHtml(eventTimeLabel)} (${escapeHtml(EVENT.timeZoneLabel)})`)
+        }
         ${EVENT.arriveBy ? detailRow("Arrive by", escapeHtml(EVENT.arriveBy), escapeHtml(fill(COPY.arriveByNote))) : ""}
-        ${detailRow("Where", venue)}
+        ${
+          hasSchedule
+            ? stops.map((s) => detailRow(escapeHtml(s.label), venue(s), escapeHtml(s.time))).join("")
+            : detailRow("Where", venue(stops[0]))
+        }
         ${detailRow("Guest", `${first} ${escapeHtml(guest.last_name)}`)}
       </table>
     </td></tr>
 
     <tr><td align="center" style="padding:24px 24px 0;">
-      ${button(directionsUrl, "Get directions", true)}
+      ${stops.map((s, i) => button(s.mapsShareUrl, hasSchedule ? `${s.label} directions` : "Get directions", i === 0)).join("\n      ")}
       ${button(googleCalendarUrl(), "Add to Google Calendar", false)}
       <p style="margin:10px 0 0;font-family:${SERIF};font-size:13px;font-style:italic;color:${C.brand};">
         Using Apple Calendar or Outlook? Open the attached <strong>invitation.ics</strong>.
@@ -150,10 +161,15 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
     "",
     fill(COPY.emailIntro),
     "",
-    `When: ${eventDateLongLabel}, ${eventTimeLabel} (${EVENT.timeZoneLabel})`,
+    hasSchedule
+      ? `When: ${eventDateLongLabel} (${EVENT.timeZoneLabel})`
+      : `When: ${eventDateLongLabel}, ${eventTimeLabel} (${EVENT.timeZoneLabel})`,
     EVENT.arriveBy ? `Arrive by: ${EVENT.arriveBy}` : null,
-    `Where: ${eventLocation}`,
-    `Directions: ${directionsUrl}`,
+    ...stops.map((s) =>
+      hasSchedule
+        ? `${s.label}: ${s.time}, ${stopLocation(s)}. Directions: ${s.mapsShareUrl}`
+        : `Where: ${stopLocation(s)}\nDirections: ${s.mapsShareUrl}`,
+    ),
     `Add to Google Calendar: ${googleCalendarUrl()}`,
     "",
     COPY.surprise ? `${fill(COPY.surpriseHeadline)} ${fill(COPY.surpriseNote)}` : null,

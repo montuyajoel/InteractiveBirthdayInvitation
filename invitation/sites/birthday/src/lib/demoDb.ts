@@ -2,12 +2,35 @@
 // who registers in this browser (kept in localStorage by registrations.ts).
 // Sends to the sample guests are simulated; sends to people who registered
 // here go through /api/send-confirmation as a real sample email.
-import { EVENT } from "@/config"
-import type { GuestListEntry, InviteLogEntry, Registration } from "@/lib/registrations"
+import type { Registration } from "@/lib/registrations"
 import { DEMO_PASSWORD, SLUG } from "@/lib/showcase"
 
-const LOCAL_KEY = `${EVENT.id}.registrations` // same key registrations.ts uses
-const LOG_KEY = `${EVENT.id}.demo-invite-log`
+// Same key registrations.ts uses (import_sites.py names every site's keys showcase-<slug>).
+const LOCAL_KEY = `showcase-${SLUG}.registrations`
+const LOG_KEY = `showcase-${SLUG}.demo-invite-log`
+
+// The fields every site's guest list reads (older sites use fewer of them).
+export type GuestListEntry = {
+  first_name: string
+  last_name: string
+  email: string
+  wishes: string
+  created_at: string
+  invite_sent_at?: string | null
+  invite_count?: number
+  last_invite_status?: "sent" | "failed" | null
+  last_invite_error?: string | null
+  last_invite_at?: string | null
+}
+
+export type InviteLogEntry = {
+  email: string
+  guest_name: string
+  status: "sent" | "failed"
+  error: string | null
+  message_id: string | null
+  sent_at: string
+}
 
 const WISHES: Record<string, string[]> = {
   birthday: [

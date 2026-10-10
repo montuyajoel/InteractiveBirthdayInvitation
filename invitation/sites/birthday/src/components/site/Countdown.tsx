@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { CalendarPlus, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { EVENT } from "@/config"
-import { COPY, fill } from "@/lib/copy"
 import { downloadIcs, googleCalendarUrl } from "@/lib/calendar"
 import { Heart, Sparkle } from "./Decor"
 
@@ -28,25 +27,23 @@ export function Countdown() {
   const { done, units } = remaining(now)
 
   return (
-    <section aria-label="Countdown" className="relative border-y border-brand/25 bg-white/55">
+    <section aria-label="Countdown" className="relative border-y border-mauve/25 bg-white/55">
       <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-12 sm:px-6 xl:grid-cols-[auto_1fr_auto] xl:gap-12">
         <div className="relative">
-          <p className="script -rotate-6 text-5xl text-brand sm:text-6xl">
-            {fill(COPY.surprise ? COPY.surpriseHeadline : COPY.saveTheDate)}
-          </p>
+          <p className="script -rotate-6 text-5xl text-mauve sm:text-6xl">Shhh… it's a surprise!</p>
           <Heart className="absolute -right-2 -bottom-4 h-5 w-5" />
         </div>
 
         {done ? (
-          <p className="text-center text-2xl uppercase tracking-[0.25em] text-ink">It's party time!</p>
+          <p className="text-center text-2xl uppercase tracking-[0.25em] text-plum">It's party time!</p>
         ) : (
-          <ol className="grid grid-cols-4 divide-x divide-brand/30" aria-live="off">
+          <ol className="grid grid-cols-4 divide-x divide-mauve/30" aria-live="off">
             {units.map((u) => (
               <li key={u.label} className="px-2 text-center">
-                <span className="block font-serif text-4xl tabular-nums text-ink sm:text-5xl">
+                <span className="block font-serif text-4xl tabular-nums text-plum sm:text-5xl">
                   {String(u.value).padStart(2, "0")}
                 </span>
-                <span className="mt-1 block text-[0.65rem] uppercase tracking-[0.25em] text-brand sm:text-xs">
+                <span className="mt-1 block text-[0.65rem] uppercase tracking-[0.25em] text-mauve sm:text-xs">
                   {u.label}
                 </span>
               </li>
@@ -55,12 +52,12 @@ export function Countdown() {
         )}
 
         <div className="flex flex-wrap gap-2 xl:flex-col">
-          <Button asChild variant="ghost" className="justify-start gap-2 rounded-none text-ink hover:bg-highlight/60">
+          <Button asChild variant="ghost" className="justify-start gap-2 rounded-none text-plum hover:bg-blush/60">
             <a href={googleCalendarUrl()} target="_blank" rel="noreferrer">
               <CalendarPlus /> Google Calendar
             </a>
           </Button>
-          <Button variant="ghost" className="justify-start gap-2 rounded-none text-ink hover:bg-highlight/60" onClick={downloadIcs}>
+          <Button variant="ghost" className="justify-start gap-2 rounded-none text-plum hover:bg-blush/60" onClick={downloadIcs}>
             <Download /> Apple / Outlook (.ics)
           </Button>
         </div>

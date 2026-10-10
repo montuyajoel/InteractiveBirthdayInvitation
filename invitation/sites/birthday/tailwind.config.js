@@ -8,19 +8,15 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        script: ["var(--font-script)", "cursive"],
-        serif: ["var(--font-serif)", "Georgia", "serif"],
+        script: ['"Allura"', "cursive"],
+        serif: ['"Cormorant Garamond"', "Georgia", "serif"],
       },
       colors: {
-        // Role colours from src/theme.ts (applied as CSS variables in main.tsx)
-        ink: "rgb(var(--c-ink) / <alpha-value>)",
-        brand: "rgb(var(--c-brand) / <alpha-value>)",
-        soft: "rgb(var(--c-soft) / <alpha-value>)",
-        highlight: "rgb(var(--c-highlight) / <alpha-value>)",
-        paper: "rgb(var(--c-paper) / <alpha-value>)",
-        night: "rgb(var(--c-night) / <alpha-value>)",
-        foliage: "rgb(var(--c-foliage) / <alpha-value>)",
-        bloom: "rgb(var(--c-bloom) / <alpha-value>)",
+        plum: "#5c3a63",
+        mauve: "#9a6aa0",
+        lilac: "#e9dcf0",
+        blush: "#f6dde8",
+        paper: "#fbf6fb",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -42,13 +38,13 @@ module.exports = {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
         card: {
           DEFAULT: "hsl(var(--card))",

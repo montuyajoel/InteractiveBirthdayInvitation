@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { EVENT } from "@/config"
 import { COPY, fill } from "@/lib/copy"
 import {
   AlreadyRegisteredError,
@@ -21,6 +20,7 @@ import { PhotoUpload } from "./PhotoUpload"
 import { SampleEmail } from "./SampleEmail"
 import { rememberGuest, rememberedGuest } from "@/lib/guest"
 import { eventDateLabel, eventTimeLabel } from "./Hero"
+import { hasSchedule, stops } from "@/lib/event"
 
 const WISH_MAX = 500
 const schema = z.object({
@@ -69,10 +69,21 @@ export function Rsvp() {
           </p>
           <ul className="mt-8 space-y-2 text-sm uppercase tracking-[0.2em] text-brand">
             <li>{eventDateLabel}</li>
-            <li>{eventTimeLabel}</li>
-            <li>{EVENT.venue}</li>
+            {hasSchedule ? (
+              stops.map((s) => (
+                <li key={s.venue}>
+                  {s.label} · {s.time}
+                  <span className="block text-ink/80">{s.venue}</span>
+                </li>
+              ))
+            ) : (
+              <>
+                <li>{eventTimeLabel}</li>
+                <li>{stops[0].venue}</li>
+              </>
+            )}
           </ul>
-          <BabysBreath className="pointer-events-none mt-10 hidden w-28 md:block" />
+          <BabysBreath className="pointer-events-none mt-10 hidden w-44 md:block" />
         </div>
 
         <div className="relative">

@@ -8,21 +8,21 @@
 
 export const THEME = {
   colors: {
-    ink: "#2f3d33", // body text, headings, primary buttons
-    brand: "#8a6a2c", // script titles, labels, icons, links
-    soft: "#e3e8dc", // tinted panels, skeletons, borders' fill
-    highlight: "#f3ead7", // warm wash, hover backgrounds, email call-out
-    paper: "#fbfaf5", // page background
-    night: "#1d241f", // full-screen photo viewer background
-    foliage: "#7d9070", // stems / leaves in floral decorations
-    bloom: "#e9d9b0", // flower centres and small accents in decorations
+    ink: "#1f2b23", // body text, headings, primary buttons
+    brand: "#4a6a48", // script titles, labels, icons, links
+    soft: "#e3eadf", // tinted panels, skeletons, borders' fill
+    highlight: "#f1f4ec", // warm wash, hover backgrounds, email call-out
+    paper: "#fdfdfc", // page background
+    night: "#141a16", // full-screen photo viewer background
+    foliage: "#718e6c", // stems / leaves in floral decorations
+    bloom: "#f4f1e6", // flower centres and small accents in decorations
   },
   // The envelope in the hero (back, front pocket, side folds, top flap).
   envelope: {
-    back: "#dfe5d6",
-    pocket: "#e8ede1",
-    sides: "#d9e0cf",
-    flap: "#cfd8c3",
+    back: "#dfe7da",
+    pocket: "#e8eee4",
+    sides: "#d8e1d2",
+    flap: "#cbd7c4",
   },
   fonts: {
     script: "Great Vibes", // big decorative titles

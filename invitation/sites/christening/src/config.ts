@@ -4,26 +4,31 @@ export const EVENT = {
   // Short slug: used for browser storage keys and calendar file names.
   id: "showcase-christening",
   // Name of the person (or couple) being celebrated, shown in script.
-  honoree: "Gabriel Lim",
+  honoree: "Sofia Gabrielle",
   // Used inside sentences: "Leave a wish for {name}".
-  honoreeShort: "Gabriel",
+  honoreeShort: "Gabby",
   // Local start time at the venue WITH its UTC offset, so it is right
   // however the visitor's clock is set.
   start: new Date("2026-12-06T10:00:00+08:00"),
   timeZone: "Asia/Manila", // IANA name, used for labels and calendar invites
   timeZoneLabel: "Philippine time",
   durationHours: 4,
-  venue: "Sample Parish & Garden Hall",
+  // The church where the christening takes place. Leave "" while it isn't
+  // decided: the site and emails then say "Church to be announced".
+  church: "",
+  // The reception. The map, directions and calendar pin point here.
+  venue: "The Reyes Residence",
   // Street and city, shown under the venue in emails and calendar invites.
   // Leave "" to show just the venue name.
-  address: "7 Sample Street, Quezon City",
+  address: "",
   // e.g. "4:30 PM". Leave "" to leave it out of the email.
-  arriveBy: "9:45 AM",
+  arriveBy: "",
   // Pinned location shared from Google Maps (the "Share" link).
-  mapsShareUrl: "https://maps.google.com/?q=Quezon+City",
+  // 10°37'49.5"N 122°57'48.5"E
+  mapsShareUrl: "https://maps.google.com/?q=14.651600,121.049800",
   // Used for the embedded map and the "Get directions" link. Coordinates
   // ("14.5995,120.9842") pin the exact spot; a name is searched instead.
-  mapsQuery: "Quezon City, Metro Manila",
+  mapsQuery: "14.651600,121.049800",
 }
 
 // All the wording on the site and in the email. Placeholders:
@@ -32,19 +37,19 @@ export const EVENT = {
 // Wrap text in ^…^ for a superscript in titles: "16^th^ Birthday".
 // Set `surprise: false` for events that aren't a secret; the "Shhh" bits hide.
 export const COPY = {
-  pageTitle: "Baby {name}'s Christening",
-  metaDescription: "Join us as {honoree} is welcomed into the faith.",
-  logo: "{name}",
+  pageTitle: "{honoree}'s Christening",
+  metaDescription: "You're invited to the christening of baby {honoree}.",
+  logo: "Baby {name}",
   logoAccent: "", // shown after the logo in the brand colour; "" for none
   invitedLine: "You're invited to the",
   kicker: "", // spaced capitals above the title; "" to hide
   title: "Christening",
-  celebrationFor: "Of our little one",
+  celebrationFor: "of our little one",
   shareHeadline: "You're invited!", // big line on the link-preview picture (public/share.jpg)
-  intro: "With grateful hearts we invite you to witness {name}'s baptism, followed by lunch with family and friends.",
-  eventTitle: "Baby {honoree}'s Christening", // calendar entries, email subject
+  intro: "With hearts full of joy, we invite you to witness {name}'s christening as she is welcomed into God's family, followed by a little celebration with everyone who loves her.",
+  eventTitle: "{honoree}'s Christening", // calendar entries, email subject
   footerSignature: "Baby {name}",
-  footerLine: "Thank you for your love and prayers",
+  footerLine: "Thank you for being part of {name}'s first blessing",
 
   surprise: false,
   surpriseHeadline: "Shhh… it's a surprise!",
@@ -52,20 +57,34 @@ export const COPY = {
   surpriseReminder: "Remember: not a word to {name}!",
   saveTheDate: "Save the date", // countdown headline when surprise is false
 
-  rsvpEyebrow: "Kindly register",
-  rsvpTitle: "Save your seat",
-  rsvpIntro: "Let us know you're coming, and leave a prayer or a wish for baby {name}.",
-  wishLabel: "Prayers & wishes",
-  wishPlaceholder: "Dear baby {name}…",
-  wishRequired: "Leave a little prayer or wish for {name}",
-  thankYou: "You're on the list. See you on {date}!",
+  milestonesEyebrow: "Watch me grow",
+  milestonesTitle: "{name}'s first months",
+  milestonesIntro: "A little peek at how {name} has grown, one month at a time, on the way to her christening.",
 
-  arriveTip: "The baptism starts at {time}; please be seated a little early.",
-  arriveByNote: "The baptism starts promptly", // under "Arrive by" in the email
+  // The "I'd love to be a Ninong/Ninang" checkbox (godparent at the christening)
+  sponsorLabel: "I'd love to be {name}'s Ninong / Ninang",
+  sponsorHint: "Tick this if you'd like to stand as a godparent at the christening. We'll get in touch with the details.",
+  sponsorThanks: "Thank you for offering to be {name}'s Ninong / Ninang. We'll be in touch with the details.",
+  emailSponsorNote: "Thank you for offering to be {name}'s Ninong / Ninang! We'll get in touch with the details before the christening.",
+
+  churchLabel: "Christening", // shown before the church name
+  churchTba: "Church to be announced",
+  receptionLabel: "Reception",
+
+  rsvpEyebrow: "Kindly register",
+  rsvpTitle: "Join us",
+  rsvpIntro: "Let us know you're coming so we can save you a seat, and leave a blessing for {name} to read when she's older.",
+  wishLabel: "A blessing for {name}",
+  wishPlaceholder: "Dear little {name}…",
+  wishRequired: "Leave a little blessing for {name}",
+  thankYou: "You're on the list. We can't wait to see you on {date}.",
+
+  arriveTip: "The ceremony begins at {time}; please come a little early so you're settled in.",
+  arriveByNote: "So you're settled in before the ceremony begins", // under "Arrive by" in the email
 
   emailFromName: "Baby {name}'s Christening",
-  emailIntro: "Your seat is confirmed! Thank you for registering. We can't wait to celebrate this blessing with you.",
-  emailWishLabel: "Your prayer for Gabriel",
+  emailIntro: "Your seat is confirmed! Thank you for registering. We can't wait to celebrate {name}'s christening with you.",
+  emailWishLabel: "Your blessing for {name}",
 }
 
 // Build-time overrides (e.g. Vercel → Settings → Environment Variables).
@@ -97,7 +116,7 @@ export const REGISTRATIONS = {
 export const GALLERY = {
   url: env.VITE_GALLERY_SUPABASE_URL || "",
   key: env.VITE_GALLERY_SUPABASE_KEY || "",
-  bucket: "event_photos", // must be a public bucket
+  bucket: "christening_photos", // must be a public bucket
   folder: "guests", // sub-folder inside the bucket; "" for the bucket root
 }
 

@@ -1,9 +1,8 @@
 // Showcase-only: this site is one of four sample events served from one
 // address (/birthday/, /wedding/, /graduation/, /christening/). Copied into
-// each site by showcase/scripts/build_sites.py; edit it in showcase/overlay/.
-import { EVENT } from "@/config"
+// each site by showcase/scripts/import_sites.py; edit it in overlay/.
 
-export const SLUG = EVENT.id.replace(/^showcase-/, "")
+export const SLUG = "christening"
 
 export const SHOWCASE_EVENTS = [
   { slug: "birthday", label: "Birthday" },
@@ -13,6 +12,9 @@ export const SHOWCASE_EVENTS = [
 ] as const
 
 export const eventHref = (slug: string) => `/${slug}/`
+
+/** The studio's address, for Contact us. */
+export const CONTACT_EMAIL = "thedigitalinvitationsph@gmail.com"
 
 /** Hosts' password for the sample guest list. Not a secret: it's a demo. */
 export const DEMO_PASSWORD = "demo"
