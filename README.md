@@ -9,6 +9,7 @@ started from here, named `<celebrant>-<event>`:
 | `mallows-birthday` | Chelsea Louise's 16th birthday | `invitation/` |
 | `aya-christening` | Avrielle Noelle's christening | `aya-christening/` (made before this convention) |
 | `claude/brendan-angelina-wedding` | Brendan & Angelina's wedding party | `invitation/` (branch named before this convention) |
+| `sample-showcase` | Sample birthday, wedding, graduation and christening in one site (made-up data) | `invitation/` |
 
 ## Start a new event
 

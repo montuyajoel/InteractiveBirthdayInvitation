@@ -1,0 +1,19 @@
+{
+  "name": "celebrations-showcase",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "node scripts/typecheck.mjs",
+    "sites": "python3 scripts/build_sites.py",
+    "cards": "node scripts/make_cards.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^7.0.13"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/nodemailer": "^8.0.2",
+    "typescript": "~6.0.2"
+  }
+}

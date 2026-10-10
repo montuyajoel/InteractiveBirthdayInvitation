@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Celebrations · Sample invitations</title>
+  <meta name="description" content="Sample invitation websites for a birthday, a wedding, a graduation and a christening: registration, photo gallery, directions and email confirmations." />
+  <meta property="og:title" content="Celebrations · Sample invitations" />
+  <meta property="og:description" content="A birthday, a wedding, a graduation and a christening. Open one, register, and get a sample confirmation email." />
+  <meta property="og:image" content="/birthday/email/invitation-card.jpg" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d1d1f'/%3E%3Cpath d='M14 22h36v24H14z M14 22l18 14 18-14' fill='none' stroke='white' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #fbfbfd; --alt: #f5f5f7; --card: #fff; --text: #1d1d1f; --text2: #6e6e73; --line: #d2d2d7;
+      --blue: #0071e3; --link: #0066cc; --nav: rgba(251,251,253,.72);
+      --shadow: 0 2px 6px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.06);
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 56px; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.47 var(--font); letter-spacing: -.022em; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: var(--link); text-decoration: none; } a:hover { text-decoration: underline; }
+    img { display: block; max-width: 100%; }
+    h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -.03em; line-height: 1.07; }
+    h1 { font-size: clamp(40px, 7.2vw, 80px); } h2 { font-size: clamp(32px, 5vw, 56px); }
+    .wrap { max-width: 1024px; margin: 0 auto; padding: 0 22px; }
+    .eyebrow { margin: 0 0 10px; font-weight: 600; color: var(--text2); }
+    .lede { margin: 18px auto 0; max-width: 680px; font-size: clamp(19px, 2.2vw, 24px); font-weight: 500; line-height: 1.38; color: var(--text2); }
+    .btn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 22px; border-radius: 980px; border: 0; background: var(--blue); color: #fff; font: 500 17px var(--font); cursor: pointer; }
+    .btn:hover { background: #0077ed; text-decoration: none; }
+    .btn.dark { background: var(--text); } .btn.dark:hover { background: #000; }
+    :focus-visible { outline: 3px solid rgba(0,113,227,.5); outline-offset: 2px; }
+
+    .nav { position: sticky; top: 0; z-index: 50; background: var(--nav); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(0,0,0,.08); }
+    .nav .wrap { height: 48px; display: flex; align-items: center; gap: 22px; }
+    .brand { color: var(--text); font-weight: 600; display: flex; align-items: center; gap: 8px; } .brand:hover { text-decoration: none; }
+    .nav nav { margin-left: auto; display: flex; gap: 22px; font-size: 13px; overflow-x: auto; scrollbar-width: none; }
+    .nav nav a { color: var(--text); opacity: .8; white-space: nowrap; } .nav nav a:hover { opacity: 1; text-decoration: none; }
+    @media (max-width: 760px) { .nav nav a.opt { display: none; } .nav .wrap { gap: 14px; padding: 0 16px; } .nav nav { gap: 16px; } }
+
+    .hero { text-align: center; padding: 88px 0 56px; }
+    .grad { background: linear-gradient(90deg, #c2577a, #8c6d33 40%, #2f7585 75%, #2f3d33); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .cta { margin-top: 30px; display: flex; gap: 24px; justify-content: center; align-items: center; flex-wrap: wrap; }
+
+    .events { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; padding-bottom: 96px; }
+    .ev { display: flex; flex-direction: column; background: var(--card); border-radius: 22px; overflow: hidden; box-shadow: var(--shadow); color: var(--text); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+    .ev:hover { transform: translateY(-6px); text-decoration: none; }
+    .ev .img { aspect-ratio: 2 / 3; background: var(--alt); overflow: hidden; }
+    .ev img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s cubic-bezier(.2,.8,.2,1); }
+    .ev:hover img { transform: scale(1.04); }
+    .ev .body { padding: 16px 18px 20px; display: grid; gap: 2px; }
+    .ev small { font-size: 13px; font-weight: 600; }
+    .ev strong { font-size: 21px; letter-spacing: -.02em; line-height: 1.2; }
+    .ev span { color: var(--text2); font-size: 14px; }
+    .ev .go { margin-top: 10px; color: var(--link); font-size: 15px; }
+    @media (max-width: 900px) { .events { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+
+    .band { background: var(--alt); padding: 100px 0; text-align: center; }
+    .features { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: left; }
+    .f { background: var(--card); border-radius: 22px; padding: 26px; box-shadow: var(--shadow); }
+    .f svg { width: 30px; height: 30px; color: var(--blue); }
+    .f h3 { margin-top: 14px; font-size: 19px; letter-spacing: -.02em; line-height: 1.25; }
+    .f p { margin: 6px 0 0; color: var(--text2); font-size: 15px; }
+    @media (max-width: 860px) { .features { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .features { grid-template-columns: 1fr; } }
+
+    .try { padding: 100px 0; text-align: center; }
+    .steps { margin: 48px auto 0; max-width: 760px; display: grid; gap: 12px; text-align: left; counter-reset: s; padding: 0; list-style: none; }
+    .steps li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; background: var(--card); border-radius: 18px; padding: 18px 20px; box-shadow: var(--shadow); }
+    .steps li::before { counter-increment: s; content: counter(s); width: 36px; height: 36px; border-radius: 50%; background: var(--text); color: #fff; display: grid; place-items: center; font-weight: 600; }
+    .steps b { display: block; } .steps span { color: var(--text2); font-size: 15px; }
+    code { font: 600 15px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--alt); padding: 2px 6px; border-radius: 6px; }
+
+    .contact { background: var(--alt); padding: 100px 0 80px; text-align: center; border-top: 1px solid rgba(0,0,0,.06); }
+    .contact .eyebrow { color: var(--blue); }
+    form { margin: 44px auto 0; max-width: 680px; background: var(--card); border-radius: 22px; box-shadow: var(--shadow); padding: 28px; text-align: left; display: grid; gap: 16px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .row { grid-template-columns: 1fr; } form { padding: 20px; } }
+    label { display: grid; gap: 8px; font-size: 14px; font-weight: 600; color: var(--text2); }
+    input, select, textarea { width: 100%; font: 17px var(--font); color: var(--text); background: var(--alt); border: 1px solid transparent; border-radius: 12px; padding: 12px 14px; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue); background: #fff; box-shadow: 0 0 0 4px rgba(0,113,227,.15); }
+    textarea { min-height: 110px; resize: vertical; }
+    .err { color: #d70015; font-size: 14px; min-height: 1.2em; margin: 0; }
+
+    footer { background: var(--alt); color: var(--text2); font-size: 12px; padding: 0 0 100px; }
+    footer .wrap { border-top: 1px solid var(--line); padding-top: 20px; display: grid; gap: 10px; }
+    footer .credit { font-size: 14px; color: var(--text); margin: 0; }
+
+    .fab { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 40; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 20px; border-radius: 980px; background: rgba(255,255,255,.78); color: var(--text); font-weight: 600; font-size: 15px; backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); box-shadow: 0 8px 28px rgba(0,0,0,.14), 0 0 0 .5px rgba(0,0,0,.08); transition: opacity .3s, transform .3s; }
+    .fab:hover { text-decoration: none; transform: translateY(-2px); }
+    .fab svg { width: 20px; height: 20px; color: var(--blue); }
+    .fab.hide { opacity: 0; transform: translateY(12px); pointer-events: none; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="#top"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18v12H3z M3 7l9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Celebrations</a>
+      <nav aria-label="Sections">
+        <a href="/birthday/">Birthday</a><a href="/wedding/">Wedding</a><a href="/graduation/">Graduation</a><a href="/christening/">Christening</a>
+        <a class="opt" href="#try">Try it</a><a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <p class="eyebrow">Sample invitation websites</p>
+      <h1>Every celebration.<br /><span class="grad">Beautifully invited.</span></h1>
+      <p class="lede">A birthday, a wedding, a graduation and a christening. Open one to see the envelope, register as a guest, and get the confirmation email your guests would receive.</p>
+      <div class="cta"><a class="btn" href="#events">See the samples</a><a href="#contact">Contact us ›</a></div>
+    </section>
+
+    <section class="wrap events" id="events" aria-label="Sample events"></section>
+
+    <section class="band">
+      <div class="wrap">
+        <p class="eyebrow">In every invitation</p>
+        <h2>Everything your guests need.<br />Nothing they don't.</h2>
+        <div class="features">
+          <div class="f"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18v12H3z M3 7l9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><h3>An envelope that opens</h3><p>Your printed card, revealed the moment guests arrive.</p></div>
+          <div class="f"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h3>Countdown and calendar</h3><p>Live countdown, plus Google, Apple and Outlook calendar invites.</p></div>
+          <div class="f"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h3>Guest registration</h3><p>Names, emails and heartfelt wishes, saved to your own database.</p></div>
+          <div class="f"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M21 16l-5-5-8 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><h3>Shared photo gallery</h3><p>Guests upload from their phones; photos are resized automatically.</p></div>
+          <div class="f"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><h3>Map and directions</h3><p>An embedded map and one tap to Google Maps or Waze.</p></div>
+          <div class="f"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><h3>Hosts' guest list and emails</h3><p>A password-protected list, with confirmation emails sent in one click and a log of every send.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="try" id="try">
+      <div class="wrap">
+        <p class="eyebrow">Try it yourself</p>
+        <h2>Be a guest for a minute.</h2>
+        <ol class="steps">
+          <li><div><b>Open a sample event</b><span>Pick the birthday, wedding, graduation or christening above.</span></div></li>
+          <li><div><b>Register with your own email</b><span>All names, places and guests on these pages are made up. Your registration stays in your browser.</span></div></li>
+          <li><div><b>Get the sample confirmation</b><span>Press <em>Email it to me</em> to receive the real confirmation email, or <em>Preview</em> to see it right away.</span></div></li>
+          <li><div><b>See the hosts' view</b><span>At the bottom of each event, open <em>See who's coming</em> and use the password <code>demo</code>.</span></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="wrap">
+        <p class="eyebrow">Contact us</p>
+        <h2 id="contact-title">Planning something special?<br />Let's make your invitation.</h2>
+        <p class="lede">Tell us about your event and we'll get back to you within a day.</p>
+        <div class="cta"><a class="btn" href="mailto:thedigitalinvitationsph@gmail.com?subject=Custom%20invitation%20inquiry">thedigitalinvitationsph@gmail.com</a></div>
+        <form id="contact-form" novalidate>
+          <div class="row">
+            <label>Your name<input id="c-name" autocomplete="name" maxlength="80" /></label>
+            <label>Event<select id="c-type"><option>Birthday</option><option>Wedding</option><option>Graduation</option><option>Christening</option><option>Something else</option></select></label>
+          </div>
+          <label>Message<textarea id="c-msg" maxlength="1000" placeholder="Date, number of guests, the look you have in mind…"></textarea></label>
+          <div><button class="btn dark" type="submit">Send message</button></div>
+          <p class="err" id="c-err" role="alert"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p class="credit">For customized invitations, email us at <a href="mailto:thedigitalinvitationsph@gmail.com">thedigitalinvitationsph@gmail.com</a></p>
+      <span>Sample site. Every name, address and guest here is made up.</span>
+    </div>
+  </footer>
+
+  <a class="fab" id="fab" href="#contact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Contact us</a>
+
+  <script>
+    const EVENTS = [
+      { slug: "birthday", label: "Surprise 16th birthday", name: "Isabel “Bella” Navarro", start: "2026-11-21T18:00:00+08:00", place: "San Juan City", color: "#a8505f" },
+      { slug: "wedding", label: "Wedding", name: "Marco & Elena", start: "2027-02-13T15:00:00+08:00", place: "Tagaytay City", color: "#8a6a2c" },
+      { slug: "graduation", label: "Graduation party", name: "Joaquin Ramos", start: "2027-06-05T18:00:00+08:00", place: "Bonifacio Global City", color: "#1f2340" },
+      { slug: "christening", label: "Christening", name: "Baby Gabriel Lim", start: "2026-12-06T10:00:00+08:00", place: "Quezon City", color: "#2f7585" },
+    ];
+    const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    document.getElementById("events").innerHTML = EVENTS.map((e) => {
+      const d = new Date(e.start).toLocaleDateString("en-US", { weekday: "short", month: "long", day: "numeric", year: "numeric", timeZone: "Asia/Manila" });
+      return `<a class="ev" href="/${e.slug}/"><div class="img"><img src="/${e.slug}/email/invitation-card.jpg" alt="${esc(e.name)} invitation card" loading="lazy" width="992" height="1488"></div>
+        <div class="body"><small style="color:${e.color}">${esc(e.label)}</small><strong>${esc(e.name)}</strong><span>${d} · ${esc(e.place)}</span><span class="go">Open invitation ›</span></div></a>`;
+    }).join("");
+
+    document.getElementById("contact-form").addEventListener("submit", (ev) => {
+      ev.preventDefault();
+      const name = document.getElementById("c-name").value.trim();
+      const msg = document.getElementById("c-msg").value.trim();
+      const type = document.getElementById("c-type").value;
+      const err = document.getElementById("c-err");
+      if (!name || !msg) { err.textContent = "Please add your name and a short message."; return; }
+      err.textContent = "";
+      const q = new URLSearchParams({ subject: `${type} invitation inquiry from ${name}`, body: `${msg}\n\nName: ${name}\nEvent: ${type}` });
+      location.href = "mailto:thedigitalinvitationsph@gmail.com?" + q.toString().replace(/\+/g, "%20");
+    });
+
+    const fab = document.getElementById("fab");
+    new IntersectionObserver(([en]) => fab.classList.toggle("hide", en.isIntersecting), { threshold: 0.05 }).observe(document.getElementById("contact"));
+  </script>
+</body>
+</html>

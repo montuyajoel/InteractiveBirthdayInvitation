@@ -1,0 +1,56 @@
+{
+  "event": {
+    "id": "showcase-graduation",
+    "honoree": "Joaquin Ramos",
+    "honoreeShort": "Joaquin",
+    "start": "2027-06-05T18:00:00+08:00",
+    "timeZone": "Asia/Manila",
+    "timeZoneLabel": "Philippine time",
+    "durationHours": 4,
+    "venue": "Skyline Function Room",
+    "address": "26 Sample Avenue, Bonifacio Global City, Taguig",
+    "arriveBy": "",
+    "mapsShareUrl": "https://maps.google.com/?q=Bonifacio+Global+City,+Taguig",
+    "mapsQuery": "Bonifacio Global City, Taguig"
+  },
+  "copy": {
+    "pageTitle": "{name}'s Graduation Celebration",
+    "metaDescription": "Celebrate {honoree}'s graduation with us.",
+    "logo": "{name}",
+    "logoAccent": "'27",
+    "invitedLine": "You're invited to a",
+    "kicker": "Class of 2027",
+    "title": "Graduation Party",
+    "celebrationFor": "Celebrating",
+    "intro": "Four years, countless late nights and one diploma later: come celebrate {name}'s Bachelor of Science in Computer Science with dinner, toasts and a few embarrassing photos.",
+    "eventTitle": "{honoree}'s Graduation Celebration",
+    "footerSignature": "{honoree} · Class of 2027",
+    "footerLine": "Thank you for being part of the journey",
+    "surprise": false,
+    "saveTheDate": "Save the date",
+    "rsvpEyebrow": "Kindly register",
+    "rsvpTitle": "Join the celebration",
+    "rsvpIntro": "Let us know you're coming, and leave {name} a note of congratulations or a piece of advice for what's next.",
+    "wishLabel": "Congratulations",
+    "wishPlaceholder": "Congrats, {name}! …",
+    "wishRequired": "Leave a few words for {name}",
+    "thankYou": "You're on the list. See you on {date}!",
+    "arriveTip": "Doors open at {time}. Come hungry.",
+    "emailFromName": "{name}'s Graduation",
+    "emailIntro": "Your seat is confirmed! Thank you for registering. We can't wait to celebrate {name}'s graduation with you.",
+    "emailWishLabel": "Your message"
+  },
+  "registrations": { "table": "showcase_graduation_guests" },
+  "theme": {
+    "colors": {
+      "ink": "#1f2340", "brand": "#8c6d33", "soft": "#e6e1ef", "highlight": "#f4ece0",
+      "paper": "#fbfaf8", "night": "#0f1226", "foliage": "#9a8f6a", "bloom": "#e8cf96"
+    },
+    "envelope": { "back": "#dcd6e8", "pocket": "#e6e1ef", "sides": "#d6cfe4", "flap": "#ccc4dd" },
+    "fonts": {
+      "script": "Pinyon Script",
+      "serif": "EB Garamond",
+      "googleFontsUrl": "https://fonts.googleapis.com/css2?family=Pinyon+Script&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    }
+  }
+}
