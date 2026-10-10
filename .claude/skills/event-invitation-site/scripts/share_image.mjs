@@ -3,6 +3,8 @@
 // Facebook… show when the site's link is shared) into public/share.jpg.
 //
 //   node share_image.mjs [site-folder]        # default: ./invitation
+//   node share_image.mjs invitation --page /hen-party/ --out public/hen-party-share.jpg
+//                                             # a second page with its own preview
 //
 // It builds the site, opens the hidden #/share-card page (ShareCard.tsx) at
 // 1200×630 with Playwright, and saves a JPEG. Re-run whenever the names,
@@ -12,7 +14,16 @@ import { createRequire } from "node:module"
 import { existsSync, statSync } from "node:fs"
 import path from "node:path"
 
-const site = path.resolve(process.argv[2] ?? "invitation")
+const args = process.argv.slice(2)
+const opt = (name, fallback) => {
+  const i = args.indexOf(name)
+  if (i === -1) return fallback
+  const [value] = args.splice(i, 2).slice(1)
+  return value
+}
+const pagePath = opt("--page", "/")
+const outRel = opt("--out", "public/share.jpg")
+const site = path.resolve(args[0] ?? "invitation")
 if (!existsSync(path.join(site, "src/components/site/ShareCard.tsx"))) {
   console.error(`${site} has no src/components/site/ShareCard.tsx`)
   process.exit(1)
@@ -48,7 +59,7 @@ const stop = () => {
 process.on("exit", stop)
 
 try {
-  const url = `http://localhost:${port}/#/share-card`
+  const url = `http://localhost:${port}${pagePath}#/share-card`
   for (let i = 0; ; i++) {
     try {
       if ((await fetch(`http://localhost:${port}/`)).ok) break
@@ -68,7 +79,7 @@ try {
   const fonts = await page.evaluate(() => [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family))
   if (fonts.length === 0) console.warn("warning: web fonts didn't load; the picture uses fallback fonts")
 
-  const out = path.join(site, "public/share.jpg")
+  const out = path.join(site, outRel)
   await page.screenshot({ path: out, type: "jpeg", quality: 86, clip: { x: 0, y: 0, width: 1200, height: 630 } })
   await browser.close()
   console.log(`Wrote ${out} (${Math.round(statSync(out).size / 1024)} KB)`)

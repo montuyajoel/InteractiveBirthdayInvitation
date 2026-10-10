@@ -1,4 +1,4 @@
-import { EVENT, REGISTRATIONS } from "@/config"
+import { EVENT, PAGE_OPTIONS, REGISTRATIONS } from "@/config"
 import { isConfigured, supabaseHeaders, supabaseUrl } from "@/lib/supabase"
 
 export const registrationsConnected = isConfigured(REGISTRATIONS)
@@ -150,7 +150,7 @@ export async function sendInvitations(
     const batch = emails.slice(i, i + SEND_BATCH)
     let res: Response
     try {
-      res = await fetch("/api/send-invitations", {
+      res = await fetch(PAGE_OPTIONS.sendEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ passcode, emails: batch }),

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import type { Route } from "@/lib/route"
+import { PAGE_OPTIONS } from "@/config"
 import { COPY, fill } from "@/lib/copy"
 import { cn } from "@/lib/utils"
 
@@ -8,7 +9,7 @@ const LINKS = [
   { href: "#rsvp", label: "Register" },
   { href: "#gallery", label: "Gallery" },
   { href: "#directions", label: "Directions" },
-]
+].filter((l) => PAGE_OPTIONS.gallery || l.href !== "#gallery")
 
 export function Header({ route }: { route: Route }) {
   const [scrolled, setScrolled] = useState(false)

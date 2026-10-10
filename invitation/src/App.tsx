@@ -10,6 +10,7 @@ import { PhotosPage } from "@/components/site/PhotosPage"
 import { Rsvp } from "@/components/site/Rsvp"
 import { ShareCard } from "@/components/site/ShareCard"
 import { useRoute } from "@/lib/route"
+import { PAGE_OPTIONS } from "@/config"
 
 export default function App() {
   const route = useRoute()
@@ -19,14 +20,14 @@ export default function App() {
   return (
     <>
       <Header route={route} />
-      {route === "photos" ? (
+      {route === "photos" && PAGE_OPTIONS.gallery ? (
         <PhotosPage />
       ) : (
         <main>
           <Hero />
           <Countdown />
           <Rsvp />
-          <Gallery />
+          {PAGE_OPTIONS.gallery && <Gallery />}
           <Directions />
           <GuestList />
         </main>

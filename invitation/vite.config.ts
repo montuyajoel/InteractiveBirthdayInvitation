@@ -26,6 +26,16 @@ function siteUrl(): Plugin {
 
 export default defineConfig({
   plugins: [react(), siteUrl()],
+  // Two pages: the wedding (/) and the hidden hen party (/hen-party), each
+  // with its own link-preview tags.
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+        henParty: path.resolve(__dirname, "hen-party/index.html"),
+      },
+    },
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

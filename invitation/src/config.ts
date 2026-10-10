@@ -10,7 +10,7 @@ export type Stop = {
   mapsQuery: string
 }
 
-export const EVENT = {
+const WEDDING_EVENT = {
   // Short slug: used for browser storage keys and calendar file names.
   id: "brendan-angelina-2026",
   // Name of the person (or couple) being celebrated, shown in script.
@@ -62,7 +62,7 @@ export const EVENT = {
 //   {time}  → the start time          {date}    → the start date
 // Wrap text in ^…^ for a superscript in titles: "16^th^ Birthday".
 // Set `surprise: false` for events that aren't a secret; the "Shhh" bits hide.
-export const COPY = {
+const WEDDING_COPY = {
   pageTitle: "{honoree} · Wedding",
   metaDescription: "Join {honoree} on Saturday, 19 December 2026: ceremony at noon at St. John the Baptist Church, Blackrock, reception at 4 pm at the Talbot Hotel Stillorgan.",
   logo: "B & A",
@@ -99,6 +99,74 @@ export const COPY = {
   emailWishLabel: "Your wish for us",
 }
 
+// ---------------------------------------------------------------------------
+// The hidden hen party page (/hen-party): its own event, wording, guest table,
+// password and emails; no photo wall. Not linked from the wedding site.
+
+const HEN_EVENT: typeof WEDDING_EVENT = {
+  id: "angelina-hen-party-2026",
+  honoree: "Angelina & Brendan",
+  honoreeShort: "Angelina",
+  // Irish Summer Time (UTC+1) still applies on 24 October 2026.
+  start: new Date("2026-10-24T17:00:00+01:00"),
+  timeZone: "Europe/Dublin",
+  timeZoneLabel: "Irish time",
+  durationHours: 6,
+  venue: "The Buskers Bar",
+  address: "City Centre, Dublin",
+  arriveBy: "",
+  mapsShareUrl: "https://www.google.com/maps/search/?api=1&query=The+Buskers+Bar+Dublin",
+  mapsQuery: "The Buskers Bar, Dublin",
+  schedule: [],
+}
+
+const HEN_COPY: typeof WEDDING_COPY = {
+  ...WEDDING_COPY,
+  pageTitle: "Angelina's Hen Party",
+  metaDescription: "Please join Angelina's hen party on Saturday, 24 October 2026 at 5 pm, The Buskers Bar, City Centre.",
+  logo: "Hen Party",
+  invitedLine: "Please join my",
+  title: "Hen Party",
+  celebrationFor: "Before the wedding of",
+  shareHeadline: "Hen Party Invite",
+  intro: "Before we say I do, let's have a night to remember: drinks, laughs and the best company at The Buskers Bar.",
+  eventTitle: "Angelina's Hen Party",
+  footerSignature: "Angelina",
+  footerLine: "Can't wait to celebrate with you",
+  rsvpEyebrow: "Are you in?",
+  rsvpIntro: "Let me know you're coming, and leave a few words for the bride-to-be.",
+  wishLabel: "A message for Angelina",
+  wishPlaceholder: "Dear Angelina…",
+  wishRequired: "Leave a few words for Angelina",
+  thankYou: "You're on the list! See you on {date}.",
+  arriveTip: "We start at {time}; come a little early and grab a drink.",
+  arriveByNote: "We start at {time}",
+  emailFromName: "Angelina",
+  emailIntro: "Thank you for your RSVP: you're on the list for my hen party! I can't wait to celebrate with you.",
+  emailWishLabel: "Your message",
+}
+
+// Which page is this: the wedding (/) or the hen party (/hen-party)? The
+// hen party's email function (api/hen-party-send-invitations.ts) sets
+// globalThis.__INVITE_PAGE before this file loads, since it has no address.
+const pageFlag = (globalThis as { __INVITE_PAGE?: string }).__INVITE_PAGE
+export const PAGE: "wedding" | "hen-party" =
+  pageFlag === "hen-party" ||
+  (!pageFlag && typeof location !== "undefined" && location.pathname.startsWith("/hen-party"))
+    ? "hen-party"
+    : "wedding"
+export const IS_HEN = PAGE === "hen-party"
+
+export const EVENT = IS_HEN ? HEN_EVENT : WEDDING_EVENT
+export const COPY = IS_HEN ? HEN_COPY : WEDDING_COPY
+
+/** What differs between the two pages beyond wording. */
+export const PAGE_OPTIONS = {
+  gallery: !IS_HEN, // photo wall
+  sendEndpoint: IS_HEN ? "/api/hen-party-send-invitations" : "/api/send-invitations",
+  emailCard: IS_HEN ? "/email/hen-party-card.jpg" : "/email/invitation-card.jpg",
+}
+
 // Build-time overrides (e.g. Vercel → Settings → Environment Variables).
 // When a variable isn't set, the value written below is used.
 // (Also imported by the email function on the server, where import.meta.env
@@ -120,7 +188,7 @@ export const REGISTRATIONS = {
   // This event's own table. Several events can share one Supabase project:
   // each gets its own table, send log and functions, all named after this
   // (supabase/setup.sql). Lowercase letters, digits and _ only.
-  table: "angie_wedding_guest",
+  table: IS_HEN ? "angelina_hen_party_guests" : "angie_wedding_guest",
 }
 
 // Supabase project holding the photo gallery bucket.

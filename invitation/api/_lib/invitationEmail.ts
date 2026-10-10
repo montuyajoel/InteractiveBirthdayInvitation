@@ -1,6 +1,6 @@
 // The invitation email sent to registered guests. Email clients ignore most
 // modern CSS, so this is table-based HTML with inline styles.
-import { COPY, CREDIT, EVENT } from "../../src/config.js"
+import { COPY, CREDIT, EVENT, PAGE_OPTIONS } from "../../src/config.js"
 import { THEME } from "../../src/theme.js"
 import {
   eventDateLongLabel,
@@ -84,7 +84,7 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
     </td></tr>
 
     <tr><td style="padding:12px 32px 0;">
-      <img src="${site}/email/invitation-card.jpg" width="496" alt="${escapeHtml(eventTitle)} invitation" style="display:block;width:100%;max-width:496px;height:auto;border:0;">
+      <img src="${site}${PAGE_OPTIONS.emailCard}" width="496" alt="${escapeHtml(eventTitle)} invitation" style="display:block;width:100%;max-width:496px;height:auto;border:0;">
     </td></tr>
 
     <tr><td style="padding:28px 32px 0;font-family:${SERIF};color:${C.ink};">
