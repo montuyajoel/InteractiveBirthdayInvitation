@@ -4,7 +4,8 @@
 //
 //   /              the landing page (home/)
 //   /birthday/ …   each sample event, with live reload as you edit sites/<slug>
-//                  (served by its own Vite on ports PORT+10…PORT+13)
+//                  (each served by its own Vite on a free port behind this one)
+//   If 5173 is taken, the next free port is used; the address is printed.
 //   /api/send-confirmation   the sample email function. It sends for real only
 //                  when GMAIL_USER and GMAIL_APP_PASSWORD are set in your
 //                  environment; otherwise the site says email isn't set up.
@@ -14,43 +15,62 @@ import { readFile, stat } from "node:fs/promises"
 import { createRequire } from "node:module"
 import path from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
-import { spawn } from "node:child_process"
-import { bin } from "./bin.mjs"
+import { fork } from "node:child_process"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const SLUGS = ["birthday", "wedding", "graduation", "christening"]
-const PORT = Number(process.env.PORT) || 5173
+const WANTED_PORT = Number(process.env.PORT) || 5173
 
-// Each site runs its own Vite, started from inside its folder (its Tailwind
-// and PostCSS settings are looked up from there), on an internal port. This
-// server forwards /<slug>/… to it, and live reload talks to it directly.
-const children = []
+// Whether `port` can be listened on at `host` (a missing IPv6 counts as free).
+const canListen = (port, host) =>
+  new Promise((resolve) => {
+    const probe = net.createServer()
+    probe.once("error", (e) => resolve(e.code === "EADDRNOTAVAIL" || e.code === "EAFNOSUPPORT"))
+    probe.listen(port, host, () => probe.close(() => resolve(true)))
+  })
+
+// A free port at or after `from` (another program, or an earlier run, may
+// hold the usual ones). Checked on both localhost addresses: some systems
+// let a port that's busy on one look free on the other.
+async function freePort(from, avoid = []) {
+  for (let p = from; p < from + 200; p++) {
+    if (avoid.includes(p)) continue
+    if ((await canListen(p, "127.0.0.1")) && (await canListen(p, "::1"))) return p
+  }
+  throw new Error(`No free port found from ${from}`)
+}
+
+const PORT = await freePort(WANTED_PORT)
+
+// Each site runs its own Vite (scripts/dev-site.mjs), started from inside its
+// folder so its Tailwind and PostCSS settings are found, on a free internal
+// port. This server forwards /<slug>/… (pages and live reload) to it. They
+// talk over an IPC channel, so each one stops by itself when this one does.
 const sites = {}
-for (const [i, slug] of SLUGS.entries()) {
-  const cwd = path.join(root, "sites", slug)
-  const port = PORT + 10 + i
-  const child = spawn(process.execPath, [bin("vite", "vite", cwd), "--base", `/${slug}/`, "--port", String(port), "--strictPort", "--logLevel", "warn"], {
-    cwd,
-    stdio: ["ignore", "inherit", "inherit"],
-    env: { ...process.env, VITE_CONFIG_NATIVE_IGNORE_WARNING: "true", BROWSER: "none" },
+const used = [PORT]
+let stopping = false
+for (const slug of SLUGS) {
+  const port = await freePort(PORT + 10, used)
+  used.push(port)
+  const child = fork(path.join(root, "scripts/dev-site.mjs"), [slug, String(port)], {
+    cwd: path.join(root, "sites", slug),
+    env: { ...process.env, VITE_CONFIG_NATIVE_IGNORE_WARNING: "true" },
   })
   child.on("exit", (code) => {
     if (!stopping) {
       console.error(`The ${slug} site's dev server stopped (exit ${code}).`)
-      stop(1)
+      process.exit(1)
     }
   })
-  children.push(child)
-  sites[slug] = { port }
+  sites[slug] = { port, child, ready: new Promise((r) => child.once("message", r)) }
 }
-let stopping = false
-function stop(code = 0) {
+const stop = () => {
   stopping = true
-  for (const c of children) c.kill()
-  process.exit(code)
+  for (const s of Object.values(sites)) s.child.kill()
+  process.exit(0)
 }
-process.on("SIGINT", () => stop())
-process.on("SIGTERM", () => stop())
+process.on("SIGINT", stop)
+process.on("SIGTERM", stop)
 
 // The email function is TypeScript importing the sites' code: load it
 // through a small Vite instance of its own.
@@ -64,16 +84,7 @@ const apiLoader = await createServer({
   appType: "custom",
 })
 
-async function ready(port) {
-  for (let i = 0; i < 200; i++) {
-    try {
-      if ((await fetch(`http://127.0.0.1:${port}/`)).status) return
-    } catch {}
-    await new Promise((r) => setTimeout(r, 150))
-  }
-  throw new Error(`dev server on port ${port} didn't start`)
-}
-await Promise.all(Object.values(sites).map((s) => ready(s.port)))
+await Promise.all(Object.values(sites).map((s) => s.ready))
 
 function forward(req, res, port) {
   const up = http.request(
@@ -150,6 +161,10 @@ main.on("upgrade", (req, socket, head) => {
   up.on("error", () => socket.destroy())
   socket.on("error", () => up.destroy())
 })
+main.on("error", (e) => {
+  console.error(`Couldn't start on port ${PORT}: ${e.message}`)
+  stop()
+})
 main
   .on("request", (req, res) => {
     const pathname = new URL(req.url, "http://x").pathname
@@ -165,6 +180,7 @@ main
     landing(req, res)
   })
   .listen(PORT, () => {
+    if (PORT !== WANTED_PORT) console.log(`\n  Port ${WANTED_PORT} is busy, so using ${PORT}.`)
     console.log(`\n  Celebrations sample sites: http://localhost:${PORT}/\n`)
     for (const s of SLUGS) console.log(`    http://localhost:${PORT}/${s}/`)
     if (!process.env.GMAIL_USER) console.log("\n  (Sample emails stay off until GMAIL_USER and GMAIL_APP_PASSWORD are set.)")

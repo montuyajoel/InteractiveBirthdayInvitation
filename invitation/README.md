@@ -46,8 +46,9 @@ npm run dev        # → http://localhost:5173
 
 Everything is served at one address, like the live site: the landing page at
 `/` and each event at `/birthday/`, `/wedding/`, `/graduation/` and
-`/christening/`, with live reload as you edit `sites/<slug>/`. Each site's
-own Vite runs on ports 5183 to 5186 behind it (set `PORT` to move them all).
+`/christening/`, with live reload as you edit `sites/<slug>/`. If port 5173
+is taken, the next free one is used and printed; each site's own Vite runs
+on a free port behind it and stops when `npm run dev` stops.
 *Email it to me* sends for real only if `GMAIL_USER` and `GMAIL_APP_PASSWORD`
 are set in your shell; otherwise the site says email isn't switched on, and
 *Preview* still works.
