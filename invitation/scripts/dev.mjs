@@ -62,7 +62,10 @@ for (const slug of SLUGS) {
       process.exit(1)
     }
   })
-  sites[slug] = { port, child, ready: new Promise((r) => child.once("message", r)) }
+  const site = { slug, port, address: "127.0.0.1", child }
+  // The site reports the exact address and port it is listening on.
+  site.ready = new Promise((r) => child.once("message", (m) => r(Object.assign(site, { address: m.address, port: m.port }))))
+  sites[slug] = site
 }
 const stop = () => {
   stopping = true
@@ -86,17 +89,20 @@ const apiLoader = await createServer({
 
 await Promise.all(Object.values(sites).map((s) => s.ready))
 
-function forward(req, res, port) {
+function forward(req, res, site) {
+  const { port, address } = site
   const up = http.request(
-    { host: "127.0.0.1", port, path: req.url, method: req.method, headers: { ...req.headers, host: `localhost:${port}` } },
+    { host: address, port, path: req.url, method: req.method, headers: { ...req.headers, host: `localhost:${port}` } },
     (r) => {
       res.writeHead(r.statusCode ?? 502, r.headers)
       r.pipe(res)
     },
   )
-  up.on("error", () => {
-    res.writeHead(502, { "content-type": "text/plain" })
-    res.end("The site's dev server isn't answering.")
+  up.on("error", (e) => {
+    const why = `The ${site.slug} site's dev server (${address}:${port}) isn't answering: ${e.code ?? e.message}.`
+    console.error(why)
+    res.writeHead(502, { "content-type": "text/plain; charset=utf-8" })
+    res.end(`${why}\n\nOpen the address that \`npm run dev\` printed (http://localhost:${PORT}/). If this keeps happening, stop npm run dev with Ctrl+C and start it again.`)
   })
   req.pipe(up)
 }
@@ -151,8 +157,8 @@ main.on("upgrade", (req, socket, head) => {
   const pathname = new URL(req.url, "http://x").pathname
   const slug = SLUGS.find((s) => pathname.startsWith(`/${s}/`))
   if (!slug) return socket.destroy()
-  const port = sites[slug].port
-  const up = net.connect(port, "127.0.0.1", () => {
+  const { port, address } = sites[slug]
+  const up = net.connect(port, address, () => {
     const headers = Object.entries({ ...req.headers, host: `localhost:${port}` }).map(([k, v]) => `${k}: ${v}`)
     up.write(`${req.method} ${req.url} HTTP/1.1\r\n${headers.join("\r\n")}\r\n\r\n`)
     up.write(head)
@@ -175,7 +181,7 @@ main
         res.writeHead(302, { location: `/${slug}/` })
         return res.end()
       }
-      return forward(req, res, sites[slug].port)
+      return forward(req, res, sites[slug])
     }
     landing(req, res)
   })

@@ -21,7 +21,10 @@ const { createServer } = await import(pathToFileURL(vite).href)
 const server = await createServer({
   base: `/${slug}/`,
   logLevel: "warn",
-  server: { port: Number(port), strictPort: true, open: false },
+  // An explicit address: "localhost" means ::1 on some systems and 127.0.0.1
+  // on others, and dev.mjs must reach the server at the same one.
+  server: { host: "127.0.0.1", port: Number(port), strictPort: true, open: false },
 })
 await server.listen()
-process.send({ ready: true })
+const { address, port: actual } = server.httpServer.address()
+process.send({ ready: true, address, port: actual })
