@@ -7,7 +7,8 @@ For each spec in specs/ it runs the skill's new_event.py into sites/<slug>/
 (with the card from cards/<slug>.jpg; make those with make_cards.mjs), then
 copies overlay/ on top and applies the small showcase patches below: event
 switcher, Contact us section, sample guest list (password "demo") and the
-sample confirmation email. Every patch checks that its anchor text is still
+sample confirmation email. Finally it redraws each site's link-preview
+picture (public/share.jpg) with the skill's share_image.mjs. Every patch checks that its anchor text is still
 there, so a template change fails loudly instead of silently skipping.
 """
 import json
@@ -19,6 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 REPO = ROOT.parent
 NEW_EVENT = REPO / ".claude/skills/event-invitation-site/scripts/new_event.py"
+SHARE_IMAGE = REPO / ".claude/skills/event-invitation-site/scripts/share_image.mjs"
 SLUGS = ["birthday", "wedding", "graduation", "christening"]
 
 # Gallery sample captions, in the template's motif order:
@@ -122,6 +124,13 @@ def build(slug: str):
     gallery = src / "lib/gallery.ts"
     for old, new in zip(TEMPLATE_CAPTIONS, CAPTIONS[slug]):
         patch(gallery, f'caption: "{old}"', f'caption: "{new}"')
+
+    # --replace cleared public/share.jpg: redraw the link-preview picture
+    # (needs the packages installed: pnpm install at the showcase root).
+    if (ROOT / "node_modules").exists():
+        subprocess.run(["node", str(SHARE_IMAGE), str(site)], check=True, stdout=subprocess.DEVNULL)
+    else:
+        print(f"note: run `pnpm install`, then rerun to draw sites/{slug}/public/share.jpg")
 
     print("built", slug)
 

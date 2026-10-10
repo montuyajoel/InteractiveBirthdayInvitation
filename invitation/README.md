@@ -33,7 +33,7 @@ and confirmation emails), plus a small showcase layer:
 | `cards/<slug>.jpg` | the printed invitation cards, drawn by `scripts/make_cards.mjs` |
 | `overlay/` | showcase files copied into every site |
 | `sites/<slug>/` | the generated sites (don't edit by hand; see below) |
-| `home/` | the landing page |
+| `home/` | the landing page, and `share.jpg`, its link-preview picture |
 | `api/send-confirmation.ts` | the sample email function (Vercel) |
 
 ## Change something
@@ -42,12 +42,21 @@ Edit a spec, `overlay/` or `scripts/build_sites.py`, then regenerate:
 
 ```bash
 node scripts/make_cards.mjs            # only if names/dates/venues changed (needs Playwright)
-python3 scripts/build_sites.py         # regenerates sites/ from the specs + overlay
-for s in birthday wedding graduation christening; do
-  node ../.claude/skills/event-invitation-site/scripts/share_image.mjs sites/$s
-done                                   # link-preview pictures
-pnpm install && pnpm run typecheck && pnpm run build   # → dist/
+node scripts/make_home_share.mjs       # landing page's link preview, if a card changed
+pnpm install                           # once
+python3 scripts/build_sites.py         # regenerates sites/ (and their link previews)
+pnpm run typecheck && pnpm run build   # → dist/
 ```
+
+## Link previews
+
+Sharing any of the addresses on Facebook, Messenger, WhatsApp, iMessage or X
+shows a 1200×630 picture: `home/share.jpg` for the main address (all four
+cards) and `sites/<slug>/public/share.jpg` for each event. The tags use full
+addresses, filled in at build time from `SITE_URL` or Vercel's production
+domain. After a deploy, paste the address into
+[Facebook's Sharing Debugger](https://developers.facebook.com/tools/debug/)
+and press *Scrape Again* so Facebook and Messenger drop any old picture.
 
 ## Deploy (Vercel)
 

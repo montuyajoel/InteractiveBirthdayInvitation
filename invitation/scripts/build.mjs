@@ -1,6 +1,6 @@
 // Builds the showcase into dist/: the landing page at /, and each sample
 // event site at /<slug>/ (one address for all four). Vercel runs this.
-import { cpSync, mkdirSync, rmSync } from "node:fs"
+import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import { execFileSync } from "node:child_process"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
@@ -14,12 +14,18 @@ const base = (env.SITE_URL || (env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${en
 rmSync(dist, { recursive: true, force: true })
 mkdirSync(dist, { recursive: true })
 cpSync(path.join(root, "home"), dist, { recursive: true })
+// Link previews need full addresses; without a known domain (local builds)
+// leave og:url out and keep the picture's path relative.
+const home = path.join(dist, "index.html")
+let html = readFileSync(home, "utf8")
+html = base ? html.replaceAll("%SITE_URL%", base) : html.replace(/^.*property="og:url".*\n/m, "").replaceAll("%SITE_URL%", "")
+writeFileSync(home, html)
 for (const slug of SLUGS) {
   console.log(`\n▸ building /${slug}/`)
   execFileSync("pnpm", ["exec", "vite", "build", "--base", `/${slug}/`, "--outDir", path.join(dist, slug), "--emptyOutDir"], {
     cwd: path.join(root, "sites", slug),
     stdio: "inherit",
-    env: { ...env, SITE_URL: base ? `${base}/${slug}` : "" },
+    env: { ...env, SITE_URL: base ? `${base}/${slug}` : `/${slug}` },
   })
 }
 console.log("\nDone: dist/")

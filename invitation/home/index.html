@@ -5,9 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Celebrations · Sample invitations</title>
   <meta name="description" content="Sample invitation websites for a birthday, a wedding, a graduation and a christening: registration, photo gallery, directions and email confirmations." />
+  <!-- Link previews (Facebook, Messenger, WhatsApp, iMessage, X…). %SITE_URL% is
+       filled in by scripts/build.mjs; the picture is share.jpg (scripts/make_home_share.mjs). -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Celebrations" />
+  <meta property="og:url" content="%SITE_URL%/" />
   <meta property="og:title" content="Celebrations · Sample invitations" />
   <meta property="og:description" content="A birthday, a wedding, a graduation and a christening. Open one, register, and get a sample confirmation email." />
-  <meta property="og:image" content="/birthday/email/invitation-card.jpg" />
+  <meta property="og:image" content="%SITE_URL%/share.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Sample invitation cards for a birthday, a wedding, a graduation and a christening" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Celebrations · Sample invitations" />
+  <meta name="twitter:description" content="A birthday, a wedding, a graduation and a christening. Open one, register, and get a sample confirmation email." />
+  <meta name="twitter:image" content="%SITE_URL%/share.jpg" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d1d1f'/%3E%3Cpath d='M14 22h36v24H14z M14 22l18 14 18-14' fill='none' stroke='white' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E" />
   <style>
     :root {
