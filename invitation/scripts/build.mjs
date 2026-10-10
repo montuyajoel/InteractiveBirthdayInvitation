@@ -1,9 +1,9 @@
 // Builds the showcase into dist/: the landing page at /, and each sample
 // event site at /<slug>/ (one address for all four). Vercel runs this.
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
-import { execFileSync } from "node:child_process"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { run } from "./bin.mjs"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const dist = path.join(root, "dist")
@@ -22,9 +22,8 @@ html = base ? html.replaceAll("%SITE_URL%", base) : html.replace(/^.*property="o
 writeFileSync(home, html)
 for (const slug of SLUGS) {
   console.log(`\n▸ building /${slug}/`)
-  execFileSync("pnpm", ["exec", "vite", "build", "--base", `/${slug}/`, "--outDir", path.join(dist, slug), "--emptyOutDir"], {
+  run("vite", "vite", ["build", "--base", `/${slug}/`, "--outDir", path.join(dist, slug), "--emptyOutDir"], {
     cwd: path.join(root, "sites", slug),
-    stdio: "inherit",
     env: { ...env, SITE_URL: base ? `${base}/${slug}` : `/${slug}` },
   })
   // The birthday site has no site-url plugin of its own: fill its tags here.

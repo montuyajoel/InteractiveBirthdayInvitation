@@ -1,3 +1,5 @@
 node_modules
 dist
 .vercel
+# pnpm-lock.yaml is the lockfile Vercel uses; an npm install makes this one locally
+package-lock.json

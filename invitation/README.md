@@ -37,6 +37,24 @@ hosts' guest list, confirmation email) and adds a small showcase layer:
 | `home/` | the landing page, and `share.jpg`, its link-preview picture |
 | `api/send-confirmation.ts` | the sample email function (Vercel) |
 
+## Run it locally
+
+```bash
+npm install        # or pnpm install
+npm run dev        # → http://localhost:5173
+```
+
+Everything is served at one address, like the live site: the landing page at
+`/` and each event at `/birthday/`, `/wedding/`, `/graduation/` and
+`/christening/`, with live reload as you edit `sites/<slug>/`. Each site's
+own Vite runs on ports 5183 to 5186 behind it (set `PORT` to move them all).
+*Email it to me* sends for real only if `GMAIL_USER` and `GMAIL_APP_PASSWORD`
+are set in your shell; otherwise the site says email isn't switched on, and
+*Preview* still works.
+
+`npm run build` makes the deployable `dist/`; `npm run typecheck` checks
+every site and the email function.
+
 ## Change something
 
 The made-up details live in `scripts/import_sites.py` (text: names, places,
@@ -45,12 +63,12 @@ import fails if any real name or place is left over, so a new event branch or
 a change to one shows up straight away.
 
 ```bash
-pnpm install                           # once
+npm install                            # once (or pnpm install)
 node scripts/edit_cards.mjs            # printed cards → cards/ (reads the originals from git)
 node scripts/make_milestones.mjs       # christening "first months" pictures
 python3 scripts/import_sites.py        # sites/ from the event branches (+ link previews)
 node scripts/make_home_share.mjs       # landing page's link preview
-pnpm run typecheck && pnpm run build   # → dist/
+npm run typecheck && npm run build     # → dist/
 ```
 
 The real cards and photos are never copied into this folder: the scripts read

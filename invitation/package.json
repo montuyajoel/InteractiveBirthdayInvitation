@@ -2,11 +2,15 @@
   "name": "celebrations-showcase",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "sites/*"
+  ],
   "scripts": {
+    "dev": "node scripts/dev.mjs",
     "build": "node scripts/build.mjs",
     "typecheck": "node scripts/typecheck.mjs",
-    "sites": "python3 scripts/build_sites.py",
-    "cards": "node scripts/make_cards.mjs"
+    "import": "python3 scripts/import_sites.py",
+    "cards": "node scripts/edit_cards.mjs"
   },
   "dependencies": {
     "nodemailer": "^7.0.13"
