@@ -52,7 +52,7 @@ export const stops: Stop[] = EVENT.schedule.length
     ]
 export const hasSchedule = stops.length > 1
 export const stopLocation = (s: Stop) => [s.venue, s.address].filter(Boolean).join(", ")
-/** "Ceremony 12:00 noon · Reception 7:00 PM", or just the start time. */
+/** "Ceremony 12:00 noon · Reception 4:00 PM", or just the start time. */
 export const eventTimesLabel = hasSchedule ? stops.map((s) => `${s.label} ${s.time}`).join(" · ") : eventTimeLabel
 
 export const eventLocation = stopLocation(stops[0])

@@ -48,7 +48,7 @@ export const EVENT = {
     },
     {
       label: "Reception",
-      time: "7:00 PM",
+      time: "4:00 PM",
       venue: "Talbot Hotel Stillorgan",
       address: "Stillorgan Road, Stillorgan, Co. Dublin",
       mapsShareUrl: "https://share.google/D9PKGaKOURMS67XGL",
@@ -64,7 +64,7 @@ export const EVENT = {
 // Set `surprise: false` for events that aren't a secret; the "Shhh" bits hide.
 export const COPY = {
   pageTitle: "{honoree} · Wedding",
-  metaDescription: "Join {honoree} on Saturday, 19 December 2026: ceremony at noon at St. John the Baptist Church, Blackrock, reception at 7 pm at the Talbot Hotel Stillorgan.",
+  metaDescription: "Join {honoree} on Saturday, 19 December 2026: ceremony at noon at St. John the Baptist Church, Blackrock, reception at 4 pm at the Talbot Hotel Stillorgan.",
   logo: "B & A",
   logoAccent: "", // shown after the logo in the brand colour; "" for none
   invitedLine: "Kindly join us at our",
@@ -91,7 +91,7 @@ export const COPY = {
   wishRequired: "Leave a few words for the couple",
   thankYou: "We've saved you a seat. See you on {date}!",
 
-  arriveTip: "The ceremony begins at 12:00 noon; please arrive a little early so you're seated in time. The reception follows at 7:00 PM.",
+  arriveTip: "The ceremony begins at 12:00 noon; please arrive a little early so you're seated in time. The reception follows at 4:00 PM.",
   arriveByNote: "The ceremony begins at 12:00 noon", // under "Arrive by" in the email
 
   emailFromName: "Brendan & Angelina",
