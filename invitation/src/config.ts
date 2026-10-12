@@ -44,7 +44,7 @@ export const COPY = {
   intro: "Andrea Dela Cruz and Joaquin Villanueva invite you to celebrate their marriage in the cool hills of Tagaytay.",
   eventTitle: "The Wedding of {honoree}", // calendar entries, email subject
   footerSignature: "Andrea & Joaquin",
-  footerLine: "Kita-kits sa Tagaytay",
+  footerLine: "See you in Tagaytay",
 
   surprise: false,
   surpriseHeadline: "Shhh… it's a surprise!",
@@ -58,13 +58,13 @@ export const COPY = {
   wishLabel: "Wishes for the couple",
   wishPlaceholder: "Dear Andrea and Joaquin…",
   wishRequired: "Leave a few words for the couple",
-  thankYou: "Salamat! Your seat is saved. See you on {date}.",
+  thankYou: "Thank you! Your seat is saved. See you on {date}.",
 
   arriveTip: "The ceremony begins at {time} at Capilla de Santa Rosa; please arrive by 2:30 PM.",
   arriveByNote: "Guests gather at the garden chapel", // under "Arrive by" in the email
 
   emailFromName: "Andrea & Joaquin",
-  emailIntro: "Salamat for your RSVP: your seat is confirmed! We can't wait to celebrate with you in Tagaytay.",
+  emailIntro: "Thank you for your RSVP: your seat is confirmed! We can't wait to celebrate with you in Tagaytay.",
   emailWishLabel: "Your wish for us",
 }
 
@@ -79,9 +79,8 @@ export const WEDDING = {
   heroNames: ["Andrea", "&", "Joaquin"],
   heroDate: "February 20, 2027",
   welcome: {
-    title: "Maligayang pagdating sa aming kasal",
-    text: "Hindi na kami makapaghintay na ipagdiwang ang espesyal na araw na ito kasama kayo, napapaligiran ng mga taong mahal namin.",
-    translation: "We can't wait to celebrate this special day with you, surrounded by the people we love.",
+    title: "Welcome to our wedding",
+    text: "We can't wait to celebrate this special day with you, surrounded by the people we love.",
   },
   invitation: {
     before: "Together with their families",
@@ -111,7 +110,7 @@ export const WEDDING = {
     ],
   },
   story: [
-    "We met as volunteers at a book drive in Quezon City, and kept finding reasons to share another cup of kape.",
+    "We met as volunteers at a book drive in Quezon City, and kept finding reasons to share another cup of coffee.",
     "Eight years, a hundred road trips up to Tagaytay and one proposal by the lake later, we're saying \"I do\".",
   ],
   timeline: [
@@ -119,7 +118,7 @@ export const WEDDING = {
     { time: "3:00 PM", label: "Wedding ceremony", icon: "rings" },
     { time: "5:00 PM", label: "Cocktails & photos by the ridge", icon: "coupe" },
     { time: "6:00 PM", label: "Reception, dinner and dancing", icon: "disco" },
-    { time: "10:00 PM", label: "Despedida", icon: "flutes" },
+    { time: "10:00 PM", label: "Send-off", icon: "flutes" },
   ],
   timelineNote:
     "Our ceremony will be held at Capilla de Santa Rosa in the gardens of Casa Alegría, followed by cocktails overlooking Taal Lake, then dinner and dancing in the Glass Pavilion.",

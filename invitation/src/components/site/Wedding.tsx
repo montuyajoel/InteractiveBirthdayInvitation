@@ -56,7 +56,6 @@ export function Welcome() {
         <Reveal>
           <Heading>{w.title}</Heading>
           <p className="mt-5 text-lg italic leading-relaxed text-ink/90">{w.text}</p>
-          <p className="mt-3 text-sm leading-relaxed text-brand">{w.translation}</p>
         </Reveal>
       </div>
       <Butterflies count={2} seed={5} />
