@@ -7,5 +7,5 @@
 -- bcrypt hash of it is stored. Each event has its own password.
 
 insert into private.event_passwords (event_table, hash)
-values ('camille_antoine_wedding_guests', extensions.crypt('YOUR_PASSWORD', extensions.gen_salt('bf', 10)))
+values ('andrea_joaquin_wedding_guests', extensions.crypt('YOUR_PASSWORD', extensions.gen_salt('bf', 10)))
 on conflict (event_table) do update set hash = excluded.hash;

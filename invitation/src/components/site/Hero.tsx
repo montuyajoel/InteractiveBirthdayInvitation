@@ -3,6 +3,7 @@ import { useCurtainOpen } from "@/lib/curtain"
 import { cn } from "@/lib/utils"
 import { Curtain } from "./Curtain"
 import { Chateau } from "./Embroidery"
+import { Butterflies, Doves, FountainSpray, Twinkles } from "./Motion"
 
 import { eventDateLabel, eventTimeLabel } from "@/lib/event"
 
@@ -19,6 +20,8 @@ export function Hero() {
       className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,#fbf3f5_0%,#f3e2e8_55%,#ead3db_100%)]"
     >
       <Curtain />
+      {open && <Doves className="top-[9vh]" />}
+      {open && <Twinkles count={10} seed={4} className="bottom-1/2" />}
 
       <div
         className={cn(
@@ -34,7 +37,11 @@ export function Hero() {
         <p className="mt-3 text-sm italic tracking-[0.2em] text-ink/80">{WEDDING.heroDate}</p>
       </div>
 
-      <Chateau className="relative z-0 mx-auto mt-auto w-full max-w-[560px] translate-y-1" />
+      <div className="relative z-0 mx-auto mt-auto w-full max-w-[560px] translate-y-1">
+        <Chateau className="w-full" />
+        <FountainSpray className="left-1/2 top-[66%] h-0 w-0" />
+        {open && <Butterflies count={3} seed={2} className="-inset-x-4 bottom-1/4 top-[-30%]" />}
+      </div>
 
       <a
         href="#welcome"

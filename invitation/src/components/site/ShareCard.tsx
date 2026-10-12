@@ -11,7 +11,7 @@ import { PearlRope, RoseVine, WisteriaGarland } from "./Embroidery"
 export function ShareCard() {
   return (
     <div className="relative h-[630px] w-[1200px] overflow-hidden bg-[radial-gradient(ellipse_at_35%_40%,#fdf7f8_0%,#f5e6eb_60%,#ecd6de_100%)]">
-      <WisteriaGarland className="absolute -top-4 left-0 w-[700px]" seed={8} />
+      <WisteriaGarland className="absolute -top-4 left-0 w-[700px]" style={{ animation: "none" }} seed={8} />
       <RoseVine className="absolute left-4 top-24 h-[520px] w-10" height={520} />
 
       <div className="absolute left-[70px] top-[230px] w-[640px] text-center">
@@ -21,7 +21,7 @@ export function ShareCard() {
           {WEDDING.celebrate.date} · {eventTimeLabel}
         </p>
         <p className="mt-2 text-[19px] uppercase tracking-[0.24em] text-brand">
-          {EVENT.venue} · Bourgogne
+          {EVENT.venue} · Tagaytay
         </p>
         <PearlRope className="mx-auto mt-4 h-12 w-[420px]" curve={8} />
       </div>

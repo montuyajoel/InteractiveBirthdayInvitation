@@ -110,3 +110,197 @@
     transform: none;
   }
 }
+
+/* ---- moving objects (Motion.tsx) ---- */
+@keyframes petalFall {
+  from {
+    transform: translate3d(0, -6vh, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(var(--drift, 40px), 108vh, 0) rotate(var(--spin, 360deg));
+  }
+}
+@keyframes petalSway {
+  0%,
+  100% {
+    transform: translateX(-14px) rotateY(0deg);
+  }
+  50% {
+    transform: translateX(14px) rotateY(65deg);
+  }
+}
+@keyframes wingFlap {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.3);
+  }
+}
+@keyframes doveWing {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(-0.7);
+  }
+}
+@keyframes flyAcross {
+  0% {
+    transform: translate(-12vw, 0) rotate(-6deg);
+  }
+  20% {
+    transform: translate(18vw, -34px) rotate(8deg);
+  }
+  40% {
+    transform: translate(42vw, 16px) rotate(-4deg);
+  }
+  60% {
+    transform: translate(64vw, -26px) rotate(10deg);
+  }
+  80% {
+    transform: translate(86vw, 12px) rotate(-6deg);
+  }
+  100% {
+    transform: translate(112vw, -10px) rotate(4deg);
+  }
+}
+@keyframes glide {
+  0% {
+    transform: translate(-15vw, 10px);
+  }
+  50% {
+    transform: translate(50vw, -12px);
+  }
+  100% {
+    transform: translate(115vw, 6px);
+  }
+}
+@keyframes fountainDrop {
+  0% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 0.95;
+  }
+  45% {
+    transform: translate(calc(-50% + var(--dx) * 0.55), -14px) scale(0.9);
+  }
+  100% {
+    transform: translate(calc(-50% + var(--dx)), 22px) scale(0.4);
+    opacity: 0;
+  }
+}
+@keyframes heartRise {
+  0% {
+    transform: translate(-50%, 0) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--dx)), -110px) scale(1.1);
+    opacity: 0;
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    transform: scale(0.3) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1) rotate(45deg);
+    opacity: 1;
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+@keyframes breeze {
+  0%,
+  100% {
+    transform: rotate(-0.7deg) skewX(-0.6deg);
+  }
+  50% {
+    transform: rotate(0.7deg) skewX(0.6deg);
+  }
+}
+@keyframes spinSlow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes curtainSway {
+  0%,
+  100% {
+    transform: skewX(0deg);
+  }
+  50% {
+    transform: skewX(0.8deg);
+  }
+}
+
+.petal-fall {
+  animation: petalFall linear infinite;
+  will-change: transform;
+}
+.petal-sway {
+  animation: petalSway ease-in-out infinite;
+}
+.wing-flap {
+  animation: wingFlap 0.32s ease-in-out infinite;
+}
+.dove-wing {
+  animation: doveWing 0.5s ease-in-out infinite;
+}
+.butterfly-fly {
+  animation: flyAcross linear infinite;
+  will-change: transform;
+}
+.dove-fly {
+  animation: glide linear infinite;
+  will-change: transform;
+}
+.fountain-drop {
+  animation: fountainDrop ease-out infinite;
+}
+.heart-rise {
+  animation: heartRise ease-out infinite;
+}
+.twinkle {
+  animation: twinkle ease-in-out infinite;
+}
+.bob {
+  animation: bob 3.6s ease-in-out infinite;
+}
+.breeze {
+  transform-origin: 50% 0;
+  animation: breeze 6s ease-in-out infinite;
+}
+.spin-slow {
+  animation: spinSlow 60s linear infinite;
+}
+.curtain-sway {
+  transform-origin: 50% 0;
+  animation: curtainSway 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-layer {
+    display: none;
+  }
+  .bob,
+  .breeze,
+  .spin-slow,
+  .curtain-sway {
+    animation: none;
+  }
+}

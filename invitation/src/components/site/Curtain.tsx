@@ -3,6 +3,7 @@ import { WEDDING } from "@/config"
 import { openCurtain, useCurtainOpen } from "@/lib/curtain"
 import { cn } from "@/lib/utils"
 import { MonogramSeal, PearlString, SILK } from "./Embroidery"
+import { Twinkles } from "./Motion"
 
 // Pleated fabric: light ridges and shaded folds, darker towards the floor.
 const FABRIC = {
@@ -58,14 +59,14 @@ export function Curtain() {
   return (
     <div className="pointer-events-none absolute inset-0 z-20" aria-hidden={open}>
       <Valance />
-      <div className={panel} style={{ left: 0, ...FABRIC, clipPath: open ? OPEN_LEFT : CLOSED_LEFT }}>
+      <div className={cn(panel, !open && "curtain-sway")} style={{ left: 0, ...FABRIC, clipPath: open ? OPEN_LEFT : CLOSED_LEFT }}>
         {/* pearl trim on the leading edge */}
         <span
           className={cn("absolute inset-y-0 right-0 w-3 transition-opacity duration-500", open && "opacity-0")}
           style={{ background: "radial-gradient(circle at 50% 50%, #fff 0 2.5px, #dcc3ca 3.5px, transparent 4.5px) 0 0 / 12px 11px repeat-y" }}
         />
       </div>
-      <div className={panel} style={{ right: 0, ...FABRIC, clipPath: open ? OPEN_RIGHT : CLOSED_RIGHT }}>
+      <div className={cn(panel, !open && "curtain-sway")} style={{ right: 0, animationDelay: "-2.5s", ...FABRIC, clipPath: open ? OPEN_RIGHT : CLOSED_RIGHT }}>
         <span
           className={cn("absolute inset-y-0 left-0 w-3 transition-opacity duration-500", open && "opacity-0")}
           style={{ background: "radial-gradient(circle at 50% 50%, #fff 0 2.5px, #dcc3ca 3.5px, transparent 4.5px) 0 0 / 12px 11px repeat-y" }}
@@ -91,6 +92,7 @@ export function Curtain() {
         </svg>
       ))}
 
+      {!open && <Twinkles count={9} seed={7} className="!z-30 inset-x-[18%] inset-y-[28%]" color="#fdf3e6" />}
       {!open && (
         <button
           type="button"

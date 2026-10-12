@@ -17,6 +17,7 @@ import {
   WisteriaGarland,
 } from "./Embroidery"
 import { Envelope } from "./Envelope"
+import { Butterflies, RisingHearts, Twinkles } from "./Motion"
 import { Reveal } from "./Reveal"
 
 const mapsUrl = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
@@ -58,8 +59,10 @@ export function Welcome() {
           <p className="mt-3 text-sm leading-relaxed text-brand">{w.translation}</p>
         </Reveal>
       </div>
-      <Reveal>
-        <Swans className="mx-auto mt-6 block w-[min(82vw,340px)]" />
+      <Butterflies count={2} seed={5} />
+      <Reveal className="relative mx-auto mt-6 w-[min(82vw,340px)]">
+        <RisingHearts className="left-1/2 top-[22%] h-0 w-0" />
+        <Swans className="bob block w-full" />
       </Reveal>
     </section>
   )
@@ -121,6 +124,7 @@ export function DressCode() {
   const d = WEDDING.dressCode
   return (
     <section aria-label="Dress code" className="relative overflow-hidden pb-14">
+      <Butterflies count={2} seed={9} className="top-40" />
       <HangingWisteria className="h-40 w-full sm:h-48" />
       <Reveal className="mx-auto -mt-6 max-w-lg px-6 text-center">
         <Heading>Dress Code</Heading>
@@ -142,9 +146,11 @@ export function DressCode() {
 
 export function OurStory() {
   return (
-    <section aria-label="Our story" className="px-4 py-8">
+    <section aria-label="Our story" className="relative overflow-hidden px-4 py-8">
+      <Butterflies count={2} seed={13} />
       <Reveal className="relative mx-auto w-[min(92vw,380px)]">
         <FloralArch className="w-full" />
+        <Twinkles count={7} seed={11} className="inset-x-[15%] top-[15%]" color="#fbeef1" />
         <div className="absolute inset-x-[19%] top-[22%] bottom-[6%] flex flex-col items-center text-center">
           <Heading className="text-4xl">Our Story</Heading>
           {WEDDING.story.map((p) => (
@@ -166,10 +172,12 @@ export function Timeline() {
       </Reveal>
       <ol className="relative mx-auto mt-10 max-w-md">
         <span className="absolute bottom-4 left-[5.5rem] top-4 border-l-2 border-dotted border-ink/40 sm:left-[6.5rem]" aria-hidden />
-        {WEDDING.timeline.map((t) => (
+        {WEDDING.timeline.map((t, i) => (
           <li key={t.time}>
             <Reveal className="relative grid grid-cols-[4.5rem_1fr] items-center gap-8 py-4 sm:grid-cols-[5.5rem_1fr]">
-              <TimelineIcon name={t.icon} className="h-16 w-16 justify-self-center sm:h-20 sm:w-20" />
+              <span className="bob justify-self-center" style={{ animationDelay: `${-i * 0.7}s` }}>
+                <TimelineIcon name={t.icon} className="h-16 w-16 sm:h-20 sm:w-20" />
+              </span>
               <span className="absolute left-[5.5rem] top-1/2 h-3 w-3 -translate-x-[5px] -translate-y-1/2 rounded-full bg-white shadow ring-2 ring-brand/40 sm:left-[6.5rem]" aria-hidden />
               <div>
                 <p className="font-serif text-xl text-ink">{t.time}</p>
@@ -196,7 +204,8 @@ export function DayAfter() {
     location: `${d.venue}, ${d.address}`,
   })
   return (
-    <section aria-label={d.title} className="relative px-4 py-12">
+    <section aria-label={d.title} className="relative overflow-hidden px-4 py-12">
+      <Butterflies count={1} seed={17} className="top-1/3" />
       <WisteriaGarland className="mx-auto block w-full max-w-3xl" seed={31} />
       <Reveal className="mx-auto max-w-md text-center">
         <Heading>{d.title}</Heading>
@@ -223,7 +232,9 @@ export function Gifts() {
     <section aria-label="Gifts" className="px-6 py-14">
       <Reveal className="relative mx-auto max-w-sm">
         <div className="relative border-[3px] border-double border-[#c9a874]/80 bg-white/60 px-8 pb-10 pt-14 text-center shadow-[0_24px_50px_-30px_rgb(var(--c-ink)/0.5)]">
-          <RibbonBow className="absolute -top-8 left-1/2 w-28 -translate-x-1/2" />
+          <span className="absolute -top-8 left-1/2 w-28 -translate-x-1/2">
+            <RibbonBow className="bob w-full" />
+          </span>
           <RoseVine className="absolute -left-5 top-6 h-[85%] w-7" height={300} seed={12} />
           <Heading>{g.title}</Heading>
           <p className="mt-4 italic leading-relaxed text-ink/85">{g.text}</p>

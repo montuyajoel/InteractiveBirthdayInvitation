@@ -163,7 +163,7 @@ export function WisteriaGarland({ className, style, flip = false, seed = 3 }: Pr
     return <LeafShape key={i} x={x} y={y} angle={(i % 2 ? -1 : 1) * (25 + rand() * 30) + (i % 2 ? 180 : 0)} size={11 + rand() * 4} />
   })
   return (
-    <svg viewBox="0 0 400 130" className={className} style={{ ...style, transform: flip ? "scaleY(-1)" : undefined }} aria-hidden preserveAspectRatio="xMidYMin meet">
+    <svg viewBox="0 0 400 130" className={cn("breeze", className)} style={{ ...style, ...(flip ? { transform: "scaleY(-1)", animation: "none" } : {}) }} aria-hidden preserveAspectRatio="xMidYMin meet">
       <path d="M0 24C60 10 120 36 200 22S340 12 400 26" fill="none" stroke={SILK.leafDark} strokeWidth="2.4" filter="url(#puffy)" />
       <PearlString from={[30, 26]} to={[130, 28]} sag={34} r={2.6} />
       <PearlString from={[130, 28]} to={[270, 24]} sag={40} r={2.6} />
@@ -271,7 +271,7 @@ export function FloralArch({ className }: { className?: string }) {
 export function HangingWisteria({ className, seed = 21 }: { className?: string; seed?: number }) {
   const rand = rng(seed * 31337)
   return (
-    <svg viewBox="0 0 400 190" className={className} aria-hidden preserveAspectRatio="xMidYMin slice">
+    <svg viewBox="0 0 400 190" className={cn("breeze", className)} style={{ animationDuration: "7s" }} aria-hidden preserveAspectRatio="xMidYMin slice">
       <path d="M-5 12C100 22 300 2 405 14" fill="none" stroke={SILK.leafDark} strokeWidth="3" filter="url(#puffy)" />
       {Array.from({ length: 26 }, (_, i) => {
         const x = 4 + i * 15.5 + rand() * 5
@@ -470,14 +470,17 @@ export function MonogramSeal({ text, className }: { text: string; className?: st
 export function Medallion({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div className={cn("relative aspect-square", className)}>
-      <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" aria-hidden>
-        <g filter="url(#relief)">
+      {/* the pearl ring turns slowly around the wax centre */}
+      <svg viewBox="0 0 100 100" className="spin-slow absolute inset-0 h-full w-full" aria-hidden>
+        <g filter="url(#puffy)">
           {Array.from({ length: 24 }, (_, i) => {
             const a = (i / 24) * Math.PI * 2
             return <circle key={i} cx={50 + Math.cos(a) * 44} cy={50 + Math.sin(a) * 44} r="5" fill="url(#pearl)" />
           })}
-          <circle cx="50" cy="50" r="40" fill="url(#wax)" />
         </g>
+      </svg>
+      <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" aria-hidden>
+        <circle cx="50" cy="50" r="40" fill="url(#wax)" filter="url(#relief)" />
         <circle cx="50" cy="50" r="33" fill="none" stroke="#b78b84" strokeWidth=".8" strokeDasharray="2 2" />
       </svg>
       <div className="absolute inset-0 grid place-items-center">{children}</div>
@@ -545,35 +548,48 @@ export function TimelineIcon({ name, className }: { name: string; className?: st
   )
 }
 
-/** A garment-and-bow-tie pairing for the dress code. */
+/** A Filipiniana terno (butterfly sleeves) beside a Barong Tagalog, for the dress code. */
 export function DressCodeArt({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 240 150" className={className} aria-hidden>
-      {/* gown on a hanger */}
+      {/* terno on a hanger */}
+      <path d="M72 6c-6 0-8 8-2 10" fill="none" stroke={SILK.gold} strokeWidth="2" />
+      <path d="M50 24L70 16L90 24" fill="none" stroke={SILK.gold} strokeWidth="2.4" strokeLinecap="round" />
       <g filter="url(#relief)">
-        <path d="M74 10c-6 0-8 8-2 10" fill="none" stroke={SILK.gold} strokeWidth="2" />
-        <path d="M54 26L72 18L90 26" fill="none" stroke={SILK.gold} strokeWidth="2.4" strokeLinecap="round" />
-        <path d="M62 28C64 40 64 48 60 56L44 140H100L84 56C80 48 80 40 82 28C76 34 68 34 62 28Z" fill={SILK.rose} />
-        <path d="M60 56C68 62 76 62 84 56" fill="none" stroke={SILK.roseDeep} strokeWidth="2" />
-        {[52, 62, 72, 82, 92].map((x) => (
-          <path key={x} d={`M${72 + (x - 72) * 0.2} 62L${x} 138`} stroke={SILK.roseDeep} strokeOpacity=".35" strokeWidth="1" />
-        ))}
+        {/* butterfly sleeves: tall, stiff, pleated */}
+        <path d="M58 26C46 10 34 14 36 30C38 40 50 42 60 36Z" fill={SILK.rosePale} stroke={SILK.rose} strokeWidth="1.2" />
+        <path d="M84 26C96 10 108 14 106 30C104 40 92 42 82 36Z" fill={SILK.rosePale} stroke={SILK.rose} strokeWidth="1.2" />
+        <path d="M60 28C62 42 62 50 58 58L42 140H102L86 58C82 50 82 42 84 28C78 34 66 34 60 28Z" fill={SILK.rose} />
+        <path d="M58 58C66 64 76 64 86 58" fill="none" stroke={SILK.roseDeep} strokeWidth="2" />
       </g>
-      <RoseBloom x={78} y={58} r={5} tone="pale" />
-      {/* tuxedo jacket */}
+      {[40, 46, 52].map((x, i) => (
+        <path key={x} d={`M${x} ${18 + i * 3}C${x + 4} ${26 + i * 2} ${x + 10} ${30} ${x + 16} 32`} fill="none" stroke={SILK.rose} strokeWidth=".9" />
+      ))}
+      {[92, 98, 104].map((x, i) => (
+        <path key={x} d={`M${x} ${18 + i * 3}C${x - 4} ${26 + i * 2} ${x - 10} ${30} ${x - 16} 32`} fill="none" stroke={SILK.rose} strokeWidth=".9" />
+      ))}
+      {[52, 62, 72, 82, 92].map((x) => (
+        <path key={x} d={`M${72 + (x - 72) * 0.2} 64L${x} 138`} stroke={SILK.roseDeep} strokeOpacity=".3" strokeWidth="1" />
+      ))}
+      <RoseBloom x={72} y={60} r={5} tone="cream" />
+      {/* barong tagalog: sheer piña cloth with embroidered front panel */}
       <g filter="url(#relief)">
-        <path d="M150 22L166 16L182 22L198 34L196 138H136L134 34Z" fill="#2f2a3d" />
-        <path d="M150 22L166 70L182 22" fill="#f8f1f2" />
-        <path d="M150 22L160 64L146 40ZM182 22L172 64L186 40Z" fill="#1f1b2a" />
-        <circle cx="166" cy="84" r="2" fill={SILK.gold} />
-        <circle cx="166" cy="98" r="2" fill={SILK.gold} />
+        <path d="M150 20L166 14L182 20L200 32L198 132H134L132 32Z" fill="#f4ead6" fillOpacity=".95" stroke="#d8c7a6" strokeWidth="1.2" />
+        <path d="M132 32L118 74L128 78L138 50ZM200 32L214 74L204 78L194 50Z" fill="#f4ead6" stroke="#d8c7a6" strokeWidth="1.2" />
+        <path d="M156 18L166 26L176 18" fill="none" stroke="#d8c7a6" strokeWidth="2" />
       </g>
-      {/* bow tie */}
-      <g filter="url(#puffy)" transform="translate(166 34)">
-        <path d="M0 0L-12 -7V7ZM0 0L12 -7V7Z" fill="#2f2a3d" />
-        <circle r="3" fill="#2f2a3d" />
-      </g>
-      <RoseBloom x={182} y={44} r={4.5} tone="deep" />
+      {/* calado embroidery down the front */}
+      <path d="M166 28V128" stroke="#cdb88f" strokeWidth="1" strokeDasharray="2 2" />
+      {Array.from({ length: 7 }, (_, i) => (
+        <g key={i} stroke="#bfa575" strokeWidth=".9" fill="none">
+          <path d={`M166 ${36 + i * 13}c-6 -4 -12 -2 -14 4M166 ${36 + i * 13}c6 -4 12 -2 14 4`} />
+          <circle cx={152} cy={41 + i * 13} r="1.4" fill="#d7c39a" />
+          <circle cx={180} cy={41 + i * 13} r="1.4" fill="#d7c39a" />
+        </g>
+      ))}
+      {[48, 74, 100].map((y) => (
+        <circle key={y} cx="166" cy={y} r="1.6" fill="#f9f4ea" stroke="#bfa575" strokeWidth=".6" />
+      ))}
       <LeafShape x={112} y={130} angle={-40} size={14} />
       <LeafShape x={122} y={132} angle={200} size={12} />
       <RoseBloom x={117} y={126} r={7} tone="mid" />

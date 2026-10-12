@@ -11,10 +11,13 @@ import { Hero } from "@/components/site/Hero"
 import { PhotosPage } from "@/components/site/PhotosPage"
 import { Rsvp } from "@/components/site/Rsvp"
 import { ShareCard } from "@/components/site/ShareCard"
+import { FallingPetals } from "@/components/site/Motion"
+import { useCurtainOpen } from "@/lib/curtain"
 import { useRoute } from "@/lib/route"
 
 export default function App() {
   const route = useRoute()
+  const curtainOpen = useCurtainOpen()
 
   if (route === "share-card")
     return (
@@ -27,6 +30,7 @@ export default function App() {
   return (
     <>
       <ArtDefs />
+      {curtainOpen && <FallingPetals />}
       <Header route={route} />
       {route === "photos" ? (
         <PhotosPage />
