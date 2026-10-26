@@ -32,7 +32,7 @@ export const EVENT = {
 // Wrap text in ^…^ for a superscript in titles: "16^th^ Birthday".
 // Set `surprise: false` for events that aren't a secret; the "Shhh" bits hide.
 export const COPY = {
-  pageTitle: "Chase turns 8 · Supercar Birthday",
+  pageTitle: "Chase turns 8 · Hot Rod Birthday Bash",
   metaDescription: "Start your engines! Race over to Chase's 8th birthday on December 12.",
   logo: "Chase",
   logoAccent: "8", // shown after the logo in the brand colour; "" for none
@@ -40,7 +40,7 @@ export const COPY = {
   kicker: "Chase is turning", // spaced capitals above the title; "" to hide
   title: "8^th^ Birthday",
   celebrationFor: "Race on over and celebrate with",
-  intro: "Buckle up and race on over! Join us for games, cake and full-throttle fun with Ferraris, Bugattis and more as our favourite little racer, {name}, turns 8.",
+  intro: "Buckle up and race on over! Join us for games, cake, hot rods and full-throttle fun as our favourite little racer, {name}, turns 8.",
   eventTitle: "Chase's 8th Birthday", // calendar entries, email subject
   footerSignature: "Chase · 8",
   footerLine: "Thanks for joining {name}'s pit crew!",
@@ -52,7 +52,7 @@ export const COPY = {
   saveTheDate: "Race starts in", // countdown headline when surprise is false
 
   rsvpEyebrow: "Join the pit crew",
-  rsvpTitle: "Save your spot",
+  rsvpTitle: "Grab your spot",
   rsvpIntro: "Let us know you're coming so we can save you a spot on the grid, and leave a birthday message for our little racer {name}.",
   wishLabel: "Birthday message for Chase",
   wishPlaceholder: "Happy birthday, Chase! …",

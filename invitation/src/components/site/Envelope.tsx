@@ -3,27 +3,30 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import invitationCard from "@/assets/invitationCard"
 import { eventTitle } from "@/lib/event"
 import { cn } from "@/lib/utils"
-import { CheckeredFlag, ComicBurst, Wheel } from "./Decor"
+import { ComicBurst, Flame, Wheel } from "./Decor"
 
 // closed → start lights count down → lights out: VROOM! → card on show
 type Stage = "closed" | "lights" | "go" | "open"
 
-const CARBON: React.CSSProperties = {
+// Sunburst rays, like a die-cast car's backing card.
+const RAYS: React.CSSProperties = {
   backgroundImage:
-    "repeating-linear-gradient(45deg, rgb(255 255 255 / 0.05) 0 3px, transparent 3px 6px), repeating-linear-gradient(-45deg, rgb(0 0 0 / 0.35) 0 3px, transparent 3px 6px)",
+    "repeating-conic-gradient(from 0deg at 50% 70%, rgb(255 255 255 / 0.09) 0 6deg, transparent 6deg 15deg)",
 }
 
-/** Twin racing stripes running down the middle of the envelope. */
+/** A strip of orange toy track running down the middle of the envelope. */
 function Stripes() {
   return (
-    <span className="absolute inset-y-0 left-1/2 flex -translate-x-1/2 gap-1.5" aria-hidden>
-      <span className="w-4 bg-brand" />
-      <span className="w-4 bg-bloom" />
+    <span
+      className="absolute inset-y-0 left-1/2 w-10 -translate-x-1/2 border-x-2 border-[#7a2a00]/60 bg-gradient-to-r from-[#ffb35c] via-[#ff7a00] to-[#c94a00]"
+      aria-hidden
+    >
+      <span className="absolute inset-y-0 left-1/2 w-[2px] -translate-x-1/2 bg-[repeating-linear-gradient(transparent_0_8px,rgb(255_255_255/0.8)_8px_16px)]" />
     </span>
   )
 }
 
-// Wheels, flags and sparks that fly out when the lights go out.
+// Wheels, flames and sparks that fly out when the lights go out.
 const PIECES = Array.from({ length: 18 }, (_, i) => {
   const a = (i / 18) * Math.PI * 2 + (i % 3) * 0.2
   const d = 120 + ((i * 37) % 90)
@@ -37,7 +40,7 @@ const PIECES = Array.from({ length: 18 }, (_, i) => {
   }
 })
 
-/** A carbon-fibre envelope with racing stripes; F1-style start lights launch the card. */
+/** A blue envelope with orange track; F1-style start lights launch the card. */
 export function Envelope() {
   const [stage, setStage] = useState<Stage>("closed")
   const [zoom, setZoom] = useState(false)
@@ -71,7 +74,7 @@ export function Envelope() {
         {/* back of envelope */}
         <span
           className="absolute inset-0 z-0 overflow-hidden rounded-[4px] bg-[var(--env-back)] shadow-[0_24px_60px_-18px_rgb(var(--c-brand)/0.45)] ring-1 ring-white/15"
-          style={CARBON}
+          style={RAYS}
         />
 
         {/* flap: flips up and stays open behind the card */}
@@ -86,7 +89,7 @@ export function Envelope() {
               "absolute inset-0 overflow-hidden transition-colors duration-500",
               launched ? "bg-[var(--env-sides)]" : "bg-[var(--env-flap)]",
             )}
-            style={{ ...CARBON, clipPath: "polygon(0 0, 100% 0, 50% 100%)" }}
+            style={{ ...RAYS, clipPath: "polygon(0 0, 100% 0, 50% 100%)" }}
           >
             <Stripes />
           </span>
@@ -133,19 +136,19 @@ export function Envelope() {
         {/* front pocket */}
         <span
           className="absolute inset-0 z-20 overflow-hidden rounded-[4px] bg-[var(--env-pocket)]"
-          style={{ ...CARBON, clipPath: "polygon(0 34%, 50% 66%, 100% 34%, 100% 100%, 0 100%)" }}
+          style={{ ...RAYS, clipPath: "polygon(0 34%, 50% 66%, 100% 34%, 100% 100%, 0 100%)" }}
         >
           <Stripes />
         </span>
         <span
           className="absolute inset-0 z-20 bg-[var(--env-sides)]"
-          style={{ ...CARBON, clipPath: "polygon(0 34%, 50% 66%, 0 100%)" }}
+          style={{ ...RAYS, clipPath: "polygon(0 34%, 50% 66%, 0 100%)" }}
         />
         <span
           className="absolute inset-0 z-20 bg-[var(--env-sides)]"
-          style={{ ...CARBON, clipPath: "polygon(100% 34%, 50% 66%, 100% 100%)" }}
+          style={{ ...RAYS, clipPath: "polygon(100% 34%, 50% 66%, 100% 100%)" }}
         />
-        <span className="pointer-events-none absolute inset-x-0 bottom-2 z-20 text-center font-script text-2xl italic text-white [text-shadow:2px_2px_0_rgb(var(--c-brand))]">
+        <span className="pointer-events-none absolute inset-x-0 bottom-2 z-20 text-center font-script text-2xl italic text-white [text-shadow:2px_2px_0_#061a5c]">
           For you, racer!
         </span>
 
@@ -156,8 +159,8 @@ export function Envelope() {
             stage === "closed" ? "group-hover:scale-110" : "scale-0 opacity-0",
           )}
         >
-          <span className="absolute inset-0 animate-ping rounded-full bg-brand/40" />
-          <span className="relative grid h-16 w-16 place-items-center rounded-full bg-brand shadow-lg ring-4 ring-white/90">
+          <span className="absolute inset-0 animate-ping rounded-full bg-[#e4002b]/40" />
+          <span className="relative grid h-16 w-16 place-items-center rounded-full bg-[#e4002b] shadow-lg ring-4 ring-bloom">
             <span className="font-serif text-[0.6rem] font-black uppercase leading-tight tracking-[0.12em] text-white">
               Start
               <br />
@@ -213,9 +216,9 @@ export function Envelope() {
                 }}
               >
                 {p.kind === 0 ? (
-                  <Wheel filled className="text-ink" style={{ width: p.size, height: p.size }} />
+                  <Wheel style={{ width: p.size, height: p.size }} />
                 ) : p.kind === 1 ? (
-                  <CheckeredFlag small style={{ width: p.size + 4, height: p.size + 4 }} />
+                  <Flame style={{ width: p.size + 4, height: p.size + 4 }} />
                 ) : (
                   <span className="block rounded-full bg-bloom" style={{ width: p.size / 2, height: p.size / 2 }} />
                 )}

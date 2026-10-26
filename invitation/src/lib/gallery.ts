@@ -124,12 +124,12 @@ const MOTIFS: Record<string, string> = {
   balloons: `<ellipse cx="115" cy="110" rx="38" ry="46" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
     <ellipse cx="185" cy="95" rx="38" ry="46" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>
     <path d="M115 156 q10 40 -4 80 M185 141 q-12 50 6 95" fill="none" stroke="${C.brand}" stroke-width="2"/>`,
-  rosso: `<g transform="translate(10 90) scale(1.4)">${carSvg("rosso", "#9ca3af", "tile-rosso")}</g>
-    <path d="M10 200H290" stroke="${C.foliage}" stroke-width="3" stroke-dasharray="18 12"/>`,
-  bleu: `<g transform="translate(10 90) scale(1.4)">${carSvg("bleu", "#9ca3af", "tile-bleu")}</g>
-    <path d="M10 200H290" stroke="${C.foliage}" stroke-width="3" stroke-dasharray="18 12"/>`,
-  giallo: `<g transform="translate(10 90) scale(1.4)">${carSvg("giallo", "#9ca3af", "tile-giallo")}</g>
-    <path d="M10 200H290" stroke="${C.foliage}" stroke-width="3" stroke-dasharray="18 12"/>`,
+  blaze: `<g transform="translate(10 80) scale(1.4)">${carSvg("blaze", "tile-blaze")}</g>
+    <path d="M10 200H290" stroke="#ff7a00" stroke-width="10"/>`,
+  blue: `<g transform="translate(10 80) scale(1.4)">${carSvg("blue", "tile-blue")}</g>
+    <path d="M10 200H290" stroke="#ff7a00" stroke-width="10"/>`,
+  purple: `<g transform="translate(10 80) scale(1.4)">${carSvg("purple", "tile-purple")}</g>
+    <path d="M10 200H290" stroke="#ff7a00" stroke-width="10"/>`,
   flag: `<path d="M70 40V250" stroke="${C.foliage}" stroke-width="6" stroke-linecap="round"/>
     <g>${Array.from({ length: 30 }, (_, i) => {
       const x = i % 6
@@ -156,11 +156,11 @@ const MOTIFS: Record<string, string> = {
 }
 
 const SAMPLES: { motif: keyof typeof MOTIFS; caption: string; w: number; h: number; tint: string }[] = [
-  { motif: "rosso", caption: "Ferrari red", w: 300, h: 300, tint: C.highlight },
+  { motif: "blaze", caption: "Flame Rod", w: 300, h: 300, tint: C.highlight },
   { motif: "cake", caption: "Birthday cake", w: 300, h: 380, tint: C.highlight },
-  { motif: "bleu", caption: "Bugatti blue", w: 300, h: 300, tint: C.soft },
+  { motif: "blue", caption: "Blue Blaster", w: 300, h: 300, tint: C.soft },
   { motif: "flag", caption: "Checkered flag", w: 300, h: 360, tint: C.soft },
-  { motif: "giallo", caption: "Lambo yellow", w: 300, h: 300, tint: C.highlight },
+  { motif: "purple", caption: "Purple Thunder", w: 300, h: 300, tint: C.highlight },
   { motif: "trophy", caption: "Champion", w: 300, h: 280, tint: C.soft },
 ]
 

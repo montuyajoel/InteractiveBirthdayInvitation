@@ -44,13 +44,13 @@
     @apply bg-background text-foreground font-serif antialiased;
     font-size: 1.0625rem;
     /* soft watercolour washes, echoing the printed card */
+    /* die-cast backing card: blue glow, sunburst rays and halftone dots */
     background-image:
-      radial-gradient(40rem 28rem at 8% 4%, rgb(var(--c-brand) / 0.16), transparent 70%),
-      radial-gradient(36rem 30rem at 96% 30%, rgb(37 99 235 / 0.12), transparent 70%),
-      radial-gradient(30rem 26rem at 12% 78%, rgb(var(--c-bloom) / 0.07), transparent 70%),
-      /* comic halftone dots */
-      radial-gradient(rgb(var(--c-bloom) / 0.07) 1.2px, transparent 1.6px);
-    background-size: auto, auto, auto, 14px 14px;
+      radial-gradient(48rem 34rem at 50% 0%, rgb(31 107 255 / 0.55), transparent 70%),
+      radial-gradient(36rem 30rem at 100% 40%, rgb(var(--c-brand) / 0.12), transparent 70%),
+      repeating-conic-gradient(from 0deg at 50% 0%, rgb(255 255 255 / 0.035) 0 5deg, transparent 5deg 13deg),
+      radial-gradient(rgb(255 255 255 / 0.05) 1.2px, transparent 1.6px);
+    background-size: auto, auto, auto, 16px 16px;
     background-attachment: fixed;
   }
 }
@@ -67,7 +67,7 @@
     line-height: 0.95;
     letter-spacing: 0.02em;
     /* comic-book outline */
-    text-shadow: 3px 3px 0 rgb(0 0 0 / 0.6);
+    text-shadow: 3px 3px 0 #020818, 0 0 18px rgb(var(--c-brand) / 0.35);
   }
   .paper {
     background-color: rgb(var(--c-soft) / 0.78);
