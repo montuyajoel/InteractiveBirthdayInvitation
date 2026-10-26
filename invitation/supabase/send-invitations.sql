@@ -1,4 +1,4 @@
--- Registrations project (rgicukixlxexgzcxgvqg): tracks which guests have been
+-- Registrations project: tracks which guests have been
 -- emailed their invitation. Run AFTER guest-list.sql. Safe to re-run, and it
 -- doesn't touch the hosts' password.
 

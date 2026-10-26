@@ -1,8 +1,9 @@
+import { EVENT } from "@/config"
 import type { Registration } from "@/lib/registrations"
 
 // Remembers who's using this device so they don't have to retype their name.
-const ME_KEY = "chelsea16.me"
-const UPLOADER_KEY = "chelsea16.uploader"
+const ME_KEY = `${EVENT.id}.me`
+const UPLOADER_KEY = `${EVENT.id}.uploader`
 
 function read<T>(key: string): T | null {
   try {

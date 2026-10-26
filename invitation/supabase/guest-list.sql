@@ -1,4 +1,4 @@
--- Registrations project (rgicukixlxexgzcxgvqg): password-protected guest list.
+-- Registrations project: password-protected guest list.
 -- Paste into Supabase → SQL Editor → New query, REPLACE  YOUR_PASSWORD  below
 -- with the hosts' password, then Run. Re-run any time to change the password.
 --

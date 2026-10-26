@@ -8,15 +8,19 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        script: ['"Allura"', "cursive"],
-        serif: ['"Cormorant Garamond"', "Georgia", "serif"],
+        script: ["var(--font-script)", "cursive"],
+        serif: ["var(--font-serif)", "Georgia", "serif"],
       },
       colors: {
-        plum: "#5c3a63",
-        mauve: "#9a6aa0",
-        lilac: "#e9dcf0",
-        blush: "#f6dde8",
-        paper: "#fbf6fb",
+        // Role colours from src/theme.ts (applied as CSS variables in main.tsx)
+        ink: "rgb(var(--c-ink) / <alpha-value>)",
+        brand: "rgb(var(--c-brand) / <alpha-value>)",
+        soft: "rgb(var(--c-soft) / <alpha-value>)",
+        highlight: "rgb(var(--c-highlight) / <alpha-value>)",
+        paper: "rgb(var(--c-paper) / <alpha-value>)",
+        night: "rgb(var(--c-night) / <alpha-value>)",
+        foliage: "rgb(var(--c-foliage) / <alpha-value>)",
+        bloom: "rgb(var(--c-bloom) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -38,13 +42,13 @@ module.exports = {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         card: {
           DEFAULT: "hsl(var(--card))",
@@ -78,8 +82,38 @@ module.exports = {
           "15%": { opacity: "1" },
           "100%": { transform: "translate(var(--dx), -220px) scale(1.1) rotate(var(--rot))", opacity: "0" },
         },
+        bob: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        wiggle: {
+          "0%, 86%, 100%": { transform: "rotate(0)" },
+          "89%": { transform: "rotate(-2.5deg)" },
+          "93%": { transform: "rotate(2.5deg)" },
+          "96%": { transform: "rotate(-1.5deg)" },
+        },
+        thwip: {
+          "0%": { transform: "scale(0.2) rotate(-20deg)", opacity: "0" },
+          "25%": { transform: "scale(1.15) rotate(4deg)", opacity: "1" },
+          "45%": { transform: "scale(1) rotate(0)", opacity: "1" },
+          "100%": { transform: "scale(1.25) rotate(0)", opacity: "0" },
+        },
+        burst: {
+          "0%": { transform: "translate(0, 0) scale(0.3)", opacity: "1" },
+          "70%": { opacity: "1" },
+          "100%": { transform: "translate(var(--dx), var(--dy)) scale(1) rotate(var(--rot))", opacity: "0" },
+        },
+        sheen: {
+          "0%": { transform: "translateX(0) skewX(-20deg)" },
+          "100%": { transform: "translateX(400%) skewX(-20deg)" },
+        },
       },
       animation: {
+        bob: "bob 3s ease-in-out infinite",
+        wiggle: "wiggle 4s ease-in-out infinite",
+        thwip: "thwip 1.1s ease-out forwards",
+        burst: "burst 1.2s cubic-bezier(.15,.7,.3,1) forwards",
+        sheen: "sheen 1.2s ease-in-out 0.6s both",
         flutter: "flutter 0.6s ease-in-out infinite",
         drift: "drift 7s ease-in-out infinite",
         "float-up": "float-up 1.8s ease-out forwards",

@@ -2,94 +2,113 @@ import { cn } from "@/lib/utils"
 
 type Props = { className?: string; style?: React.CSSProperties }
 
-export function Butterfly({ className, style, flutter = true }: Props & { flutter?: boolean }) {
-  return (
-    <svg viewBox="0 0 64 48" className={cn("text-mauve", className)} style={style} aria-hidden>
-      <g className={cn(flutter && "animate-flutter")} style={{ transformOrigin: "32px 24px" }}>
-        <path
-          d="M32 24C26 8 8 6 10 17c2 8 13 9 22 7zM32 24c6-16 24-18 22-7-2 8-13 9-22 7zM32 24c-6 4-15 13-9 16 4 2 8-6 9-16zM32 24c6 4 15 13 9 16-4 2-8-6-9-16z"
-          fill="currentColor"
-          fillOpacity=".12"
-          stroke="currentColor"
-          strokeWidth="1.3"
-          strokeLinejoin="round"
-        />
-      </g>
-      <path d="M32 17v16M32 17l-3-5M32 17l3-5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" fill="none" />
-    </svg>
-  )
-}
+// Spider-hero motif: webs, little spiders and comic-book bursts.
+// The old template names (Butterfly, Heart, Sparkle, BabysBreath, HeartRule)
+// are kept as aliases at the bottom so the section components work unchanged.
 
-export function Heart({ className, style, filled = false }: Props & { filled?: boolean }) {
-  return (
-    <svg viewBox="0 0 24 24" className={cn("text-mauve", className)} style={style} aria-hidden>
-      <path
-        d="M12 20.5s-7.5-4.6-7.5-10.2C4.5 7.4 6.6 5.5 9 5.5c1.4 0 2.5.7 3 1.7.5-1 1.6-1.7 3-1.7 2.4 0 4.5 1.9 4.5 4.8 0 5.6-7.5 10.2-7.5 10.2z"
-        fill={filled ? "currentColor" : "none"}
-        fillOpacity={filled ? 0.55 : 0}
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-export function Sparkle({ className, style }: Props) {
-  return (
-    <svg viewBox="0 0 24 24" className={cn("text-mauve", className)} style={style} aria-hidden>
-      <path d="M12 2c.6 5 2.4 7.4 8 10-5.6 2.6-7.4 5-8 10-.6-5-2.4-7.4-8-10 5.6-2.6 7.4-5 8-10z" fill="none" stroke="currentColor" strokeWidth="1.2" />
-    </svg>
-  )
-}
-
-const BLOOMS: [number, number, number][] = [
-  [30, 30, 7], [52, 18, 6], [70, 40, 8], [24, 62, 6], [88, 22, 5], [96, 56, 7], [48, 52, 5], [76, 74, 6], [40, 86, 7], [110, 38, 5],
+const LEGS = [
+  // [hip x, hip y, knee x, knee y, foot x, foot y] for the left side; mirrored for the right
+  [10.4, 10.5, 6.5, 7, 5, 2.5],
+  [10, 12, 5, 10.5, 2.5, 8.5],
+  [10, 13.5, 5, 15, 2.5, 17.5],
+  [10.4, 15, 6.5, 18.5, 5, 22],
 ]
 
-/** A sprig of baby's breath, like the sprays framing the printed card. */
-export function BabysBreath({ className, style }: Props) {
+/** A spider emblem, like the one on a hero's chest. */
+export function SpiderEmblem({
+  className,
+  filled = false,
+  ...svg
+}: React.SVGProps<SVGSVGElement> & { filled?: boolean }) {
   return (
-    <svg viewBox="0 0 130 200" className={className} style={style} aria-hidden>
-      <g fill="none" stroke="#b5ab78" strokeWidth="1" strokeLinecap="round" opacity=".8">
-        <path d="M60 198C58 160 54 120 48 86" />
-        <path d="M58 150C40 120 30 90 30 30" />
-        <path d="M56 130C70 100 80 60 88 22" />
-        <path d="M52 110C30 90 24 70 24 62" />
-        <path d="M57 120C80 90 96 70 96 56" />
-        <path d="M48 86C50 60 52 40 52 18" />
-        <path d="M54 112C60 96 70 60 70 40" />
-        <path d="M58 160C70 120 76 90 76 74" />
-        <path d="M52 140C44 110 40 96 40 86" />
-        <path d="M62 140C90 100 106 60 110 38" />
-        <path d="M50 120C50 90 48 60 48 52" />
+    <svg viewBox="0 0 24 24" className={cn("text-brand", className)} aria-hidden {...svg}>
+      <g stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        {LEGS.map(([hx, hy, kx, ky, fx, fy], i) => (
+          <g key={i}>
+            <path d={`M${hx} ${hy}L${kx} ${ky}L${fx} ${fy}`} />
+            <path d={`M${24 - hx} ${hy}L${24 - kx} ${ky}L${24 - fx} ${fy}`} />
+          </g>
+        ))}
       </g>
-      {BLOOMS.map(([x, y, r], i) => (
-        <g key={i}>
-          {[0, 72, 144, 216, 288].map((a) => (
-            <circle
-              key={a}
-              cx={x + Math.cos((a * Math.PI) / 180) * r * 0.55}
-              cy={y + Math.sin((a * Math.PI) / 180) * r * 0.55}
-              r={r * 0.5}
-              fill="#fff"
-              stroke="#e7c3d6"
-              strokeWidth=".8"
-            />
-          ))}
-          <circle cx={x} cy={y} r={r * 0.25} fill="#f0b9cf" />
-        </g>
-      ))}
+      <circle cx="12" cy="8.4" r="1.9" fill="currentColor" fillOpacity={filled ? 1 : 0.25} stroke="currentColor" strokeWidth="1" />
+      <ellipse cx="12" cy="14.2" rx="2.6" ry="4" fill="currentColor" fillOpacity={filled ? 1 : 0.25} stroke="currentColor" strokeWidth="1" />
     </svg>
   )
 }
 
-export function HeartRule({ className }: { className?: string }) {
+/** A little spider dangling from a thread of web; bobs gently. */
+export function HangingSpider({ className, style }: Props & { flutter?: boolean }) {
   return (
-    <div className={cn("flex items-center gap-3 text-mauve", className)} aria-hidden>
-      <span className="h-px w-16 bg-mauve/50" />
-      <Heart className="h-5 w-5" />
-      <span className="h-px w-16 bg-mauve/50" />
+    <svg viewBox="0 0 48 64" className={cn("overflow-visible text-ink", className)} style={style} aria-hidden>
+      <path d="M24 -40V36" stroke="rgb(var(--c-foliage))" strokeWidth="1" />
+      <g className="animate-bob" style={{ transformOrigin: "24px 0" }}>
+        <SpiderEmblem x="12" y="32" width="24" height="24" filled className="text-ink" />
+      </g>
+    </svg>
+  )
+}
+
+/** A spiky comic-book "POW" burst. */
+export function ComicBurst({ className, style }: Props) {
+  const pts = Array.from({ length: 16 }, (_, i) => {
+    const a = (i * Math.PI) / 8 - Math.PI / 2
+    const r = i % 2 ? 6 : 11.5
+    return `${(12 + Math.cos(a) * r).toFixed(2)},${(12 + Math.sin(a) * r).toFixed(2)}`
+  }).join(" ")
+  return (
+    <svg viewBox="0 0 24 24" className={cn("text-brand", className)} style={style} aria-hidden>
+      <polygon points={pts} fill="#ffd23f" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+/** A spider web, drawn from spokes and sagging rings, with a spider on a thread. */
+export function SpiderWeb({ className, style, spider = true }: Props & { spider?: boolean }) {
+  const cx = 65
+  const cy = 80
+  const spokes = Array.from({ length: 10 }, (_, i) => (i * 2 * Math.PI) / 10 + 0.2)
+  const rings = [12, 24, 37, 50, 62]
+  const pt = (a: number, r: number) => [cx + Math.cos(a) * r, cy + Math.sin(a) * r]
+  return (
+    <svg viewBox="0 0 130 200" className={className} style={style} aria-hidden>
+      <g fill="none" style={{ stroke: "rgb(var(--c-foliage))" }} strokeWidth="1" strokeLinecap="round" opacity=".75">
+        {spokes.map((a, i) => {
+          const [x, y] = pt(a, 68)
+          return <path key={i} d={`M${cx} ${cy}L${x.toFixed(1)} ${y.toFixed(1)}`} />
+        })}
+        {rings.map((r) => (
+          <path
+            key={r}
+            d={spokes
+              .map((a, i) => {
+                const b = spokes[(i + 1) % spokes.length]
+                const [x1, y1] = pt(a, r)
+                const [x2, y2] = pt(b, r)
+                const [qx, qy] = pt((a + b + (i === spokes.length - 1 ? 2 * Math.PI : 0)) / 2, r * 0.82)
+                return `${i === 0 ? `M${x1.toFixed(1)} ${y1.toFixed(1)}` : ""}Q${qx.toFixed(1)} ${qy.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`
+              })
+              .join("")}
+          />
+        ))}
+      </g>
+      {spider && (
+        <>
+          <path d={`M${cx + 20} ${cy + 30}V170`} style={{ stroke: "rgb(var(--c-foliage))" }} strokeWidth="1" />
+          <g className="animate-bob" style={{ transformOrigin: `${cx + 20}px ${cy + 30}px` }}>
+            <SpiderEmblem x={cx + 9} y="164" width="22" height="22" filled className="text-brand" />
+          </g>
+        </>
+      )}
+    </svg>
+  )
+}
+
+export function WebRule({ className }: { className?: string }) {
+  return (
+    <div className={cn("flex items-center gap-3 text-brand", className)} aria-hidden>
+      <span className="h-px w-16 bg-gradient-to-r from-transparent to-brand/70" />
+      <SpiderEmblem className="h-6 w-6" filled />
+      <span className="h-px w-16 bg-gradient-to-l from-transparent to-brand/70" />
     </div>
   )
 }
@@ -110,3 +129,10 @@ export function SectionTitle({
     </div>
   )
 }
+
+// Template names used by the section components.
+export const Butterfly = HangingSpider
+export const Heart = SpiderEmblem
+export const Sparkle = ComicBurst
+export const BabysBreath = SpiderWeb
+export const HeartRule = WebRule

@@ -103,7 +103,7 @@ export function PhotoUpload({ guestName, className }: { guestName?: string; clas
   return (
     <div className={cn("text-left", className)}>
       <p className="eyebrow text-center">Share your photos</p>
-      <p className="mx-auto mt-2 max-w-sm text-center italic text-plum/80">
+      <p className="mx-auto mt-2 max-w-sm text-center italic text-ink/80">
         Add your favourite snaps for the gallery. We'll shrink them for you before they upload.
       </p>
 
@@ -123,7 +123,7 @@ export function PhotoUpload({ guestName, className }: { guestName?: string; clas
               setName(e.target.value)
               if (e.target.value.trim()) setNameError(false)
             }}
-            className="mt-1 rounded-none border-0 border-b border-mauve/40 bg-transparent px-0 text-lg shadow-none placeholder:italic placeholder:text-mauve/50 focus-visible:border-mauve focus-visible:ring-0"
+            className="mt-1 rounded-none border-0 border-b border-brand/40 bg-transparent px-0 text-lg shadow-none placeholder:italic placeholder:text-brand/50 focus-visible:border-brand focus-visible:ring-0"
           />
           {nameError && <p className="mt-1 text-sm text-destructive">Please tell us your name first.</p>}
         </div>
@@ -144,8 +144,8 @@ export function PhotoUpload({ guestName, className }: { guestName?: string; clas
           handleFiles(e.dataTransfer.files)
         }}
         className={cn(
-          "mt-5 flex cursor-pointer flex-col items-center gap-2 border border-dashed px-4 py-7 text-center text-mauve transition",
-          dragging ? "border-mauve bg-blush/50" : "border-mauve/45 bg-white/50 hover:bg-blush/30",
+          "mt-5 flex cursor-pointer flex-col items-center gap-2 border border-dashed px-4 py-7 text-center text-brand transition",
+          dragging ? "border-brand bg-highlight/50" : "border-brand/45 bg-white/50 hover:bg-highlight/30",
         )}
       >
         <ImagePlus className="h-7 w-7" strokeWidth={1.3} aria-hidden />
@@ -165,7 +165,7 @@ export function PhotoUpload({ guestName, className }: { guestName?: string; clas
         <>
           <ul className="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-4">
             {items.map((it) => (
-              <li key={it.id} className="relative bg-white p-1 shadow-sm ring-1 ring-mauve/15">
+              <li key={it.id} className="relative bg-white p-1 shadow-sm ring-1 ring-brand/15">
                 <img
                   src={it.preview}
                   alt=""
@@ -179,9 +179,9 @@ export function PhotoUpload({ guestName, className }: { guestName?: string; clas
                   title={it.error ?? it.name}
                 >
                   {it.status === "resizing" || it.status === "uploading" ? (
-                    <Loader2 className="h-6 w-6 animate-spin text-plum" aria-label={it.status} />
+                    <Loader2 className="h-6 w-6 animate-spin text-ink" aria-label={it.status} />
                   ) : it.status === "done" ? (
-                    <span className="grid h-6 w-6 place-items-center rounded-full bg-mauve text-white">
+                    <span className="grid h-6 w-6 place-items-center rounded-full bg-brand text-white">
                       <Check className="h-4 w-4" aria-label="Uploaded" />
                     </span>
                   ) : (
@@ -191,7 +191,7 @@ export function PhotoUpload({ guestName, className }: { guestName?: string; clas
                   )}
                 </span>
                 {it.size !== undefined && it.status !== "error" && (
-                  <span className="absolute bottom-1 left-1 bg-white/85 px-1 text-[0.6rem] tabular-nums text-plum">
+                  <span className="absolute bottom-1 left-1 bg-white/85 px-1 text-[0.6rem] tabular-nums text-ink">
                     {formatSize(it.size)}
                   </span>
                 )}
@@ -200,9 +200,9 @@ export function PhotoUpload({ guestName, className }: { guestName?: string; clas
           </ul>
           <div className="mt-3 space-y-1 text-center text-sm" aria-live="polite">
             {busy ? (
-              <p className="italic text-mauve">Uploading…</p>
+              <p className="italic text-brand">Uploading…</p>
             ) : doneCount > 0 ? (
-              <p className="italic text-mauve">
+              <p className="italic text-brand">
                 {doneCount} photo{doneCount === 1 ? "" : "s"} shared. Thank you!{" "}
                 <a href="#gallery" className="underline underline-offset-4">
                   See the gallery

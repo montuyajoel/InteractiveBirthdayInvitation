@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Check, Copy, MapPin, Navigation, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { EVENT } from "@/config"
-import { eventTimeLabel } from "./Hero"
+import { COPY, fill } from "@/lib/copy"
 import { Butterfly, SectionTitle } from "./Decor"
 
 const q = encodeURIComponent(EVENT.mapsQuery)
@@ -28,7 +28,7 @@ export function Directions() {
         <SectionTitle eyebrow="Finding your way" title="How to get there" />
 
         <div className="mt-12 grid gap-10 md:grid-cols-[1.45fr_1fr] md:gap-14">
-          <div className="relative bg-white p-2 shadow-[0_30px_60px_-40px_rgb(92_58_99/0.7)] ring-1 ring-mauve/20">
+          <div className="relative bg-white p-2 shadow-[0_30px_60px_-40px_rgb(var(--c-ink)/0.7)] ring-1 ring-brand/20">
             <iframe
               title={`Map showing ${EVENT.venue}`}
               src={embedUrl}
@@ -42,10 +42,10 @@ export function Directions() {
 
           <div className="flex flex-col">
             <div className="flex items-start gap-3">
-              <MapPin className="mt-1 h-6 w-6 shrink-0 text-mauve" aria-hidden />
+              <MapPin className="mt-1 h-6 w-6 shrink-0 text-brand" aria-hidden />
               <div>
                 <p className="eyebrow">The venue</p>
-                <p className="mt-1 text-3xl text-plum">{EVENT.venue}</p>
+                <p className="mt-1 text-3xl text-ink">{EVENT.venue}</p>
               </div>
             </div>
 
@@ -59,7 +59,7 @@ export function Directions() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="justify-start gap-3 rounded-none border-mauve/50 bg-transparent uppercase tracking-[0.18em] text-plum hover:bg-white/60"
+                className="justify-start gap-3 rounded-none border-brand/50 bg-transparent uppercase tracking-[0.18em] text-ink hover:bg-white/60"
               >
                 <a href={EVENT.mapsShareUrl} target="_blank" rel="noreferrer">
                   <ExternalLink /> Open pinned location
@@ -69,15 +69,15 @@ export function Directions() {
                 size="lg"
                 variant="ghost"
                 onClick={copyVenue}
-                className="justify-start gap-3 rounded-none uppercase tracking-[0.18em] text-mauve hover:bg-blush/60 hover:text-plum"
+                className="justify-start gap-3 rounded-none uppercase tracking-[0.18em] text-brand hover:bg-highlight/60 hover:text-ink"
               >
                 {copied ? <Check /> : <Copy />} {copied ? "Copied!" : "Copy location link"}
               </Button>
             </div>
 
             <div className="mt-auto pt-10">
-              <p className="border-l-2 border-mauve/50 pl-4 text-lg italic text-plum/90">
-                Please arrive a little before {eventTimeLabel} so we're all in place when the birthday girl walks in.
+              <p className="border-l-2 border-brand/50 pl-4 text-lg italic text-ink/90">
+                {fill(COPY.arriveTip)}
               </p>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { REGISTRATIONS } from "@/config"
+import { EVENT, REGISTRATIONS } from "@/config"
 import { isConfigured, supabaseHeaders, supabaseUrl } from "@/lib/supabase"
 
 export const registrationsConnected = isConfigured(REGISTRATIONS)
@@ -12,7 +12,7 @@ export type Registration = {
 
 export class AlreadyRegisteredError extends Error {}
 
-const LOCAL_KEY = "chelsea16.registrations"
+const LOCAL_KEY = `${EVENT.id}.registrations`
 
 export async function submitRegistration(r: Registration): Promise<void> {
   if (registrationsConnected) {
