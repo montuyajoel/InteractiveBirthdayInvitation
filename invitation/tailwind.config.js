@@ -92,7 +92,7 @@ module.exports = {
           "93%": { transform: "rotate(2.5deg)" },
           "96%": { transform: "rotate(-1.5deg)" },
         },
-        thwip: {
+        pop: {
           "0%": { transform: "scale(0.2) rotate(-20deg)", opacity: "0" },
           "25%": { transform: "scale(1.15) rotate(4deg)", opacity: "1" },
           "45%": { transform: "scale(1) rotate(0)", opacity: "1" },
@@ -103,6 +103,20 @@ module.exports = {
           "70%": { opacity: "1" },
           "100%": { transform: "translate(var(--dx), var(--dy)) scale(1) rotate(var(--rot))", opacity: "0" },
         },
+        light: {
+          "0%": { backgroundColor: "#2a0606", boxShadow: "none" },
+          "100%": { backgroundColor: "#ff1f1f", boxShadow: "0 0 14px 3px rgb(255 31 31 / 0.75)" },
+        },
+        rev: {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "25%": { transform: "translate(-1px, 1px)" },
+          "75%": { transform: "translate(1px, -1px)" },
+        },
+        streak: {
+          "0%": { transform: "scaleX(0)", opacity: "0" },
+          "30%": { transform: "scaleX(1)", opacity: "1" },
+          "100%": { transform: "scaleX(0.2) translateY(40px)", opacity: "0" },
+        },
         sheen: {
           "0%": { transform: "translateX(0) skewX(-20deg)" },
           "100%": { transform: "translateX(400%) skewX(-20deg)" },
@@ -111,8 +125,11 @@ module.exports = {
       animation: {
         bob: "bob 3s ease-in-out infinite",
         wiggle: "wiggle 4s ease-in-out infinite",
-        thwip: "thwip 1.1s ease-out forwards",
+        pop: "pop 1.1s ease-out forwards",
         burst: "burst 1.2s cubic-bezier(.15,.7,.3,1) forwards",
+        light: "light 0.12s ease-out both",
+        rev: "rev 0.09s linear infinite",
+        streak: "streak 0.7s ease-out both",
         sheen: "sheen 1.2s ease-in-out 0.6s both",
         flutter: "flutter 0.6s ease-in-out infinite",
         drift: "drift 7s ease-in-out infinite",

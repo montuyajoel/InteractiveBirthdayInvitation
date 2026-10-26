@@ -32,38 +32,38 @@ export const EVENT = {
 // Wrap text in ^…^ for a superscript in titles: "16^th^ Birthday".
 // Set `surprise: false` for events that aren't a secret; the "Shhh" bits hide.
 export const COPY = {
-  pageTitle: "Chase turns 8 · Spider-Verse Birthday",
-  metaDescription: "Calling all heroes! Swing by for Chase's 8th birthday on December 12.",
+  pageTitle: "Chase turns 8 · Supercar Birthday",
+  metaDescription: "Start your engines! Race over to Chase's 8th birthday on December 12.",
   logo: "Chase",
   logoAccent: "8", // shown after the logo in the brand colour; "" for none
-  invitedLine: "Calling all heroes!",
+  invitedLine: "Start your engines!",
   kicker: "Chase is turning", // spaced capitals above the title; "" to hide
   title: "8^th^ Birthday",
-  celebrationFor: "Swing by and celebrate with",
-  intro: "Suit up and swing on over! Join us for games, cake and web-slinging fun as our favourite superhero, {name}, turns 8.",
+  celebrationFor: "Race on over and celebrate with",
+  intro: "Buckle up and race on over! Join us for games, cake and full-throttle fun as our favourite little racer, {name}, turns 8.",
   eventTitle: "Chase's 8th Birthday", // calendar entries, email subject
   footerSignature: "Chase · 8",
-  footerLine: "Thanks for being part of {name}'s hero squad!",
+  footerLine: "Thanks for joining {name}'s pit crew!",
 
   surprise: false,
   surpriseHeadline: "Shhh… it's a surprise!",
   surpriseNote: "Please don't mention the party to {name}, and hold off on posting until after the big reveal.",
   surpriseReminder: "Remember: not a word to {name}!",
-  saveTheDate: "Mission starts in", // countdown headline when surprise is false
+  saveTheDate: "Race starts in", // countdown headline when surprise is false
 
-  rsvpEyebrow: "Join the hero squad",
+  rsvpEyebrow: "Join the pit crew",
   rsvpTitle: "Save your spot",
-  rsvpIntro: "Let us know you're coming so we can save you a spot, and leave a birthday message for our little superhero {name}.",
+  rsvpIntro: "Let us know you're coming so we can save you a spot on the grid, and leave a birthday message for our little racer {name}.",
   wishLabel: "Birthday message for Chase",
   wishPlaceholder: "Happy birthday, Chase! …",
   wishRequired: "Leave a little message for {name}",
-  thankYou: "You're on the hero squad! See you on {date}.",
+  thankYou: "You're on the grid! See you on {date}.",
 
-  arriveTip: "The fun starts at {time}. Costumes and spidey-suits are very welcome!",
-  arriveByNote: "So you're suited up before the mission begins", // under "Arrive by" in the email
+  arriveTip: "The race starts at {time}. Racing tees and car costumes are very welcome!",
+  arriveByNote: "So you're on the grid before the lights go out", // under "Arrive by" in the email
 
   emailFromName: "Chase's 8th Birthday",
-  emailIntro: "Your spot is confirmed! Thanks for joining the hero squad. We can't wait to celebrate Chase's 8th birthday with you.",
+  emailIntro: "Your spot is confirmed! Thanks for joining the pit crew. We can't wait to celebrate Chase's 8th birthday with you.",
   emailWishLabel: "Your message for Chase",
 }
 

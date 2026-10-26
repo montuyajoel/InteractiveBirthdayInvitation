@@ -122,32 +122,42 @@ const MOTIFS: Record<string, string> = {
   balloons: `<ellipse cx="115" cy="110" rx="38" ry="46" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
     <ellipse cx="185" cy="95" rx="38" ry="46" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>
     <path d="M115 156 q10 40 -4 80 M185 141 q-12 50 6 95" fill="none" stroke="${C.brand}" stroke-width="2"/>`,
-  web: `<g fill="none" stroke="${C.foliage}" stroke-width="2.5">${Array.from({ length: 10 }, (_, i) => {
-    const t = (i * Math.PI) / 5
-    return `<path d="M150 140 L${(150 + Math.cos(t) * 130).toFixed(0)} ${(140 + Math.sin(t) * 130).toFixed(0)}"/>`
-  }).join("")}${[30, 60, 90, 120].map((r) => `<circle cx="150" cy="140" r="${r}" stroke-dasharray="6 4"/>`).join("")}</g>`,
-  skyline: `<g fill="${C.ink}"><rect x="40" y="130" width="40" height="110"/><rect x="85" y="90" width="34" height="150"/><rect x="124" y="60" width="44" height="180"/><rect x="173" y="110" width="36" height="130"/><rect x="214" y="80" width="42" height="160"/></g>
-    <g fill="#ffd23f">${[[95, 110], [135, 80], [150, 120], [185, 130], [225, 100], [50, 150], [228, 140]].map(([x, y]) => `<rect x="${x}" y="${y}" width="8" height="10"/>`).join("")}</g>
-    <path d="M60 40 Q150 120 260 30" fill="none" stroke="${C.foliage}" stroke-width="2"/>`,
+  car: `<g transform="translate(10 90) scale(1.4)"><path d="M4 26L22 24V29L6 30Z" fill="${C.ink}"/><path d="M6 46V36Q8 31 22 30L62 27Q88 12 118 12Q138 12 160 25L190 31Q197 34 196 42L194 46H171A13 13 0 0 0 145 46H61A13 13 0 0 0 35 46Z" fill="${C.brand}" stroke="${C.ink}" stroke-width="1.5"/>
+    <path d="M70 27Q90 16 116 16Q132 16 150 26Z" fill="${C.ink}"/><path d="M80 39L112 33L106 42Z" fill="${C.ink}"/><path d="M14 36H60M150 34H188" stroke="${C.bloom}" stroke-width="3"/>
+    <circle cx="48" cy="46" r="11" fill="${C.ink}"/><circle cx="48" cy="46" r="5.5" fill="#d7dbe2"/><circle cx="158" cy="46" r="11" fill="${C.ink}"/><circle cx="158" cy="46" r="5.5" fill="#d7dbe2"/></g>
+    <path d="M10 200H290" stroke="${C.foliage}" stroke-width="3" stroke-dasharray="18 12"/>`,
+  flag: `<path d="M70 40V250" stroke="${C.foliage}" stroke-width="6" stroke-linecap="round"/>
+    <g>${Array.from({ length: 30 }, (_, i) => {
+      const x = i % 6
+      const y = Math.floor(i / 6)
+      return `<rect x="${72 + x * 26}" y="${48 + y * 26 + Math.sin(x) * 8}" width="26" height="26" fill="${(x + y) % 2 ? "#fff" : C.ink}"/>`
+    }).join("")}</g>`,
+  trophy: `<path d="M105 60h90v40c0 34-20 56-45 56s-45-22-45-56z" fill="${C.bloom}" stroke="${C.ink}" stroke-width="4"/>
+    <path d="M105 72H80c0 30 14 42 30 44M195 72h25c0 30-14 42-30 44" fill="none" stroke="${C.ink}" stroke-width="4"/>
+    <rect x="138" y="156" width="24" height="34" fill="${C.bloom}" stroke="${C.ink}" stroke-width="4"/><rect x="110" y="190" width="80" height="22" rx="4" fill="${C.ink}"/>
+    <text x="150" y="118" text-anchor="middle" font-family="Impact, sans-serif" font-size="44" fill="${C.brand}">8</text>`,
+  wheel: `<circle cx="150" cy="140" r="96" fill="${C.ink}"/><circle cx="150" cy="140" r="60" fill="#d7dbe2" stroke="${C.brand}" stroke-width="6"/>
+    <g stroke="${C.ink}" stroke-width="12" stroke-linecap="round">${[0, 72, 144, 216, 288]
+      .map((d) => {
+        const r = ((d - 90) * Math.PI) / 180
+        return `<path d="M${(150 + Math.cos(r) * 16).toFixed(0)} ${(140 + Math.sin(r) * 16).toFixed(0)}L${(150 + Math.cos(r) * 54).toFixed(0)} ${(140 + Math.sin(r) * 54).toFixed(0)}"/>`
+      })
+      .join("")}</g><circle cx="150" cy="140" r="14" fill="${C.brand}"/>`,
   burst: `<polygon points="${Array.from({ length: 16 }, (_, i) => {
     const t = (i * Math.PI) / 8
     const r = i % 2 ? 55 : 105
     return `${(150 + Math.cos(t) * r).toFixed(0)},${(140 + Math.sin(t) * r).toFixed(0)}`
-  }).join(" ")}" fill="#ffd23f" stroke="${C.brand}" stroke-width="4"/>
-    <text x="150" y="156" text-anchor="middle" font-family="Impact, sans-serif" font-size="46" fill="${C.brand}" transform="rotate(-10 150 140)">POW!</text>`,
-  spider: `<path d="M150 0 V80" stroke="${C.foliage}" stroke-width="2"/>
-    <g stroke="${C.ink}" stroke-width="6" stroke-linecap="round" fill="none">
-      <path d="M135 115 L95 80 L80 40 M165 115 L205 80 L220 40 M132 130 L80 115 L55 95 M168 130 L220 115 L245 95 M132 145 L80 160 L55 185 M168 145 L220 160 L245 185 M135 160 L95 195 L80 235 M165 160 L205 195 L220 235"/></g>
-    <circle cx="150" cy="100" r="18" fill="${C.ink}"/><ellipse cx="150" cy="150" rx="26" ry="40" fill="${C.brand}"/>`,
+  }).join(" ")}" fill="${C.bloom}" stroke="${C.brand}" stroke-width="4"/>
+    <text x="150" y="156" text-anchor="middle" font-family="Impact, sans-serif" font-size="40" fill="${C.brand}" transform="rotate(-10 150 140)">VROOM!</text>`,
 }
 
 const SAMPLES: { motif: keyof typeof MOTIFS; caption: string; w: number; h: number; tint: string }[] = [
   { motif: "cake", caption: "Birthday cake", w: 300, h: 380, tint: C.highlight },
-  { motif: "spider", caption: "Friendly neighbourhood spider", w: 300, h: 300, tint: C.soft },
-  { motif: "burst", caption: "Pow!", w: 300, h: 260, tint: C.highlight },
-  { motif: "skyline", caption: "Swinging over the city", w: 300, h: 360, tint: C.soft },
-  { motif: "web", caption: "Web-slinging fun", w: 300, h: 300, tint: C.soft },
-  { motif: "balloons", caption: "Balloons", w: 300, h: 280, tint: C.highlight },
+  { motif: "car", caption: "Supercar", w: 300, h: 300, tint: C.soft },
+  { motif: "burst", caption: "Vroom!", w: 300, h: 260, tint: C.highlight },
+  { motif: "flag", caption: "Checkered flag", w: 300, h: 360, tint: C.soft },
+  { motif: "wheel", caption: "Racing wheels", w: 300, h: 300, tint: C.soft },
+  { motif: "trophy", caption: "Champion", w: 300, h: 280, tint: C.highlight },
 ]
 
 function sampleSvg(motif: string, w: number, h: number, tint: string) {

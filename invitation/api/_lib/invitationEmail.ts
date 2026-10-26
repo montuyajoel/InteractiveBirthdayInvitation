@@ -48,7 +48,7 @@ function detailRow(label: string, value: string, sub?: string) {
 
 export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
   const first = escapeHtml(guest.first_name)
-  const subject = `Your spot on the hero squad is confirmed: ${eventTitle}`
+  const subject = `Your spot on the grid is confirmed: ${eventTitle}`
   const preheader = `See you on ${eventDateLongLabel} at ${eventTimeLabel}.${COPY.surprise ? ` ${fill(COPY.surpriseHeadline)}` : ""}`
   const site = siteUrl.replace(/\/$/, "")
 

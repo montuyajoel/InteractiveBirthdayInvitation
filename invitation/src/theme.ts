@@ -8,26 +8,26 @@
 
 export const THEME = {
   colors: {
-    ink: "#16213e", // body text, headings, primary buttons
-    brand: "#c8102e", // script titles, labels, icons, links
-    soft: "#dfe7f5", // tinted panels, skeletons, borders' fill
-    highlight: "#fde3e3", // warm wash, hover backgrounds, email call-out
-    paper: "#f8faff", // page background
-    night: "#0a0f1f", // full-screen photo viewer background
-    foliage: "#7f8fb0", // stems / leaves in floral decorations
-    bloom: "#1f4fa3", // flower centres and small accents in decorations
+    ink: "#14161c", // body text, headings, primary buttons
+    brand: "#d90f0f", // script titles, labels, icons, links
+    soft: "#e7e9ee", // tinted panels, skeletons, borders' fill
+    highlight: "#fff1c7", // warm wash, hover backgrounds, email call-out
+    paper: "#fafafa", // page background
+    night: "#0a0b0e", // full-screen photo viewer background
+    foliage: "#8b919e", // stems / leaves in floral decorations
+    bloom: "#ffc400", // flower centres and small accents in decorations
   },
   // The envelope in the hero (back, front pocket, side folds, top flap).
   envelope: {
-    back: "#1b3a7a",
-    pocket: "#c8102e",
-    sides: "#a50d26",
-    flap: "#e0243f",
+    back: "#23262e",
+    pocket: "#16181e",
+    sides: "#0e1014",
+    flap: "#2c3039",
   },
   fonts: {
-    script: "Bangers", // big decorative titles
-    serif: "Nunito", // everything else
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap",
+    script: "Racing Sans One", // big decorative titles
+    serif: "Titillium Web", // everything else
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Titillium+Web:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&display=swap",
     // Email clients can't load web fonts reliably; use a safe stack there.
     emailSerif: "Georgia, 'Times New Roman', serif",
   },

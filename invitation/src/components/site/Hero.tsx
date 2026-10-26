@@ -15,9 +15,9 @@ export function Hero() {
 
   return (
     <section id="invitation" className="relative overflow-hidden pt-24 sm:pt-28">
-      <BabysBreath className="pointer-events-none absolute -left-6 top-20 hidden w-40 opacity-90 md:block" spider={false} />
+      <BabysBreath className="pointer-events-none absolute -left-8 top-[440px] hidden w-24 opacity-90 lg:block" />
       <BabysBreath className="pointer-events-none absolute -right-4 bottom-0 w-24 -scale-x-100 opacity-90 sm:w-32" />
-      <Butterfly className="absolute right-[8%] top-24 h-10 w-12 animate-drift" />
+      <Butterfly className="absolute right-[8%] top-24 h-10 w-28 animate-drift" />
       <Sparkle className="absolute left-[46%] top-28 h-5 w-5 opacity-70" />
       <Heart className="absolute left-[2%] top-[88%] hidden h-5 w-5 opacity-60 md:block" filled />
 
@@ -34,14 +34,14 @@ export function Hero() {
               "script mt-1 text-brand",
               // big for short titles ("16th Birthday"), smaller for long ones
               plainTitle(COPY.title).length <= 16
-                ? "text-[5.5rem] sm:text-[8rem]"
-                : "text-[3.75rem] leading-[0.95] sm:text-[5.5rem]",
+                ? "text-[4.5rem] sm:text-[6.5rem]"
+                : "text-[3.25rem] leading-[0.95] sm:text-[4.5rem]",
             )}
           >
             <Title text={COPY.title} />
           </h1>
           <p className="eyebrow mt-6">{fill(COPY.celebrationFor)}</p>
-          <p className="script mt-2 text-5xl leading-[1] text-ink sm:text-6xl">
+          <p className="script mt-2 text-4xl leading-[1.05] text-ink sm:text-5xl">
             {first} <span className="text-brand">{rest.join(" ")}</span>
           </p>
           <p className="mt-2 font-serif text-lg font-bold uppercase tracking-[0.3em] text-ink/80">
