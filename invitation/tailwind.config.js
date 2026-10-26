@@ -117,6 +117,10 @@ module.exports = {
           "30%": { transform: "scaleX(1)", opacity: "1" },
           "100%": { transform: "scaleX(0.2) translateY(40px)", opacity: "0" },
         },
+        drive: {
+          "0%": { transform: "translateX(-110vw)" },
+          "100%": { transform: "translateX(110vw)" },
+        },
         sheen: {
           "0%": { transform: "translateX(0) skewX(-20deg)" },
           "100%": { transform: "translateX(400%) skewX(-20deg)" },
@@ -130,6 +134,7 @@ module.exports = {
         light: "light 0.12s ease-out both",
         rev: "rev 0.09s linear infinite",
         streak: "streak 0.7s ease-out both",
+        drive: "drive 10s linear infinite",
         sheen: "sheen 1.2s ease-in-out 0.6s both",
         flutter: "flutter 0.6s ease-in-out infinite",
         drift: "drift 7s ease-in-out infinite",

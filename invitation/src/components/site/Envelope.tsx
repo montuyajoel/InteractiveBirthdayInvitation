@@ -70,7 +70,7 @@ export function Envelope() {
       >
         {/* back of envelope */}
         <span
-          className="absolute inset-0 z-0 overflow-hidden rounded-[4px] bg-[var(--env-back)] shadow-[0_24px_50px_-18px_rgb(var(--c-ink)/0.8)]"
+          className="absolute inset-0 z-0 overflow-hidden rounded-[4px] bg-[var(--env-back)] shadow-[0_24px_60px_-18px_rgb(var(--c-brand)/0.45)] ring-1 ring-white/15"
           style={CARBON}
         />
 
@@ -108,7 +108,7 @@ export function Envelope() {
               {[18, 42, 66, 84].map((top, i) => (
                 <span key={top}>
                   <span
-                    className="absolute right-full mr-3 h-[3px] w-24 origin-right animate-streak rounded-full bg-gradient-to-l from-ink/70 to-transparent opacity-0"
+                    className="absolute right-full mr-3 h-[3px] w-24 origin-right animate-streak rounded-full bg-gradient-to-l from-white/80 to-transparent opacity-0"
                     style={{ top: `${top}%`, animationDelay: `${0.15 + i * 0.07}s` }}
                   />
                   <span
@@ -119,7 +119,7 @@ export function Envelope() {
               ))}
             </span>
           )}
-          <span className="relative block h-full w-full overflow-hidden rounded-[3px] shadow-[0_14px_34px_-10px_rgb(var(--c-ink)/0.75)] ring-2 ring-white">
+          <span className="relative block h-full w-full overflow-hidden rounded-[3px] shadow-[0_14px_34px_-10px_rgb(0_0_0/0.9)] ring-2 ring-white">
             <img src={invitationCard} alt={`Invitation: ${eventTitle}`} className="h-full w-full object-cover" />
             {open && (
               <span

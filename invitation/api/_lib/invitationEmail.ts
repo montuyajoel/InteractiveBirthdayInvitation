@@ -18,13 +18,13 @@ export type InvitationGuest = { first_name: string; last_name: string; email: st
 
 // Email clients ignore CSS variables, so the theme's hex values go in directly.
 const C = {
-  page: THEME.colors.paper,
+  page: THEME.email.page,
   card: "#ffffff",
-  ink: THEME.colors.ink,
-  brand: THEME.colors.brand,
-  soft: THEME.colors.soft,
-  highlight: THEME.colors.highlight,
-  line: THEME.colors.soft,
+  ink: THEME.email.ink,
+  brand: THEME.email.brand,
+  soft: THEME.email.soft,
+  highlight: THEME.email.highlight,
+  line: THEME.email.soft,
 }
 const SERIF = THEME.fonts.emailSerif
 
@@ -77,7 +77,7 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
       <h1 style="margin:10px 0 0;font-family:${SERIF};font-size:34px;font-weight:normal;font-style:italic;color:${C.brand};">${escapeHtml(plainTitle(COPY.title))}</h1>
       <p style="margin:8px 0 0;font-family:${SERIF};font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${C.brand};">${escapeHtml(fill(COPY.celebrationFor))}</p>
       <p style="margin:6px 0 0;font-family:${SERIF};font-size:28px;font-style:italic;color:${C.ink};">${escapeHtml(EVENT.honoree)}</p>
-      <p style="margin:14px 0 0;font-size:18px;color:${C.brand};">&#9825;</p>
+      <p style="margin:14px 0 0;font-size:18px;color:${C.brand};">&#127937;</p>
     </td></tr>
 
     <tr><td style="padding:12px 32px 0;">

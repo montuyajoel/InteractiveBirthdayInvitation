@@ -8,21 +8,22 @@
 
 export const THEME = {
   colors: {
-    ink: "#14161c", // body text, headings, primary buttons
-    brand: "#d90f0f", // script titles, labels, icons, links
-    soft: "#e7e9ee", // tinted panels, skeletons, borders' fill
-    highlight: "#fff1c7", // warm wash, hover backgrounds, email call-out
-    paper: "#fafafa", // page background
-    night: "#0a0b0e", // full-screen photo viewer background
-    foliage: "#8b919e", // stems / leaves in floral decorations
-    bloom: "#ffc400", // flower centres and small accents in decorations
+    ink: "#f4f4f5", // body text, headings, primary buttons
+    brand: "#ff2d3a", // script titles, labels, icons, links
+    soft: "#1b1c22", // tinted panels, skeletons, borders' fill
+    highlight: "#2a1416", // warm wash, hover backgrounds, email call-out
+    paper: "#08080a", // page background
+    night: "#000000", // full-screen photo viewer background
+    foliage: "#6b7280", // stems / leaves in floral decorations
+    bloom: "#ffc400",
+    button: "#d90f0f", // primary buttons (white text on it) // flower centres and small accents in decorations
   },
   // The envelope in the hero (back, front pocket, side folds, top flap).
   envelope: {
-    back: "#23262e",
-    pocket: "#16181e",
-    sides: "#0e1014",
-    flap: "#2c3039",
+    back: "#1c1e24",
+    pocket: "#131419",
+    sides: "#0c0d11",
+    flap: "#24272f",
   },
   fonts: {
     script: "Racing Sans One", // big decorative titles
@@ -32,6 +33,14 @@ export const THEME = {
     emailSerif: "Georgia, 'Times New Roman', serif",
   },
   radius: "0.375rem",
+  // The confirmation email stays light: many mail apps re-colour dark emails.
+  email: {
+    page: "#f4f4f5",
+    ink: "#15161a",
+    brand: "#c8102e",
+    soft: "#e4e4e7",
+    highlight: "#fff4cc",
+  },
 }
 
 export type Theme = typeof THEME
@@ -77,8 +86,8 @@ export function applyTheme(theme: Theme = THEME, root: HTMLElement = document.do
   set("--card-foreground", hexToHslTriplet(c.ink))
   set("--popover", hexToHslTriplet(c.paper, 2))
   set("--popover-foreground", hexToHslTriplet(c.ink))
-  set("--primary", hexToHslTriplet(c.ink))
-  set("--primary-foreground", hexToHslTriplet(c.paper, 2))
+  set("--primary", hexToHslTriplet(c.button))
+  set("--primary-foreground", hexToHslTriplet("#ffffff"))
   set("--secondary", hexToHslTriplet(c.soft))
   set("--secondary-foreground", hexToHslTriplet(c.ink))
   set("--muted", hexToHslTriplet(c.soft, 4))

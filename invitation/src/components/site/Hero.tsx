@@ -79,7 +79,7 @@ export function Hero() {
               asChild
               size="lg"
               variant="outline"
-              className="rounded-none border-brand/60 bg-transparent px-8 uppercase tracking-[0.2em] text-ink hover:bg-white/60"
+              className="rounded-none border-brand/60 bg-transparent px-8 uppercase tracking-[0.2em] text-ink hover:bg-white/10"
             >
               <a href="#directions">How to get there</a>
             </Button>

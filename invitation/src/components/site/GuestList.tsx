@@ -131,7 +131,7 @@ export function GuestList() {
             <Button
               variant="outline"
               onClick={() => setExpanded(true)}
-              className="gap-2 rounded-none border-brand/50 bg-transparent uppercase tracking-[0.18em] text-ink hover:bg-white/60"
+              className="gap-2 rounded-none border-brand/50 bg-transparent uppercase tracking-[0.18em] text-ink hover:bg-white/10"
             >
               <Users /> See who's coming
             </Button>

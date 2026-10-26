@@ -84,7 +84,7 @@ export function Gallery() {
   const total = state.status === "ready" ? state.photos.length : 0
 
   return (
-    <section id="gallery" className="relative scroll-mt-16 border-t border-brand/20 bg-white/40 py-20 sm:py-28">
+    <section id="gallery" className="relative scroll-mt-16 border-t border-brand/20 bg-white/[0.02] py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionTitle eyebrow="Moments & memories" title="Gallery" />
@@ -107,7 +107,7 @@ export function Gallery() {
           </div>
         )}
 
-        <div className="paper mx-auto mt-14 max-w-xl border border-brand/25 p-6 shadow-[0_30px_60px_-40px_rgb(var(--c-ink)/0.6)] sm:p-8">
+        <div className="paper mx-auto mt-14 max-w-xl border border-brand/25 p-6 shadow-[0_30px_60px_-40px_rgb(0_0_0/0.9)] sm:p-8">
           <PhotoUpload />
         </div>
       </div>
@@ -134,7 +134,7 @@ function Tile({ photo, index, onOpen }: { photo: Photo; index: number; onOpen: (
       type="button"
       onClick={onOpen}
       className={cn(
-        "group relative block w-full bg-white p-2 text-left shadow-[0_14px_30px_-20px_rgb(var(--c-ink)/0.6)] ring-1 ring-brand/15 transition duration-300 hover:z-10 hover:-translate-y-1 hover:rotate-0 hover:shadow-[0_24px_40px_-20px_rgb(var(--c-ink)/0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+        "group relative block w-full bg-soft p-2 text-left shadow-[0_14px_30px_-20px_rgb(0_0_0/0.9)] ring-1 ring-brand/15 transition duration-300 hover:z-10 hover:-translate-y-1 hover:rotate-0 hover:shadow-[0_24px_40px_-20px_rgb(0_0_0/0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
         photo.caption ? "pb-9" : "pb-2",
         tilt,
       )}

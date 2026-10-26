@@ -6,6 +6,7 @@ import { Gallery } from "@/components/site/Gallery"
 import { GuestList } from "@/components/site/GuestList"
 import { Header } from "@/components/site/Header"
 import { Hero } from "@/components/site/Hero"
+import { Parade } from "@/components/site/Parade"
 import { PhotosPage } from "@/components/site/PhotosPage"
 import { Rsvp } from "@/components/site/Rsvp"
 import { useRoute } from "@/lib/route"
@@ -22,6 +23,7 @@ export default function App() {
         <main>
           <Hero />
           <Countdown />
+          <Parade />
           <Rsvp />
           <Gallery />
           <Directions />

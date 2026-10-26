@@ -40,7 +40,7 @@ export const COPY = {
   kicker: "Chase is turning", // spaced capitals above the title; "" to hide
   title: "8^th^ Birthday",
   celebrationFor: "Race on over and celebrate with",
-  intro: "Buckle up and race on over! Join us for games, cake and full-throttle fun as our favourite little racer, {name}, turns 8.",
+  intro: "Buckle up and race on over! Join us for games, cake and full-throttle fun with Ferraris, Bugattis and more as our favourite little racer, {name}, turns 8.",
   eventTitle: "Chase's 8th Birthday", // calendar entries, email subject
   footerSignature: "Chase · 8",
   footerLine: "Thanks for joining {name}'s pit crew!",

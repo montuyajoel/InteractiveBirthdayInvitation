@@ -2,6 +2,7 @@ import { GALLERY } from "@/config"
 import { THEME } from "@/theme"
 import { isConfigured, supabaseHeaders, supabaseUrl } from "@/lib/supabase"
 import invitationCard from "@/assets/invitationCard"
+import { carSvg } from "@/lib/cars"
 
 export type Photo = {
   id: string
@@ -112,6 +113,7 @@ function prettify(filename: string) {
 // Sample tiles shown until the storage bucket is connected.
 
 const C = THEME.colors
+const DARK = "#111216"
 
 const MOTIFS: Record<string, string> = {
   cake: `<rect x="70" y="120" width="160" height="90" rx="10" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>
@@ -122,22 +124,24 @@ const MOTIFS: Record<string, string> = {
   balloons: `<ellipse cx="115" cy="110" rx="38" ry="46" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
     <ellipse cx="185" cy="95" rx="38" ry="46" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>
     <path d="M115 156 q10 40 -4 80 M185 141 q-12 50 6 95" fill="none" stroke="${C.brand}" stroke-width="2"/>`,
-  car: `<g transform="translate(10 90) scale(1.4)"><path d="M4 26L22 24V29L6 30Z" fill="${C.ink}"/><path d="M6 46V36Q8 31 22 30L62 27Q88 12 118 12Q138 12 160 25L190 31Q197 34 196 42L194 46H171A13 13 0 0 0 145 46H61A13 13 0 0 0 35 46Z" fill="${C.brand}" stroke="${C.ink}" stroke-width="1.5"/>
-    <path d="M70 27Q90 16 116 16Q132 16 150 26Z" fill="${C.ink}"/><path d="M80 39L112 33L106 42Z" fill="${C.ink}"/><path d="M14 36H60M150 34H188" stroke="${C.bloom}" stroke-width="3"/>
-    <circle cx="48" cy="46" r="11" fill="${C.ink}"/><circle cx="48" cy="46" r="5.5" fill="#d7dbe2"/><circle cx="158" cy="46" r="11" fill="${C.ink}"/><circle cx="158" cy="46" r="5.5" fill="#d7dbe2"/></g>
+  rosso: `<g transform="translate(10 90) scale(1.4)">${carSvg("rosso", "#9ca3af", "tile-rosso")}</g>
+    <path d="M10 200H290" stroke="${C.foliage}" stroke-width="3" stroke-dasharray="18 12"/>`,
+  bleu: `<g transform="translate(10 90) scale(1.4)">${carSvg("bleu", "#9ca3af", "tile-bleu")}</g>
+    <path d="M10 200H290" stroke="${C.foliage}" stroke-width="3" stroke-dasharray="18 12"/>`,
+  giallo: `<g transform="translate(10 90) scale(1.4)">${carSvg("giallo", "#9ca3af", "tile-giallo")}</g>
     <path d="M10 200H290" stroke="${C.foliage}" stroke-width="3" stroke-dasharray="18 12"/>`,
   flag: `<path d="M70 40V250" stroke="${C.foliage}" stroke-width="6" stroke-linecap="round"/>
     <g>${Array.from({ length: 30 }, (_, i) => {
       const x = i % 6
       const y = Math.floor(i / 6)
-      return `<rect x="${72 + x * 26}" y="${48 + y * 26 + Math.sin(x) * 8}" width="26" height="26" fill="${(x + y) % 2 ? "#fff" : C.ink}"/>`
+      return `<rect x="${72 + x * 26}" y="${48 + y * 26 + Math.sin(x) * 8}" width="26" height="26" fill="${(x + y) % 2 ? "#fff" : DARK}"/>`
     }).join("")}</g>`,
-  trophy: `<path d="M105 60h90v40c0 34-20 56-45 56s-45-22-45-56z" fill="${C.bloom}" stroke="${C.ink}" stroke-width="4"/>
-    <path d="M105 72H80c0 30 14 42 30 44M195 72h25c0 30-14 42-30 44" fill="none" stroke="${C.ink}" stroke-width="4"/>
-    <rect x="138" y="156" width="24" height="34" fill="${C.bloom}" stroke="${C.ink}" stroke-width="4"/><rect x="110" y="190" width="80" height="22" rx="4" fill="${C.ink}"/>
+  trophy: `<path d="M105 60h90v40c0 34-20 56-45 56s-45-22-45-56z" fill="${C.bloom}" stroke="${DARK}" stroke-width="4"/>
+    <path d="M105 72H80c0 30 14 42 30 44M195 72h25c0 30-14 42-30 44" fill="none" stroke="${DARK}" stroke-width="4"/>
+    <rect x="138" y="156" width="24" height="34" fill="${C.bloom}" stroke="${DARK}" stroke-width="4"/><rect x="110" y="190" width="80" height="22" rx="4" fill="${DARK}"/>
     <text x="150" y="118" text-anchor="middle" font-family="Impact, sans-serif" font-size="44" fill="${C.brand}">8</text>`,
-  wheel: `<circle cx="150" cy="140" r="96" fill="${C.ink}"/><circle cx="150" cy="140" r="60" fill="#d7dbe2" stroke="${C.brand}" stroke-width="6"/>
-    <g stroke="${C.ink}" stroke-width="12" stroke-linecap="round">${[0, 72, 144, 216, 288]
+  wheel: `<circle cx="150" cy="140" r="96" fill="${DARK}"/><circle cx="150" cy="140" r="60" fill="#d7dbe2" stroke="${C.brand}" stroke-width="6"/>
+    <g stroke="${DARK}" stroke-width="12" stroke-linecap="round">${[0, 72, 144, 216, 288]
       .map((d) => {
         const r = ((d - 90) * Math.PI) / 180
         return `<path d="M${(150 + Math.cos(r) * 16).toFixed(0)} ${(140 + Math.sin(r) * 16).toFixed(0)}L${(150 + Math.cos(r) * 54).toFixed(0)} ${(140 + Math.sin(r) * 54).toFixed(0)}"/>`
@@ -152,12 +156,12 @@ const MOTIFS: Record<string, string> = {
 }
 
 const SAMPLES: { motif: keyof typeof MOTIFS; caption: string; w: number; h: number; tint: string }[] = [
+  { motif: "rosso", caption: "Ferrari red", w: 300, h: 300, tint: C.highlight },
   { motif: "cake", caption: "Birthday cake", w: 300, h: 380, tint: C.highlight },
-  { motif: "car", caption: "Supercar", w: 300, h: 300, tint: C.soft },
-  { motif: "burst", caption: "Vroom!", w: 300, h: 260, tint: C.highlight },
+  { motif: "bleu", caption: "Bugatti blue", w: 300, h: 300, tint: C.soft },
   { motif: "flag", caption: "Checkered flag", w: 300, h: 360, tint: C.soft },
-  { motif: "wheel", caption: "Racing wheels", w: 300, h: 300, tint: C.soft },
-  { motif: "trophy", caption: "Champion", w: 300, h: 280, tint: C.highlight },
+  { motif: "giallo", caption: "Lambo yellow", w: 300, h: 300, tint: C.highlight },
+  { motif: "trophy", caption: "Champion", w: 300, h: 280, tint: C.soft },
 ]
 
 function sampleSvg(motif: string, w: number, h: number, tint: string) {

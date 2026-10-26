@@ -1,4 +1,5 @@
 import { useId } from "react"
+import { type CarModel, carSvg } from "@/lib/cars"
 import { cn } from "@/lib/utils"
 
 type Props = { className?: string; style?: React.CSSProperties }
@@ -16,44 +17,31 @@ export function Wheel({
   return (
     <svg viewBox="0 0 24 24" className={cn("text-brand", className)} aria-hidden {...svg}>
       <circle cx="12" cy="12" r="10" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6" />
-      <circle cx="12" cy="12" r="6.2" fill={filled ? "#fff" : "none"} fillOpacity={filled ? 0.9 : 0} stroke={filled ? "#fff" : "currentColor"} strokeWidth="1.1" />
+      <circle cx="12" cy="12" r="6.2" fill={filled ? "#c9ced8" : "none"} stroke={filled ? "#c9ced8" : "currentColor"} strokeWidth="1.1" />
       <g stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
         {[0, 72, 144, 216, 288].map((a) => {
           const r = ((a - 90) * Math.PI) / 180
           return <path key={a} d={`M${12 + Math.cos(r) * 1.8} ${12 + Math.sin(r) * 1.8}L${12 + Math.cos(r) * 5.6} ${12 + Math.sin(r) * 5.6}`} />
         })}
       </g>
-      <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.5" fill={filled ? "#d90f0f" : "currentColor"} />
     </svg>
   )
 }
 
-/** A low, wedge-shaped supercar seen from the side, with speed lines. */
-export function SportsCar({ className, style }: Props & { flutter?: boolean }) {
+/** A side-view supercar with speed lines; `model` picks the paint and shape. */
+export function SportsCar({ className, style, model = "rosso" }: Props & { flutter?: boolean; model?: CarModel }) {
+  const id = useId().replace(/:/g, "")
   return (
-    <svg viewBox="0 0 200 60" className={cn("overflow-visible text-brand", className)} style={style} aria-hidden>
+    <svg viewBox="0 0 200 60" className={cn("overflow-visible", className)} style={style} aria-hidden>
       <g stroke="rgb(var(--c-foliage))" strokeWidth="2.4" strokeLinecap="round" opacity=".8">
         <path d="M-26 26H-2M-34 36H0M-20 46H2" />
       </g>
-      <g className="animate-bob" style={{ transformOrigin: "100px 46px" }}>
-        <path d="M4 26L22 24V29L6 30Z" fill="rgb(var(--c-ink))" />
-        <path
-          d="M6 46V36Q8 31 22 30L62 27Q88 12 118 12Q138 12 160 25L190 31Q197 34 196 42L194 46H171A13 13 0 0 0 145 46H61A13 13 0 0 0 35 46Z"
-          fill="currentColor"
-          stroke="rgb(var(--c-ink))"
-          strokeWidth="1.6"
-          strokeLinejoin="round"
-        />
-        <path d="M70 27Q90 16 116 16Q132 16 150 26Z" fill="rgb(var(--c-ink))" />
-        <path d="M80 39L112 33L106 42Z" fill="rgb(var(--c-ink))" />
-        <path d="M14 36H60M150 34H188" stroke="rgb(var(--c-bloom))" strokeWidth="3" strokeLinecap="round" />
-        {[48, 158].map((x) => (
-          <g key={x}>
-            <circle cx={x} cy="46" r="11" fill="rgb(var(--c-ink))" />
-            <circle cx={x} cy="46" r="5.5" fill="#d7dbe2" />
-          </g>
-        ))}
-      </g>
+      <g
+        className="animate-bob"
+        style={{ transformOrigin: "100px 46px" }}
+        dangerouslySetInnerHTML={{ __html: carSvg(model, "#9ca3af", `${model}${id}`) }}
+      />
     </svg>
   )
 }
@@ -85,8 +73,8 @@ export function CheckeredFlag({ className, style, small = false }: Props & { sma
       <defs>
         <pattern id={`chk${id}`} width={cell * 2} height={cell * 2} patternUnits="userSpaceOnUse" patternTransform="skewY(-6)">
           <rect width={cell * 2} height={cell * 2} fill="#fff" />
-          <rect width={cell} height={cell} style={{ fill: "rgb(var(--c-ink))" }} />
-          <rect x={cell} y={cell} width={cell} height={cell} style={{ fill: "rgb(var(--c-ink))" }} />
+          <rect width={cell} height={cell} fill="#111216" />
+          <rect x={cell} y={cell} width={cell} height={cell} fill="#111216" />
         </pattern>
       </defs>
       <path
@@ -98,7 +86,7 @@ export function CheckeredFlag({ className, style, small = false }: Props & { sma
       <path
         d={flag}
         fill={`url(#chk${id})`}
-        style={{ stroke: "rgb(var(--c-ink))" }}
+        stroke="#8b919e"
         strokeWidth={small ? 0.8 : 2}
         strokeLinejoin="round"
         opacity={small ? 1 : 0.85}
@@ -110,9 +98,9 @@ export function CheckeredFlag({ className, style, small = false }: Props & { sma
 export function RaceRule({ className }: { className?: string }) {
   return (
     <div className={cn("flex items-center gap-3 text-brand", className)} aria-hidden>
-      <span className="h-2 w-16 bg-[repeating-conic-gradient(rgb(var(--c-ink))_0_25%,#fff_0_50%)] bg-[length:8px_8px] ring-1 ring-ink/30" />
-      <Wheel className="h-6 w-6 text-ink" filled />
-      <span className="h-2 w-16 bg-[repeating-conic-gradient(rgb(var(--c-ink))_0_25%,#fff_0_50%)] bg-[length:8px_8px] ring-1 ring-ink/30" />
+      <span className="h-2 w-16 bg-[repeating-conic-gradient(#111216_0_25%,#fff_0_50%)] bg-[length:8px_8px]" />
+      <Wheel className="h-6 w-6" filled />
+      <span className="h-2 w-16 bg-[repeating-conic-gradient(#111216_0_25%,#fff_0_50%)] bg-[length:8px_8px]" />
     </div>
   )
 }
