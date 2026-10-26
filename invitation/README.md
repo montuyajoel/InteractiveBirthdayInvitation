@@ -27,3 +27,12 @@ pnpm build      # static site in dist/ (Vercel builds this + api/ automatically)
 See the skill's `references/setup.md`: run the SQL files in `supabase/`,
 set the Vercel environment variables (Supabase publishable keys, Gmail app
 password), redeploy, and smoke-test with your own email.
+
+## Credits
+
+The supercar images (`src/assets/cars/`, and the car on the invitation card)
+are studio renders made with three.js from the "Ferrari 458 Italia" 3D model by
+vicent091036 on Sketchfab (https://sketchfab.com/models/57bf6cc56931426e87494f554df1dab6),
+as bundled in the three.js examples, lit with the CC0 "Venice Sunset" HDRI from
+Poly Haven. Check the model's licence on its Sketchfab page before reusing it
+elsewhere.

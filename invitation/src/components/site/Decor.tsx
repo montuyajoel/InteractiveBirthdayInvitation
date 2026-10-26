@@ -1,10 +1,10 @@
 import { useId } from "react"
-import { type CarModel, carSvg } from "@/lib/cars"
+import { CARS, type CarModel } from "@/lib/cars"
 import { cn } from "@/lib/utils"
 
 type Props = { className?: string; style?: React.CSSProperties }
 
-// Die-cast race-day motif: hot rods, red-stripe wheels, flames and orange track.
+// Race-day motif: supercars, red-stripe wheels, flames and orange track.
 // The old template names (Butterfly, Heart, Sparkle, BabysBreath, HeartRule)
 // are kept as aliases at the bottom so the section components work unchanged.
 
@@ -25,20 +25,17 @@ export function Wheel({ className, filled: _filled, ...svg }: React.SVGProps<SVG
   )
 }
 
-/** A die-cast hot rod with speed lines; `model` picks the paint job. */
-export function SportsCar({ className, style, model = "blaze" }: Props & { flutter?: boolean; model?: CarModel }) {
-  const id = useId().replace(/:/g, "")
+/** A photo-real supercar (side view) with speed lines; `model` picks the paint. */
+export function SportsCar({ className, style, model = "rosso" }: Props & { flutter?: boolean; model?: CarModel }) {
   return (
-    <svg viewBox="0 0 200 72" className={cn("overflow-visible", className)} style={style} aria-hidden>
-      <g stroke="rgb(var(--c-bloom))" strokeWidth="2.4" strokeLinecap="round" opacity=".8">
-        <path d="M-26 30H-2M-34 42H0M-20 54H2" />
-      </g>
-      <g
-        className="animate-bob"
-        style={{ transformOrigin: "100px 60px" }}
-        dangerouslySetInnerHTML={{ __html: carSvg(model, `${model}${id}`) }}
-      />
-    </svg>
+    <span className={cn("relative block", className)} style={style} aria-hidden>
+      <svg viewBox="0 0 40 30" className="absolute right-full top-[28%] mr-1 h-[45%] w-auto overflow-visible">
+        <g stroke="rgb(var(--c-bloom))" strokeWidth="2.4" strokeLinecap="round" opacity=".8">
+          <path d="M14 4H40M4 15H38M18 26H40" />
+        </g>
+      </svg>
+      <img src={CARS[model].src} alt="" className="block h-full w-full animate-bob object-contain drop-shadow-[0_6px_6px_rgb(0_0_0/0.45)]" />
+    </span>
   )
 }
 

@@ -2,7 +2,7 @@ import { GALLERY } from "@/config"
 import { THEME } from "@/theme"
 import { isConfigured, supabaseHeaders, supabaseUrl } from "@/lib/supabase"
 import invitationCard from "@/assets/invitationCard"
-import { carSvg } from "@/lib/cars"
+import { CARS, HERO_CAR, SIDE_RATIO } from "@/lib/cars"
 
 export type Photo = {
   id: string
@@ -124,12 +124,6 @@ const MOTIFS: Record<string, string> = {
   balloons: `<ellipse cx="115" cy="110" rx="38" ry="46" fill="${C.soft}" stroke="${C.brand}" stroke-width="3"/>
     <ellipse cx="185" cy="95" rx="38" ry="46" fill="${C.highlight}" stroke="${C.brand}" stroke-width="3"/>
     <path d="M115 156 q10 40 -4 80 M185 141 q-12 50 6 95" fill="none" stroke="${C.brand}" stroke-width="2"/>`,
-  blaze: `<g transform="translate(10 80) scale(1.4)">${carSvg("blaze", "tile-blaze")}</g>
-    <path d="M10 200H290" stroke="#ff7a00" stroke-width="10"/>`,
-  blue: `<g transform="translate(10 80) scale(1.4)">${carSvg("blue", "tile-blue")}</g>
-    <path d="M10 200H290" stroke="#ff7a00" stroke-width="10"/>`,
-  purple: `<g transform="translate(10 80) scale(1.4)">${carSvg("purple", "tile-purple")}</g>
-    <path d="M10 200H290" stroke="#ff7a00" stroke-width="10"/>`,
   flag: `<path d="M70 40V250" stroke="${C.foliage}" stroke-width="6" stroke-linecap="round"/>
     <g>${Array.from({ length: 30 }, (_, i) => {
       const x = i % 6
@@ -156,11 +150,8 @@ const MOTIFS: Record<string, string> = {
 }
 
 const SAMPLES: { motif: keyof typeof MOTIFS; caption: string; w: number; h: number; tint: string }[] = [
-  { motif: "blaze", caption: "Flame Rod", w: 300, h: 300, tint: C.highlight },
   { motif: "cake", caption: "Birthday cake", w: 300, h: 380, tint: C.highlight },
-  { motif: "blue", caption: "Blue Blaster", w: 300, h: 300, tint: C.soft },
   { motif: "flag", caption: "Checkered flag", w: 300, h: 360, tint: C.soft },
-  { motif: "purple", caption: "Purple Thunder", w: 300, h: 300, tint: C.highlight },
   { motif: "trophy", caption: "Champion", w: 300, h: 280, tint: C.soft },
 ]
 
@@ -177,6 +168,9 @@ function sampleSvg(motif: string, w: number, h: number, tint: string) {
 function samplePhotos(): Photo[] {
   return [
     { id: "invitation", src: invitationCard, caption: "The invitation", ratio: 2 / 3 },
+    { id: "car-hero", src: HERO_CAR.src, caption: "Ferrari 458", ratio: HERO_CAR.ratio },
+    { id: "car-giallo", src: CARS.giallo.src, caption: CARS.giallo.label, ratio: SIDE_RATIO },
+    { id: "car-blu", src: CARS.blu.src, caption: CARS.blu.label, ratio: SIDE_RATIO },
     ...SAMPLES.map((s, i) => ({
       id: `sample-${i}`,
       src: sampleSvg(s.motif, s.w, s.h, s.tint),

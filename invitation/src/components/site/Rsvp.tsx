@@ -190,7 +190,7 @@ function ThankYou({ r, onAnother }: { r: Registration; onAnother: () => void }) 
   return (
     <div className="relative py-6 text-center" role="status">
       <HeartBurst />
-      <Butterfly className="mx-auto h-12 w-28" />
+      <Butterfly className="mx-auto h-12 w-40" />
       <p className="script mt-2 text-6xl">Thank you, {r.firstName}!</p>
       <HeartRule className="mt-4 justify-center" />
       <p className="mx-auto mt-6 max-w-md text-xl italic text-ink/90">

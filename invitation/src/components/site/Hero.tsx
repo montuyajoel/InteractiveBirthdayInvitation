@@ -17,7 +17,7 @@ export function Hero() {
     <section id="invitation" className="relative overflow-hidden pt-24 sm:pt-28">
       <BabysBreath className="pointer-events-none absolute -left-8 top-[440px] hidden w-24 opacity-90 lg:block" />
       <BabysBreath className="pointer-events-none absolute -right-4 bottom-0 w-24 -scale-x-100 opacity-90 sm:w-32" />
-      <Butterfly className="absolute right-[8%] top-24 h-10 w-28 animate-drift" />
+      <Butterfly className="absolute right-[6%] top-20 hidden h-14 w-48 animate-drift sm:block" />
       <Sparkle className="absolute left-[46%] top-28 h-5 w-5 opacity-70" />
       <Heart className="absolute left-[2%] top-[88%] hidden h-5 w-5 opacity-60 md:block" filled />
 

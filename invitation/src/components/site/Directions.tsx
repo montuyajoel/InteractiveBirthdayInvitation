@@ -37,7 +37,7 @@ export function Directions() {
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
             />
-            <Butterfly className="absolute -top-8 right-4 h-10 w-24 animate-drift sm:-right-5" />
+            <Butterfly className="absolute -top-8 right-4 h-12 w-40 animate-drift sm:-right-5" />
           </div>
 
           <div className="flex flex-col">
