@@ -220,7 +220,7 @@ function Lightbox({
         }}
       >
         <div className="flex items-center justify-between px-4 py-3 sm:px-6">
-          <DialogTitle className="font-script text-3xl font-normal text-soft">
+          <DialogTitle className="font-script text-3xl font-normal text-white/90">
             {photo?.caption || "Moments & memories"}
           </DialogTitle>
           <DialogDescription className="sr-only">

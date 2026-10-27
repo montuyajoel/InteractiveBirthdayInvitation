@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { CONTACT, type ContactPerson } from "@/config"
 import { COPY, fill } from "@/lib/copy"
 import { eventTitle } from "@/lib/event"
+import { cn } from "@/lib/utils"
 import { SectionTitle } from "./Decor"
 
 const digits = (phone: string) => phone.replace(/[^\d+]/g, "")
@@ -53,7 +54,7 @@ function ContactCard({ person }: { person: ContactPerson }) {
 }
 
 /** Share the invitation: the phone's share sheet when there is one, else copy the link. */
-function ShareInvite() {
+function ShareInvite({ first }: { first: boolean }) {
   const [copied, setCopied] = useState(false)
   const url = typeof window === "undefined" ? "" : window.location.href.split("#")[0]
   const canShare = typeof navigator !== "undefined" && "share" in navigator
@@ -73,7 +74,7 @@ function ShareInvite() {
   }
 
   return (
-    <div className="mt-12 flex flex-wrap items-center gap-3">
+    <div className={cn("flex flex-wrap items-center gap-3", !first && "mt-12")}>
       <p className="eyebrow mr-2 w-full sm:w-auto">Spread the word</p>
       <Button size="lg" onClick={share} className="gap-3 rounded-none uppercase tracking-[0.18em]">
         {copied ? <Check /> : canShare ? <Share2 /> : <Link />}
@@ -95,7 +96,13 @@ function ShareInvite() {
 
 export function Contact() {
   return (
-    <section id="contact" className="relative scroll-mt-16 border-t border-brand/20 py-20 sm:py-28">
+    <section
+      id="contact"
+      className={cn(
+        "relative scroll-mt-16 border-t border-brand/20",
+        CONTACT.people.length ? "py-20 sm:py-28" : "py-10 sm:py-12",
+      )}
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {CONTACT.people.length > 0 && (
           <>
@@ -108,7 +115,7 @@ export function Contact() {
             </ul>
           </>
         )}
-        <ShareInvite />
+        <ShareInvite first={!CONTACT.people.length} />
       </div>
     </section>
   )

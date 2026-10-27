@@ -30,6 +30,8 @@ Ask only for what's missing, in one round. You need:
 - date, start time, **time zone** and rough duration
 - venue name, street address, and a Google Maps link (or coordinates)
 - whether it's a **surprise** (turns on the "Shhh…" wording everywhere)
+- who guests can contact with questions (name, role such as "Mom", mobile;
+  optionally Viber, Messenger, email) for the Contact section and the email
 - optional: arrive-by time, the printed invitation image, preferred colours
 
 Never invent dates, addresses or times: they end up in calendar invites and
@@ -67,6 +69,12 @@ Wording placeholders: `{name}` (short name), `{honoree}`, `{time}`, `{date}`;
 `copy.surprise: false` for non-secret events: the countdown shows
 `saveTheDate` instead and the surprise lines disappear from the site and email.
 
+`contact.people` is a list of `{name, role, phone, viber, messenger, email}`;
+with none listed the Contact section only shows the share buttons. The script
+also makes `public/og-image.jpg` (1200x630 link preview) and
+`public/apple-touch-icon.png` from the card; replace the preview with a
+designed one for a nicer share card (keep 1200x630, under ~300 KB).
+
 Then adapt what config can't express: redraw `Decor.tsx` motifs if the theme
 calls for it (e.g. leaves for a garden wedding, stars for a debut), and adjust
 the sample gallery captions in `src/lib/gallery.ts`.
@@ -86,7 +94,11 @@ lightbox. Headless Chromium behind a proxy may not load Google Fonts; pass
 `ignoreHTTPSErrors: true` and don't judge typography from a fallback font.
 Render the invitation email too (bundle `api/_lib/invitationEmail.ts` with
 esbuild and write `invitationEmail(guest, siteUrl).html` to a file), with
-`surprise` both on and off. `references/troubleshooting.md` lists the
+`surprise` both on and off. Check the link preview: build with
+`VITE_SITE_URL=https://example.com` and confirm `dist/index.html` has absolute
+`og:image` / `og:url`, and look at `public/og-image.jpg` yourself. After
+going live, paste the URL into Facebook's Sharing Debugger
+(<https://developers.facebook.com/tools/debug/>) to refresh Messenger's cache. `references/troubleshooting.md` lists the
 problems this template has hit before and how they were fixed.
 
 Show the user screenshots (and a single-file preview if the
@@ -123,6 +135,8 @@ and should never store, their database password or secret keys.
 - `Rsvp.tsx`: registration form (react-hook-form + zod) → `lib/registrations.ts`
 - `Gallery.tsx`, `PhotosPage.tsx` (`#/photos`), `PhotoUpload.tsx` → `lib/gallery.ts`, `lib/resizeImage.ts`
 - `Directions.tsx`: Google Maps embed + links; `GuestList.tsx`: hosts' list + send buttons
+- `Contact.tsx`: hosts' call/text/Viber/Messenger/email buttons (`CONTACT` in config.ts) and share buttons
+- `index.html` + `vite.config.ts`: Open Graph / Twitter link-preview tags; `%SITE_URL%` filled at build
 - `api/send-invitations.ts` + `api/_lib/invitationEmail.ts`: Gmail sending and the email itself
 - `lib/event.ts`: date labels, calendar links, `.ics`, `fill()`; shared by site and email
 - Without Supabase keys every feature still works in **preview mode** (RSVPs in

@@ -42,6 +42,12 @@
     "emailIntro": "Thank you for your RSVP: your seat is confirmed! We can't wait to celebrate with you.",
     "emailWishLabel": "Your wish for us"
   },
+  "contact": {
+    "title": "Ask us anything",
+    "people": [
+      { "name": "Ana Reyes", "role": "Maid of honour", "phone": "0917 123 4567", "viber": "+639171234567", "messenger": "ana.reyes", "email": "" }
+    ]
+  },
   "gallery": {
     "bucket": "wedding_photos",
     "folder": "guests"

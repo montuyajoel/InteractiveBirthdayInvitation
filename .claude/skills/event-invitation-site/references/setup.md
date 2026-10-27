@@ -48,6 +48,7 @@ Check: `select to_regclass('public.registrations') is not null, (select count(*)
 | `GMAIL_APP_PASSWORD` | 16-character Google app password |
 | `EMAIL_FROM_NAME` | optional; defaults to `COPY.emailFromName` |
 | `SITE_URL` | optional; defaults to the request's own origin |
+| `VITE_SITE_URL` | optional; the public address for link previews (e.g. `https://my-event.vercel.app`). On Vercel the production domain is used automatically; set this for a custom domain |
 
 `VITE_*` values are baked in at build time and are public: **redeploy after
 changing them**. Keep the two Supabase URLs straight: a gallery URL in
@@ -66,3 +67,7 @@ work. Gmail allows roughly 500 messages a day, plenty for a guest list.
 3. Unlock "See who's coming" with the password → you're listed.
 4. Click **Send invitation** on your row → email arrives with the card,
    details, directions, Google Calendar link and `invitation.ics`.
+5. Paste the site link into Facebook's Sharing Debugger
+   (<https://developers.facebook.com/tools/debug/>) → the preview shows the
+   title, date and `og-image.jpg`. Click **Scrape Again** after changing the
+   image; Messenger and Facebook cache previews.
