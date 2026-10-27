@@ -10,10 +10,13 @@ import { Hero } from "@/components/site/Hero"
 import { Parade } from "@/components/site/Parade"
 import { PhotosPage } from "@/components/site/PhotosPage"
 import { Rsvp } from "@/components/site/Rsvp"
+import { ShareCard } from "@/components/site/ShareCard"
 import { useRoute } from "@/lib/route"
 
 export default function App() {
   const route = useRoute()
+
+  if (route === "share-card") return <ShareCard />
 
   return (
     <>

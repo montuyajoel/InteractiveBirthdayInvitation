@@ -99,7 +99,7 @@ export function Envelope() {
         <span
           className={cn(
             "absolute bottom-3 left-1/2 z-10 aspect-[2/3] w-[200px] origin-bottom sm:w-[226px]",
-            "transition-transform duration-[800ms] ease-[cubic-bezier(.2,1.5,.45,1)]",
+            "transition-transform [transition-duration:800ms] [transition-timing-function:cubic-bezier(.2,1.5,.45,1)]",
             open
               ? "-translate-x-1/2 -translate-y-[130px] rotate-[-3deg] group-hover:-translate-y-[140px] group-hover:rotate-0"
               : "-translate-x-1/2 translate-y-0 scale-[0.62]",

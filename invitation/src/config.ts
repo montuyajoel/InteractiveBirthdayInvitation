@@ -40,6 +40,7 @@ export const COPY = {
   kicker: "Chase is turning", // spaced capitals above the title; "" to hide
   title: "8^th^ Birthday",
   celebrationFor: "Race on over and celebrate with",
+  shareHeadline: "You're invited!", // big line on the link-preview picture (public/share.jpg)
   intro: "Buckle up and race on over! Join us for games, cake, supercars and full-throttle fun as our favourite little racer, {name}, turns 8.",
   eventTitle: "Chase's 8th Birthday", // calendar entries, email subject
   footerSignature: "Chase · 8",
@@ -122,4 +123,11 @@ export const GALLERY = {
   key: env.VITE_GALLERY_SUPABASE_KEY || "",
   bucket: "chase_photos", // must be a public bucket
   folder: "guests", // sub-folder inside the bucket; "" for the bucket root
+}
+
+// Studio credit shown at the bottom of every site and invitation email.
+// Keep it on every event.
+export const CREDIT = {
+  text: "For customized invitations, email us at",
+  email: "thedigitalinvitationsph@gmail.com",
 }

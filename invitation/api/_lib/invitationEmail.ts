@@ -1,6 +1,6 @@
 // The invitation email sent to registered guests. Email clients ignore most
 // modern CSS, so this is table-based HTML with inline styles.
-import { CONTACT, COPY, EVENT } from "../../src/config.js"
+import { CONTACT, COPY, CREDIT, EVENT } from "../../src/config.js"
 import { THEME } from "../../src/theme.js"
 import {
   directionsUrl,
@@ -151,6 +151,9 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
       </p>
     </td></tr>
   </table>
+  <p style="margin:18px 0 0;font-family:${SERIF};font-size:12px;color:${C.brand};text-align:center;">
+    ${escapeHtml(CREDIT.text)} <a href="mailto:${CREDIT.email}" style="color:${C.brand};">${CREDIT.email}</a>
+  </p>
 </td></tr>
 </table>
 </body>
@@ -171,6 +174,8 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
     contactLines.length ? `Questions? ${contactLines.join("; ")}` : null,
     "",
     `We can't wait to celebrate with you. ${site}/`,
+    "",
+    `${CREDIT.text} ${CREDIT.email}`,
   ]
     .filter((line) => line !== null)
     .join("\n")

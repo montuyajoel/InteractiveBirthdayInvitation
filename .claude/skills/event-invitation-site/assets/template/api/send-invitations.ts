@@ -2,7 +2,7 @@
 // Emails the invitation to registered guests chosen by a host.
 //
 // Body: { passcode: string, emails: string[] }  (at most 10 per request)
-// The hosts' password is checked by the database (guest_list), and mail is
+// The hosts' password is checked by the database (<table>_guest_list), and mail is
 // only ever sent to addresses that are actually registered.
 //
 // Env (Vercel → Settings → Environment Variables):
@@ -46,8 +46,9 @@ export async function handleSend(request: Request, deps: Deps): Promise<Response
 
   const supabaseUrl = (env.VITE_SUPABASE_URL || REGISTRATIONS.url).replace(/\/$/, "")
   const supabaseKey = env.VITE_SUPABASE_ANON_KEY || REGISTRATIONS.key
+  // This event's functions are named after its table (supabase/setup.sql).
   const rpc = (name: string, args: unknown) =>
-    deps.fetch(`${supabaseUrl}/rest/v1/rpc/${name}`, {
+    deps.fetch(`${supabaseUrl}/rest/v1/rpc/${REGISTRATIONS.table}_${name}`, {
       method: "POST",
       headers: {
         apikey: supabaseKey,
@@ -75,15 +76,18 @@ export async function handleSend(request: Request, deps: Deps): Promise<Response
   const fromName = env.EMAIL_FROM_NAME || fill(COPY.emailFromName)
   const sent: string[] = []
   const failed: string[] = []
+  // One row per attempt for this event's <table>_invite_log (supabase/setup.sql).
+  const log: { email: string; name: string; status: "sent" | "failed"; error?: string; message_id?: string }[] = []
 
   for (const email of wanted) {
     const guest = byEmail.get(email)
     if (!guest) continue
     const mail = invitationEmail(guest, siteUrl)
+    const name = `${guest.first_name} ${guest.last_name}`
     try {
-      await transport.sendMail({
+      const info = await transport.sendMail({
         from: { name: fromName, address: env.GMAIL_USER },
-        to: { name: `${guest.first_name} ${guest.last_name}`, address: guest.email },
+        to: { name, address: guest.email },
         subject: mail.subject,
         html: mail.html,
         text: mail.text,
@@ -96,18 +100,23 @@ export async function handleSend(request: Request, deps: Deps): Promise<Response
         ],
       })
       sent.push(email)
+      log.push({ email, name, status: "sent", message_id: info?.messageId })
     } catch (err) {
       console.error("send failed", email, err)
       failed.push(email)
+      log.push({ email, name, status: "failed", error: err instanceof Error ? err.message : String(err) })
     }
   }
 
-  if (sent.length > 0) {
-    const mark = await rpc("mark_invites_sent", { passcode, emails: sent })
-    if (!mark.ok) console.error("mark_invites_sent failed", mark.status, await mark.text().catch(() => ""))
+  let logged = false
+  if (log.length > 0) {
+    const res = await rpc("log_invites", { passcode, entries: log })
+    logged = res.ok
+    if (!res.ok) console.error("log_invites failed", res.status, await res.text().catch(() => ""))
   }
 
-  return json(200, { sent, failed, notRegistered })
+  const errors = Object.fromEntries(log.filter((l) => l.error).map((l) => [l.email, l.error]))
+  return json(200, { sent, failed, errors, notRegistered, logged })
 }
 
 export function POST(request: Request) {

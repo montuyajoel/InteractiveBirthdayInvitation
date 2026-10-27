@@ -12,7 +12,9 @@ confirmation emails (Gmail, Vercel function).
 - `src/theme.ts`: colours, envelope shades, fonts (site **and** email)
 - `src/components/site/Decor.tsx`: decorative motifs
 - `src/config.ts` → `CONTACT`: who guests can message (Contact section + email)
-- `public/og-image.jpg`: the picture shown when the link is shared (1200x630);
+- `public/share.jpg`: the picture shown when the link is shared (1200x630),
+  rendered from `src/components/site/ShareCard.tsx` by the skill's
+  `scripts/share_image.mjs` (re-run it after changing names, date or design);
   `index.html` holds the preview title and description
 - Invitation card: re-run the skill's `new_event.py --card`, or replace
   `src/assets/invitationCard.ts` + `public/email/invitation-card.jpg`

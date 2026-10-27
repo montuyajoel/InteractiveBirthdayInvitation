@@ -2,22 +2,30 @@ import path from "path";
 import react from "@vitejs/plugin-react";
 import { defineConfig, type Plugin } from "vite";
 
-// Link previews (Facebook, Messenger, Viber, X) need absolute URLs for the
-// page and its preview image. Set VITE_SITE_URL (e.g. https://my-event.vercel.app),
-// or on Vercel the production domain is picked up automatically.
-function siteUrl() {
-  const explicit = process.env.VITE_SITE_URL;
-  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
-  return (explicit || (vercel ? `https://${vercel}` : "")).replace(/\/+$/, "");
+// Link previews need the picture's full address (https://…/share.jpg), so
+// %SITE_URL% in index.html becomes SITE_URL, else Vercel's production
+// domain. Without either (local builds) the image path stays relative,
+// which some apps still accept.
+function siteUrl(): Plugin {
+  const env = process.env;
+  const url = (
+    env.SITE_URL ||
+    (env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}` : "")
+  ).replace(/\/$/, "");
+  return {
+    name: "site-url",
+    transformIndexHtml: {
+      order: "pre",
+      handler: (html) =>
+        url
+          ? html.replaceAll("%SITE_URL%", url)
+          : html.replace(/^.*property="og:url".*\n/m, "").replaceAll("%SITE_URL%", ""),
+    },
+  };
 }
 
-const socialPreview = (): Plugin => ({
-  name: "social-preview-url",
-  transformIndexHtml: (html) => html.replaceAll("%SITE_URL%", siteUrl()),
-});
-
 export default defineConfig({
-  plugins: [react(), socialPreview()],
+  plugins: [react(), siteUrl()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

@@ -11,8 +11,6 @@ confirmation emails (Gmail, Vercel function).
 - `src/config.ts`: event facts (`EVENT`) and all wording (`COPY`)
 - `src/theme.ts`: colours, envelope shades, fonts (site **and** email)
 - `src/components/site/Decor.tsx`: decorative motifs
-- `src/config.ts` → `CONTACT`: who guests can message (Contact section + email)
-- `public/og-image.jpg`: the picture shown when the link is shared (1200x630)
 - Invitation card: re-run the skill's `new_event.py --card`, or replace
   `src/assets/invitationCard.ts` + `public/email/invitation-card.jpg`
 

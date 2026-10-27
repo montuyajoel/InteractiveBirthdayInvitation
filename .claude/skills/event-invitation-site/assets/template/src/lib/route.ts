@@ -4,10 +4,17 @@ import { useEffect, useState } from "react"
 // without server rewrites. "#/photos" is the all-photos page; any other hash
 // is an anchor on the home page.
 export const PHOTOS_ROUTE = "#/photos"
+// The link-preview picture (not linked anywhere; see ShareCard.tsx).
+export const SHARE_CARD_ROUTE = "#/share-card"
 
-export type Route = "home" | "photos"
+export type Route = "home" | "photos" | "share-card"
 
-const current = (): Route => (window.location.hash.startsWith(PHOTOS_ROUTE) ? "photos" : "home")
+const current = (): Route =>
+  window.location.hash.startsWith(PHOTOS_ROUTE)
+    ? "photos"
+    : window.location.hash.startsWith(SHARE_CARD_ROUTE)
+      ? "share-card"
+      : "home"
 
 export function useRoute(): Route {
   const [route, setRoute] = useState<Route>(current)
@@ -19,7 +26,7 @@ export function useRoute(): Route {
   }, [])
 
   useEffect(() => {
-    if (route === "photos") {
+    if (route !== "home") {
       window.scrollTo(0, 0)
       return
     }

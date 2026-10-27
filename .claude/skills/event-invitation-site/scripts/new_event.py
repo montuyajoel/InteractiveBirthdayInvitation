@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Create a new event invitation site from the template.
 
-    python3 new_event.py --dest ./my-event --spec event.json [--card card.jpg] [--force]
+    python3 new_event.py --spec event.json [--card card.jpg] [--dest invitation] [--replace]
     python3 new_event.py --example            # print an example event.json
 
 The spec is JSON with any of these sections (see assets/event.example.json):
@@ -9,8 +9,12 @@ The spec is JSON with any of these sections (see assets/event.example.json):
   copy          -> COPY in src/config.ts        (all wording)
   registrations -> REGISTRATIONS in config.ts   (url, table)
   gallery       -> GALLERY in config.ts         (url, bucket, folder)
-  contact       -> CONTACT in config.ts         (eyebrow, title, intro, people: [...])
   theme         -> THEME in src/theme.ts        (colors, envelope, fonts, radius)
+
+The site always lives in the repo's `invitation/` folder (the Vercel project's
+Root Directory), one client per git branch. --dest defaults to it; when it
+already holds the previous event, --replace clears it first (keeping
+vercel.json, node_modules and .vercel) so no old files are left behind.
 Only keys you give are changed; everything else keeps the template default.
 Unknown keys are an error, so typos don't silently do nothing.
 """
@@ -33,12 +37,13 @@ TARGETS = {
     "copy": ("src/config.ts", ["COPY"]),
     "registrations": ("src/config.ts", ["REGISTRATIONS"]),
     "gallery": ("src/config.ts", ["GALLERY"]),
-    "contact": ("src/config.ts", ["CONTACT"]),
     "theme.colors": ("src/theme.ts", ["THEME", "colors"]),
     "theme.envelope": ("src/theme.ts", ["THEME", "envelope"]),
     "theme.fonts": ("src/theme.ts", ["THEME", "fonts"]),
     "theme": ("src/theme.ts", ["THEME"]),  # top-level scalars such as radius
 }
+# Left in place by --replace: deploy settings and installed packages.
+KEEP = {"vercel.json", "node_modules", ".vercel"}
 # Never written into the site: these must stay out of public code.
 FORBIDDEN = re.compile(r"service_role|sb_secret_|postgres(ql)?://|password", re.I)
 
@@ -96,15 +101,6 @@ def ts_value(key, value):
         return str(value)
     if isinstance(value, str):
         return json.dumps(value, ensure_ascii=False)
-    if key == "people" and isinstance(value, list):
-        fields = ["name", "role", "phone", "viber", "messenger", "email"]
-        people = []
-        for p in value:
-            extra = set(p) - set(fields) if isinstance(p, dict) else {"(not an object)"}
-            if extra or not p.get("name"):
-                raise SystemExit(f"contact.people: each person needs a name; allowed fields: {', '.join(fields)}")
-            people.append({f: str(p.get(f, "")) for f in fields})
-        return json.dumps(people, ensure_ascii=False)
     raise SystemExit(f"{key}: only strings, numbers and booleans are supported")
 
 
@@ -156,8 +152,32 @@ def read_config_string(text, block, key):
     return json.loads(m.group(1)) if m else ""
 
 
+TABLE_RE = re.compile(r"^[a-z][a-z0-9_]{0,39}$")
+
+
+def set_event_table(dest, spec):
+    """Each event gets its own table (and functions named after it) so many
+    events can share one Supabase project. Default: from the event id."""
+    if "table" in spec.get("registrations", {}):
+        return
+    cfg = (dest / "src/config.ts").read_text()
+    event_id = read_config_string(cfg, "EVENT", "id")
+    table = re.sub(r"[^a-z0-9]+", "_", event_id.lower()).strip("_")[:33] + "_guests"
+    if not table[0].isalpha():
+        table = "e_" + table
+    apply_section(dest, "registrations", {"table": table})
+
+
 def fill_static_files(dest):
     cfg = (dest / "src/config.ts").read_text()
+    table = read_config_string(cfg, "REGISTRATIONS", "table")
+    if not TABLE_RE.match(table):
+        raise SystemExit(
+            f"registrations.table '{table}' must be lowercase letters, digits and _, start with a letter, max 40 chars"
+        )
+    for name in ("setup.sql", "guest-list.sql"):
+        f = dest / "supabase" / name
+        f.write_text(f.read_text().replace("{{TABLE}}", table))
     honoree = read_config_string(cfg, "EVENT", "honoree")
     short = read_config_string(cfg, "EVENT", "honoreeShort")
 
@@ -171,7 +191,8 @@ def fill_static_files(dest):
     h = h.replace("%PAGE_TITLE%", esc(fill(read_config_string(cfg, "COPY", "pageTitle"))))
     h = h.replace("%META_DESCRIPTION%", esc(fill(read_config_string(cfg, "COPY", "metaDescription"))))
     theme = (dest / "src/theme.ts").read_text()
-    h = h.replace("%THEME_COLOR%", re.search(r'\bpaper: "(#[0-9a-fA-F]{6})"', theme).group(1))
+    brand = re.search(r'brand:\s*"(#[0-9a-fA-F]{6})"', theme)
+    h = h.replace("%BRAND_COLOR%", "%23" + (brand.group(1)[1:] if brand else "9a6aa0"))
     html.write_text(h)
 
     sql = dest / "supabase/gallery-setup.sql"
@@ -203,39 +224,6 @@ def install_card(dest, card):
     )
 
 
-def social_images(dest):
-    """Link-preview image (1200x630) and home-screen icon, from the card and theme.
-
-    A plain but tidy default: the card on the right, the title on the left, in
-    the event's colours. Replace public/og-image.jpg with a designed one if wanted.
-    """
-    if not shutil.which("convert"):
-        print("note: ImageMagick not found; add public/og-image.jpg (1200x630) and public/apple-touch-icon.png yourself")
-        return
-    theme = (dest / "src/theme.ts").read_text()
-    color = lambda k: re.search(r"\b" + k + r': "(#[0-9a-fA-F]{6})"', theme).group(1)
-    cfg = (dest / "src/config.ts").read_text()
-    honoree = read_config_string(cfg, "EVENT", "honoree")
-    title = re.sub(r"\^(.*?)\^", r"\1", read_config_string(cfg, "COPY", "title"))
-    card = dest / "src/assets/invitation-card.jpg"
-    public = dest / "public"
-    public.mkdir(exist_ok=True)
-    subprocess.run([
-        "convert", "-size", "1200x630", f"gradient:{color('paper')}-{color('soft')}",
-        "(", str(card), "-resize", "x560", "-bordercolor", "white", "-border", "6", ")",
-        "-gravity", "east", "-geometry", "+60+0", "-composite",
-        "-gravity", "west", "-fill", color("brand"), "-font", "DejaVu-Serif", "-pointsize", "30",
-        "-annotate", "+70-120", "YOU'RE INVITED",
-        "-fill", color("ink"), "-pointsize", "56", "-annotate", "+70-30", honoree[:24],
-        "-fill", color("brand"), "-pointsize", "40", "-annotate", "+70+60", title[:28],
-        "-strip", "-quality", "85", str(public / "og-image.jpg"),
-    ], check=True)
-    subprocess.run([
-        "convert", str(card), "-gravity", "north", "-crop", "1:1", "+repage", "-resize", "180x180^",
-        "-extent", "180x180", "-strip", str(public / "apple-touch-icon.png"),
-    ], check=True)
-
-
 def placeholder_card(dest):
     """Draw a simple card in the event's own colours until the real one exists."""
     if not shutil.which("convert"):
@@ -261,31 +249,37 @@ def placeholder_card(dest):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--dest", help="folder to create the site in")
+    ap.add_argument("--dest", default="invitation", help="site folder (default: invitation, the Vercel Root Directory)")
     ap.add_argument("--spec", help="event.json with the event details, wording and theme")
     ap.add_argument("--card", help="the printed invitation image (jpg/png)")
-    ap.add_argument("--force", action="store_true", help="allow a non-empty --dest (template files are overwritten)")
+    ap.add_argument("--replace", action="store_true", help="clear the previous event out of --dest first (keeps vercel.json, node_modules, .vercel)")
     ap.add_argument("--example", action="store_true", help="print an example event.json and exit")
     a = ap.parse_args()
 
     if a.example:
         print(EXAMPLE.read_text())
         return
-    if not a.dest:
-        ap.error("--dest is required")
     dest = Path(a.dest).resolve()
-    if dest.exists() and any(dest.iterdir()) and not a.force:
-        raise SystemExit(f"{dest} is not empty (use --force to overwrite template files there)")
+    if dest.exists() and any(dest.iterdir()) and not a.replace:
+        raise SystemExit(
+            f"{dest} already holds a site. Start a new branch for this client, then rerun with --replace "
+            "to swap the previous event out (vercel.json is kept)."
+        )
 
     spec = json.loads(Path(a.spec).read_text()) if a.spec else {}
+    if dest.exists():
+        for child in dest.iterdir():
+            if child.name in KEEP:
+                continue
+            shutil.rmtree(child) if child.is_dir() and not child.is_symlink() else child.unlink()
     shutil.copytree(TEMPLATE, dest, dirs_exist_ok=True)
     apply_spec(dest, spec)
+    set_event_table(dest, spec)
     fill_static_files(dest)
     if a.card:
         install_card(dest, a.card)
     else:
         placeholder_card(dest)
-    social_images(dest)
 
     print(f"Created {dest}")
     print("Next: cd into it, run `pnpm install` (or npm install), then `pnpm dev`.")
