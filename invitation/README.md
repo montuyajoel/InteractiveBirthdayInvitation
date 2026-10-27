@@ -47,6 +47,10 @@ project or share a project with other events without mixing guests.
 4. Add `GMAIL_USER` and `GMAIL_APP_PASSWORD` for the invitation emails,
    then redeploy.
 
+To change the hosts' password later (or if the guest list says "That
+password isn't right"), run `supabase/chase-set-password.sql`; it changes
+only the password and checks it straight away.
+
 Then smoke-test with your own email (register, upload a photo, open the
 guest list, send yourself the invitation); the skill's `references/setup.md`
 has the full checklist.
