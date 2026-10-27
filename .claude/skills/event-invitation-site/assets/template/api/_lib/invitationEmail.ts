@@ -1,6 +1,6 @@
 // The invitation email sent to registered guests. Email clients ignore most
 // modern CSS, so this is table-based HTML with inline styles.
-import { COPY, EVENT } from "../../src/config.js"
+import { CONTACT, COPY, EVENT } from "../../src/config.js"
 import { THEME } from "../../src/theme.js"
 import {
   directionsUrl,
@@ -13,6 +13,11 @@ import {
   plainTitle,
   icsContent,
 } from "../../src/lib/event.js"
+
+// "Jane (Mom): 0917 123 4567 · jane@example.com", one per contact person
+const contactLines = CONTACT.people.map((p) =>
+  [`${p.name}${p.role ? ` (${p.role})` : ""}`, [p.phone, p.email].filter(Boolean).join(" · ")].filter(Boolean).join(": "),
+)
 
 export type InvitationGuest = { first_name: string; last_name: string; email: string; wishes: string }
 
@@ -130,6 +135,15 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
         : ""
     }
 
+    ${
+      contactLines.length
+        ? `<tr><td style="padding:24px 32px 0;font-family:${SERIF};">
+      <p style="margin:0;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${C.brand};">Questions?</p>
+      ${contactLines.map((l) => `<p style="margin:6px 0 0;font-size:15px;color:${C.ink};">${escapeHtml(l)}</p>`).join("")}
+    </td></tr>`
+        : ""
+    }
+
     <tr><td align="center" style="padding:30px 32px 34px;font-family:${SERIF};">
       <p style="margin:0;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${C.brand};">${escapeHtml(fill(COPY.footerLine))} &#9829;</p>
       <p style="margin:12px 0 0;font-size:13px;color:${C.brand};">
@@ -154,6 +168,7 @@ export function invitationEmail(guest: InvitationGuest, siteUrl: string) {
     `Add to Google Calendar: ${googleCalendarUrl()}`,
     "",
     COPY.surprise ? `${fill(COPY.surpriseHeadline)} ${fill(COPY.surpriseNote)}` : null,
+    contactLines.length ? `Questions? ${contactLines.join("; ")}` : null,
     "",
     `We can't wait to celebrate with you. ${site}/`,
   ]

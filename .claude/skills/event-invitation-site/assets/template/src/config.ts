@@ -67,6 +67,28 @@ export const COPY = {
   emailWishLabel: "Your birthday wish",
 }
 
+// Who guests can contact with questions (the "Contact us" section, and a line
+// in the email). Each person needs a name plus at least one way to reach them;
+// leave a field "" to hide it. With no people listed the section is hidden.
+//   phone:     shown as Call / Text buttons, e.g. "0917 123 4567"
+//   viber:     international format for the Viber button, e.g. "+639171234567"
+//   messenger: Facebook username or m.me link, e.g. "jane.doe" or "https://m.me/jane.doe"
+export type ContactPerson = {
+  name: string
+  role: string
+  phone: string
+  viber: string
+  messenger: string
+  email: string
+}
+
+export const CONTACT: { eyebrow: string; title: string; intro: string; people: ContactPerson[] } = {
+  eyebrow: "Questions?",
+  title: "Contact us",
+  intro: "Message us about directions, dietary needs or anything else.",
+  people: [],
+}
+
 // Build-time overrides (e.g. Vercel → Settings → Environment Variables).
 // When a variable isn't set, the value written below is used.
 // (Also imported by the email function on the server, where import.meta.env
