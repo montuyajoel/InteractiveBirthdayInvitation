@@ -27,13 +27,17 @@ pnpm build      # static site in dist/ (Vercel builds this + api/ automatically)
 
 ## Go live
 
-**Chase's own database (one Supabase project for everything):**
+**Supabase (one project holds registrations and photos):**
 
-1. Create a new project at <https://supabase.com/dashboard>, e.g. `chase-8th-birthday`.
+Everything is named for Chase (`chase_registrations`, `chase_guest_list`,
+`chase_mark_invites_sent`, bucket `chase_photos`), so it can go in its own new
+project or share a project with other events without mixing guests.
+
+1. Open your Supabase project, or create one at <https://supabase.com/dashboard>.
 2. SQL Editor → New query → paste `supabase/chase-setup.sql`, replace
    `YOUR_PASSWORD` with the hosts' password, Run. This creates the
-   registrations table, the password-protected guest list, invite tracking
-   and the `chase_photos` photo bucket (guest uploads go in `guests/`).
+   `chase_registrations` table, the password-protected guest list, invite
+   tracking and the `chase_photos` photo bucket (guest uploads go in `guests/`).
 3. Project Settings → API Keys: copy the **Project URL** and the
    **publishable (anon) key**. In Vercel → Settings → Environment Variables
    set both pairs to the same project:
@@ -42,9 +46,6 @@ pnpm build      # static site in dist/ (Vercel builds this + api/ automatically)
    Never use the secret / service_role key.
 4. Add `GMAIL_USER` and `GMAIL_APP_PASSWORD` for the invitation emails,
    then redeploy.
-
-The separate SQL files in `supabase/` do the same thing in steps, for
-setups that keep photos in a different project.
 
 See the skill's `references/setup.md`: run the SQL files in `supabase/`,
 set the Vercel environment variables (Supabase publishable keys, Gmail app

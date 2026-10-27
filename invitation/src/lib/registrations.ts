@@ -51,8 +51,8 @@ export async function submitRegistration(r: Registration): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Hosts-only guest list. The password is checked by the `guest_list`
-// database function (supabase/guest-list.sql), never in the browser.
+// Hosts-only guest list. The password is checked by the guest-list
+// database function (supabase/chase-setup.sql), never in the browser.
 
 export type GuestListEntry = {
   first_name: string
@@ -68,7 +68,7 @@ export class WrongPasswordError extends Error {}
 export class GuestListNotSetUpError extends Error {}
 
 export async function fetchGuestList(passcode: string): Promise<GuestListEntry[]> {
-  const res = await fetch(supabaseUrl(REGISTRATIONS, "/rest/v1/rpc/guest_list"), {
+  const res = await fetch(supabaseUrl(REGISTRATIONS, `/rest/v1/rpc/${REGISTRATIONS.guestListFn}`), {
     method: "POST",
     headers: supabaseHeaders(REGISTRATIONS),
     body: JSON.stringify({ passcode }),

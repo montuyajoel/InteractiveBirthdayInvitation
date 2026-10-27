@@ -2,7 +2,7 @@
 // Emails the invitation to registered guests chosen by a host.
 //
 // Body: { passcode: string, emails: string[] }  (at most 10 per request)
-// The hosts' password is checked by the database (guest_list), and mail is
+// The hosts' password is checked by the database (REGISTRATIONS.guestListFn), and mail is
 // only ever sent to addresses that are actually registered.
 //
 // Env (Vercel → Settings → Environment Variables):
@@ -58,11 +58,11 @@ export async function handleSend(request: Request, deps: Deps): Promise<Response
     })
 
   // The password check happens here, in the database.
-  const listRes = await rpc("guest_list", { passcode })
+  const listRes = await rpc(REGISTRATIONS.guestListFn, { passcode })
   if (!listRes.ok) {
     const detail = await listRes.text().catch(() => "")
     if (detail.includes("invalid passcode")) return json(401, { error: "wrong-password" })
-    console.error("guest_list failed", listRes.status, detail)
+    console.error(`${REGISTRATIONS.guestListFn} failed`, listRes.status, detail)
     return json(502, { error: "database" })
   }
   const guests: InvitationGuest[] = await listRes.json()
@@ -103,8 +103,8 @@ export async function handleSend(request: Request, deps: Deps): Promise<Response
   }
 
   if (sent.length > 0) {
-    const mark = await rpc("mark_invites_sent", { passcode, emails: sent })
-    if (!mark.ok) console.error("mark_invites_sent failed", mark.status, await mark.text().catch(() => ""))
+    const mark = await rpc(REGISTRATIONS.markSentFn, { passcode, emails: sent })
+    if (!mark.ok) console.error(`${REGISTRATIONS.markSentFn} failed`, mark.status, await mark.text().catch(() => ""))
   }
 
   return json(200, { sent, failed, notRegistered })

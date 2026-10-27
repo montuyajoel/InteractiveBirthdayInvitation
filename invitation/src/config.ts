@@ -104,10 +104,15 @@ const env: Record<string, string | undefined> =
 
 // Supabase project holding the guest registrations table.
 // Env: VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
+// The table and functions carry the event's name, so several events can
+// share one Supabase project without touching each other's guests.
+// They must match supabase/chase-setup.sql.
 export const REGISTRATIONS = {
   url: env.VITE_SUPABASE_URL || "",
   key: env.VITE_SUPABASE_ANON_KEY || "",
-  table: "registrations",
+  table: "chase_registrations",
+  guestListFn: "chase_guest_list", // hosts' list, behind the password
+  markSentFn: "chase_mark_invites_sent", // records who was emailed
 }
 
 // Supabase project holding the photo gallery bucket.
