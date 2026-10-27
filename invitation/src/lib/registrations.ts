@@ -60,7 +60,7 @@ export type GuestListEntry = {
   email: string
   wishes: string
   created_at: string
-  // Missing until supabase/send-invitations.sql has been run.
+  // Missing until supabase/chase-setup.sql has been run.
   invite_sent_at?: string | null
 }
 
