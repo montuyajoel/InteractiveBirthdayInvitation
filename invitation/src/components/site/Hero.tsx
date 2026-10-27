@@ -44,9 +44,6 @@ export function Hero() {
           <p className="script mt-2 text-4xl leading-[1.05] text-ink sm:text-5xl">
             {first} <span className="text-brand">{rest.join(" ")}</span>
           </p>
-          <p className="mt-2 font-serif text-lg font-bold uppercase tracking-[0.3em] text-ink/80">
-            a.k.a. <span className="text-brand">{EVENT.honoreeShort}</span>
-          </p>
           <HeartRule className="mt-6" />
 
           <p className="mt-6 max-w-md text-xl italic leading-relaxed text-ink/90">

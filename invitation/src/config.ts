@@ -37,7 +37,7 @@ export const COPY = {
   logo: "Chase",
   logoAccent: "8", // shown after the logo in the brand colour; "" for none
   invitedLine: "Start your engines!",
-  kicker: "Chase is turning", // spaced capitals above the title; "" to hide
+  kicker: "It's {name}'s", // spaced capitals above the title; "" to hide
   title: "8^th^ Birthday",
   celebrationFor: "Race on over and celebrate with",
   shareHeadline: "You're invited!", // big line on the link-preview picture (public/share.jpg)
