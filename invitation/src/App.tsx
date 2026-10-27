@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner"
+import { Contact } from "@/components/site/Contact"
 import { Countdown } from "@/components/site/Countdown"
 import { Directions } from "@/components/site/Directions"
 import { Footer } from "@/components/site/Footer"
@@ -27,6 +28,7 @@ export default function App() {
           <Rsvp />
           <Gallery />
           <Directions />
+          <Contact />
           <GuestList />
         </main>
       )}
