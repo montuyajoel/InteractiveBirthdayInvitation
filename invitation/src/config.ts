@@ -142,6 +142,13 @@ export const CREDIT = {
   email: "thedigitalinvitationsph@gmail.com",
 }
 
+// Where a monetary gift can be sent: QR pictures in src/assets (see Details.tsx).
+export const PAYMENTS: { qr: "gotyme" | "bdo" | "gcash"; bank: string; detail: string }[] = [
+  { qr: "gotyme", bank: "GoTyme Bank", detail: "April Grace Ricafort" },
+  { qr: "bdo", bank: "BDO", detail: "Ricafortag" },
+  { qr: "gcash", bank: "GCash", detail: "0916 768 1109" },
+]
+
 // Attire colours (sampled from the outfit-ideas picture) and the gift guide.
 export const ATTIRE = {
   guests: ["#fcf3ea", "#f5cdcb", "#fde2d7", "#faefd3", "#d0d4c5", "#cfd9e5", "#dacde1", "#e7ccc3", "#f2e6da", "#dddfda", "#dcdfe6"],
@@ -155,7 +162,7 @@ export const GIFTS: {
   icon: GiftIcon
   name: string
   note?: string
-  picture?: "eq-diapers" | "cetaphil" | "clothes" | "s26" | "qr"
+  picture?: "eq-diapers" | "cetaphil" | "clothes" | "s26"
   hint?: string // small line under the picture, e.g. "Tap to see the QR codes"
 }[] = [
   { icon: "diaper", name: "EQ Dry diapers", note: "small – medium", picture: "eq-diapers" },
@@ -165,8 +172,7 @@ export const GIFTS: {
   {
     icon: "money",
     name: "Monetary gift",
-    note: "for {name}'s savings account · GoTyme, BDO or GCash",
-    picture: "qr",
-    hint: "Tap to see the QR codes",
+    note: "for {name}'s savings account",
+    hint: "QR codes below",
   },
 ]

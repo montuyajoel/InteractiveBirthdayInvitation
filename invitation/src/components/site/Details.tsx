@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
-import { ATTIRE, EVENT, GIFTS, type GiftIcon as GiftIconKind } from "@/config"
+import { ATTIRE, EVENT, GIFTS, PAYMENTS, type GiftIcon as GiftIconKind } from "@/config"
 import { COPY, fill } from "@/lib/copy"
 import { cn } from "@/lib/utils"
 import attireGuests from "@/assets/attire-guests.jpg"
@@ -8,7 +8,9 @@ import attireGodparents from "@/assets/attire-godparents.jpg"
 import giftClothes from "@/assets/gift-clothes.jpg"
 import giftCetaphil from "@/assets/gift-cetaphil.jpg"
 import giftEqDiapers from "@/assets/gift-eq-diapers.jpg"
-import giftQr from "@/assets/gift-qr.jpg"
+import qrGotyme from "@/assets/qr-gotyme.jpg"
+import qrBdo from "@/assets/qr-bdo.jpg"
+import qrGcash from "@/assets/qr-gcash.jpg"
 import giftS26 from "@/assets/gift-s26.jpg"
 import { Butterfly, FloralSpray, HeartRule, SectionTitle } from "./Decor"
 
@@ -23,8 +25,8 @@ const GIFT_PICTURES = {
   cetaphil: giftCetaphil,
   clothes: giftClothes,
   s26: giftS26,
-  qr: giftQr,
 } as const
+const QR_PICTURES = { gotyme: qrGotyme, bdo: qrBdo, gcash: qrGcash } as const
 
 const LOOKS: Look[] = [
   {
@@ -135,9 +137,13 @@ export function Details() {
                       )}
                     </button>
                   ) : (
-                    <div className="grid aspect-[3/2] place-items-center bg-highlight/40">
+                    <a
+                      href={g.icon === "money" ? "#gift-qr" : undefined}
+                      className="grid aspect-[3/2] place-items-center gap-2 bg-highlight/40 content-center"
+                    >
                       <GiftIcon kind={g.icon} className="h-24 w-24 [&>svg]:h-14 [&>svg]:w-14" />
-                    </div>
+                      {g.hint && <span className="text-sm italic text-brand">{g.hint} ↓</span>}
+                    </a>
                   )}
                   <div className="flex items-center gap-3 border-t border-gold/25 px-4 py-3">
                     <GiftIcon kind={g.icon} className="h-11 w-11 [&>svg]:h-7 [&>svg]:w-7" />
@@ -146,20 +152,44 @@ export function Details() {
                       {g.note && <span className="block text-sm italic text-brand">({fill(g.note)})</span>}
                     </span>
                   </div>
-                  {g.picture === "qr" && picture && (
-                    // on a phone you can't scan your own screen: save it, then open it in the banking app
-                    <a
-                      href={picture}
-                      download={`${EVENT.id}-gift-qr-codes.jpg`}
-                      className="border-t border-gold/25 py-2.5 text-center text-sm uppercase tracking-[0.18em] text-brand hover:bg-highlight/50 hover:text-ink"
-                    >
-                      Save the QR codes
-                    </a>
-                  )}
                 </li>
               )
             })}
           </ul>
+          <div id="gift-qr" className="mx-auto mt-10 max-w-3xl scroll-mt-24 border-t border-gold/30 pt-8">
+            <p className="eyebrow">Monetary gift</p>
+            <p className="mt-2 italic text-ink/80">Scan with your banking app, or save a code and open it there.</p>
+            <ul className="mt-6 grid grid-cols-1 gap-5 min-[480px]:grid-cols-3">
+              {PAYMENTS.map((pay) => {
+                const qr = QR_PICTURES[pay.qr]
+                return (
+                  <li key={pay.qr} className="flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-gold/40">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setZoom({ key: pay.qr, title: pay.bank, note: "", colors: [], image: qr, alt: `${pay.bank} QR code` })
+                      }
+                      className="block bg-white p-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+                      aria-label={`${pay.bank} QR code: view larger`}
+                    >
+                      <img src={qr} alt={`${pay.bank} QR code`} loading="lazy" className="mx-auto aspect-[4/5] w-full max-w-[240px] object-contain" />
+                    </button>
+                    <div className="border-t border-gold/25 px-3 py-3">
+                      <span className="block text-lg leading-tight text-ink">{pay.bank}</span>
+                      <span className="block text-sm text-brand">{pay.detail}</span>
+                    </div>
+                    <a
+                      href={qr}
+                      download={`${EVENT.id}-${pay.qr}-qr.jpg`}
+                      className="mt-auto border-t border-gold/25 py-2.5 text-xs uppercase tracking-[0.18em] text-brand hover:bg-highlight/50 hover:text-ink"
+                    >
+                      Save QR code
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
           <p className="mx-auto mt-9 max-w-xl text-lg leading-relaxed text-ink/90">{fill(COPY.giftOutro)}</p>
         </div>
       </div>
