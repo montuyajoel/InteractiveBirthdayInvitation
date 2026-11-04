@@ -9,7 +9,7 @@ export const EVENT = {
   honoreeShort: "Aya",
   // Local start time at the venue WITH its UTC offset, so it is right
   // however the visitor's clock is set.
-  start: new Date("2026-12-20T10:00:00+08:00"),
+  start: new Date("2026-12-19T10:00:00+08:00"),
   timeZone: "Asia/Manila", // IANA name, used for labels and calendar invites
   timeZoneLabel: "Philippine time",
   durationHours: 4,
