@@ -148,10 +148,12 @@ export const ATTIRE = {
   godparents: ["#ffffff"],
 }
 
-// icon: "lotion" | "bottle" | "diaper" | "money"; {name} works in note.
-export const GIFTS: { icon: "lotion" | "bottle" | "diaper" | "money"; name: string; note?: string }[] = [
-  { icon: "lotion", name: "Mustela baby products" },
-  { icon: "bottle", name: "NAN Optipro", note: "6–12 months" },
-  { icon: "diaper", name: "Millie Moon or Bean Cloud diapers", note: "medium, large" },
+// icon: a little drawing; picture: a photo in src/assets (matched in
+// Details.tsx), shown above the name. {name} works in note.
+export type GiftIcon = "lotion" | "bottle" | "diaper" | "money" | "clothes"
+export const GIFTS: { icon: GiftIcon; name: string; note?: string; picture?: "eq-diapers" | "cetaphil" | "clothes" }[] = [
+  { icon: "diaper", name: "EQ Dry diapers", note: "small – medium", picture: "eq-diapers" },
+  { icon: "lotion", name: "Cetaphil Baby products", picture: "cetaphil" },
+  { icon: "clothes", name: "Baby clothes", note: "6 months and up", picture: "clothes" },
   { icon: "money", name: "Monetary gift", note: "for {name}'s savings account" },
 ]

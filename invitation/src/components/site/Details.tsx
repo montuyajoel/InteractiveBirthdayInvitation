@@ -1,10 +1,13 @@
 import { useState } from "react"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
-import { ATTIRE, GIFTS } from "@/config"
+import { ATTIRE, GIFTS, type GiftIcon as GiftIconKind } from "@/config"
 import { COPY, fill } from "@/lib/copy"
 import { cn } from "@/lib/utils"
 import attireGuests from "@/assets/attire-guests.jpg"
 import attireGodparents from "@/assets/attire-godparents.jpg"
+import giftClothes from "@/assets/gift-clothes.jpg"
+import giftCetaphil from "@/assets/gift-cetaphil.jpg"
+import giftEqDiapers from "@/assets/gift-eq-diapers.jpg"
 import { Butterfly, FloralSpray, HeartRule, SectionTitle } from "./Decor"
 
 // "Details": what to wear (colour swatches + outfit ideas) and a gift guide.
@@ -12,6 +15,8 @@ import { Butterfly, FloralSpray, HeartRule, SectionTitle } from "./Decor"
 // (src/config.ts).
 
 type Look = { key: string; title: string; note: string; colors: string[]; image: string; alt: string }
+
+const GIFT_PICTURES = { "eq-diapers": giftEqDiapers, cetaphil: giftCetaphil, clothes: giftClothes } as const
 
 const LOOKS: Look[] = [
   {
@@ -88,19 +93,43 @@ export function Details() {
         </div>
 
         {/* Gift guide */}
-        <div className="paper mx-auto mt-10 max-w-3xl border border-brand/25 px-5 py-10 text-center shadow-[0_30px_60px_-40px_rgb(var(--c-ink)/0.6)] sm:px-10">
+        <div className="paper mx-auto mt-10 max-w-4xl border border-brand/25 px-5 py-10 text-center shadow-[0_30px_60px_-40px_rgb(var(--c-ink)/0.6)] sm:px-10">
           <h3 className="script foil text-5xl sm:text-6xl">{fill(COPY.giftTitle)}</h3>
           <p className="mx-auto mt-4 max-w-xl text-lg italic leading-relaxed text-ink/90">{fill(COPY.giftIntro)}</p>
-          <ul className="mx-auto mt-8 grid max-w-2xl gap-x-8 gap-y-5 text-left sm:grid-cols-2">
-            {GIFTS.map((g) => (
-              <li key={g.name} className="flex items-center gap-4">
-                <GiftIcon kind={g.icon} />
-                <span>
-                  <span className="block text-lg text-ink">{g.name}</span>
-                  {g.note && <span className="block text-sm italic text-brand">({fill(g.note)})</span>}
-                </span>
-              </li>
-            ))}
+          <ul className="mx-auto mt-8 grid max-w-3xl gap-5 text-left sm:grid-cols-2">
+            {GIFTS.map((g) => {
+              const picture = g.picture && GIFT_PICTURES[g.picture]
+              return (
+                <li key={g.name} className="flex flex-col overflow-hidden rounded-2xl bg-white/80 ring-1 ring-gold/40">
+                  {picture ? (
+                    <button
+                      type="button"
+                      onClick={() => setZoom({ key: g.name, title: g.name, note: "", colors: [], image: picture, alt: g.name })}
+                      className="group block overflow-hidden bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+                      aria-label={`${g.name}: view larger`}
+                    >
+                      <img
+                        src={picture}
+                        alt={g.name}
+                        loading="lazy"
+                        className="aspect-[3/2] w-full object-contain transition-transform duration-700 group-hover:scale-[1.03]"
+                      />
+                    </button>
+                  ) : (
+                    <div className="grid aspect-[3/2] place-items-center bg-highlight/40">
+                      <GiftIcon kind={g.icon} className="h-24 w-24 [&>svg]:h-14 [&>svg]:w-14" />
+                    </div>
+                  )}
+                  <div className="flex items-center gap-3 border-t border-gold/25 px-4 py-3">
+                    <GiftIcon kind={g.icon} className="h-11 w-11 [&>svg]:h-7 [&>svg]:w-7" />
+                    <span>
+                      <span className="block text-lg leading-tight text-ink">{g.name}</span>
+                      {g.note && <span className="block text-sm italic text-brand">({fill(g.note)})</span>}
+                    </span>
+                  </div>
+                </li>
+              )
+            })}
           </ul>
           <p className="mx-auto mt-9 max-w-xl text-lg leading-relaxed text-ink/90">{fill(COPY.giftOutro)}</p>
         </div>
@@ -117,7 +146,7 @@ export function Details() {
 }
 
 /** Little drawings for the gift guide, in the site's colours. */
-function GiftIcon({ kind, className }: { kind: (typeof GIFTS)[number]["icon"]; className?: string }) {
+function GiftIcon({ kind, className }: { kind: GiftIconKind; className?: string }) {
   return (
     <span
       className={cn("grid h-14 w-14 shrink-0 place-items-center rounded-full bg-highlight/70 ring-1 ring-gold/50", className)}
@@ -145,6 +174,15 @@ function GiftIcon({ kind, className }: { kind: (typeof GIFTS)[number]["icon"]; c
             <path d="M5 12h30v5c0 9-6 15-15 15S5 26 5 17z" style={{ fill: "rgb(var(--c-soft))" }} />
             <path d="M5 12h30v4H5z" style={{ fill: "rgb(var(--c-bloom) / 0.6)" }} />
             <path d="M13 22c2 3 4 4 7 4s5-1 7-4" />
+          </g>
+        )}
+        {kind === "clothes" && (
+          <g strokeWidth="1.4" style={{ stroke: "rgb(var(--c-brand))" }}>
+            <path
+              d="M14 7c1.5 2 3.6 3 6 3s4.5-1 6-3l7 5-3 5-3-2v16c0 1-1 2-2 2h-2.5l-2.5-3-2.5 3H15c-1 0-2-1-2-2V15l-3 2-3-5z"
+              style={{ fill: "rgb(var(--c-soft))" }}
+            />
+            <path d="M17.5 17.5s-1.7-1-1.7-2.3c0-.7.5-1.1 1-1.1.3 0 .6.2.7.4.1-.2.4-.4.7-.4.5 0 1 .4 1 1.1 0 1.3-1.7 2.3-1.7 2.3z" style={{ fill: "rgb(var(--c-bloom))" }} />
           </g>
         )}
         {kind === "money" && (
