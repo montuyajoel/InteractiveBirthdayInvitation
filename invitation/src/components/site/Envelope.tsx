@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import invitationCard from "@/assets/invitationCard"
 import { eventTitle } from "@/lib/event"
+import { musicBox } from "@/lib/music"
 import { cn } from "@/lib/utils"
 import { Cross, Sparkle, SparkleBurst } from "./Decor"
 
@@ -14,7 +15,12 @@ export function Envelope() {
     <div className="relative mx-auto w-[300px] sm:w-[340px]">
       <button
         type="button"
-        onClick={() => (open ? setZoom(true) : setOpen(true))}
+        onClick={() => {
+          if (open) return setZoom(true)
+          setOpen(true)
+          // opening the invitation starts the lullaby, unless they turned it off before
+          if (!musicBox.mutedByVisitor) void musicBox.play()
+        }}
         className={cn(
           "group relative block h-[210px] w-full transition-[margin] duration-700 focus-visible:outline-none sm:h-[236px]",
           open ? "mt-[230px] sm:mt-[250px]" : "mt-6 md:mt-[120px]",

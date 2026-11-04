@@ -8,6 +8,7 @@ import { Gallery } from "@/components/site/Gallery"
 import { GuestList } from "@/components/site/GuestList"
 import { Header } from "@/components/site/Header"
 import { Milestones } from "@/components/site/Milestones"
+import { MusicToggle } from "@/components/site/MusicToggle"
 import { Hero } from "@/components/site/Hero"
 import { PhotosPage } from "@/components/site/PhotosPage"
 import { Rsvp } from "@/components/site/Rsvp"
@@ -42,6 +43,7 @@ export default function App() {
       <div className="relative z-[1]">
         <Footer />
       </div>
+      <MusicToggle />
       <Toaster position="top-center" />
     </>
   )
