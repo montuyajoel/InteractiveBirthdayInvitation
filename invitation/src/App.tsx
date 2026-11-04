@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/sonner"
 import { Countdown } from "@/components/site/Countdown"
+import { Details } from "@/components/site/Details"
 import { Directions } from "@/components/site/Directions"
 import { Footer } from "@/components/site/Footer"
 import { GlitterField } from "@/components/site/Decor"
@@ -31,6 +32,7 @@ export default function App() {
           <Hero />
           <Countdown />
           <Milestones />
+          <Details />
           <Rsvp />
           <Gallery />
           <Directions />

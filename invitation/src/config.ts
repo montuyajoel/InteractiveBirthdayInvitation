@@ -13,9 +13,10 @@ export const EVENT = {
   timeZone: "Asia/Manila", // IANA name, used for labels and calendar invites
   timeZoneLabel: "Philippine time",
   durationHours: 4,
-  // The church where the christening takes place. Leave "" while it isn't
-  // decided: the site and emails then say "Church to be announced".
-  church: "",
+  // Where the christening ceremony takes place. Leave "" while it isn't
+  // decided (the site and emails then say "Church to be announced"); the
+  // same name as `venue` shows one "Christening & Reception" line.
+  church: "Montuya's Residence",
   // The reception. The map, directions and calendar pin point here.
   venue: "Montuya's Residence",
   // Street and city, shown under the venue in emails and calendar invites.
@@ -70,6 +71,20 @@ export const COPY = {
   churchLabel: "Christening", // shown before the church name
   churchTba: "Church to be announced",
   receptionLabel: "Reception",
+  bothLabel: "Christening & Reception", // when the ceremony and reception are in one place
+
+  // "Details" section: attire and gift guide
+  detailsEyebrow: "A few little things",
+  detailsTitle: "Details",
+  attireTitle: "Attire",
+  attireIntro: "We kindly request our dear guests and godparents to follow the colour theme for the celebration.",
+  attireGuests: "Guests",
+  attireGuestsNote: "Soft pastels",
+  attireGodparents: "Godparents",
+  attireGodparentsNote: "White",
+  giftTitle: "Gift guide",
+  giftIntro: "Your prayers and presence are highly appreciated, but if you'd like to give nonetheless, here's what we suggest:",
+  giftOutro: "Just because we gave an idea doesn't mean you're obligated to give. Your presence is the most precious gift {name} will receive.",
 
   rsvpEyebrow: "Kindly register",
   rsvpTitle: "Join us",
@@ -126,3 +141,17 @@ export const CREDIT = {
   text: "For customized invitations, email us at",
   email: "thedigitalinvitationsph@gmail.com",
 }
+
+// Attire colours (sampled from the outfit-ideas picture) and the gift guide.
+export const ATTIRE = {
+  guests: ["#fcf3ea", "#f5cdcb", "#fde2d7", "#faefd3", "#d0d4c5", "#cfd9e5", "#dacde1", "#e7ccc3", "#f2e6da", "#dddfda", "#dcdfe6"],
+  godparents: ["#ffffff"],
+}
+
+// icon: "lotion" | "bottle" | "diaper" | "money"; {name} works in note.
+export const GIFTS: { icon: "lotion" | "bottle" | "diaper" | "money"; name: string; note?: string }[] = [
+  { icon: "lotion", name: "Mustela baby products" },
+  { icon: "bottle", name: "NAN Optipro", note: "6–12 months" },
+  { icon: "diaper", name: "Millie Moon or Bean Cloud diapers", note: "medium, large" },
+  { icon: "money", name: "Monetary gift", note: "for {name}'s savings account" },
+]

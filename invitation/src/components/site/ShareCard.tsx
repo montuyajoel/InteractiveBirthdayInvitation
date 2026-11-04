@@ -1,7 +1,7 @@
 import invitationCard from "@/assets/invitationCard"
 import { EVENT } from "@/config"
 import { COPY, fill } from "@/lib/copy"
-import { churchName, eventDateLabel, eventTimeLabel } from "@/lib/event"
+import { eventDateLabel, eventTimeLabel, venueStops } from "@/lib/event"
 import { Balloons, Butterfly, Cross, FloralSpray, HeartRule, garland } from "./Decor"
 
 // The 1200×630 picture that link previews show (WhatsApp, Messenger,
@@ -31,12 +31,11 @@ export function ShareCard() {
         <p className="mt-4 text-[22px] uppercase tracking-[0.22em] text-ink">
           {eventDateLabel} · {eventTimeLabel}
         </p>
-        <p className="mt-2 text-[17px] uppercase tracking-[0.2em] text-brand">
-          {COPY.churchLabel}: {churchName}
-        </p>
-        <p className="mt-1 text-[17px] uppercase tracking-[0.2em] text-brand">
-          {COPY.receptionLabel}: {EVENT.venue}
-        </p>
+        {venueStops.map((v, i) => (
+          <p key={v.label} className={`${i ? "mt-1" : "mt-2"} text-[17px] uppercase tracking-[0.2em] text-brand`}>
+            {v.label}: {v.name}
+          </p>
+        ))}
       </div>
 
       <div className="absolute right-[90px] top-1/2 w-[300px] -translate-y-1/2 rotate-[3deg] bg-white p-3 shadow-[0_30px_60px_-20px_rgb(var(--c-ink)/0.45)]">

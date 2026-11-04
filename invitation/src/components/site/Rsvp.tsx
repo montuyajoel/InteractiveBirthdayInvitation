@@ -9,7 +9,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { EVENT } from "@/config"
 import { COPY, fill } from "@/lib/copy"
 import {
   AlreadyRegisteredError,
@@ -21,7 +20,7 @@ import { Butterfly, Cross, FloralSpray, Heart, HeartRule, SectionTitle } from ".
 import { PhotoUpload } from "./PhotoUpload"
 import { rememberGuest, rememberedGuest } from "@/lib/guest"
 import { eventDateLabel, eventTimeLabel } from "./Hero"
-import { churchName } from "@/lib/event"
+import { venueStops } from "@/lib/event"
 
 const WISH_MAX = 500
 const schema = z.object({
@@ -72,12 +71,11 @@ export function Rsvp() {
           <ul className="mt-8 space-y-2 text-sm uppercase tracking-[0.2em] text-brand">
             <li>{eventDateLabel}</li>
             <li>{eventTimeLabel}</li>
-            <li>
-              {COPY.churchLabel}: {churchName}
-            </li>
-            <li>
-              {COPY.receptionLabel}: {EVENT.venue}
-            </li>
+            {venueStops.map((v) => (
+              <li key={v.label}>
+                {v.label}: {v.name}
+              </li>
+            ))}
           </ul>
           <FloralSpray className="pointer-events-none mt-10 hidden w-44 md:block" />
         </div>

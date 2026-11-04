@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { EVENT } from "@/config"
 import { COPY, fill } from "@/lib/copy"
 import { Butterfly, Cross, SectionTitle } from "./Decor"
-import { churchName } from "@/lib/event"
+import { venueStops } from "@/lib/event"
 import { Balloons, garland } from "./Decor"
 import { CuteMap, parseLatLng } from "./CuteMap"
 
@@ -21,7 +21,7 @@ export function Directions() {
 
   async function copyVenue() {
     try {
-      await navigator.clipboard.writeText(`${EVENT.venue} (${COPY.receptionLabel.toLowerCase()}) — ${EVENT.mapsShareUrl}`)
+      await navigator.clipboard.writeText(`${EVENT.venue} — ${EVENT.mapsShareUrl}`)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
@@ -63,20 +63,21 @@ export function Directions() {
           </div>
 
           <div className="flex flex-col">
-            <div className="flex items-start gap-3">
-              <MapPin className="mt-1 h-6 w-6 shrink-0 text-brand" aria-hidden />
-              <div>
-                <p className="eyebrow">{COPY.receptionLabel}</p>
-                <p className="mt-1 text-3xl text-ink">{EVENT.venue}</p>
-                {EVENT.address && <p className="mt-1 text-brand">{EVENT.address}</p>}
-              </div>
-            </div>
-            <div className="mt-6 flex items-start gap-3">
-              <Cross className="mt-1 h-6 w-5 shrink-0" />
-              <div>
-                <p className="eyebrow">{COPY.churchLabel}</p>
-                <p className={EVENT.church ? "mt-1 text-2xl text-ink" : "mt-1 text-xl italic text-ink/80"}>{churchName}</p>
-              </div>
+            <div className="grid gap-6">
+              {venueStops.map((v) => (
+                <div key={v.label} className="flex items-start gap-3">
+                  {v.isVenue ? (
+                    <MapPin className="mt-1 h-6 w-6 shrink-0 text-brand" aria-hidden />
+                  ) : (
+                    <Cross className="mt-1 h-6 w-5 shrink-0" />
+                  )}
+                  <div>
+                    <p className="eyebrow">{v.label}</p>
+                    <p className={v.pending ? "mt-1 text-xl italic text-ink/80" : "mt-1 text-3xl text-ink"}>{v.name}</p>
+                    {v.isVenue && EVENT.address && <p className="mt-1 text-brand">{EVENT.address}</p>}
+                  </div>
+                </div>
+              ))}
             </div>
 
             <div className="mt-8 grid gap-3">

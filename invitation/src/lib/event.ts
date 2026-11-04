@@ -39,10 +39,22 @@ export const eventTitle = plainTitle(COPY.eventTitle)
 /** The church, or "Church to be announced" while it isn't set. */
 export const churchName = EVENT.church || fill(COPY.churchTba)
 const reception = [EVENT.venue, EVENT.address].filter(Boolean).join(", ")
-/** For calendar invites and the plain-text email: church, then reception. */
-export const eventLocation = EVENT.church
-  ? `${EVENT.church}; ${COPY.receptionLabel.toLowerCase()} at ${reception}`
-  : `${reception} (${COPY.receptionLabel.toLowerCase()}); ${fill(COPY.churchTba).toLowerCase()}`
+const sameVenue = EVENT.church.trim().toLowerCase() === EVENT.venue.trim().toLowerCase()
+
+/** The places to list, in order: one line when the ceremony and reception share a venue. */
+export const venueStops: { label: string; name: string; pending?: boolean; isVenue?: boolean }[] = sameVenue
+  ? [{ label: COPY.bothLabel, name: EVENT.venue, isVenue: true }]
+  : [
+      { label: COPY.churchLabel, name: churchName, pending: !EVENT.church },
+      { label: COPY.receptionLabel, name: EVENT.venue, isVenue: true },
+    ]
+
+/** For calendar invites and the plain-text email. */
+export const eventLocation = sameVenue
+  ? reception
+  : EVENT.church
+    ? `${EVENT.church}; ${COPY.receptionLabel.toLowerCase()} at ${reception}`
+    : `${reception} (${COPY.receptionLabel.toLowerCase()}); ${fill(COPY.churchTba).toLowerCase()}`
 export const directionsUrl = EVENT.mapsShareUrl
 
 const end = () => new Date(EVENT.start.getTime() + EVENT.durationHours * 3600_000)
