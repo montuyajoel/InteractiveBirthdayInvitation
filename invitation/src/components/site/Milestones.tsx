@@ -5,6 +5,7 @@ import { COPY, fill } from "@/lib/copy"
 import { cn } from "@/lib/utils"
 import month1 from "@/assets/aya-month-1.jpg"
 import month2 from "@/assets/aya-month-2.jpg"
+import month3 from "@/assets/aya-month-3.jpg"
 import { Balloons, Butterfly, FloralSpray, HeartRule, SectionTitle, garland } from "./Decor"
 
 // One entry per monthly photo. To add a month, put the photo in src/assets
@@ -13,6 +14,7 @@ import { Balloons, Butterfly, FloralSpray, HeartRule, SectionTitle, garland } fr
 const MONTHS: { month: number; src: string; position: string }[] = [
   { month: 1, src: month1, position: "45% 32%" },
   { month: 2, src: month2, position: "42% 22%" },
+  { month: 3, src: month3, position: "57% 45%" },
 ]
 
 const CLUSTER = garland([[30, 60], [60, 40], [20, 100], [70, 84], [96, 56], [44, 130]], 41, 0.9)
@@ -39,9 +41,17 @@ export function Milestones() {
           <p className="mt-5 text-lg italic leading-relaxed text-ink/90">{fill(COPY.milestonesIntro)}</p>
         </div>
 
-        <ol className="mx-auto mt-12 grid max-w-3xl grid-cols-2 justify-center gap-5 sm:gap-10 md:grid-cols-[repeat(auto-fit,minmax(220px,280px))]">
+        <ol className="mx-auto mt-12 grid max-w-5xl grid-cols-2 justify-center gap-5 sm:gap-10 md:flex md:flex-wrap">
           {MONTHS.map((m, i) => (
-            <li key={m.month} className={cn("flex flex-col items-center", i % 2 === 1 && "sm:mt-10")}>
+            <li
+              key={m.month}
+              className={cn(
+                "flex flex-col items-center md:w-[250px] lg:w-[280px]",
+                i % 2 === 1 && "sm:mt-10",
+                // an odd one out on the two-per-row layout sits centred on its own row
+                i === MONTHS.length - 1 && MONTHS.length % 2 === 1 && "col-span-2 mx-auto w-1/2 md:mx-0",
+              )}
+            >
               <button
                 type="button"
                 onClick={() => setOpen(m.month)}
