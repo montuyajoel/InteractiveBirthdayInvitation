@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
-import { ATTIRE, GIFTS, type GiftIcon as GiftIconKind } from "@/config"
+import { ATTIRE, EVENT, GIFTS, type GiftIcon as GiftIconKind } from "@/config"
 import { COPY, fill } from "@/lib/copy"
 import { cn } from "@/lib/utils"
 import attireGuests from "@/assets/attire-guests.jpg"
@@ -8,6 +8,8 @@ import attireGodparents from "@/assets/attire-godparents.jpg"
 import giftClothes from "@/assets/gift-clothes.jpg"
 import giftCetaphil from "@/assets/gift-cetaphil.jpg"
 import giftEqDiapers from "@/assets/gift-eq-diapers.jpg"
+import giftQr from "@/assets/gift-qr.jpg"
+import giftS26 from "@/assets/gift-s26.jpg"
 import { Butterfly, FloralSpray, HeartRule, SectionTitle } from "./Decor"
 
 // "Details": what to wear (colour swatches + outfit ideas) and a gift guide.
@@ -16,7 +18,13 @@ import { Butterfly, FloralSpray, HeartRule, SectionTitle } from "./Decor"
 
 type Look = { key: string; title: string; note: string; colors: string[]; image: string; alt: string }
 
-const GIFT_PICTURES = { "eq-diapers": giftEqDiapers, cetaphil: giftCetaphil, clothes: giftClothes } as const
+const GIFT_PICTURES = {
+  "eq-diapers": giftEqDiapers,
+  cetaphil: giftCetaphil,
+  clothes: giftClothes,
+  s26: giftS26,
+  qr: giftQr,
+} as const
 
 const LOOKS: Look[] = [
   {
@@ -97,10 +105,18 @@ export function Details() {
           <h3 className="script foil text-5xl sm:text-6xl">{fill(COPY.giftTitle)}</h3>
           <p className="mx-auto mt-4 max-w-xl text-lg italic leading-relaxed text-ink/90">{fill(COPY.giftIntro)}</p>
           <ul className="mx-auto mt-8 grid max-w-3xl gap-5 text-left sm:grid-cols-2">
-            {GIFTS.map((g) => {
+            {GIFTS.map((g, i) => {
               const picture = g.picture && GIFT_PICTURES[g.picture]
+              // an odd one out at the end sits centred on its own row
+              const lone = i === GIFTS.length - 1 && GIFTS.length % 2 === 1
               return (
-                <li key={g.name} className="flex flex-col overflow-hidden rounded-2xl bg-white/80 ring-1 ring-gold/40">
+                <li
+                  key={g.name}
+                  className={cn(
+                    "flex flex-col overflow-hidden rounded-2xl bg-white/80 ring-1 ring-gold/40",
+                    lone && "sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.625rem)]",
+                  )}
+                >
                   {picture ? (
                     <button
                       type="button"
@@ -114,6 +130,9 @@ export function Details() {
                         loading="lazy"
                         className="aspect-[3/2] w-full object-contain transition-transform duration-700 group-hover:scale-[1.03]"
                       />
+                      {g.hint && (
+                        <span className="block bg-highlight/60 py-1.5 text-center text-sm italic text-brand">{g.hint}</span>
+                      )}
                     </button>
                   ) : (
                     <div className="grid aspect-[3/2] place-items-center bg-highlight/40">
@@ -127,6 +146,16 @@ export function Details() {
                       {g.note && <span className="block text-sm italic text-brand">({fill(g.note)})</span>}
                     </span>
                   </div>
+                  {g.picture === "qr" && picture && (
+                    // on a phone you can't scan your own screen: save it, then open it in the banking app
+                    <a
+                      href={picture}
+                      download={`${EVENT.id}-gift-qr-codes.jpg`}
+                      className="border-t border-gold/25 py-2.5 text-center text-sm uppercase tracking-[0.18em] text-brand hover:bg-highlight/50 hover:text-ink"
+                    >
+                      Save the QR codes
+                    </a>
+                  )}
                 </li>
               )
             })}

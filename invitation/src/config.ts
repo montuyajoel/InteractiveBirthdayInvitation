@@ -151,9 +151,22 @@ export const ATTIRE = {
 // icon: a little drawing; picture: a photo in src/assets (matched in
 // Details.tsx), shown above the name. {name} works in note.
 export type GiftIcon = "lotion" | "bottle" | "diaper" | "money" | "clothes"
-export const GIFTS: { icon: GiftIcon; name: string; note?: string; picture?: "eq-diapers" | "cetaphil" | "clothes" }[] = [
+export const GIFTS: {
+  icon: GiftIcon
+  name: string
+  note?: string
+  picture?: "eq-diapers" | "cetaphil" | "clothes" | "s26" | "qr"
+  hint?: string // small line under the picture, e.g. "Tap to see the QR codes"
+}[] = [
   { icon: "diaper", name: "EQ Dry diapers", note: "small – medium", picture: "eq-diapers" },
   { icon: "lotion", name: "Cetaphil Baby products", picture: "cetaphil" },
   { icon: "clothes", name: "Baby clothes", note: "6 months and up", picture: "clothes" },
-  { icon: "money", name: "Monetary gift", note: "for {name}'s savings account" },
+  { icon: "bottle", name: "S-26 follow-on formula", note: "6–12 months", picture: "s26" },
+  {
+    icon: "money",
+    name: "Monetary gift",
+    note: "for {name}'s savings account · GoTyme, BDO or GCash",
+    picture: "qr",
+    hint: "Tap to see the QR codes",
+  },
 ]
